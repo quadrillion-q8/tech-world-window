@@ -1,0 +1,16 @@
+import { Link, useLocation } from 'react-router-dom';
+import { SEOEngine } from '../seo/SEOEngine';
+
+const content: Record<string, { title: string; description: string; body: string[] }> = {
+  '/about': { title: 'About Tech World Window', description: 'Our mission and editorial approach.', body: ['Tech World Window exists to make technology easier to understand and more useful in everyday life.', 'We cover practical troubleshooting, PC and laptop hardware, gaming performance, technology news, and evidence-led product guidance.', 'Our standard is simple: explain what we know, show how we know it, disclose limitations, and correct mistakes.'] },
+  '/contact': { title: 'Contact', description: 'Contact the Tech World Window editorial team.', body: ['For corrections, editorial suggestions, testing opportunities, and business enquiries, add a verified contact email before launch.', 'Do not publish a placeholder email address. Confirm the mailbox, response expectations, and privacy process first.'] },
+  '/editorial-policy': { title: 'Editorial Policy', description: 'How Tech World Window approaches accuracy, testing, corrections, and affiliate disclosures.', body: ['We aim to separate verified facts, informed analysis, and personal opinion. Time-sensitive news should link to primary sources and include publication dates.', 'Hands-on claims must describe the device, software version, method, and relevant limitations. If we have not tested a product, we must not imply that we have.', 'Affiliate relationships and sponsored content must be clearly disclosed. Commercial relationships do not guarantee a positive recommendation.', 'Corrections should be made transparently when a material error is identified.'] },
+  '/privacy-policy': { title: 'Privacy Policy', description: 'Privacy policy placeholder for review before launch.', body: ['This starter page is not legal advice and is not a complete privacy policy. Before launch, document the actual analytics, cookies, advertising, affiliate, newsletter, hosting, and contact-form services used.', 'Explain what data is collected, why it is collected, how long it is retained, how users can exercise applicable rights, and how to contact the site operator. Do not publish until reviewed for the jurisdictions you serve.'] },
+  '/authors/imran-natiq': { title: 'Imran Natiq', description: 'Hardware Repair Engineer and Tech World Window contributor.', body: ['Imran Natiq is a hardware repair engineer focused on PC and laptop hardware, component-level troubleshooting, and practical technical explanations.', 'Author biographies should accurately reflect real qualifications and experience. Add verified credentials, testing access, and a contact method before launch.'] },
+};
+
+export function StaticPage() {
+  const location = useLocation();
+  const page = content[location.pathname] || { title: 'Page not found', description: 'The requested page could not be found.', body: ['This page is not available.'] };
+  return <section className="section static-page"><SEOEngine title={page.title} description={page.description} path={location.pathname} /><span className="eyebrow">TECH WORLD WINDOW</span><h1>{page.title}</h1>{page.body.map((p, i) => <p key={i}>{p}</p>)}<Link className="text-link" to="/">Return to the homepage →</Link></section>;
+}
