@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tech-world-window.vercel.app/sitemap.xml
+Sitemap: https://techworldwindow.com/sitemap.xml
