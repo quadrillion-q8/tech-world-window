@@ -13,7 +13,7 @@ export type RouteNode = {
   navLabel?: string;
 };
 
-export const SITE_URL = 'https://techworldwindow.com';
+export const SITE_URL = 'https://tech-world-window.vercel.app';
 
 export const routeGraph: RouteNode[] = [
   { path: '/', kind: 'home', title: 'Tech World Window', indexable: true },
