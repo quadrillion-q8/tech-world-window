@@ -39,7 +39,13 @@ export const routeGraph: RouteNode[] = [
   { path: '/authors/imran-natiq', kind: 'author', title: 'Imran Natiq', indexable: true },
   { path: '/windows-11-wifi-connected-no-internet', kind: 'article', title: 'Windows 11 Says Connected, but There Is No Internet', indexable: true },
   { path: '/pc-game-stuttering-fix-frame-time', kind: 'article', title: 'PC Game Stuttering: Frame-Time Spikes', indexable: true },
-  { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true }
+  { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true },
+  { path: '/windows-11-dns-not-working-how-to-fix', kind: 'article', title: 'Windows 11 DNS Not Working: How to Tell If DNS Is the Problem', indexable: true },
+  { path: '/windows-11-network-adapter-reset-guide', kind: 'article', title: 'Windows 11 Network Adapter Reset: When to Use It and What It Changes', indexable: true },
+  { path: '/gpu-frame-time-spikes-causes-fix', kind: 'article', title: 'GPU Frame-Time Spikes: Common Causes of Uneven PC Game Performance', indexable: true },
+  { path: '/shader-compilation-stutter-pc-games', kind: 'article', title: 'Shader Compilation Stutter in PC Games: Why It Happens and What to Check', indexable: true },
+  { path: '/nvme-ssd-temperature-too-high', kind: 'article', title: 'NVMe SSD Temperature Too High: What the Numbers Actually Mean', indexable: true },
+  { path: '/why-ssd-is-slowing-down-windows', kind: 'article', title: 'Why an SSD Can Slow Down Over Time: What to Check Before Replacing It', indexable: true }
 ];
 
 export const navigation = routeGraph
@@ -69,6 +75,8 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Windows Hub', href: '/windows' },
       { label: 'Wi-Fi & Internet', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose connected-but-offline PCs.' },
+      { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
+      { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
       { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
     ],
   },
@@ -79,6 +87,8 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Gaming Hub', href: '/gaming' },
       { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
+      { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU workload from other causes.' },
+      { label: 'Shader Stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize shader compilation behavior.' },
       { label: 'Hardware', href: '/hardware', description: 'Components that affect gaming.' },
     ],
   },
@@ -89,6 +99,8 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Hardware Hub', href: '/hardware' },
       { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
+      { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
+      { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
       { label: 'Reviews', href: '/reviews', description: 'Evidence-led product coverage.' },
     ],
   },

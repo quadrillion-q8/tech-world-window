@@ -192,7 +192,6 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       author: { '@type': 'Person', name: seo.authorName || 'Tech World Window Editorial Team' },
       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL },
     });
-
     if (article.faq?.length) {
       schemas.push({
         '@context': 'https://schema.org',
