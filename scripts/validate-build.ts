@@ -13,6 +13,17 @@ const indexableRoutes = routeGraph.filter(route => route.indexable);
 const indexablePaths = new Set(indexableRoutes.map(route => route.path));
 const articlePaths = new Set(articles.map(article => `/${article.slug}`));
 
+const decodeHtml = (value: string) => value
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"')
+  .replace(/&#39;/g, "'")
+  .replace(/&amp;/g, '&');
+const decodeJsonLdEscapes = (value: string) => value
+  .replace(/\\u003c/gi, '<')
+  .replace(/\\u003e/gi, '>')
+  .replace(/\\u0026/gi, '&');
+
 const normalizeFilePath = (path: string) => path.split('\\').join('/');
 const expectedHtmlPath = (routePath: string) => routePath === '/'
   ? 'index.html'
@@ -195,7 +206,7 @@ if (!existsSync(dist)) {
     const seo = getSeoData(route.path);
     const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
     if (!titleMatch) errors.push(`Missing <title> in ${route.path}`);
-    else if (titleMatch[1].trim() !== seo.title) errors.push(`Incorrect title in ${route.path}: expected "${seo.title}"`);
+    else if (decodeHtml(titleMatch[1].trim()) !== seo.title) errors.push(`Incorrect title in ${route.path}: expected "${seo.title}"`);
 
     const canonicalMatch = html.match(/<link\s+[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["'][^>]*>/i);
     if (!canonicalMatch) errors.push(`Missing canonical link in ${route.path}`);
@@ -203,7 +214,7 @@ if (!existsSync(dist)) {
 
     const descriptionMatch = html.match(/<meta\s+[^>]*name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/i);
     if (!descriptionMatch) errors.push(`Missing meta description in ${route.path}`);
-    else if (descriptionMatch[1].replace(/&quot;/g, '"') !== seo.description) errors.push(`Incorrect meta description in ${route.path}`);
+    else if (decodeHtml(descriptionMatch[1]) !== seo.description) errors.push(`Incorrect meta description in ${route.path}`);
 
     if (!html.includes('name="robots"') || !html.includes('index,follow')) errors.push(`Missing index/follow robots directive in ${route.path}`);
     if (!html.includes('Tech World Window')) errors.push(`Missing rendered brand/content in ${route.path}`);
@@ -214,7 +225,7 @@ if (!existsSync(dist)) {
     if (route.kind === 'article') {
       if (!html.includes('"@type":"Article"')) errors.push(`Missing Article JSON-LD in ${route.path}`);
       const article = articles.find(item => `/${item.slug}` === route.path);
-      if (article && !html.includes(`"headline":"${article.title.replace(/"/g, '\\"')}"`)) {
+      if (article && !decodeJsonLdEscapes(html).includes(`"headline":"${article.title.replace(/"/g, '\\"')}"`)) {
         errors.push(`Article JSON-LD headline mismatch in ${route.path}`);
       }
       if (article?.faq?.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
