@@ -69,3 +69,14 @@ This lets the site target broad Windows troubleshooting intent without weakening
 ## Editorial decision
 
 The existing specialist articles were not replaced. The shader compilation, frame-time, storage, DNS, network-reset and other pages remain focused on their specific search intent. The new page acts as the broad diagnostic entry point and sends readers toward narrower evidence-led guides.
+
+
+## Build validation fix
+
+The first deployment build failed only because the pillar declared a non-reciprocal relationship:
+
+- `windows-troubleshooting-universal` → `ssd-health`
+
+The existing article graph does not contain a reciprocal `ssd-health` relationship, and the site validator intentionally rejects non-reciprocal internal-link graph edges.
+
+The invalid relationship was removed. The three Windows cluster relationships remain reciprocal.
