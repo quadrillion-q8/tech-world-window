@@ -37,7 +37,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/editorial-policy', kind: 'static', title: 'Editorial Policy', indexable: true },
   { path: '/privacy-policy', kind: 'static', title: 'Privacy Policy', indexable: true },
   { path: '/authors/imran-natiq', kind: 'author', title: 'Imran Natiq', indexable: true },
-  { path: '/windows-11-wifi-connected-no-internet', kind: 'article', title: 'Windows 11 Says Connected, but There Is No Internet', indexable: true },
+  { path: '/windows-11-wifi-connected-no-internet', kind: 'article', title: 'Windows Says Connected but No Internet: Complete Troubleshooting Guide', indexable: true },
   { path: '/pc-game-stuttering-fix-frame-time', kind: 'article', title: 'PC Game Stuttering: Frame-Time Spikes', indexable: true },
   { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true },
   { path: '/windows-11-dns-not-working-how-to-fix', kind: 'article', title: 'Windows 11 DNS Not Working: How to Tell If DNS Is the Problem', indexable: true },
@@ -74,7 +74,7 @@ export const menuGroups: MenuGroup[] = [
     description: 'Fixes, settings, updates and practical Windows help.',
     links: [
       { label: 'Windows Hub', href: '/windows' },
-      { label: 'Wi-Fi & Internet', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose connected-but-offline PCs.' },
+      { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
       { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
       { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
