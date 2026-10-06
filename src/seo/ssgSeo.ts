@@ -1,4 +1,4 @@
-import { articles, categories } from '../data/articles';
+import { articles, articleWordCount, categories } from '../data/articles';
 import { authors } from '../data/authors';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
@@ -48,9 +48,10 @@ export function getSeoData(path: string): SeoData {
   const normalizedPath = path === '' ? '/' : path.replace(/\/$/, '') || '/';
   const article = articles.find(item => `/${item.slug}` === normalizedPath);
   if (article) {
+    const pageTitle = article.seoTitle ?? article.title;
     return {
-      title: article.title.includes('Tech World Window') ? article.title : `${article.title} | Tech World Window`,
-      description: article.dek,
+      title: pageTitle.includes('Tech World Window') ? pageTitle : `${pageTitle} | Tech World Window`,
+      description: article.metaDescription ?? article.dek,
       canonical: absoluteUrl(normalizedPath),
       type: 'article',
       publishedAt: article.publishedAt,
@@ -161,6 +162,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
   const path = route === '' ? '/' : route.replace(/\/$/, '') || '/';
   const seo = getSeoData(path);
   const article = articles.find(item => `/${item.slug}` === path);
+  const author = article ? authors[article.authorId] : undefined;
 
   const schemas: unknown[] = [breadcrumbSchema(path, seo)];
   if (path === '/') {
@@ -189,7 +191,16 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       mainEntityOfPage: seo.canonical,
       datePublished: article.publishedAt,
       dateModified: article.updatedAt || article.publishedAt,
-      author: { '@type': 'Person', name: seo.authorName || 'Tech World Window Editorial Team' },
+      articleSection: article.category,
+      inLanguage: 'en',
+      isAccessibleForFree: true,
+      keywords: article.tags.join(', '),
+      wordCount: articleWordCount(article),
+      author: {
+        '@type': 'Person',
+        name: seo.authorName || 'Tech World Window Editorial Team',
+        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role } : {}),
+      },
       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL },
     });
     if (article.faq?.length) {
