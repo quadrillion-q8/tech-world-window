@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, normalize, relative, resolve } from 'node:path';
-import { articles } from '../src/data/articles';
+import { articles, headingId } from '../src/data/articles';
 import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph';
 import { getSeoData } from '../src/seo/ssgSeo';
 
@@ -135,6 +135,54 @@ for (const article of articles) {
 }
 
 // ---------------------------------------------------------------------------
+// Article content integrity: headings, tables, internal links, SEO field limits
+// ---------------------------------------------------------------------------
+for (const article of articles) {
+  const ids = new Set<string>();
+  for (const section of article.content) {
+    if (section.heading) {
+      const id = headingId(section.heading);
+      if (!id) errors.push(`Article "${article.id}" has a heading that produces an empty anchor: "${section.heading}"`);
+      if (ids.has(id)) errors.push(`Article "${article.id}" has duplicate heading anchor: #${id}`);
+      ids.add(id);
+    }
+  }
+
+  for (const section of article.content) {
+    const table = section.table;
+    if (!table) continue;
+    if (!table.caption.trim()) errors.push(`Article "${article.id}" has a table without a caption.`);
+    for (const [rowIndex, row] of table.rows.entries()) {
+      if (row.length !== table.headers.length) {
+        errors.push(`Article "${article.id}" table "${table.caption}" row ${rowIndex + 1} has ${row.length} cells; expected ${table.headers.length}.`);
+      }
+      for (const cell of row) {
+        if (typeof cell === 'string') continue;
+        if (cell.href.startsWith('#')) {
+          if (!ids.has(cell.href.slice(1))) errors.push(`Article "${article.id}" links to a missing in-page anchor: ${cell.href}`);
+        } else if (cell.href.startsWith('/')) {
+          if (!indexablePaths.has(cell.href)) errors.push(`Article "${article.id}" table links to a missing/non-indexable route: ${cell.href}`);
+        } else {
+          errors.push(`Article "${article.id}" table link must be an internal route or #anchor: ${cell.href}`);
+        }
+      }
+    }
+  }
+
+  // Search-result snippets: keep overrides within display limits.
+  if (article.seoTitle && article.seoTitle.length > 65) errors.push(`Article "${article.id}" seoTitle is ${article.seoTitle.length} characters; keep it at 65 or fewer.`);
+  if (article.metaDescription && (article.metaDescription.length < 70 || article.metaDescription.length > 160)) {
+    errors.push(`Article "${article.id}" metaDescription is ${article.metaDescription.length} characters; keep it between 70 and 160.`);
+  }
+  for (const source of article.sources || []) {
+    if (!source.url.startsWith('https://')) errors.push(`Article "${article.id}" source must use HTTPS: ${source.url}`);
+  }
+  for (const item of article.faq || []) {
+    if (item.answer.includes('`')) errors.push(`Article "${article.id}" FAQ answer contains a backtick, which would leak into FAQPage JSON-LD: "${item.question}"`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Sitemap ↔ graph and robots ↔ sitemap parity
 // ---------------------------------------------------------------------------
 const sitemapPath = join(publicDir, 'sitemap.xml');
@@ -229,6 +277,9 @@ if (!existsSync(dist)) {
         errors.push(`Article JSON-LD headline mismatch in ${route.path}`);
       }
       if (article?.faq?.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
+      if (article?.content.some(section => section.table) && !html.includes('<table')) errors.push(`Prerendered HTML is missing the article tables in ${route.path}`);
+      if (article?.content.some(section => section.steps) && !html.includes('article-steps')) errors.push(`Prerendered HTML is missing the numbered steps in ${route.path}`);
+      if (article && !html.includes('"wordCount"')) errors.push(`Article JSON-LD is missing wordCount in ${route.path}`);
       if (article?.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article missing pillarPath: ${route.path}`);
     }
   }
