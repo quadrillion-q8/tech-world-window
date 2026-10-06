@@ -40,7 +40,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 18,
     tags: ['Windows Troubleshooting', 'Windows 11', 'Windows Problems', 'PC Troubleshooting', 'Windows Repair', 'Safe Mode'],
-    relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset', 'ssd-health'],
+    relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset'],
     contentRole: 'pillar',
     pillarPath: '/windows',
     searchIntent: 'informational',
