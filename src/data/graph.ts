@@ -37,6 +37,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/editorial-policy', kind: 'static', title: 'Editorial Policy', indexable: true },
   { path: '/privacy-policy', kind: 'static', title: 'Privacy Policy', indexable: true },
   { path: '/authors/imran-natiq', kind: 'author', title: 'Imran Natiq', indexable: true },
+  { path: '/windows-troubleshooting-complete-guide', kind: 'article', title: 'Windows Troubleshooting: Complete Guide to Diagnosing and Fixing Windows Problems', indexable: true },
   { path: '/windows-11-wifi-connected-no-internet', kind: 'article', title: 'Windows Says Connected but No Internet: Complete Troubleshooting Guide', indexable: true },
   { path: '/pc-game-stuttering-fix-frame-time', kind: 'article', title: 'PC Game Stuttering: Frame-Time Spikes', indexable: true },
   { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true },
@@ -74,6 +75,7 @@ export const menuGroups: MenuGroup[] = [
     description: 'Fixes, settings, updates and practical Windows help.',
     links: [
       { label: 'Windows Hub', href: '/windows' },
+      { label: 'Universal Windows Troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Start with the symptom and diagnose Windows problems systematically.' },
       { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
       { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
