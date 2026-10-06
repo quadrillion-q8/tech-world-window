@@ -88,6 +88,34 @@ for (const article of articles) {
   if (article.pillarPath && !indexablePaths.has(article.pillarPath)) errors.push(`Article "${article.id}" has an invalid pillarPath: ${article.pillarPath}`);
   if (article.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article "${article.id}" is missing pillarPath.`);
 }
+
+// Internal-link / topical-cluster integrity
+const articlesById = new Map(articles.map(article => [article.id, article]));
+for (const article of articles) {
+  const related = article.relatedArticles || [];
+  if (article.contentRole === 'cluster' && related.length < 2) {
+    errors.push(`Cluster article "${article.id}" should expose at least 2 related internal links.`);
+  }
+
+  for (const relatedId of related) {
+    const target = articlesById.get(relatedId);
+    if (!target) {
+      errors.push(`Article "${article.id}" links to missing related article ID: ${relatedId}`);
+      continue;
+    }
+    if (article.contentRole === 'cluster' && target.category !== article.category) {
+      errors.push(`Cluster article "${article.id}" links across categories to "${target.id}" (${target.category}).`);
+    }
+  }
+
+  for (const relatedId of related) {
+    const target = articlesById.get(relatedId);
+    if (!target) continue;
+    if (!(target.relatedArticles || []).includes(article.id)) {
+      errors.push(`Internal-link graph is not reciprocal: "${article.id}" -> "${target.id}" without the reverse link.`);
+    }
+  }
+}
 for (const route of routeGraph.filter(route => route.kind === 'article')) {
   if (!articlePaths.has(route.path)) errors.push(`Graph article has no matching article record: ${route.path}`);
 }

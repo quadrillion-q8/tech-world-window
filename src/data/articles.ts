@@ -96,7 +96,7 @@ export const articles: Article[] = [
     publishedAt: '2026-10-02',
     readingTime: 6,
     tags: ['SSD', 'SMART', 'Windows', 'Storage'],
-    relatedArticles: ['windows-wifi-diagnosis', 'nvme-temperature'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowing-down'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
