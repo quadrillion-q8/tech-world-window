@@ -1,8 +1,31 @@
 import { Link, useLocation } from 'react-router-dom';
-import { articles } from '../data/articles';
+import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '../seo/SEOEngine';
 import { ArticleCard } from '../components/ArticleCard';
+
+/** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
+function renderInline(text: string) {
+  return text.split('`').map((part, index) => (index % 2 === 1 ? <code key={index}>{part}</code> : part));
+}
+
+function renderCell(cell: TableCell) {
+  if (typeof cell === 'string') return renderInline(cell);
+  if (cell.href.startsWith('#')) return <a href={cell.href}>{cell.text}</a>;
+  return <Link to={cell.href}>{cell.text}</Link>;
+}
+
+function ArticleTableView({ table }: { table: ArticleTable }) {
+  return <div className="table-wrap" tabIndex={0} role="region" aria-label={table.caption}>
+    <table className="article-table">
+      <caption>{table.caption}</caption>
+      <thead><tr>{table.headers.map(header => <th key={header} scope="col">{header}</th>)}</tr></thead>
+      <tbody>{table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.map((cell, cellIndex) => cellIndex === 0
+        ? <th key={cellIndex} scope="row">{renderCell(cell)}</th>
+        : <td key={cellIndex}>{renderCell(cell)}</td>)}</tr>)}</tbody>
+    </table>
+  </div>;
+}
 
 export function ArticlePage() {
   const location = useLocation();
@@ -19,8 +42,8 @@ export function ArticlePage() {
 
   return <article className="article-page">
     <SEOEngine
-      title={article.title}
-      description={article.dek}
+      title={article.seoTitle ?? article.title}
+      description={article.metaDescription ?? article.dek}
       path={`/${article.slug}`}
       type="article"
       publishedAt={article.publishedAt}
@@ -41,6 +64,10 @@ export function ArticlePage() {
       authorName={author?.name || 'Tech World Window Editorial Team'}
       category={article.category}
       image={article.heroImage}
+      keywords={article.tags}
+      wordCount={articleWordCount(article)}
+      authorUrl={author?.url}
+      authorJobTitle={author?.role}
     />
     {article.faq?.length ? <FAQStructuredData items={article.faq} /> : null}
 
@@ -56,6 +83,7 @@ export function ArticlePage() {
         <div><strong>{author?.name || 'Editorial Team'}</strong><span>{author?.role || 'Editorial'} · Published {article.publishedAt}{article.updatedAt ? ` · Updated ${article.updatedAt}` : ''}</span></div>
         <span className="reading-time">{article.readingTime} min read</span>
       </div>
+      {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
       {article.pillarPath && <div className="article-pillar"><span>PART OF THIS TOPIC</span><Link to={article.pillarPath}>Explore the {article.category} hub →</Link></div>}
     </div>
@@ -64,18 +92,20 @@ export function ArticlePage() {
       <aside className="article-aside">
         <span className="eyebrow">IN THIS ARTICLE</span>
         <ol>{article.content.filter(section => section.heading).map(section => (
-          <li key={section.heading}><a href={`#${section.heading!.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{section.heading}</a></li>
+          <li key={section.heading}><a href={`#${headingId(section.heading!)}`}>{section.heading}</a></li>
         ))}</ol>
       </aside>
       <div className="article-body">
         <div className="quick-answer"><strong>Quick answer</strong><p>{article.excerpt}</p></div>
-        {article.content.map((section, index) => <section key={section.heading || index} id={section.heading?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+        {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
-          {section.paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
-          {section.bullets && <ul>{section.bullets.map(b => <li key={b}>{b}</li>)}</ul>}
+          {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
+          {section.table && <ArticleTableView table={section.table} />}
+          {section.steps && <ol className="article-steps">{section.steps.map(step => <li key={step}>{renderInline(step)}</li>)}</ol>}
+          {section.bullets && <ul>{section.bullets.map(b => <li key={b}>{renderInline(b)}</li>)}</ul>}
         </section>)}
 
-        {article.testing && <div className="editorial-note"><strong>Evidence note</strong><p>{article.testing}</p></div>}
+        {article.testing && <div className="editorial-note"><strong>Evidence note</strong><p>{renderInline(article.testing)}</p></div>}
 
         {article.sources?.length ? <section className="sources-section">
           <h2>Sources & further reading</h2>
@@ -83,7 +113,7 @@ export function ArticlePage() {
         </section> : null}
 
         {article.faq?.length ? <section className="faq-section"><h2>Frequently asked questions</h2>
-          {article.faq.map(item => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}
+          {article.faq.map(item => <details key={item.question}><summary>{item.question}</summary><p>{renderInline(item.answer)}</p></details>)}
         </section> : null}
 
         <div className="article-disclaimer">
