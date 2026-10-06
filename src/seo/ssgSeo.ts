@@ -1,6 +1,6 @@
 import { articles, categories } from '../data/articles';
 import { authors } from '../data/authors';
-import { routeGraph, SITE_URL, type RouteNode } from '../data/graph';
+import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
 type SeoData = {
   title: string;
@@ -167,11 +167,19 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     schemas.unshift({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'Tech World Window',
+      name: SITE_NAME,
       url: SITE_URL,
       description: seo.description,
     });
   }
+    schemas.unshift({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: siteEntity.name,
+      url: SITE_URL,
+      description: siteEntity.description,
+      slogan: SITE_TAGLINE,
+    });
   if (article) {
     schemas.push({
       '@context': 'https://schema.org',
@@ -184,6 +192,18 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       author: { '@type': 'Person', name: seo.authorName || 'Tech World Window Editorial Team' },
       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL },
     });
+
+    if (article.faq?.length) {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: article.faq.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      });
+    }
   }
 
   const managedPatterns = [

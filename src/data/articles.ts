@@ -20,6 +20,9 @@ export type Article = {
   testing?: string;
   relatedArticles?: string[];
   faq?: { question: string; answer: string }[];
+  contentRole?: 'pillar' | 'cluster';
+  pillarPath?: string;
+  searchIntent?: 'informational' | 'commercial' | 'navigational';
 };
 
 export const articles: Article[] = [
@@ -35,6 +38,10 @@ export const articles: Article[] = [
     publishedAt: '2026-10-04',
     readingTime: 7,
     tags: ['Windows 11', 'Wi-Fi', 'DNS', 'Troubleshooting'],
+    relatedArticles: ['ssd-health'],
+    contentRole: 'cluster',
+    pillarPath: '/windows',
+    searchIntent: 'informational',
     featured: true,
     content: [
       { heading: 'Start by isolating the fault', paragraphs: ['First, check whether another phone or computer can use the same Wi-Fi. If every device is offline, investigate the router or internet service before changing Windows settings.', 'If only one Windows PC is affected, continue with the checks below. This simple split avoids unnecessary driver removal and network resets.'] },
@@ -60,6 +67,10 @@ export const articles: Article[] = [
     publishedAt: '2026-10-03',
     readingTime: 9,
     tags: ['Gaming PC', 'Frame time', 'GPU', 'CPU'],
+    relatedArticles: ['ssd-health'],
+    contentRole: 'cluster',
+    pillarPath: '/gaming',
+    searchIntent: 'informational',
     featured: true,
     content: [
       { heading: 'Look beyond average FPS', paragraphs: ['Average frames per second hides short pauses. A frame-time graph makes spikes visible and helps you compare the same scene before and after a change. Record one repeatable test instead of changing several settings at once.'] },
@@ -85,6 +96,10 @@ export const articles: Article[] = [
     publishedAt: '2026-10-02',
     readingTime: 6,
     tags: ['SSD', 'SMART', 'Windows', 'Storage'],
+    relatedArticles: ['windows-wifi-diagnosis', 'gaming-stutter'],
+    contentRole: 'cluster',
+    pillarPath: '/hardware',
+    searchIntent: 'informational',
     content: [
       { heading: 'Start with a backup mindset', paragraphs: ['A health indicator is not a guarantee that a drive will survive, and a normal status does not replace backups. If files are important and the drive is behaving unusually, secure a copy before running lengthy tests.'] },
       { heading: 'Use a reputable monitoring tool', paragraphs: ['Check the drive maker’s official utility or a well-established SMART reader. Review the exact drive model, firmware, temperature, critical warnings, and available endurance information when exposed by the device.'] },

@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, normalize, relative, resolve } from 'node:path';
 import { articles } from '../src/data/articles';
-import { navigation, routeGraph, SITE_URL } from '../src/data/graph';
+import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph';
 import { getSeoData } from '../src/seo/ssgSeo';
 
 const errors: string[] = [];
@@ -67,6 +67,13 @@ for (const route of routeGraph) {
   if (!route.navLabel?.trim()) errors.push(`Route has navOrder but no navLabel: ${route.path}`);
 }
 
+for (const group of menuGroups) {
+  if (group.href && !indexablePaths.has(group.href)) errors.push(`Mega-menu group points to a missing/non-indexable route: ${group.href}`);
+  for (const link of group.links) {
+    if (!indexablePaths.has(link.href)) errors.push(`Mega-menu link points to a missing/non-indexable route: ${link.href}`);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Article ↔ graph parity
 // ---------------------------------------------------------------------------
@@ -76,6 +83,10 @@ for (const article of articles) {
   if (!article.title.trim() || !article.dek.trim()) errors.push(`Article "${article.id}" is missing title or dek.`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(article.publishedAt)) errors.push(`Article "${article.id}" has invalid publishedAt: ${article.publishedAt}`);
   if (article.updatedAt && !/^\d{4}-\d{2}-\d{2}$/.test(article.updatedAt)) errors.push(`Article "${article.id}" has invalid updatedAt: ${article.updatedAt}`);
+}
+for (const article of articles) {
+  if (article.pillarPath && !indexablePaths.has(article.pillarPath)) errors.push(`Article "${article.id}" has an invalid pillarPath: ${article.pillarPath}`);
+  if (article.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article "${article.id}" is missing pillarPath.`);
 }
 for (const route of routeGraph.filter(route => route.kind === 'article')) {
   if (!articlePaths.has(route.path)) errors.push(`Graph article has no matching article record: ${route.path}`);
@@ -170,6 +181,7 @@ if (!existsSync(dist)) {
     if (!html.includes('Tech World Window')) errors.push(`Missing rendered brand/content in ${route.path}`);
     if (!html.includes('application/ld+json')) errors.push(`Missing JSON-LD structured data in ${route.path}`);
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
+    if (route.path === '/' && !html.includes('"@type":"Organization"')) errors.push('Homepage is missing Organization JSON-LD.');
 
     if (route.kind === 'article') {
       if (!html.includes('"@type":"Article"')) errors.push(`Missing Article JSON-LD in ${route.path}`);
@@ -177,6 +189,8 @@ if (!existsSync(dist)) {
       if (article && !html.includes(`"headline":"${article.title.replace(/"/g, '\\"')}"`)) {
         errors.push(`Article JSON-LD headline mismatch in ${route.path}`);
       }
+      if (article?.faq?.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
+      if (article?.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article missing pillarPath: ${route.path}`);
     }
   }
 
