@@ -1,82 +1,41 @@
 # Universal Windows Troubleshooting Pillar
 
-## What was brought into the TWW site
-
-The Windows section now has a true universal troubleshooting pillar:
-
 - **URL:** `/windows-troubleshooting-complete-guide`
-- **Title:** Windows Troubleshooting: A Complete Guide to Diagnosing and Fixing Windows Problems
-- **Role:** Windows pillar
-- **Intent:** International informational / problem-solving
-- **Reading time:** 18 minutes
-- **Author:** Imran Natiq
-- **Status:** Indexable and featured
+- **Role:** Windows pillar (international informational / problem-solving intent)
+- **Source:** `src/data/windows-troubleshooting-pillar.ts` (moved out of `articles.ts`)
+- **Length:** about 6,100 words, 28 sections, 7 reference tables, 10 FAQs, 4 verified Microsoft sources
+- **Updated:** 2026-10-06
 
-## Diagnostic coverage
+## What changed in this upgrade
 
-The pillar covers:
+**Content**
+- Symptom-first triage table at the top, linking to sections and to specialist guides.
+- Windows 11 *and* Windows 10 scope, including Windows 10 end of support (Oct 14, 2025).
+- Editions and display-language guidance (codes and commands are language-independent).
+- BitLocker / recovery-key safety step before invasive repairs.
+- Event Viewer table (Kernel-Power 41, BugCheck 1001, Disk 7/51/153, Ntfs 55, WHEA-Logger, Display 4101, etc.).
+- Language-independent command table (`perfmon /rel`, `eventvwr.msc`, `mdsched.exe`, `ms-settings:` URIs, Win+Ctrl+Shift+B).
+- 15-row stop-code table, Windows Update error-code table, recovery-ladder table.
+- New sections: boot-loop steps and Quick Machine Recovery, in-place repair / "Fix problems using Windows Update", malware vs Windows faults, troubleshooting log, specialist-guide hub table.
+- DISM-before-SFC order, now matching Microsoft's guidance.
 
-- symptom-first diagnosis
-- evidence preservation and repeatable testing
-- Windows vs hardware separation
-- no-power and boot failures
-- boot loops and Windows Recovery Environment
-- blue screens / Stop Codes
-- black-screen/display problems
-- freezing and unresponsiveness
-- slow Windows and resource saturation
-- application failures
-- Windows Update problems
-- Wi-Fi, Ethernet, DNS and network problems
-- sound, Bluetooth, USB and input-device problems
-- Safe Mode and Clean Boot
-- DISM/SFC context
-- recovery options
-- storage, memory, thermals and power
-- universal decision tree
-- unsafe troubleshooting practices
-- professional escalation
-- evidence-led verification
+**Rendering and SEO** (`ArticlePage.tsx`, `SEOEngine.tsx`, `ssgSeo.ts`)
+- New optional `Article` fields: `seoTitle`, `metaDescription`, `appliesTo`; new section fields: `table`, `steps`.
+- `seoTitle` / `metaDescription` override the title and description used in search results (the long `dek` was being used as the meta description before).
+- Article JSON-LD now includes `articleSection`, `keywords`, `wordCount`, `inLanguage`, `isAccessibleForFree`, and author `url` / `jobTitle`.
+- Accessible, responsive tables (caption, `scope`, keyboard-focusable scroll region), numbered steps, inline `code`, scrollable TOC.
+- Heading anchors no longer end with a stray hyphen (shared `headingId()` helper).
 
-## Existing content integration
+**Validator** (`scripts/validate-build.ts`) now also fails the build on:
+- duplicate or empty heading anchors;
+- table rows with the wrong number of cells;
+- table links to missing routes or missing in-page anchors;
+- `seoTitle` over 65 characters, or `metaDescription` outside 70-160 characters;
+- non-HTTPS sources; backticks inside FAQ answers (they would leak into FAQPage JSON-LD);
+- prerendered HTML missing the tables, steps, or `wordCount`.
 
-The Windows cluster pages now point back toward the universal pillar:
+## Internal-link design note
+The site validator requires `relatedArticles` to be reciprocal and cluster articles to stay in one category, so the pillar's `relatedArticles` still lists only the three Windows network guides. Links to Gaming and Hardware guides are done through in-article table links instead, which are validated against the route graph without needing reciprocal edges.
 
-- `windows-wifi-diagnosis`
-- `windows-dns-not-working`
-- `windows-network-reset`
-
-The Windows mega-menu also exposes the universal troubleshooting guide directly.
-
-## SEO/content architecture
-
-The intended hierarchy is now:
-
-Windows Hub
-→ Universal Windows Troubleshooting
-→ Specific Windows problem clusters
-→ Deeper technical guides
-
-This lets the site target broad Windows troubleshooting intent without weakening the existing specialist pages.
-
-## Files changed
-
-1. `src/data/articles.ts`
-2. `src/data/graph.ts`
-3. `TWW-CONTENT-CLUSTERS.md`
-4. `UNIVERSAL-WINDOWS-TROUBLESHOOTING-PILLAR.md`
-
-## Editorial decision
-
-The existing specialist articles were not replaced. The shader compilation, frame-time, storage, DNS, network-reset and other pages remain focused on their specific search intent. The new page acts as the broad diagnostic entry point and sends readers toward narrower evidence-led guides.
-
-
-## Build validation fix
-
-The first deployment build failed only because the pillar declared a non-reciprocal relationship:
-
-- `windows-troubleshooting-universal` → `ssd-health`
-
-The existing article graph does not contain a reciprocal `ssd-health` relationship, and the site validator intentionally rejects non-reciprocal internal-link graph edges.
-
-The invalid relationship was removed. The three Windows cluster relationships remain reciprocal.
+## Verification
+`npm ci && npm run build` passes: typecheck, SSG build of 24 routes, and the full validation gate.
