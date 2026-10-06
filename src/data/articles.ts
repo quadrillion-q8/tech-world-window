@@ -1,10 +1,33 @@
+import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
+
+/** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
+export type TableCell = string | { text: string; href: string };
+
+export type ArticleTable = {
+  caption: string;
+  headers: string[];
+  rows: TableCell[][];
+};
+
+export type ArticleSection = {
+  heading?: string;
+  paragraphs: string[];
+  bullets?: string[];
+  /** Ordered steps, rendered as a numbered list. */
+  steps?: string[];
+  table?: ArticleTable;
+};
 
 export type Article = {
   id: string;
   slug: string;
   title: string;
+  /** Optional shorter <title> for search results (brand suffix is appended automatically). */
+  seoTitle?: string;
   dek: string;
+  /** Optional meta description, kept to roughly 155 characters. Falls back to dek. */
+  metaDescription?: string;
   excerpt: string;
   category: ArticleCategory;
   subcategory?: string;
@@ -14,8 +37,10 @@ export type Article = {
   heroImage?: string;
   readingTime: number;
   tags: string[];
+  /** Software versions the guidance applies to, shown on the page. */
+  appliesTo?: string[];
   featured?: boolean;
-  content: { heading?: string; paragraphs: string[]; bullets?: string[] }[];
+  content: ArticleSection[];
   sources?: { label: string; url: string }[];
   testing?: string;
   relatedArticles?: string[];
@@ -25,220 +50,33 @@ export type Article = {
   searchIntent?: 'informational' | 'commercial' | 'navigational';
 };
 
+/** Stable in-page anchor id for a section heading (shared by the page, TOC and validator). */
+export function headingId(heading: string): string {
+  return heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/** Approximate visible word count, used for structured data. */
+export function articleWordCount(article: Article): number {
+  const cellText = (cell: TableCell) => (typeof cell === 'string' ? cell : cell.text);
+  const text = [
+    article.title,
+    article.dek,
+    article.excerpt,
+    ...article.content.flatMap(section => [
+      section.heading ?? '',
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+      ...(section.steps ?? []),
+      ...(section.table ? [section.table.caption, ...section.table.headers, ...section.table.rows.flat().map(cellText)] : []),
+    ]),
+    ...(article.faq ?? []).flatMap(item => [item.question, item.answer]),
+  ].join(' ');
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
 export const articles: Article[] = [
 
-  {
-    id: 'windows-troubleshooting-universal',
-    slug: 'windows-troubleshooting-complete-guide',
-    title: 'Windows Troubleshooting: A Complete Guide to Diagnosing and Fixing Windows Problems',
-    dek: 'A universal, evidence-led Windows troubleshooting framework for startup failures, freezes, crashes, blue screens, slow performance, updates, drivers, networking, applications, and hardware-related symptoms.',
-    excerpt: 'Start with the symptom, isolate the failing layer, run the least destructive test, apply the smallest appropriate fix, and verify the result before moving deeper.',
-    category: 'Windows',
-    subcategory: 'Troubleshooting',
-    authorId: 'imranNatiq',
-    publishedAt: '2026-10-06',
-    updatedAt: '2026-10-06',
-    readingTime: 18,
-    tags: ['Windows Troubleshooting', 'Windows 11', 'Windows Problems', 'PC Troubleshooting', 'Windows Repair', 'Safe Mode'],
-    relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset'],
-    contentRole: 'pillar',
-    pillarPath: '/windows',
-    searchIntent: 'informational',
-    featured: true,
-    content: [
-      { heading: 'Start here: identify the symptom before choosing a fix', paragraphs: [
-        'Windows problems often look alike. A frozen desktop can be caused by an application, a driver, memory pressure, storage trouble, overheating, or a deeper system problem. A PC that will not start may have a power or hardware fault before Windows is involved. The safest troubleshooting process therefore begins with the exact symptom rather than a favorite repair command.',
-        'Use this guide as a diagnostic map. Find the closest symptom, run the simplest test that can separate competing causes, record what changed, and only then move to a repair. The objective is not to perform the largest number of fixes; it is to reduce uncertainty with every step.'
-      ], bullets: [
-        'PC has no power at all → investigate power and hardware before Windows.',
-        'PC powers on but Windows does not load → investigate boot and recovery paths.',
-        'Windows loads but freezes or crashes → isolate drivers, software, resources, thermals, and hardware.',
-        'Windows is slow → identify whether CPU, memory, storage, startup software, thermals, or background activity is limiting the system.',
-        'Only one application fails → troubleshoot the application before repairing all of Windows.',
-        'Only one network fails → investigate that connection; if every device is offline, investigate the network path outside Windows first.'
-      ] },
-      { heading: 'Before changing anything: preserve evidence', paragraphs: [
-        'Write down when the problem started and what changed immediately beforehand. A Windows update, graphics or network driver, new application, peripheral, storage upgrade, BIOS change, or security event can be more informative than a long list of generic fixes.',
-        'For recurring problems, reproduce the same action if possible. Record the Windows version, affected application, exact error or stop code, and whether the problem occurs after a cold start, after sleep, or only after the computer has been running for a while.',
-        'If important files are at risk, protect the data before performing invasive repairs. A troubleshooting procedure is not successful if it makes an existing storage or recovery problem harder to recover from.'
-      ], bullets: [
-        'Change one meaningful variable at a time.',
-        'Prefer reversible tests before destructive actions.',
-        'Capture exact error messages instead of paraphrasing them.',
-        'Back up important data before resets, reinstalls, partition changes, or other invasive operations.'
-      ] },
-      { heading: 'Is Windows actually the problem?', paragraphs: [
-        'A computer can appear to have a Windows problem when the underlying issue is hardware, firmware, power, cooling, or a peripheral. If the machine loses power, fails before Windows loads, shows instability in firmware, or reproduces the same failure across different operating-system environments, move hardware investigation higher on the list.',
-        'Conversely, if Safe Mode works normally, a clean boot removes the problem, or the failure began immediately after a driver or software change, the normal Windows environment becomes a stronger suspect. These tests do not prove the exact cause; they narrow the search.'
-      ], bullets: [
-        'Problem exists before Windows begins loading → prioritize power, firmware, storage, memory, display, and other hardware paths.',
-        'Problem disappears in Safe Mode → investigate third-party drivers, services, and startup software.',
-        'Problem affects one application only → investigate that application and its dependencies.',
-        'Problem affects several unrelated applications → investigate Windows, drivers, memory, storage, thermals, and system stability.',
-        'Problem appears on multiple operating systems or boot environments → investigate shared hardware more aggressively.'
-      ] },
-      { heading: 'When the PC will not turn on', paragraphs: [
-        'If there are no lights, fans, display signals, or other signs of power, do not begin with Windows repair commands. Windows cannot repair a machine that is not reaching the stage where Windows can execute.',
-        'For a desktop, check the external power path, power switch, power connections, and recently changed hardware. For a laptop, check the charger, charging indicators, docking equipment, and whether the behavior changes with external peripherals disconnected. If the system powers on but immediately shuts down, treat that as a different symptom and investigate power, thermal, memory, or board-level causes.'
-      ], bullets: [
-        'Disconnect non-essential USB and external devices and retest.',
-        'Check whether the machine shows any power or charging indication.',
-        'Do not repeatedly force power cycles if the system is showing signs of overheating or electrical instability.',
-        'If there is still no meaningful response, move to hardware diagnosis rather than reinstalling Windows.'
-      ] },
-      { heading: 'When Windows will not start or is stuck in a boot loop', paragraphs: [
-        'Separate a boot failure from a no-power failure. If the Windows logo appears and the system repeatedly restarts, hangs, or enters recovery, the Windows boot and recovery path is now relevant.',
-        'Use Windows Recovery Environment when it is available. Start with the least destructive recovery option that matches the evidence, such as Startup Repair or uninstalling a recently problematic update. System Restore can be appropriate when a usable restore point exists and the timeline points to a recent configuration or software change.',
-        'If recovery tools repeatedly fail, do not immediately format the drive. First consider whether the storage device, file system, memory, or another hardware component could be causing repeated corruption.'
-      ], bullets: [
-        'Record any recovery or stop-code message before restarting.',
-        'Try Startup Repair when the symptom is a Windows boot failure.',
-        'Consider System Restore when the problem follows a recent change and a suitable restore point exists.',
-        'Uninstall a recent quality or feature update from recovery if the loop began right after it.',
-        'Stop and test storage and memory if recovery tools fail repeatedly or report disk errors.'
-      ] },
-      { heading: 'Blue screens and stop codes', paragraphs: [
-        'A blue screen is Windows stopping deliberately because it detected a condition it cannot safely continue from. The stop code and any named file or driver are the most valuable clues, so photograph or write them down before the machine restarts.',
-        'Treat the first blue screen after a change differently from repeated blue screens with different codes. A consistent code that names the same driver points toward software. Different codes each time, especially alongside random freezes or application crashes, point toward memory, storage, power, or thermal instability.'
-      ], bullets: [
-        'Note the stop code, the time, and what you were doing.',
-        'Roll back or update the driver that was changed most recently.',
-        'Disconnect newly added hardware and retest.',
-        'Run a memory test if the codes vary or the system is unstable under load.',
-        'Check storage health and temperatures before assuming Windows needs reinstalling.'
-      ] },
-      { heading: 'Black screen, no display, or display glitches', paragraphs: [
-        'First decide whether the computer is running but the display is not. Sounds, keyboard lights, or drive activity suggest the system is alive. Test another cable, port, or monitor, and on a desktop make sure the display cable is connected to the graphics card rather than the motherboard output.',
-        'If the display works in firmware or recovery screens but not in Windows, a graphics driver or display setting is more likely. If it fails everywhere, including before Windows, investigate the display path and graphics hardware.'
-      ], bullets: [
-        'Try a different cable, port, and display before changing software.',
-        'Test whether the BIOS or firmware screen appears.',
-        'Boot to Safe Mode and remove or roll back the graphics driver if the problem only exists in normal Windows.',
-        'Reset refresh rate or resolution if the screen went blank immediately after changing it.'
-      ] },
-      { heading: 'Freezing and unresponsive Windows', paragraphs: [
-        'Separate a single application not responding from the whole system freezing. If the mouse still moves and other programs work, close or repair that application. If the whole system stops responding, the cause is more likely a driver, storage stall, memory problem, or overheating.',
-        'Look at the pattern. Freezes under heavy load suggest thermals or power. Freezes after waking from sleep suggest drivers or power settings. Freezes accompanied by drive activity that stays pinned suggest a storage or background-task problem.'
-      ], bullets: [
-        'Open Task Manager and note which resource is saturated when the system stalls.',
-        'Check temperatures if freezing happens under load.',
-        'Review Reliability Monitor and Event Viewer for errors near the freeze time.',
-        'Test with non-essential startup software and external devices removed.'
-      ] },
-      { heading: 'Slow Windows and resource saturation', paragraphs: [
-        'Slowness is a symptom, not a cause. Use Task Manager to see whether CPU, memory, disk, or network is the limiting resource at the moment the system feels slow. A machine with memory constantly near full will page heavily, which feels like a storage problem even when the drive is fine.',
-        'Address the measured bottleneck. Do not install registry cleaners or boost utilities; they rarely help and can introduce new problems.'
-      ], bullets: [
-        'High memory use → review startup apps and browser tabs, then consider whether the system needs more RAM.',
-        'High disk use with an old hard drive → expect slow behavior and consider an SSD.',
-        'High CPU with no obvious application → check for background updates, scans, and thermal throttling.',
-        'Slow only after long uptime → look for a leaking application or driver and restart to confirm.'
-      ] },
-      { heading: 'One application keeps failing', paragraphs: [
-        'If only one program misbehaves, keep the investigation scoped to it. Update the application, check whether it needs a runtime or component it relies on, and try running it after a clean restart.',
-        'Repair or reinstall the application before repairing Windows. If several unrelated applications fail in similar ways, widen the investigation to Windows components, drivers, memory, or storage.'
-      ], bullets: [
-        'Record the exact error message and the action that triggers it.',
-        'Update the application and any required runtime.',
-        'Use the application repair option if one exists, then reinstall if needed.',
-        'Test with a new Windows user profile to rule out profile corruption.'
-      ] },
-      { heading: 'Windows Update problems', paragraphs: [
-        'Update failures are usually caused by insufficient disk space, interrupted downloads, conflicting software, or damaged update components. Note the error code and whether the failure happens during download, install, or after restart.',
-        'Start with the built-in update troubleshooter and make sure there is adequate free space and a stable connection. If an update causes problems after installing, the update history lets you uninstall the most recent quality update when the timeline fits.'
-      ], bullets: [
-        'Free disk space and restart before retrying.',
-        'Disconnect non-essential peripherals during a feature update.',
-        'Check the update history for the error code and search that exact code.',
-        'Use system file repair tools if updates fail repeatedly with corruption-style errors.'
-      ] },
-      { heading: 'Network problems', paragraphs: [
-        'Decide whether the problem is the device, the network, or the internet service. If every device is offline, the cause is outside Windows. If only this computer is affected, compare wired and wireless behavior, check whether you can reach an IP address but not a name, and then follow the narrower guide that matches the symptom.',
-        'Use the specialist guides rather than repeating the same resets: start with the connected-but-no-internet diagnosis, then DNS, and use a network reset only when targeted checks point to a corrupted Windows network stack.'
-      ], bullets: [
-        'Test another device on the same network.',
-        'Compare Wi-Fi with a wired connection if possible.',
-        'Check whether pages fail only by name, which suggests DNS.',
-        'Keep network reset for later, because it removes saved networks and adapter settings.'
-      ] },
-      { heading: 'Sound, Bluetooth, USB, and input devices', paragraphs: [
-        'Check the physical and selection layer first: cable, port, the selected output device, mute and volume states, and whether the device works on another computer. Then check the driver and Windows privacy or permission settings for the device.',
-        'For USB and Bluetooth, test another port or adapter and remove the device pairing before pairing again. Intermittent USB problems can also be power related, especially with unpowered hubs.'
-      ], bullets: [
-        'Test the device on another computer.',
-        'Try a different port, cable, or direct connection instead of a hub.',
-        'Remove and re-pair a Bluetooth device.',
-        'Reinstall or roll back the device driver if the problem began after an update.'
-      ] },
-      { heading: 'Safe Mode and Clean Boot', paragraphs: [
-        'Safe Mode starts Windows with a minimal set of drivers and services. It is useful for deciding whether the normal environment is involved, and for removing a problematic driver or update.',
-        'A clean boot disables non-Microsoft startup items and services so you can find whether third-party software conflicts with Windows. Re-enable items in small groups until the problem returns. Return the system to normal startup when finished.'
-      ], bullets: [
-        'Problem gone in Safe Mode → suspect drivers, services, or startup software.',
-        'Problem gone in a clean boot → re-enable items in halves to find the conflict.',
-        'Problem remains in both → suspect Windows files, hardware, or firmware.'
-      ] },
-      { heading: 'System file repair: SFC and DISM', paragraphs: [
-        'System File Checker scans protected Windows files and replaces damaged ones from the local component store. DISM can repair the component store itself. Run them from an elevated Command Prompt or Terminal.',
-        'A typical order is DISM with the RestoreHealth option first, then sfc /scannow. These tools address file corruption; they do not fix hardware faults, failing drives, or bad drivers, so a clean result does not rule those out.'
-      ], bullets: [
-        'DISM /Online /Cleanup-Image /RestoreHealth repairs the component store.',
-        'sfc /scannow checks and repairs protected system files.',
-        'Restart after repairs and retest the original symptom.',
-        'If corruption returns repeatedly, test the storage device and memory.'
-      ] },
-      { heading: 'Recovery options and how destructive they are', paragraphs: [
-        'Recovery options range from gentle to destructive. Choose the lowest level that matches the evidence, and only move up when the lower level fails.'
-      ], bullets: [
-        'Restart and Safe Mode → no data change.',
-        'Uninstall a recent update or driver → small, reversible change.',
-        'System Restore → reverts system files and settings, not personal files.',
-        'Reset this PC with Keep my files → reinstalls Windows and removes apps and settings.',
-        'Reset this PC with Remove everything, or a clean install → erases the drive; back up first.'
-      ] },
-      { heading: 'Storage, memory, thermals, and power', paragraphs: [
-        'Many Windows symptoms are the visible effect of a hardware limit. A failing drive can cause freezes and corruption. Faulty memory can cause random crashes. Dust, a failed fan, or dried thermal paste can cause throttling and shutdowns. An inadequate or failing power supply can cause restarts under load.',
-        'Check drive health with SMART-aware tools, run a memory test if crashes vary, watch temperatures during load, and clean dust from vents and fans. Persistent faults after these checks justify professional hardware diagnosis.'
-      ], bullets: [
-        'Storage: check drive health and back up before heavy repair.',
-        'Memory: run a memory test and reseat modules if crashes are random.',
-        'Thermals: monitor temperatures under load and clean fans and vents.',
-        'Power: suspect the supply or charger when shutdowns occur under load.'
-      ] },
-      { heading: 'A universal decision tree', paragraphs: [
-        'When the symptom is unclear, move through the layers in order and stop as soon as a test explains the behavior.'
-      ], bullets: [
-        '1. Does the machine power on and reach firmware? If not → power and hardware.',
-        '2. Does Windows start? If not → boot, recovery, storage.',
-        '3. Does Safe Mode behave normally? If yes → drivers, services, startup software.',
-        '4. Is only one application affected? If yes → repair or reinstall that application.',
-        '5. Do several unrelated programs fail? → system files, memory, storage, thermals.',
-        '6. Does the problem exist outside Windows? → hardware.'
-      ] },
-      { heading: 'Troubleshooting practices to avoid', paragraphs: [
-        'Some popular fixes cause more harm than they prevent. Avoid anything that removes your ability to recover or hides the real cause.'
-      ], bullets: [
-        'Do not run registry cleaners or system boosters.',
-        'Do not download drivers from unofficial sites.',
-        'Do not disable security protections to test a theory and leave them off.',
-        'Do not reformat a drive before backing up data you care about.',
-        'Do not change many settings at once, because you cannot tell which one mattered.'
-      ] },
-      { heading: 'When to get professional help', paragraphs: [
-        'Escalate when the evidence points to hardware, when data is at risk, or when the same fault returns after sound software troubleshooting. Signs include clicking or disappearing drives, burning smells, swollen batteries, repeated shutdowns under load, and no-power faults.',
-        'Bring a short record of what you tested and what changed. It shortens diagnosis and avoids repeating work that has already been done.'
-      ] },
-      { heading: 'Verify the fix', paragraphs: [
-        'A fix is only confirmed when the original symptom no longer occurs under the same conditions. Repeat the action that triggered the problem, run the system under normal load for a while, and check that no new errors appear. Keep notes on what worked so the next problem starts from evidence.'
-      ] }
-    ],
-    faq: [
-      { question: 'What should I try first when Windows has a problem?', answer: 'Identify the exact symptom and what changed recently, then run the simplest reversible test, such as a restart, Safe Mode, or removing a recent driver or update, before using bigger repairs.' },
-      { question: 'Is it safe to reset or reinstall Windows?', answer: 'It can be, but it is destructive. Back up important files first, and rule out failing storage or memory, because reinstalling will not fix a hardware fault.' },
-      { question: 'How do I know whether the problem is hardware instead of Windows?', answer: 'Problems that occur before Windows loads, in firmware screens, or across different operating systems point toward hardware. Problems that vanish in Safe Mode point toward drivers or software.' },
-      { question: 'Do SFC and DISM fix everything?', answer: 'No. They repair damaged Windows files and the component store. They do not repair failing hardware, bad drivers, or application problems.' }
-    ]
-  },
+  windowsTroubleshootingPillar,
 
   {
     id: 'windows-wifi-diagnosis',
