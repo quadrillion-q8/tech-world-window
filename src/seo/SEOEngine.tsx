@@ -45,14 +45,23 @@ export function SEOEngine({
 
 export function ArticleStructuredData({
   title, description, path, publishedAt, updatedAt, authorName, category, image,
+  keywords, wordCount, authorUrl, authorJobTitle,
 }: {
   title: string; description: string; path: string; publishedAt: string; updatedAt?: string;
   authorName: string; category?: string; image?: string;
+  keywords?: string[]; wordCount?: number; authorUrl?: string; authorJobTitle?: string;
 }) {
   const data = {
     '@context': 'https://schema.org', '@type': 'Article', headline: title, description,
     mainEntityOfPage: absoluteUrl(path), datePublished: publishedAt, dateModified: updatedAt || publishedAt,
-    articleSection: category, author: { '@type': 'Person', name: authorName },
+    articleSection: category, inLanguage: 'en', isAccessibleForFree: true,
+    ...(keywords?.length ? { keywords: keywords.join(', ') } : {}),
+    ...(wordCount ? { wordCount } : {}),
+    author: {
+      '@type': 'Person', name: authorName,
+      ...(authorUrl ? { url: absoluteUrl(authorUrl) } : {}),
+      ...(authorJobTitle ? { jobTitle: authorJobTitle } : {}),
+    },
     publisher: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL },
     ...(image ? { image: [absoluteUrl(image)] } : {}),
   };
