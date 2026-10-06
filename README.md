@@ -70,6 +70,10 @@ A failed validation exits the build with a non-zero status. GitHub Actions runs 
 
 The project now keeps the KCROC-style entity-first discipline while remaining editorial: grouped mega-navigation, pillar/cluster metadata, stronger internal linking, Organization/WebSite/FAQ structured data, richer article metadata, deterministic SSG SEO, accessibility motion preferences, and a reduced third-party font dependency. See `KCROC-PATTERNS-INTEGRATED.md` for the exact boundary between reusable engineering patterns and KCROC-specific business features.
 
+## Article content model
+
+Articles live in `src/data/articles.ts`; long pillars may live in their own file (see `src/data/windows-troubleshooting-pillar.ts`). Sections support `paragraphs`, `bullets`, ordered `steps`, and a `table` whose cells can be plain text or internal links (`/route` or `#anchor`). Optional `seoTitle`, `metaDescription` and `appliesTo` control search snippets and version scope. All of it is checked by `scripts/validate-build.ts`.
+
 ## Launch gates still outstanding
 
 Before public launch, still verify the final domain, editorial accuracy, article sourcing, author credentials, licensed images, privacy/cookie disclosures, accessibility, Core Web Vitals, redirects, and Search Console ownership.
