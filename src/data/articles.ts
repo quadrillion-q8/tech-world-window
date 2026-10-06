@@ -29,30 +29,183 @@ export const articles: Article[] = [
   {
     id: 'windows-wifi-diagnosis',
     slug: 'windows-11-wifi-connected-no-internet',
-    title: 'Windows 11 Says Connected, but There Is No Internet: A Practical Diagnosis',
-    dek: 'Work through the connection in the right order—from router and DNS checks to the network adapter—before resetting everything.',
-    excerpt: 'A systematic troubleshooting path for a Windows 11 PC that connects to Wi-Fi but cannot reach websites.',
+    title: 'Windows Says Connected but No Internet: Complete Troubleshooting Guide',
+    dek: 'A universal Windows troubleshooting path for Wi-Fi and Ethernet problems—from router, IP and DNS checks to VPNs, drivers and the final network reset.',
+    excerpt: 'When Windows says you are connected but websites will not load, the connection is usually failing at a specific layer. This guide shows you how to identify that layer before changing settings blindly.',
     category: 'Windows',
     subcategory: 'Troubleshooting',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-04',
-    readingTime: 7,
-    tags: ['Windows 11', 'Wi-Fi', 'DNS', 'Troubleshooting'],
+    updatedAt: '2026-10-06',
+    readingTime: 12,
+    tags: ['Windows 11', 'Windows 10', 'Wi-Fi', 'Ethernet', 'Internet', 'DNS', 'Troubleshooting'],
     relatedArticles: ['windows-dns-not-working', 'windows-network-reset'],
     contentRole: 'cluster',
     pillarPath: '/windows',
     searchIntent: 'informational',
     featured: true,
     content: [
-      { heading: 'Start by isolating the fault', paragraphs: ['First, check whether another phone or computer can use the same Wi-Fi. If every device is offline, investigate the router or internet service before changing Windows settings.', 'If only one Windows PC is affected, continue with the checks below. This simple split avoids unnecessary driver removal and network resets.'] },
-      { heading: 'Check the basics before changing settings', paragraphs: ['Turn Wi-Fi off and back on, reconnect to the correct network, and restart the router only if other devices also show trouble. If you use a VPN or proxy, temporarily disconnect it for a controlled test.'] , bullets: ['Open another website and test a second browser.', 'Check the date and time in Windows.', 'Forget and reconnect to the Wi-Fi network only after confirming you know its password.'] },
-      { heading: 'Test DNS and the network path', paragraphs: ['Open Command Prompt and run ipconfig /all to inspect the active adapter. You can then run ipconfig /flushdns. If you are comfortable with command-line diagnostics, compare whether a public IP address responds while domain names fail; that pattern can point toward DNS rather than Wi-Fi itself.'] },
-      { heading: 'When to investigate the driver', paragraphs: ['If the problem follows this PC across multiple networks, check Windows Update and the laptop or adapter maker’s support page for a suitable network driver. Avoid downloading driver packages from unknown third-party sites.'] },
-      { heading: 'When a reset makes sense', paragraphs: ['Use Windows Network reset only after simpler tests. It can remove and reinstall network adapters and reset some networking components, so note any VPN or static-IP settings first.'] },
+      {
+        heading: 'First: identify which part of the connection is broken',
+        paragraphs: [
+          '“Connected” does not necessarily mean that every part of the path to the Internet is working. Your PC can have a working Wi-Fi or Ethernet link while DHCP, the default gateway, DNS, a VPN, a proxy, the browser, the router, or the ISP is failing.',
+          'The fastest diagnosis is to change one variable at a time and test again. Start by asking whether the problem affects every device on the same network, only this Windows PC, or only one browser or application.'
+        ],
+        bullets: [
+          'Every device is offline: investigate the router, modem, ISP, or upstream service first.',
+          'Only this Windows PC is offline: continue with the Windows and adapter checks below.',
+          'Only one browser or app is affected: test another browser or app before changing the network configuration.',
+          'Wi-Fi fails but Ethernet works, or Ethernet fails but Wi-Fi works: the working connection is a useful control test and points toward the affected adapter or link.'
+        ]
+      },
+      {
+        heading: 'Check the simple causes before using commands',
+        paragraphs: [
+          'Confirm that the PC is connected to the intended network and that Airplane mode is off. If the connection is Wi-Fi, move closer to the access point or test another available band when practical. If it is Ethernet, reseat the cable and try another known-good cable or router port if available.',
+          'If other devices also cannot reach the Internet, restart the modem/router according to the manufacturer’s procedure. If other devices work normally, do not assume the router needs to be reset.'
+        ],
+        bullets: [
+          'Open a second website to rule out a single-site outage.',
+          'Try a second browser if the problem appears browser-specific.',
+          'Temporarily disconnect a VPN for a controlled test.',
+          'Check Settings > Network & internet > Proxy for an unexpected manual proxy.',
+          'Check the Windows date and time because incorrect system time can cause some secure websites and services to fail.',
+          'On public, hotel, airport, school, or café networks, open a normal web page and look for a captive-portal sign-in page.'
+        ]
+      },
+      {
+        heading: 'Use the Windows diagnostic tools first',
+        paragraphs: [
+          'On current Windows 11 installations, Microsoft recommends using the automated network troubleshooting experience in the Get Help app. It can identify common configuration problems before you start changing the network stack manually.',
+          'Treat automated troubleshooting as a diagnostic aid, not proof that the underlying hardware is healthy. If the issue remains, continue with the tests below.'
+        ]
+      },
+      {
+        heading: 'Check the IP address and default gateway',
+        paragraphs: [
+          'Open Command Prompt and run ipconfig /all. Find the adapter you are actually using and inspect its IPv4 address, Default Gateway, and DNS Servers. The exact values vary by network, so the goal is to recognize an abnormal pattern rather than match a single number.',
+          'An address beginning with 169.254.x.x is a strong clue that Windows did not receive a normal IPv4 address from DHCP. On a typical home or office network, that moves the investigation toward the router, DHCP service, cable/Wi-Fi link, or adapter rather than toward DNS.'
+        ],
+        bullets: [
+          'No Default Gateway: the PC may not have a usable route beyond the local network.',
+          '169.254.x.x IPv4 address: investigate DHCP/network configuration.',
+          'Normal local IP and gateway: continue to the gateway and DNS tests.',
+          'A static IP, corporate network, VPN, or managed environment may intentionally use different addressing, so do not overwrite a working configuration just because it differs from a home router.'
+        ]
+      },
+      {
+        heading: 'Test the path in layers: gateway, Internet, then DNS',
+        paragraphs: [
+          'The most useful troubleshooting habit is to test progressively farther from the PC. First find the Default Gateway with ipconfig, then test it with ping. A successful gateway test shows that the PC can reach the local router; it does not prove that the ISP or Internet is working.',
+          'Next, test name resolution with nslookup. For example, run nslookup example.com. If the DNS lookup fails while local connectivity is healthy, investigate DNS rather than repeatedly resetting Wi-Fi.',
+          'A public-IP ping can sometimes provide another comparison, but ping is not a universal Internet test because some networks and servers block ICMP. Treat a failed public-IP ping as a clue, not a verdict.'
+        ],
+        bullets: [
+          'Gateway ping fails: focus on the local connection, adapter, Wi-Fi link, Ethernet cable, router, or local firewall configuration.',
+          'Gateway works but DNS lookups fail: investigate DNS configuration, DNS reachability, VPN/filtering software, or the DNS service.',
+          'DNS works but one website fails: the issue may be specific to that site, browser, account, certificate, extension, or service.',
+          'Another device works on the same network while this PC fails: keep the investigation focused on this PC rather than resetting the whole network.'
+        ]
+      },
+      {
+        heading: 'When DNS is the likely problem',
+        paragraphs: [
+          'DNS translates names such as example.com into addresses used for network communication. A PC can therefore appear connected while ordinary website names fail to resolve.',
+          'Run nslookup example.com and compare the result with another working device on the same network if possible. If name resolution fails, check the configured DNS servers and consider whether a VPN, security product, custom DNS configuration, or network policy is intercepting DNS traffic.',
+          'ipconfig /flushdns clears the Windows DNS client resolver cache. It is a targeted troubleshooting step, not a universal repair command; flushing a cache will not fix a broken router, ISP connection, or adapter.'
+        ]
+      },
+      {
+        heading: 'Check VPNs, proxies, security software, and managed networks',
+        paragraphs: [
+          'Third-party network software can change how Windows routes or filters traffic. VPN clients, proxy settings, endpoint security, firewall products, virtual switches, and other network filters can create symptoms that look like ordinary Wi-Fi failure.',
+          'If the problem disappears when a VPN or proxy is disconnected, do not immediately reset Windows networking. Identify which software or policy changed the traffic path and investigate that component instead.',
+          'On work or school computers, avoid changing DNS, proxy, firewall, VPN, or static-IP settings without checking the organization’s requirements.'
+        ]
+      },
+      {
+        heading: 'When to investigate the network adapter or driver',
+        paragraphs: [
+          'If this PC fails across multiple known-good networks, the problem is less likely to be the original router or ISP. Check Device Manager > Network adapters for warnings, confirm that the correct adapter is enabled, install pending Windows updates, and compare the installed driver with the PC or adapter manufacturer’s support page.',
+          'If the problem began immediately after a Windows or driver update, record that timing. A rollback or manufacturer-provided driver may be appropriate, but avoid downloading driver packages from unknown third-party sites.'
+        ]
+      },
+      {
+        heading: 'Use the Windows network reset only after diagnosis',
+        paragraphs: [
+          'Network reset is a recovery step, not the first diagnostic step. Microsoft notes that it removes installed network adapters and resets their settings before reinstalling the adapters after restart. That can help with persistent configuration problems, but it can also affect VPN clients, virtual switches, and other custom networking software.',
+          'Before using it, record any static IP, custom DNS, VPN, proxy, virtual-machine networking, or other special configuration that you may need to recreate.'
+        ],
+        bullets: [
+          'Windows 11: Settings > Network & internet > Advanced network settings > Network reset.',
+          'Use Reset now only after simpler checks have failed and you understand what configuration may be lost.',
+          'After the restart, reconnect to your network and retest before making several additional changes.'
+        ]
+      },
+      {
+        heading: 'A compact diagnosis map',
+        paragraphs: [
+          'You do not need to run every possible command. Stop when the evidence points to a specific layer and fix that layer first.'
+        ],
+        bullets: [
+          'All devices fail → router/modem/ISP or upstream service.',
+          'Only this PC fails on one network → local Windows configuration or network adapter.',
+          'This PC fails on several known-good networks → adapter, driver, VPN/security software, or Windows networking.',
+          'Gateway unreachable → local link, adapter, cable/Wi-Fi, or router path.',
+          'Gateway reachable but DNS fails → DNS configuration or DNS path.',
+          'DNS works but a single site fails → site/browser/application-specific issue.',
+          'VPN off fixes the problem → VPN, routing, or filter configuration.',
+          'A recent driver/update coincides with failure → investigate the update or driver before performing broad resets.'
+        ]
+      },
+      {
+        heading: 'If nothing above works',
+        paragraphs: [
+          'At this point, collect evidence instead of repeating resets: the output of ipconfig /all, the gateway ping result, an nslookup result for a failing domain, the affected adapter and driver version, whether another network works, and when the problem started.',
+          'That information makes the next step much more precise. For persistent failures across multiple networks, hardware or deeper Windows networking problems become more plausible and may require manufacturer support or a technician rather than another generic “Wi-Fi fix.”'
+        ]
+      }
     ],
     faq: [
-      { question: 'Why does Windows say connected but no internet?', answer: 'The Wi-Fi link may be working while the router, ISP, DNS, VPN, proxy, or Windows network stack is not.' },
-      { question: 'Should I reset network settings immediately?', answer: 'No. First determine whether other devices are affected and test basic connectivity. A reset is a later troubleshooting step.' },
+      {
+        question: 'Why does Windows say connected but there is no Internet?',
+        answer: 'Windows may have a working local Wi-Fi or Ethernet connection while the route to the Internet, DNS resolution, VPN, proxy, browser, router, or ISP path is failing.'
+      },
+      {
+        question: 'How do I know whether the problem is DNS?',
+        answer: 'If the PC can reach the local gateway but domain-name lookups fail with nslookup, DNS becomes a strong suspect. Test DNS before changing unrelated adapter settings.'
+      },
+      {
+        question: 'What does a 169.254.x.x address mean in Windows?',
+        answer: 'On a typical DHCP-based network, a 169.254.x.x IPv4 address indicates that Windows did not obtain a normal IPv4 address from the network. Investigate DHCP and the local network path.'
+      },
+      {
+        question: 'Should I use Windows Network Reset first?',
+        answer: 'No. Network Reset is a later recovery step because it removes and reinstalls network adapters and resets their settings. Diagnose the failure first and record custom networking settings before using it.'
+      },
+      {
+        question: 'Why does Wi-Fi work on my phone but not on my Windows PC?',
+        answer: 'That usually shifts the investigation toward the Windows PC: its adapter, IP configuration, DNS, VPN or proxy, driver, security software, or Windows networking stack.'
+      },
+      {
+        question: 'Can a VPN cause connected but no Internet?',
+        answer: 'Yes. A VPN can change routing and filtering behavior. Disconnecting it temporarily is a useful controlled test, especially if other devices on the same network work normally.'
+      },
+      {
+        question: 'What if only one website does not open?',
+        answer: 'Do not assume the whole Internet connection is broken. Test other sites, another browser, and DNS resolution. The failure may be specific to the website, browser, extension, certificate, or service.'
+      },
+      {
+        question: 'Does flushing DNS always fix Internet problems?',
+        answer: 'No. ipconfig /flushdns clears the Windows DNS resolver cache. It can help with some cached DNS problems, but it cannot repair a broken router, ISP connection, Wi-Fi adapter, cable, or unrelated network failure.'
+      }
+    ],
+    testing: 'This guide follows Microsoft’s current Windows connectivity guidance and separates local-link, IP/DHCP, gateway, DNS, application, adapter, and reset stages. Command results should be interpreted as diagnostic evidence rather than treated as universal pass/fail tests.',
+    sources: [
+      { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows' },
+      { label: 'Microsoft Support: Fix Ethernet connection problems in Windows', url: 'https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-ethernet-connection-problems-in-windows' },
+      { label: 'Microsoft Learn: Troubleshooting DNS clients', url: 'https://learn.microsoft.com/windows-server/networking/dns/troubleshoot/troubleshoot-dns-client' },
+      { label: 'Microsoft Learn: netsh winsock', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winsock' }
     ],
   },
   {
