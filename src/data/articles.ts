@@ -29,183 +29,30 @@ export const articles: Article[] = [
   {
     id: 'windows-wifi-diagnosis',
     slug: 'windows-11-wifi-connected-no-internet',
-    title: 'Windows Says Connected but No Internet: Complete Troubleshooting Guide',
-    dek: 'A universal Windows troubleshooting path for Wi-Fi and Ethernet problems—from router, IP and DNS checks to VPNs, drivers and the final network reset.',
-    excerpt: 'When Windows says you are connected but websites will not load, the connection is usually failing at a specific layer. This guide shows you how to identify that layer before changing settings blindly.',
+    title: 'Windows 11 Says Connected, but There Is No Internet: A Practical Diagnosis',
+    dek: 'Work through the connection in the right order—from router and DNS checks to the network adapter—before resetting everything.',
+    excerpt: 'A systematic troubleshooting path for a Windows 11 PC that connects to Wi-Fi but cannot reach websites.',
     category: 'Windows',
     subcategory: 'Troubleshooting',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-04',
-    updatedAt: '2026-10-06',
-    readingTime: 12,
-    tags: ['Windows 11', 'Windows 10', 'Wi-Fi', 'Ethernet', 'Internet', 'DNS', 'Troubleshooting'],
+    readingTime: 7,
+    tags: ['Windows 11', 'Wi-Fi', 'DNS', 'Troubleshooting'],
     relatedArticles: ['windows-dns-not-working', 'windows-network-reset'],
     contentRole: 'cluster',
     pillarPath: '/windows',
     searchIntent: 'informational',
     featured: true,
     content: [
-      {
-        heading: 'First: identify which part of the connection is broken',
-        paragraphs: [
-          '“Connected” does not necessarily mean that every part of the path to the Internet is working. Your PC can have a working Wi-Fi or Ethernet link while DHCP, the default gateway, DNS, a VPN, a proxy, the browser, the router, or the ISP is failing.',
-          'The fastest diagnosis is to change one variable at a time and test again. Start by asking whether the problem affects every device on the same network, only this Windows PC, or only one browser or application.'
-        ],
-        bullets: [
-          'Every device is offline: investigate the router, modem, ISP, or upstream service first.',
-          'Only this Windows PC is offline: continue with the Windows and adapter checks below.',
-          'Only one browser or app is affected: test another browser or app before changing the network configuration.',
-          'Wi-Fi fails but Ethernet works, or Ethernet fails but Wi-Fi works: the working connection is a useful control test and points toward the affected adapter or link.'
-        ]
-      },
-      {
-        heading: 'Check the simple causes before using commands',
-        paragraphs: [
-          'Confirm that the PC is connected to the intended network and that Airplane mode is off. If the connection is Wi-Fi, move closer to the access point or test another available band when practical. If it is Ethernet, reseat the cable and try another known-good cable or router port if available.',
-          'If other devices also cannot reach the Internet, restart the modem/router according to the manufacturer’s procedure. If other devices work normally, do not assume the router needs to be reset.'
-        ],
-        bullets: [
-          'Open a second website to rule out a single-site outage.',
-          'Try a second browser if the problem appears browser-specific.',
-          'Temporarily disconnect a VPN for a controlled test.',
-          'Check Settings > Network & internet > Proxy for an unexpected manual proxy.',
-          'Check the Windows date and time because incorrect system time can cause some secure websites and services to fail.',
-          'On public, hotel, airport, school, or café networks, open a normal web page and look for a captive-portal sign-in page.'
-        ]
-      },
-      {
-        heading: 'Use the Windows diagnostic tools first',
-        paragraphs: [
-          'On current Windows 11 installations, Microsoft recommends using the automated network troubleshooting experience in the Get Help app. It can identify common configuration problems before you start changing the network stack manually.',
-          'Treat automated troubleshooting as a diagnostic aid, not proof that the underlying hardware is healthy. If the issue remains, continue with the tests below.'
-        ]
-      },
-      {
-        heading: 'Check the IP address and default gateway',
-        paragraphs: [
-          'Open Command Prompt and run ipconfig /all. Find the adapter you are actually using and inspect its IPv4 address, Default Gateway, and DNS Servers. The exact values vary by network, so the goal is to recognize an abnormal pattern rather than match a single number.',
-          'An address beginning with 169.254.x.x is a strong clue that Windows did not receive a normal IPv4 address from DHCP. On a typical home or office network, that moves the investigation toward the router, DHCP service, cable/Wi-Fi link, or adapter rather than toward DNS.'
-        ],
-        bullets: [
-          'No Default Gateway: the PC may not have a usable route beyond the local network.',
-          '169.254.x.x IPv4 address: investigate DHCP/network configuration.',
-          'Normal local IP and gateway: continue to the gateway and DNS tests.',
-          'A static IP, corporate network, VPN, or managed environment may intentionally use different addressing, so do not overwrite a working configuration just because it differs from a home router.'
-        ]
-      },
-      {
-        heading: 'Test the path in layers: gateway, Internet, then DNS',
-        paragraphs: [
-          'The most useful troubleshooting habit is to test progressively farther from the PC. First find the Default Gateway with ipconfig, then test it with ping. A successful gateway test shows that the PC can reach the local router; it does not prove that the ISP or Internet is working.',
-          'Next, test name resolution with nslookup. For example, run nslookup example.com. If the DNS lookup fails while local connectivity is healthy, investigate DNS rather than repeatedly resetting Wi-Fi.',
-          'A public-IP ping can sometimes provide another comparison, but ping is not a universal Internet test because some networks and servers block ICMP. Treat a failed public-IP ping as a clue, not a verdict.'
-        ],
-        bullets: [
-          'Gateway ping fails: focus on the local connection, adapter, Wi-Fi link, Ethernet cable, router, or local firewall configuration.',
-          'Gateway works but DNS lookups fail: investigate DNS configuration, DNS reachability, VPN/filtering software, or the DNS service.',
-          'DNS works but one website fails: the issue may be specific to that site, browser, account, certificate, extension, or service.',
-          'Another device works on the same network while this PC fails: keep the investigation focused on this PC rather than resetting the whole network.'
-        ]
-      },
-      {
-        heading: 'When DNS is the likely problem',
-        paragraphs: [
-          'DNS translates names such as example.com into addresses used for network communication. A PC can therefore appear connected while ordinary website names fail to resolve.',
-          'Run nslookup example.com and compare the result with another working device on the same network if possible. If name resolution fails, check the configured DNS servers and consider whether a VPN, security product, custom DNS configuration, or network policy is intercepting DNS traffic.',
-          'ipconfig /flushdns clears the Windows DNS client resolver cache. It is a targeted troubleshooting step, not a universal repair command; flushing a cache will not fix a broken router, ISP connection, or adapter.'
-        ]
-      },
-      {
-        heading: 'Check VPNs, proxies, security software, and managed networks',
-        paragraphs: [
-          'Third-party network software can change how Windows routes or filters traffic. VPN clients, proxy settings, endpoint security, firewall products, virtual switches, and other network filters can create symptoms that look like ordinary Wi-Fi failure.',
-          'If the problem disappears when a VPN or proxy is disconnected, do not immediately reset Windows networking. Identify which software or policy changed the traffic path and investigate that component instead.',
-          'On work or school computers, avoid changing DNS, proxy, firewall, VPN, or static-IP settings without checking the organization’s requirements.'
-        ]
-      },
-      {
-        heading: 'When to investigate the network adapter or driver',
-        paragraphs: [
-          'If this PC fails across multiple known-good networks, the problem is less likely to be the original router or ISP. Check Device Manager > Network adapters for warnings, confirm that the correct adapter is enabled, install pending Windows updates, and compare the installed driver with the PC or adapter manufacturer’s support page.',
-          'If the problem began immediately after a Windows or driver update, record that timing. A rollback or manufacturer-provided driver may be appropriate, but avoid downloading driver packages from unknown third-party sites.'
-        ]
-      },
-      {
-        heading: 'Use the Windows network reset only after diagnosis',
-        paragraphs: [
-          'Network reset is a recovery step, not the first diagnostic step. Microsoft notes that it removes installed network adapters and resets their settings before reinstalling the adapters after restart. That can help with persistent configuration problems, but it can also affect VPN clients, virtual switches, and other custom networking software.',
-          'Before using it, record any static IP, custom DNS, VPN, proxy, virtual-machine networking, or other special configuration that you may need to recreate.'
-        ],
-        bullets: [
-          'Windows 11: Settings > Network & internet > Advanced network settings > Network reset.',
-          'Use Reset now only after simpler checks have failed and you understand what configuration may be lost.',
-          'After the restart, reconnect to your network and retest before making several additional changes.'
-        ]
-      },
-      {
-        heading: 'A compact diagnosis map',
-        paragraphs: [
-          'You do not need to run every possible command. Stop when the evidence points to a specific layer and fix that layer first.'
-        ],
-        bullets: [
-          'All devices fail → router/modem/ISP or upstream service.',
-          'Only this PC fails on one network → local Windows configuration or network adapter.',
-          'This PC fails on several known-good networks → adapter, driver, VPN/security software, or Windows networking.',
-          'Gateway unreachable → local link, adapter, cable/Wi-Fi, or router path.',
-          'Gateway reachable but DNS fails → DNS configuration or DNS path.',
-          'DNS works but a single site fails → site/browser/application-specific issue.',
-          'VPN off fixes the problem → VPN, routing, or filter configuration.',
-          'A recent driver/update coincides with failure → investigate the update or driver before performing broad resets.'
-        ]
-      },
-      {
-        heading: 'If nothing above works',
-        paragraphs: [
-          'At this point, collect evidence instead of repeating resets: the output of ipconfig /all, the gateway ping result, an nslookup result for a failing domain, the affected adapter and driver version, whether another network works, and when the problem started.',
-          'That information makes the next step much more precise. For persistent failures across multiple networks, hardware or deeper Windows networking problems become more plausible and may require manufacturer support or a technician rather than another generic “Wi-Fi fix.”'
-        ]
-      }
+      { heading: 'Start by isolating the fault', paragraphs: ['First, check whether another phone or computer can use the same Wi-Fi. If every device is offline, investigate the router or internet service before changing Windows settings.', 'If only one Windows PC is affected, continue with the checks below. This simple split avoids unnecessary driver removal and network resets.'] },
+      { heading: 'Check the basics before changing settings', paragraphs: ['Turn Wi-Fi off and back on, reconnect to the correct network, and restart the router only if other devices also show trouble. If you use a VPN or proxy, temporarily disconnect it for a controlled test.'] , bullets: ['Open another website and test a second browser.', 'Check the date and time in Windows.', 'Forget and reconnect to the Wi-Fi network only after confirming you know its password.'] },
+      { heading: 'Test DNS and the network path', paragraphs: ['Open Command Prompt and run ipconfig /all to inspect the active adapter. You can then run ipconfig /flushdns. If you are comfortable with command-line diagnostics, compare whether a public IP address responds while domain names fail; that pattern can point toward DNS rather than Wi-Fi itself.'] },
+      { heading: 'When to investigate the driver', paragraphs: ['If the problem follows this PC across multiple networks, check Windows Update and the laptop or adapter maker’s support page for a suitable network driver. Avoid downloading driver packages from unknown third-party sites.'] },
+      { heading: 'When a reset makes sense', paragraphs: ['Use Windows Network reset only after simpler tests. It can remove and reinstall network adapters and reset some networking components, so note any VPN or static-IP settings first.'] },
     ],
     faq: [
-      {
-        question: 'Why does Windows say connected but there is no Internet?',
-        answer: 'Windows may have a working local Wi-Fi or Ethernet connection while the route to the Internet, DNS resolution, VPN, proxy, browser, router, or ISP path is failing.'
-      },
-      {
-        question: 'How do I know whether the problem is DNS?',
-        answer: 'If the PC can reach the local gateway but domain-name lookups fail with nslookup, DNS becomes a strong suspect. Test DNS before changing unrelated adapter settings.'
-      },
-      {
-        question: 'What does a 169.254.x.x address mean in Windows?',
-        answer: 'On a typical DHCP-based network, a 169.254.x.x IPv4 address indicates that Windows did not obtain a normal IPv4 address from the network. Investigate DHCP and the local network path.'
-      },
-      {
-        question: 'Should I use Windows Network Reset first?',
-        answer: 'No. Network Reset is a later recovery step because it removes and reinstalls network adapters and resets their settings. Diagnose the failure first and record custom networking settings before using it.'
-      },
-      {
-        question: 'Why does Wi-Fi work on my phone but not on my Windows PC?',
-        answer: 'That usually shifts the investigation toward the Windows PC: its adapter, IP configuration, DNS, VPN or proxy, driver, security software, or Windows networking stack.'
-      },
-      {
-        question: 'Can a VPN cause connected but no Internet?',
-        answer: 'Yes. A VPN can change routing and filtering behavior. Disconnecting it temporarily is a useful controlled test, especially if other devices on the same network work normally.'
-      },
-      {
-        question: 'What if only one website does not open?',
-        answer: 'Do not assume the whole Internet connection is broken. Test other sites, another browser, and DNS resolution. The failure may be specific to the website, browser, extension, certificate, or service.'
-      },
-      {
-        question: 'Does flushing DNS always fix Internet problems?',
-        answer: 'No. ipconfig /flushdns clears the Windows DNS resolver cache. It can help with some cached DNS problems, but it cannot repair a broken router, ISP connection, Wi-Fi adapter, cable, or unrelated network failure.'
-      }
-    ],
-    testing: 'This guide follows Microsoft’s current Windows connectivity guidance and separates local-link, IP/DHCP, gateway, DNS, application, adapter, and reset stages. Command results should be interpreted as diagnostic evidence rather than treated as universal pass/fail tests.',
-    sources: [
-      { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows' },
-      { label: 'Microsoft Support: Fix Ethernet connection problems in Windows', url: 'https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-ethernet-connection-problems-in-windows' },
-      { label: 'Microsoft Learn: Troubleshooting DNS clients', url: 'https://learn.microsoft.com/windows-server/networking/dns/troubleshoot/troubleshoot-dns-client' },
-      { label: 'Microsoft Learn: netsh winsock', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winsock' }
+      { question: 'Why does Windows say connected but no internet?', answer: 'The Wi-Fi link may be working while the router, ISP, DNS, VPN, proxy, or Windows network stack is not.' },
+      { question: 'Should I reset network settings immediately?', answer: 'No. First determine whether other devices are affected and test basic connectivity. A reset is a later troubleshooting step.' },
     ],
   },
   {
@@ -347,28 +194,251 @@ export const articles: Article[] = [
   {
     id: 'shader-compilation-stutter',
     slug: 'shader-compilation-stutter-pc-games',
-    title: 'Shader Compilation Stutter in PC Games: Why It Happens and What to Check',
-    dek: 'Some stutter is caused by shaders being prepared or cached during gameplay. Learn how to recognize that pattern before blaming the GPU.',
-    excerpt: 'A practical way to distinguish shader compilation behavior from thermal, driver, storage, or CPU-related stutter.',
+    title: 'Shader Compilation Stutter in PC Games: Causes, Fixes & a Step-by-Step Diagnosis',
+    dek: 'PC game stutter is not always a GPU problem. Learn how to identify shader and pipeline compilation hitches, test them properly, and separate them from CPU, RAM, storage, driver, thermal, and background-process problems.',
+    excerpt: 'A universal, evidence-led workflow for diagnosing shader compilation stutter on Windows PCs, including what to test first, when caches matter, and how to tell when the real problem is somewhere else.',
     category: 'Gaming',
     subcategory: 'Performance',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    readingTime: 7,
-    tags: ['Shader compilation', 'Stuttering', 'PC Gaming', 'GPU Drivers'],
+    updatedAt: '2026-10-06',
+    readingTime: 12,
+    tags: ['Shader compilation', 'Game stuttering', 'PC Gaming', 'Windows', 'GPU Drivers', 'Frame Time'],
     relatedArticles: ['gaming-stutter', 'gpu-frame-time-spikes'],
     contentRole: 'cluster',
     pillarPath: '/gaming',
     searchIntent: 'informational',
     content: [
-      { heading: 'Recognize the pattern', paragraphs: ['Shader-related stutter often appears when a game encounters a new effect, area, or rendering path and needs to prepare data. The pattern can be more repeatable after a driver or game update.'] },
-      { heading: 'Do not confuse first-run behavior with permanent hardware trouble', paragraphs: ['A short burst of stutter during initial asset or shader preparation does not automatically mean the GPU is failing. Repeat the same sequence after the relevant caches have been built and compare frame-time behavior.'] },
-      { heading: 'Check drivers and game updates', paragraphs: ['Driver changes can invalidate caches or alter shader behavior. If stutter started immediately after an update, record the driver and game versions before changing several other variables.'] },
-      { heading: 'When the stutter is probably something else', paragraphs: ['Persistent spikes in every scene, thermal clock drops, memory pressure, background processes, storage problems, or CPU saturation point toward broader causes. Use telemetry rather than assuming every hitch is shader compilation.'] },
+      {
+        heading: 'First: understand what shader compilation stutter actually is',
+        paragraphs: [
+          'A modern PC game does not necessarily have every graphics shader or pipeline state ready before you reach a scene. When a game needs a shader or pipeline state that is not already available in the relevant caches, the game and graphics stack may have to prepare it. That work can create a short frame-time spike that feels like a freeze, hitch, or sudden judder.',
+          'The important distinction is that the visible symptom is a rendering hitch, while the work behind it can involve the game engine, CPU-side compilation or preparation, the graphics driver, and the GPU. Calling every hitch a GPU problem is therefore a poor diagnostic shortcut.',
+          'Unreal Engine documents runtime shader and PSO compilation as a source of noticeable frame hitches and uses caching and precaching mechanisms to reduce them. Other engines and graphics APIs use different implementations, so the exact behavior varies by game.'
+        ],
+        bullets: [
+          'Typical pattern: a hitch occurs when entering a new area, seeing a new effect, changing a graphics feature, or encountering a new rendering path.',
+          'The same sequence may become smoother after the required data has been compiled and cached.',
+          'A game or driver update can change the cache situation, so a problem that appears suddenly after an update is worth investigating as a new baseline.',
+          'Shader compilation is only one possible cause of stutter. The diagnostic goal is to prove the pattern rather than assume it.'
+        ]
+      },
+      {
+        heading: 'The fastest diagnostic: reproduce the exact same moment',
+        paragraphs: [
+          'Do not begin by changing ten graphics settings. First create a repeatable test. Use the same game save or benchmark, the same route, the same graphics API where possible, the same resolution and preset, and the same camera movement. Repetition turns a subjective complaint into something you can compare.',
+          'Record the game version, GPU model, driver version, Windows version, resolution, graphics API if the game exposes it, and whether the problem began after an update. If the hitch happens in a particular location, record that location too.',
+          'Run the same sequence at least twice. If the first pass contains a hitch at a new effect or area and later passes are materially smoother, shader or pipeline preparation becomes more plausible. If the exact hitch remains every time, broaden the investigation.'
+        ],
+        bullets: [
+          'Do not compare different scenes and call the difference an improvement.',
+          'Do not change the driver, graphics preset, cache, Windows settings, and overlays in one test.',
+          'Keep a simple before/after note so you know which change actually affected the symptom.'
+        ]
+      },
+      {
+        heading: 'What shader compilation stutter usually looks like',
+        paragraphs: [
+          'There is no single visual signature that proves shader compilation. However, the timing of the hitch is often more informative than average FPS. A brief, repeatable spike when a previously unseen effect, material, lighting state, or area appears is more consistent with compilation or pipeline preparation than a steady performance limit.',
+          'A useful clue is a change after the game has had an opportunity to build its caches. Some games also provide an explicit shader-compilation or precompilation stage before gameplay. If the game is visibly compiling shaders, allow that process to complete rather than repeatedly interrupting it and restarting the same cold state.',
+          'The opposite pattern is also important. If frame-time spikes occur everywhere, continue regardless of scene novelty, or are accompanied by temperature, clock-speed, memory, disk, or CPU-pressure changes, shader compilation may be only a coincidence—or not the cause at all.'
+        ],
+        bullets: [
+          'More suspicious: new-area or new-effect hitches that reduce after repeated runs.',
+          'Less suspicious: identical spikes on every run at the same interval regardless of what is being rendered.',
+          'Important clue: the problem begins immediately after a game or graphics-driver update.',
+          'Important warning: a high average FPS number does not rule out severe frame-time spikes.'
+        ]
+      },
+      {
+        heading: 'Step 1 — Check whether the game is still compiling or preparing data',
+        paragraphs: [
+          'Look inside the game for a shader precompilation, shader processing, pipeline-cache, or similar preparation stage. The wording differs between engines and games. If such a process is present, let it finish and then retest the same scene.',
+          'Some engines compile or prepare additional data during loading and gameplay even when there is an initial precompilation stage. A completed startup screen therefore does not guarantee that every possible shader or pipeline state has already been prepared.',
+          'Avoid treating a cache rebuild as a guaranteed cure. Rebuilding a cache can be useful as a controlled diagnostic, but it also deliberately recreates a cold-cache state and may make first-run stutter worse before it gets better.'
+        ],
+        bullets: [
+          'If the game reports shader compilation, wait for it to finish before judging first-run performance.',
+          'If there is no visible progress indicator, use repeatable scene testing instead of guessing.',
+          'Do not repeatedly delete caches just because a game stutters; first establish whether cache state is actually related to the symptom.'
+        ]
+      },
+      {
+        heading: 'Step 2 — Check the game and graphics-driver update history',
+        paragraphs: [
+          'A new game build can change shaders, materials, rendering paths, or pipeline states. A graphics-driver update can also invalidate or replace cached shader data. This is why a game that was smooth yesterday can temporarily behave differently after an update without any physical hardware failure.',
+          'Write down exactly what changed before troubleshooting. If the stutter began immediately after a driver update, compare behavior before making unrelated system changes. If the problem began after a game patch, check the developer’s release notes, known-issues information, or community reports for that specific version.',
+          'Avoid recommending a blind driver rollback as the universal answer. A rollback is a targeted test when evidence points to a driver regression; it is not a substitute for identifying the symptom pattern.'
+        ],
+        bullets: [
+          'Record old and new driver versions when possible.',
+          'Record the exact game build or patch version.',
+          'Retest after the update has had time to rebuild the relevant caches.',
+          'Change only one driver-related variable at a time.'
+        ]
+      },
+      {
+        heading: 'Step 3 — Use frame time and telemetry, not FPS alone',
+        paragraphs: [
+          'Average FPS hides short stalls. A game can report a high average while still producing disruptive frame-time spikes. Use a frame-time graph or monitoring tool that can show the timing of individual frames, then compare those spikes with CPU usage, GPU usage, GPU clock, GPU temperature, system memory, VRAM usage, and storage activity.',
+          'The goal is correlation. If a hitch lines up with a sudden CPU workload increase but not a thermal or GPU-clock event, investigate CPU-side work. If it lines up with a GPU clock drop and rising temperature, investigate thermals or power behavior. If disk activity and asset streaming spike at the same moment, investigate storage or streaming. If none of those change and the hitch is tightly associated with a new rendering event, shader or pipeline preparation remains plausible.',
+          'Do not interpret a single sensor number in isolation. High GPU utilization can be completely normal when the GPU is the limiting component. Temperature alone does not prove throttling, and low CPU utilization across all cores does not prove that the CPU is irrelevant.'
+        ],
+        bullets: [
+          'Frame-time spike + repeatable new effect/area = investigate shader/PSO preparation.',
+          'Frame-time spike + CPU saturation or sudden CPU workload = investigate CPU-side limits.',
+          'Frame-time spike + clock drop/thermal change = investigate cooling or power behavior.',
+          'Frame-time spike + memory/VRAM pressure = investigate paging, asset streaming, or settings.',
+          'Frame-time spike + heavy disk activity = investigate storage and asset-streaming behavior.'
+        ]
+      },
+      {
+        heading: 'Step 4 — Separate shader stutter from CPU, RAM, VRAM, and storage problems',
+        paragraphs: [
+          'Shader compilation is often blamed because it is a familiar explanation for PC game stutter. It should not become a catch-all. Background applications, browser tabs, recording software, overlays, antivirus scans, memory pressure, CPU contention, slow storage, asset streaming, and insufficient VRAM can all create similar symptoms.',
+          'A particularly useful test is to compare a controlled run with non-essential background activity minimized. Do not permanently disable security software or important Windows services just to chase a frame-time graph; instead, identify whether a specific application or process correlates with the hitch.',
+          'Storage matters because modern games may stream textures, geometry, audio, and other assets while you move through a world. A shader-related hitch and an asset-streaming hitch can happen in the same place and feel nearly identical to the player.'
+        ],
+        bullets: [
+          'Check available system RAM and VRAM while the hitch occurs.',
+          'Watch whether disk activity spikes at the same moment.',
+          'Test without optional overlays, recording hooks, or performance utilities when they are suspected.',
+          'Check whether the CPU is busy with another process at the exact frame-time spike.',
+          'Do not assume an SSD automatically eliminates asset-streaming stutter; game engine behavior still matters.'
+        ]
+      },
+      {
+        heading: 'Step 5 — Check thermals and clocks before blaming the GPU',
+        paragraphs: [
+          'Thermal problems can produce persistent or repeated performance changes that resemble shader stutter. Monitor GPU temperature, GPU clock, power behavior, and CPU temperature during the same repeatable sequence. The useful evidence is a synchronized change: the frame-time spike should occur alongside a meaningful change in the hardware telemetry if thermals are the suspected cause.',
+          'A hot reading by itself is not proof of throttling. Different GPUs, laptops, cases, cooling systems, ambient temperatures, fan curves, and power limits behave differently. The same principle applies to CPUs.',
+          'If the system becomes progressively worse during a long session rather than only stuttering when a new effect appears, thermal or power investigation should move higher on the list.'
+        ],
+        bullets: [
+          'Compare cold-start and warmed-up runs.',
+          'Look for clock changes that coincide with the stutter.',
+          'Check whether the symptom worsens after sustained load.',
+          'For laptops, consider the entire cooling system rather than the GPU alone.'
+        ]
+      },
+      {
+        heading: 'Step 6 — Test overlays, recording tools, and background hooks',
+        paragraphs: [
+          'Game overlays and capture tools can interact with rendering and presentation. Examples include platform overlays, chat overlays, GPU-driver overlays, recording software, monitoring overlays, RGB utilities, and other applications that inject or hook into the game.',
+          'This does not mean every overlay causes stutter. The correct method is an A/B test: reproduce the same scene with one optional overlay or capture feature disabled, then restore it and compare. If the frame-time pattern changes consistently, you have evidence worth following.'
+        ],
+        bullets: [
+          'Test one overlay or capture feature at a time.',
+          'Keep the game settings and scene identical between runs.',
+          'Do not permanently disable unrelated Windows features without evidence that they contribute to the problem.'
+        ]
+      },
+      {
+        heading: 'Step 7 — Check the graphics API and game-specific rendering path',
+        paragraphs: [
+          'Some games expose more than one graphics API or rendering mode, while others do not. A change between DirectX 11, DirectX 12, Vulkan, or another supported path can alter shader and pipeline behavior. Do not assume that the newest API is automatically smoother on every game and every system.',
+          'If the game officially supports another rendering path, testing it can be useful when the evidence points toward an API-specific issue. Keep the test controlled: changing the API, resolution, preset, frame limiter, and driver at the same time makes the result difficult to interpret.',
+          'For Unreal Engine games in particular, PSO precaching and pipeline caches are important concepts. Epic documents that missed or late PSO preparation can produce runtime hitches, while successful precaching reduces the amount of work that has to occur during active rendering.'
+        ],
+        bullets: [
+          'Only test APIs the game officially supports.',
+          'Record which API produced the hitch.',
+          'Do not infer a universal DirectX-versus-Vulkan winner from one game.'
+        ]
+      },
+      {
+        heading: 'Step 8 — Decide whether clearing shader caches is actually justified',
+        paragraphs: [
+          'Clearing a shader or driver cache can be a useful troubleshooting test when the cache may be stale, corrupted, or incompatible with a changed game or driver state. It is not a universal first-line fix.',
+          'The reason is simple: clearing the cache creates a cold state. The next launch may compile or prepare more data and therefore stutter more until the cache is rebuilt. If the original problem was caused by something else, clearing the cache only adds another variable.',
+          'If you do perform a cache reset, document what you cleared, restart if the relevant software requires it, allow the game to rebuild what it needs, and repeat the same scene several times before deciding whether the test helped.'
+        ],
+        bullets: [
+          'Use cache clearing as a controlled diagnostic, not a ritual.',
+          'Expect first-run behavior to differ from warm-cache behavior.',
+          'Do not delete every cache on Windows at once; that makes the result harder to interpret.'
+        ]
+      },
+      {
+        heading: 'Step 9 — Check whether the problem is actually persistent stutter',
+        paragraphs: [
+          'At this point, ask a simple question: does the hitch disappear when the relevant shader or pipeline state has been prepared, or does the same problem continue across normal gameplay? If it persists everywhere, shader compilation is no longer the strongest explanation.',
+          'Persistent stutter can come from CPU limits, unstable clocks, thermal constraints, VRAM pressure, system RAM pressure, storage or asset streaming, background software, driver regressions, game-engine bugs, frame-pacing problems, or hardware instability. The correct next step depends on which telemetry changes with the hitch.',
+          'If multiple games show the same pattern under similar conditions, investigate the system more broadly. If only one game is affected while other demanding games remain smooth, the game, its settings, its rendering path, or its current build deserves more attention.'
+        ],
+        bullets: [
+          'One game only → investigate the game build, settings, API, and known issues.',
+          'Many games → investigate the shared driver, Windows environment, hardware, thermals, and background software.',
+          'Only after long sessions → prioritize thermals and power behavior.',
+          'Only in specific new areas/effects → prioritize shader, PSO, and asset-streaming investigation.'
+        ]
+      },
+      {
+        heading: 'Windows-specific checks that are worth doing',
+        paragraphs: [
+          'Windows itself is rarely diagnosed correctly by randomly changing dozens of gaming tweaks. Start with basics: install current stable Windows updates when appropriate, keep the graphics driver consistent during testing, make sure the game is installed on a healthy drive with adequate free space, and confirm that system memory is not under abnormal pressure.',
+          'If the problem appeared after a major Windows, driver, or game update, treat that update as a timeline clue. Do not immediately modify registry settings, disable security features, or install third-party “FPS optimizer” utilities. Such changes can introduce new variables and can make a reproducible diagnosis harder.',
+          'For a serious troubleshooting case, capture the exact Windows build, GPU driver, game version, graphics API, monitor refresh rate, resolution, frame limiter or synchronization settings, and the approximate time and location of the hitch.'
+        ],
+        bullets: [
+          'Prefer reversible changes.',
+          'Keep a test log.',
+          'Avoid registry tweaks unless a specific, evidence-based problem calls for one.',
+          'Do not use “FPS booster” utilities as a substitute for diagnosis.'
+        ]
+      },
+      {
+        heading: 'A practical decision tree',
+        paragraphs: [
+          'Use the following sequence instead of trying random fixes. It is designed to work across different games, GPUs, CPUs, and PC configurations because it starts with observable behavior rather than a specific vendor or engine.'
+        ],
+        bullets: [
+          '1. Can you reproduce the hitch in the same scene? If no, create a repeatable test before changing anything.',
+          '2. Does it happen when a new effect, area, or rendering state appears? If yes, investigate shader/PSO preparation and cache behavior.',
+          '3. Does the same sequence become smoother on later runs? If yes, a cold-cache or compilation explanation becomes stronger.',
+          '4. Does the hitch correlate with CPU load, GPU clock, temperature, RAM/VRAM pressure, disk activity, or a background process? If yes, investigate that correlated subsystem.',
+          '5. Does disabling one suspected overlay or capture feature change the same repeatable test? If yes, continue with that A/B test.',
+          '6. Does the problem affect one game or many? One game points toward software/game-specific causes; many games point toward shared system causes.',
+          '7. After every change, retest the exact same scene. If the symptom did not change, undo the change and move to the next hypothesis.'
+        ]
+      },
+      {
+        heading: 'What not to do when a PC game stutters',
+        paragraphs: [
+          'The fastest way to waste time is to apply a long list of popular tweaks without measuring the result. Shader stutter is especially vulnerable to this because cache rebuilding can temporarily change the symptom and create the illusion that a fix worked—or that the problem became worse.',
+          'Avoid changing multiple settings at once, blindly deleting every shader cache, repeatedly reinstalling drivers without a reason, lowering every graphics setting, disabling Windows security features, editing the registry from an optimization video, or buying new hardware before you know which component is limiting frame delivery.',
+          'A good troubleshooting process should reduce uncertainty after every test. If a change cannot tell you anything about the cause, it is usually a poor first test.'
+        ]
+      },
+      {
+        heading: 'When shader compilation really is the answer',
+        paragraphs: [
+          'Shader or pipeline compilation becomes a strong explanation when the symptom has a repeatable relationship with previously unseen rendering states, appears after relevant game or driver changes, produces short frame-time spikes, and becomes less frequent after the required data has been prepared or cached.',
+          'Even then, “shader compilation” does not necessarily mean the GPU is defective. It is often a software and rendering-pipeline behavior. The right remedy may be to allow the game to precompile, let its caches rebuild normally, use an appropriate driver version, or wait for a game update that improves its shader or PSO handling.',
+          'If the evidence instead points to persistent thermal, CPU, memory, storage, driver, or frame-pacing problems, follow that evidence. The best troubleshooting article is not the one that gives every reader the same fix; it is the one that gets each reader to the correct cause.'
+        ]
+      }
+    ],
+    testing: 'This guide is written as an evidence-led troubleshooting workflow rather than a single-device benchmark. The exact shader, PSO, cache, driver, and graphics-API behavior varies by game, engine, GPU vendor, driver version, and Windows configuration. For reproducible testing, record the PC hardware, Windows build, GPU driver, game build, graphics API, graphics settings, test scene, and frame-time/telemetry results.',
+    sources: [
+      { label: 'Epic Games — Common Memory and CPU Performance Considerations: Shader Compilation, Framerate Hitches, and PSO Caching', url: 'https://dev.epicgames.com/documentation/en-us/unreal-engine/common-memory-and-cpu-performance-considerations-in-unreal-engine' },
+      { label: 'Epic Games — PSO Precaching for Unreal Engine', url: 'https://dev.epicgames.com/documentation/en-us/unreal-engine/pso-precaching-for-unreal-engine' },
+      { label: 'Epic Games — Manually Creating Bundled PSO Caches', url: 'https://dev.epicgames.com/documentation/en-us/unreal-engine/manually-creating-bundled-pso-caches-for-unreal-engine' },
+      { label: 'NVIDIA — Manage 3D Settings Reference: Shader Cache', url: 'https://www.nvidia.com/content/Control-Panel-Help/vLatest/en-gb/mergedProjects/nv3dENG/Manage_3D_Settings_%28reference%29.htm' },
+      { label: 'AMD GPUOpen — Advanced Shader Delivery State Object Compiler', url: 'https://gpuopen.com/advanced-shader-delivery-compiler/' }
     ],
     faq: [
-      { question: 'Can shader compilation stutter disappear after playing for a while?', answer: 'It can, depending on how the game manages shader preparation and caching. Repeating the same sequence is useful for testing whether the pattern changes.' },
-      { question: 'Should I delete shader caches immediately?', answer: 'Not as a first step. Deleting caches can force the game or driver to rebuild them and may temporarily increase the behavior you are trying to diagnose.' },
+      { question: 'What is shader compilation stutter?', answer: 'It is a hitch that can occur when a game or graphics stack has to prepare a shader or pipeline state needed for rendering. The work can involve CPU-side processing and driver or engine cache operations, so the visible stutter does not automatically mean the GPU is failing.' },
+      { question: 'How can I tell if stutter is caused by shader compilation?', answer: 'Look for a repeatable relationship between the hitch and a new area, effect, material, or rendering state. Then repeat the same sequence after the game has had an opportunity to prepare and cache the required data. If the hitch becomes less frequent while other telemetry remains stable, shader or pipeline preparation becomes more plausible.' },
+      { question: 'Why did my game start stuttering after a GPU driver update?', answer: 'Driver changes can alter or invalidate shader-related cached data, so a first run after an update can behave differently. That does not prove the new driver is defective. Record the versions and compare the same scene before considering a rollback.' },
+      { question: 'Should I delete the DirectX or shader cache to fix stuttering?', answer: 'Not automatically. Clearing a cache creates a cold state and can make first-run stutter worse while data is rebuilt. Use cache clearing as a controlled diagnostic when there is a specific reason to suspect stale or damaged cached data.' },
+      { question: 'Can shader compilation stutter happen even with a powerful GPU?', answer: 'Yes. Shader and pipeline preparation is not simply a measure of GPU rendering power. A high-end GPU can still experience a hitch if the game or graphics stack needs to prepare a shader or pipeline state at runtime.' },
+      { question: 'Why does stutter disappear when I revisit the same area?', answer: 'If the required shader or pipeline data has been prepared and cached, the game may not need to perform the same work again. That pattern is useful evidence, although asset streaming and other one-time initialization tasks can produce a similar effect.' },
+      { question: 'Is shader compilation stutter the same as low FPS?', answer: 'No. Low FPS is usually a sustained performance limitation, while shader or pipeline stutter can be a short frame-time spike inside an otherwise high-FPS experience. A frame-time graph is more useful than average FPS for distinguishing them.' },
+      { question: 'Can CPU usage cause what looks like shader stutter?', answer: 'Yes. Shader preparation can involve CPU-side work, and unrelated CPU contention can also cause frame-time spikes. Correlate the hitch with CPU workload rather than assuming that a graphics-related symptom must originate on the GPU.' },
+      { question: 'Why does shader stutter affect some games but not others?', answer: 'Games use different engines, rendering paths, cache systems, shader permutations, and precompilation strategies. One game can have severe runtime shader or PSO hitches while another game on the same PC behaves smoothly.' },
+      { question: 'What if the stutter happens in every game?', answer: 'If multiple games show the same pattern, broaden the investigation beyond shaders. Check the shared GPU driver, Windows environment, background software, temperatures, clocks, memory pressure, storage behavior, synchronization settings, and possible hardware instability.' },
+      { question: 'What if nothing in this guide fixes the stutter?', answer: 'Return to the evidence. Capture a repeatable frame-time trace and the CPU/GPU/temperature/memory/storage telemetry around the exact hitch. If the problem is limited to one game, also check its current build and known issues. A reproducible trace is more valuable than another list of generic tweaks.' }
     ],
   },
   {
