@@ -70,3 +70,26 @@
   html{scroll-behavior:auto}
   *,*:before,*:after{transition:none!important;animation:none!important}
 }
+
+/* Pillar-guide upgrades: tables, numbered steps, inline code, scoped TOC. */
+.article-body code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace;font-size:.88em;background:#eef2f6;border:1px solid var(--line);border-radius:6px;padding:.08em .38em;color:#172235;overflow-wrap:anywhere}
+.article-body ol.article-steps{padding-left:1.4rem;margin:1.2rem 0}
+.article-body ol.article-steps li::marker{font-weight:800;color:#087c91}
+.article-body ul{padding-left:1.4rem}
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border:1px solid var(--line);border-radius:14px;background:#fff;-webkit-overflow-scrolling:touch}
+.table-wrap:focus-visible{outline:3px solid #12a4b8;outline-offset:2px}
+.article-table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:620px}
+.article-table caption{caption-side:top;text-align:left;padding:.9rem 1rem;font-weight:800;font-size:.8rem;letter-spacing:.02em;color:var(--ink);border-bottom:1px solid var(--line);background:#f7f9fb}
+.article-table th,.article-table td{padding:.75rem 1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.55;color:#435168}
+.article-table thead th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#087c91;background:#f7f9fb;white-space:nowrap}
+.article-table tbody th{font-weight:700;color:var(--ink)}
+.article-table tbody tr:last-child th,.article-table tbody tr:last-child td{border-bottom:0}
+.article-table tbody tr:hover{background:#f3fafb}
+.article-table a{color:#087c91;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.article-table a:hover{color:#075b69}
+.applies-to{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-top:1rem;font-size:.78rem}
+.applies-to strong{color:var(--ink);margin-right:.2rem}
+.applies-to span{padding:.3rem .6rem;border-radius:999px;background:#e3f6f9;color:#0a6c7a;font-weight:800}
+.article-aside{max-height:calc(100vh - 140px);overflow-y:auto}
+@media(max-width:800px){.article-aside{max-height:15rem}.article-aside ol{gap:.55rem}}
+@media print{.site-header,.site-footer,.article-aside,.related-section{display:none}.table-wrap{overflow:visible;border:0}.article-table{min-width:0}}
