@@ -70,7 +70,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/windows-11-freezing-randomly-causes-fix', kind: 'article', title: 'Windows 11 Freezing Randomly: How to Find the Cause', indexable: true },
   { path: '/microsoft-windows-surface-event-october-7-what-to-watch', kind: 'article', title: 'Microsoft October 7 Windows & Surface Event: Surface Laptop Ultra, RTX Spark and Local AI', indexable: true },
   { path: '/windows-11-wont-start-troubleshooting', kind: 'article', title: "Windows 11 Won’t Start: A Safe Troubleshooting Guide", indexable: true },
-  { path: '/windows-11-update-stuck-troubleshooting', kind: 'article', title: "Windows 11 Update Stuck: What to Check Before Resetting Windows Update", indexable: true },
+  { path: '/windows/windows-update-stuck', kind: 'article', title: "Windows Update Stuck? How Long to Wait, What to Check, and How to Fix It (Windows 11 & 10)", indexable: true },
   { path: '/windows-11-high-memory-usage-how-to-find-the-cause', kind: 'article', title: "Windows 11 High Memory Usage: How to Find the Real Cause", indexable: true },
   { path: '/windows-11-unknown-device-device-manager', kind: 'article', title: "Windows 11 Unknown Device in Device Manager: How to Identify It", indexable: true },
   { path: '/windows-11-disk-100-percent-usage', kind: 'article', title: "Windows 11 100% Disk Usage: What It Means and What to Check", indexable: true },
@@ -113,6 +113,7 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Windows Hub', href: '/windows' },
       { label: 'Universal Windows Troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Start with the symptom and diagnose Windows problems systematically.' },
+      { label: 'Windows Update Stuck', href: '/windows/windows-update-stuck', description: 'How long to wait, how to test activity, and the safest repair order.' },
       { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
       { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
