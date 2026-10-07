@@ -93,3 +93,6 @@
 .article-aside{max-height:calc(100vh - 140px);overflow-y:auto}
 @media(max-width:800px){.article-aside{max-height:15rem}.article-aside ol{gap:.55rem}}
 @media print{.site-header,.site-footer,.article-aside,.related-section{display:none}.table-wrap{overflow:visible;border:0}.article-table{min-width:0}}
+
+/* International monetization layer: commercial hubs and transparent disclosures. */
+.commercial-intro{margin:2rem 0 2.5rem;padding:1.35rem 1.5rem;background:#f0f8fa;border:1px solid #cde7eb;border-left:4px solid var(--cyan);border-radius:0 14px 14px 0}.commercial-intro strong{display:block;margin-bottom:.4rem}.commercial-intro p{margin:0 0 .7rem;color:#435168;line-height:1.75}.commercial-hub .article-card{min-height:220px}
