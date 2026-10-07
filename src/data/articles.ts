@@ -750,64 +750,65 @@ export const articles: Article[] = [
   {
     id: 'microsoft-windows-surface-event-oct-7',
     slug: 'microsoft-windows-surface-event-october-7-what-to-watch',
-    title: 'Microsoft’s October 7 Windows and Surface Event: What Is Confirmed and What to Watch',
-    seoTitle: 'Microsoft Windows and Surface Event Oct 7: What to Watch',
-    dek: 'Microsoft, NVIDIA and Surface are on one stage today. Here is what the company has actually said, what is still only reported, and the questions that will decide whether the announcements matter for ordinary PC buyers.',
-    metaDescription: 'Microsoft’s October 7 Windows and Surface event: what is confirmed, what is rumored, no Windows 12 expected, and what to check after the livestream.',
-    excerpt: 'A pre-event guide that separates Microsoft’s own statements from rumor, with a checklist for judging the announcements once they are out.',
+    title: 'Microsoft October 7 Windows & Surface Event: Surface Laptop Ultra, RTX Spark and Local AI',
+    seoTitle: 'Microsoft October 7 Event: Surface Laptop Ultra, RTX Spark & Windows AI',
+    dek: 'Microsoft has now shown its next Windows and Surface direction. Here is what was announced, what the new hardware means, and what matters for ordinary PC buyers.',
+    metaDescription: 'Microsoft’s October 7 event revealed Surface Laptop Ultra, NVIDIA RTX Spark and new Windows AI capabilities. Here is what changed and what matters.',
+    excerpt: 'The event is no longer a preview: Microsoft has shown the Surface Laptop Ultra and a deeper local-AI strategy. The useful question is what the hardware and software mean in real-world Windows PCs.',
     category: 'News',
     subcategory: 'Windows',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-07',
     updatedAt: '2026-10-07',
-    readingTime: 6,
-    tags: ['Microsoft', 'Surface', 'Windows 11', 'NVIDIA RTX Spark', 'Local AI', 'News'],
+    readingTime: 8,
+    tags: ['Microsoft', 'Surface Laptop Ultra', 'Windows', 'NVIDIA RTX Spark', 'Local AI', 'Windows 11'],
     searchIntent: 'informational',
     content: [
-      { heading: 'What is confirmed', paragraphs: [
-        'Microsoft has announced a Windows and Surface event for October 7, 2026 at 10 a.m. Pacific Time, which is 8 p.m. in Kuwait and Saudi Arabia and 9 p.m. in the UAE. It is streamed live on the Windows YouTube channel.',
-        'Microsoft’s own description says the event covers what is next from Windows, Surface and NVIDIA, with RTX Spark and new experiences for developers and builders. Reports say Microsoft CEO Satya Nadella, Surface and Windows chief Pavan Davuluri and NVIDIA CEO Jensen Huang are due to appear.'
+      { heading: 'The event happened — here is what actually changed', paragraphs: [
+        'Microsoft used its October 7, 2026 Windows and Surface event to push a clear theme: more AI work should happen locally on Windows PCs, with hardware and software designed together around that goal. Microsoft, Surface and NVIDIA were central to the presentation.',
+        'The most visible hardware announcement is the Surface Laptop Ultra, a 15-inch performance-focused Surface built around new NVIDIA silicon. On the software side, Microsoft also introduced new AI development and security capabilities intended to make local agents more useful and more controlled.'
+      ] },
+      { heading: 'Surface Laptop Ultra: what is notable', paragraphs: [
+        'Microsoft describes the Surface Laptop Ultra as less than 18 mm thick and under 4.5 pounds, with a 15-inch mini-LED PixelSense Ultra display, a 3:2 aspect ratio, and up to 128 GB of unified memory. The company says the new NVIDIA chip combines an efficient CPU and RTX GPU and can deliver up to one petaflop of AI compute.',
+        'The unified-memory design is the more important technical detail. CPU and GPU workloads can draw from a shared memory pool, which can be useful for local AI workloads that need more memory than a conventional discrete-GPU laptop often provides. It does not mean every game or application will automatically run faster.'
       ], bullets: [
-        'The Surface Laptop Ultra and NVIDIA’s RTX Spark platform were both announced earlier in 2026, so neither is a surprise reveal.',
-        'Microsoft has not announced Windows 12 for this event, and coverage of the run-up says not to expect it.',
-        'The framing from Microsoft is local AI, meaning AI work that runs on the PC rather than only in the cloud.'
+        'Up to 128 GB of unified memory is aimed at demanding local workloads.',
+        'The platform combines CPU and RTX graphics resources in one NVIDIA silicon package.',
+        'Microsoft says the thermal system has up to 2.5× the thermal capacity of the Surface Laptop 15-inch (7th Edition).',
+        'The SSD is user-replaceable, which matters for longevity and serviceability.'
       ] },
-      { heading: 'What has already been shown', paragraphs: [
-        'The Surface Laptop Ultra is a 15-inch laptop built around NVIDIA’s RTX Spark chip, which pairs an Arm-based CPU with RTX graphics and a single pool of unified memory. Published figures include a thickness under 18 mm, up to 128 GB of unified memory, and up to one petaflop of AI compute.',
-        'Treat that last number carefully. It is a vendor-stated peak figure for a specific kind of AI arithmetic, not a result from a real application. It tells you the ceiling of the hardware, not how fast your own work will run.'
+      { heading: 'What RTX Spark means for Windows PCs', paragraphs: [
+        'RTX Spark is significant because NVIDIA is moving beyond the conventional CPU-plus-discrete-GPU laptop model for this class of AI workstation. The goal is to put more capable AI compute on the desk or in the laptop rather than requiring every workload to be sent to a cloud service.',
+        'For buyers, however, a peak AI-compute figure is not a substitute for application benchmarks. The useful questions are whether the software supports the architecture natively, how much memory a workload consumes, how the system behaves under sustained load, and whether the price makes sense compared with a conventional Windows workstation.'
       ] },
-      { heading: 'What is reported but not confirmed', paragraphs: [
-        'Several outlets have described possible Windows announcements: support for AI agents that run on the device, controls for how GPU memory is shared, and design changes to parts of the interface. These come from reporting and previews, not from Microsoft, so treat them as possibilities until the stream shows them.',
-        'Pricing is also unconfirmed. Reports expect the Surface Laptop Ultra to be expensive, but no official price had been published when we wrote this.'
+      { heading: 'Microsoft is also pushing local AI and agent security', paragraphs: [
+        'Microsoft announced new AI capabilities intended to make coding and agent-based workloads more practical on Windows. The company also introduced Execution Containers, a security mechanism designed to constrain what AI agents can access or change on a PC.',
+        'That security angle matters. Local AI reduces some cloud-dependency and can reduce latency for supported workloads, but an AI agent running on your machine still needs permissions. A useful local agent should be judged not only by what it can do, but by how clearly its access to files, applications, credentials and system resources is controlled.'
       ] },
-      { heading: 'Five questions that decide whether it matters', paragraphs: [
-        'Announcements are easy to like. What counts is what you can buy and use. Once the event ends, check these.'
-      ], steps: [
-        'Which exact configurations will ship, and what do they cost? Memory and chip choices change the price a lot.',
-        'When can you actually buy one in your country? An international announcement is not a local launch.',
-        'Does the software you use run natively on this Arm-based platform, or through compatibility layers? Check your key apps, games and drivers.',
-        'How does it behave under a long load? Thin designs can throttle, so look for independent tests of temperatures, fan noise and sustained speed.',
-        'What can a local AI feature really do offline, and what permissions does an on-device agent need? Local does not automatically mean private.'
+      { heading: 'What this means for ordinary Windows users', paragraphs: [
+        'Most Windows users do not need a premium AI workstation. The broader significance is that hardware vendors and Microsoft are converging on a Windows experience where local AI is becoming a normal part of the PC platform.',
+        'For a normal laptop or gaming PC purchase, the fundamentals still matter: sustained CPU/GPU performance, cooling, memory capacity, SSD behavior, battery life, display quality, repairability and warranty. A large TOPS or petaflop number should not outrank those basics unless your workload actually uses the acceleration.'
       ] },
-      { heading: 'What it means if you are not buying one', paragraphs: [
-        'Most people will not buy a premium Surface laptop. The more useful result is what filters down: changes to Windows 11, better driver and software support for AI workloads, and the next round of cheaper laptops built on similar ideas.',
-        'If you are shopping for a laptop in the next few months, an AI chip or a petaflop number should not decide it. Battery life, cooling, memory, storage, repairability and warranty still matter more for day-to-day use.'
+      { heading: 'What we still need to test', paragraphs: [
+        'This is an announcement analysis, not a hands-on review. The important unanswered questions require independent testing: sustained performance, fan noise, thermal behavior, battery life under mixed workloads, game compatibility, application performance, storage behavior and real local-AI workloads.',
+        'TWW will treat those measurements separately from Microsoft’s specifications. Vendor peak figures are useful for understanding the architecture, but independent testing is what tells a buyer how the machine behaves after a long workload rather than during a short demonstration.'
       ] },
-      { heading: 'What we will update', paragraphs: [
-        'This article was written before the event. After the stream we will update it with what Microsoft actually announced, official specifications, pricing and availability where published, and independent test results when they exist.'
+      { heading: 'Bottom line', paragraphs: [
+        'Microsoft is making local AI a first-class Windows PC story, and the Surface Laptop Ultra is the clearest hardware expression of it so far. The interesting part is not the marketing number attached to the chip; it is whether the combination of unified memory, RTX compute, Windows software and application support produces a meaningfully better experience for the people who will pay for it.',
+        'For everyone else, this is a technology direction to watch rather than a reason to replace a perfectly good Windows PC today.'
       ] }
     ],
-    testing: 'This is a pre-event news preview. We have not tested any of the products mentioned, and every specification is quoted from the manufacturers or from the sources listed below. Items marked as reported are unconfirmed.',
+    testing: 'Announcement analysis only. TWW has not independently tested the Surface Laptop Ultra or RTX Spark hardware. Hardware specifications are attributed to Microsoft; broader event context is cross-checked against current reporting.',
     sources: [
-      { label: 'Windows Central: how to watch Microsoft’s Windows and Surface event', url: 'https://www.windowscentral.com/microsoft/windows-11/how-to-watch-microsofts-windows-and-surface-event' },
-      { label: 'Windows Central: what to expect at the October 7 event', url: 'https://www.windowscentral.com/microsoft/windows-11/what-to-expect-at-microsofts-special-windows-and-surface-event-on-october-7-surface-laptop-ultra-and-rtx-spark-revealed-new-agentic-os-capabilities-and-more' },
-      { label: 'Windows Latest: Microsoft confirms its first major Windows event in two years', url: 'https://www.windowslatest.com/2026/09/16/microsoft-confirms-first-major-windows-event-in-two-years-but-dont-hold-your-breath-for-windows-12/' }
+      { label: 'Microsoft Surface: Introducing Surface Laptop Ultra', url: 'https://www.microsoft.com/en-us/surface/devices/surface-laptop-ultra' },
+      { label: 'Microsoft: Windows and Surface October 2026 news', url: 'https://news.microsoft.com/windows-surface-october-2026-news/' },
+      { label: 'Reuters: Microsoft brings more AI to PCs as it challenges Apple', url: 'https://www.reuters.com/business/microsoft-nvidia-ceos-unveil-new-ai-laptop-san-francisco-event-2026-10-07/' }
     ],
     faq: [
-      { question: 'What time is the Microsoft Windows and Surface event?', answer: 'It starts at 10 a.m. Pacific Time on October 7, 2026, which is 8 p.m. in Kuwait and Saudi Arabia. It streams on the Windows YouTube channel.' },
-      { question: 'Will Microsoft announce Windows 12 on October 7?', answer: 'Microsoft has not announced Windows 12 for the event, and coverage of the run-up says it is not expected.' },
-      { question: 'Is the Surface Laptop Ultra new at this event?', answer: 'No. It was announced earlier in 2026. The event is expected to add details such as configurations, availability and software.' },
-      { question: 'What does the one-petaflop figure mean?', answer: 'It is a vendor-stated peak for a specific kind of AI calculation, not a real-world benchmark. Wait for independent tests to see how it performs in applications.' }
+      { question: 'What did Microsoft announce on October 7, 2026?', answer: 'The event focused on Windows and local AI, including the Surface Laptop Ultra, NVIDIA RTX Spark hardware, new AI development capabilities and security controls for AI agents.' },
+      { question: 'What is the Surface Laptop Ultra?', answer: 'It is a 15-inch performance-oriented Surface laptop built around new NVIDIA silicon, with up to 128 GB of unified memory and a focus on local AI, creative workloads and gaming.' },
+      { question: 'Does the Surface Laptop Ultra replace a normal gaming laptop?', answer: 'Not automatically. It needs independent testing for game compatibility, sustained performance, thermals, battery behavior and value before it can be compared fairly with conventional gaming laptops.' },
+      { question: 'Does local AI mean an AI agent is automatically private?', answer: 'No. Running processing locally can reduce the need to send some data to cloud services, but privacy still depends on what software can access, what permissions it receives and how data is handled.' }
     ]
   },
 
