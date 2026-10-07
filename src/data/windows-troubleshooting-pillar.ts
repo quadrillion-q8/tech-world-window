@@ -25,7 +25,7 @@ export const windowsTroubleshootingPillar: Article = {
   readingTime: 26,
   appliesTo: ['Windows 11', 'Windows 10'],
   tags: ['Windows Troubleshooting', 'Windows 11', 'Windows 10', 'Windows Problems', 'PC Troubleshooting', 'Windows Repair', 'Blue Screen', 'Safe Mode', 'SFC and DISM'],
-  relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset'],
+  relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset', 'windows-wont-start', 'windows-update-stuck', 'windows-high-memory', 'windows-unknown-device', 'windows-disk-100-percent', 'windows-slow-startup'],
   contentRole: 'pillar',
   pillarPath: '/windows',
   searchIntent: 'informational',
