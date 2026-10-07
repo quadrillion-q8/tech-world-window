@@ -44,3 +44,32 @@ These pages use `searchIntent: 'commercial'` so the existing disclosure system a
 - `/tools/storage-calculator`
 
 Tool-to-commercial-guide links emit `tool_conversion` analytics events so GA4 can measure movement from utility traffic toward purchase-intent content.
+
+
+## Phase 4 — International Traffic Growth
+
+Phase 4 expands the existing pillar/cluster model with 16 problem-first evergreen articles. These pages target practical troubleshooting and upgrade questions while remaining connected to the existing Windows, Gaming, and Hardware pillars.
+
+### Windows expansion
+- Windows startup failures
+- Windows Update failures
+- high memory usage
+- Device Manager unknown devices
+- 100% disk usage
+- slow startup
+
+### Gaming expansion
+- low FPS diagnosis
+- games crashing to desktop
+- GPU at 100% usage
+- gaming-laptop upgradeability
+
+### Hardware expansion
+- RAM capacity planning
+- GPU overheating
+- PSU symptoms
+- nearly-full SSDs
+- DDR4 vs DDR5
+- laptop NVMe upgrades
+
+Phase 4 deliberately does not invent Search Console metrics. Existing and future Google Search Console data should determine which pages receive title, internal-link, content-depth, consolidation, or refresh priority.
