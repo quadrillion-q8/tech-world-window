@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
+import { Head } from 'vite-react-ssg';
 import { SEOEngine } from '../seo/SEOEngine';
+import { SITE_NAME, SITE_URL } from '../data/graph';
 
 // Public contact address shown on the Contact, Privacy and Editorial pages.
 const CONTACT_EMAIL = 'quadrillion1980@gmail.com';
@@ -13,9 +15,9 @@ const content: Record<string, Page> = {
     description: 'Who writes Tech World Window, what we cover, and how we keep our guides accurate.',
     body: [
       'Tech World Window is a practical technology site for people who want to fix a problem or understand a piece of hardware without wading through filler.',
-      'It is written by Imran Natiq, a hardware repair engineer who works with PCs and laptops at component level. The guides on Windows troubleshooting, network faults, game stutter and SSD health come from that bench experience: the order in which problems are actually ruled out, and which fixes are worth trying first.',
-      'What we cover: Windows troubleshooting, PC and laptop hardware, gaming performance, storage, and the occasional technology news item with context.',
-      'How we work: every guide starts from a symptom, explains what could cause it, shows how to tell the causes apart, and only then suggests a fix. We say what we tested and what we did not, and we note when a fix changes settings or carries risk. If we have not tested something ourselves, we do not imply that we have.',
+      'It is written by Imran Natiq, a hardware repair engineer focused on PCs and laptops. The editorial focus is practical diagnosis: classify the symptom, collect evidence, isolate the likely cause, and only then change settings or replace hardware.',
+      'What we cover: Windows troubleshooting, PC and laptop hardware, gaming performance, storage, buying decisions, free diagnostic tools, and technology news with context. The site is intentionally strongest where a reader needs to understand why something is happening—not just copy a list of fixes.',
+      'How we work: every troubleshooting guide starts from a symptom, explains the relevant failure layers, shows how to distinguish them, and then suggests the least destructive next step. We separate manufacturer documentation, measured results, and informed guidance. If we have not tested something ourselves, we do not imply that we have.',
       'Found a mistake? Tell us and we will correct it and note the change. See our Editorial Policy for details, and the Contact page for how to reach us.',
     ],
   },
@@ -65,13 +67,34 @@ const content: Record<string, Page> = {
       `Changes: if we change this policy we will update the date above. Questions: ${CONTACT_EMAIL}.`,
     ],
   },
+  '/testing': {
+    title: 'TWW Testing Methodology',
+    description: 'How Tech World Window approaches hands-on hardware testing, software troubleshooting, measurements, repeatability, and evidence.',
+    body: [
+      'Tech World Window separates three kinds of evidence: documented facts from manufacturers or software vendors, TWW measurements from controlled testing, and informed guidance based on technical reasoning.',
+      'When we test hardware, the useful context includes the device or component, operating system, driver or firmware version, workload, settings, measurement tool, ambient conditions where relevant, and any limitations that could change the result.',
+      'For troubleshooting, our preferred method is symptom classification → reproduction → measurement → isolation → one-variable change → retest → confirmation. The goal is to avoid stacking fixes until nobody knows which change actually helped.',
+      'Benchmarks are not treated as universal truths. Results can vary with firmware, drivers, cooling, power limits, silicon, application versions and test settings. A TWW result is therefore presented with its test context rather than as a promise for every system.',
+      'We do not label specification profiles as hands-on reviews. If a product has not been independently tested by TWW, the page should say so clearly.'
+    ],
+  },
+  '/research': {
+    title: 'TWW Technology Research',
+    description: 'Original technical studies, benchmark data, troubleshooting observations and evidence-led research from Tech World Window.',
+    body: [
+      'TWW Research is the home for original measurements and technical studies that go beyond a conventional news article or buying guide.',
+      'Research projects may cover Windows performance, PC gaming frame times, storage behavior, thermals, hardware compatibility, upgrade decisions, and other practical questions where controlled evidence is more useful than a generic list of tips.',
+      'Each study should state its hardware, software versions, test method, variables, limitations, and conclusions. Where raw measurements are available, we aim to publish enough context for another technically minded reader to understand how the result was produced.',
+      'The purpose is not to manufacture a headline. It is to create useful primary information that readers, builders, repair technicians, creators and other publications can verify, discuss and cite.'
+    ],
+  },
   '/authors/imran-natiq': {
     title: 'Imran Natiq',
     description: 'Imran Natiq is a hardware repair engineer and the author of Tech World Window.',
     body: [
-      'Imran Natiq is a hardware repair engineer who works on PC and laptop hardware at component level, from storage and power faults to network and performance problems.',
-      'He writes Tech World Window to turn the diagnostic routines used at the repair bench into step-by-step guides that anyone can follow. He covers Windows troubleshooting, gaming performance, SSD and storage health, and hardware explained plainly.',
-      '[EDIT: add 1–2 verifiable specifics here, such as years of experience, the kind of repairs you do, certifications, or the shop or employer you may name.]',
+      'Imran Natiq is a hardware repair engineer and technology writer focused on PC and laptop troubleshooting, Windows diagnostics, gaming performance, storage health, and practical hardware education.',
+      'He writes Tech World Window to turn practical diagnostic routines into step-by-step explanations that readers can follow. The editorial method emphasizes symptom classification, measurement, controlled changes, verification, and clear limits.',
+      'TWW does not publish invented credentials or unsupported claims of testing. Where an article depends on hands-on testing, the test context and evidence are stated on the page.',
       `Corrections or questions: ${CONTACT_EMAIL}.`,
     ],
   },
@@ -83,6 +106,20 @@ export function StaticPage() {
   return (
     <section className="section static-page">
       <SEOEngine title={page.title} description={page.description} path={location.pathname} />
+      {location.pathname === '/authors/imran-natiq' && <Head><script type="application/ld+json">{JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ProfilePage',
+        name: 'Imran Natiq — Tech World Window',
+        url: `${SITE_URL}/authors/imran-natiq`,
+        mainEntity: {
+          '@type': 'Person',
+          name: 'Imran Natiq',
+          jobTitle: 'Hardware Repair Engineer & Technology Writer',
+          description: 'Hardware repair engineer and technology writer focused on PC and laptop troubleshooting, Windows diagnostics, gaming performance and practical hardware education.',
+          url: `${SITE_URL}/authors/imran-natiq`,
+          worksFor: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+        },
+      })}</script></Head>}
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{page.title}</h1>
       {page.body.map((p, i) => <p key={i}>{p}</p>)}
