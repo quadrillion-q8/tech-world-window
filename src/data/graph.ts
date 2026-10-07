@@ -183,6 +183,9 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Free Tech Tools', href: '/tools' },
       { label: 'PC Bottleneck Calculator', href: '/tools/pc-bottleneck-calculator', description: 'Explore CPU/GPU pairing.' },
+      { label: 'PSU Wattage Calculator', href: '/tools/psu-wattage-calculator', description: 'Estimate practical PSU headroom.' },
+      { label: 'RAM Calculator', href: '/tools/ram-calculator', description: 'Estimate memory requirements.' },
+      { label: 'Storage Calculator', href: '/tools/storage-calculator', description: 'Plan storage capacity and headroom.' },
       { label: 'Guides', href: '/guides', description: 'Understand the result before acting.' },
     ],
   },
