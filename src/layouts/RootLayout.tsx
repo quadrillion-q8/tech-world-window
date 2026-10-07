@@ -3,9 +3,9 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 
-// Paste your GA4 Measurement ID here (looks like G-XXXXXXXXXX).
-// While this is empty, no analytics script is loaded.
-const GA_MEASUREMENT_ID = '';
+// GA4 Measurement ID for techworldwindow.com.
+// If this is ever emptied, no analytics script is loaded.
+const GA_MEASUREMENT_ID = 'G-NMCN4Q7X4W';
 
 type GtagWindow = Window & { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
 
