@@ -508,6 +508,9 @@ export const phase4Articles: Article[] = [
       },
       {
         "heading": "How to prevent stuck updates",
+        "paragraphs": [
+          "A few simple maintenance habits reduce the chance that a Windows update will appear to freeze or fail."
+        ],
         "bullets": [
           "Keep 20 GB or more free on the system drive as a practical headroom target for larger updates.",
           "Install updates when you can leave the PC plugged in and powered on.",
