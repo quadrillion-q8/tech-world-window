@@ -1,9 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 
-// >>> SET THESE BEFORE DEPLOYING <<<
-// Use a mailbox you actually read. Do not deploy with the placeholder value.
-const CONTACT_EMAIL = 'REPLACE_WITH_YOUR_EMAIL';
+// Public contact address shown on the Contact, Privacy and Editorial pages.
+const CONTACT_EMAIL = 'quadrillion1980@gmail.com';
 const POLICY_UPDATED = 'October 7, 2026';
 
 type Page = { title: string; description: string; body: string[] };
