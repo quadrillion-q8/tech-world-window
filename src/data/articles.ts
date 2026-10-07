@@ -17,6 +17,8 @@ export type ArticleSection = {
   bullets?: string[];
   /** Ordered steps, rendered as a numbered list. */
   steps?: string[];
+  /** Optional command/code blocks rendered as preformatted text. */
+  codeBlocks?: string[];
   table?: ArticleTable;
 };
 
@@ -46,6 +48,8 @@ export type Article = {
   testing?: string;
   relatedArticles?: string[];
   faq?: { question: string; answer: string }[];
+  /** Optional HowTo structured-data steps for practical repair guides. */
+  howTo?: { name: string; steps: string[] };
   contentRole?: 'pillar' | 'cluster';
   pillarPath?: string;
   searchIntent?: 'informational' | 'commercial' | 'navigational';
@@ -68,6 +72,7 @@ export function articleWordCount(article: Article): number {
       ...section.paragraphs,
       ...(section.bullets ?? []),
       ...(section.steps ?? []),
+      ...(section.codeBlocks ?? []),
       ...(section.table ? [section.table.caption, ...section.table.headers, ...section.table.rows.flat().map(cellText)] : []),
     ]),
     ...(article.faq ?? []).flatMap(item => [item.question, item.answer]),
