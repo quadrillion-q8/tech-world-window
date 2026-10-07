@@ -12,6 +12,7 @@ type SEOProps = {
   robots?: string;
 };
 
+const DEFAULT_OG_IMAGE = '/og-default.png';
 function absoluteUrl(path: string) { return new URL(path, SITE_URL).toString(); }
 
 export function SEOEngine({
@@ -20,7 +21,7 @@ export function SEOEngine({
 }: SEOProps) {
   const canonical = absoluteUrl(path);
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-  const imageUrl = image ? absoluteUrl(image) : undefined;
+  const imageUrl = absoluteUrl(image || DEFAULT_OG_IMAGE);
   return (
     <Head>
       <title>{fullTitle}</title>
@@ -32,8 +33,10 @@ export function SEOEngine({
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
-      {imageUrl && <meta property="og:image" content={imageUrl} />}
-      <meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
+      <meta property="og:image" content={imageUrl} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       {imageUrl && <meta name="twitter:image" content={imageUrl} />}
@@ -61,8 +64,9 @@ export function ArticleStructuredData({
       '@type': 'Person', name: authorName,
       ...(authorUrl ? { url: absoluteUrl(authorUrl) } : {}),
       ...(authorJobTitle ? { jobTitle: authorJobTitle } : {}),
+      worksFor: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL },
     },
-    publisher: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL },
+    publisher: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
     ...(image ? { image: [absoluteUrl(image)] } : {}),
   };
   return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
