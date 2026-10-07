@@ -8,6 +8,24 @@ const tools = [
     href: '/tools/pc-bottleneck-calculator',
     status: 'Available now',
   },
+  {
+    title: 'PSU Wattage Calculator',
+    description: 'Estimate a sensible PSU range from GPU, CPU and other system load.',
+    href: '/tools/psu-wattage-calculator',
+    status: 'Available now',
+  },
+  {
+    title: 'RAM Calculator',
+    description: 'Estimate a practical memory capacity from Windows, application and gaming use.',
+    href: '/tools/ram-calculator',
+    status: 'Available now',
+  },
+  {
+    title: 'Storage Calculator',
+    description: 'Estimate how much SSD or HDD capacity your games, apps and files will need.',
+    href: '/tools/storage-calculator',
+    status: 'Available now',
+  },
 ];
 
 export function ToolsHubPage() {
