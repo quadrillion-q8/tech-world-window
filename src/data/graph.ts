@@ -67,6 +67,22 @@ export const routeGraph: RouteNode[] = [
   { path: '/windows-11-blue-screen-stop-code-how-to-read', kind: 'article', title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause', indexable: true },
   { path: '/windows-11-freezing-randomly-causes-fix', kind: 'article', title: 'Windows 11 Freezing Randomly: How to Find the Cause', indexable: true },
   { path: '/microsoft-windows-surface-event-october-7-what-to-watch', kind: 'article', title: 'Microsoft’s October 7 Windows and Surface Event: What Is Confirmed and What to Watch', indexable: true },
+  { path: '/windows-11-wont-start-troubleshooting', kind: 'article', title: "Windows 11 Won’t Start: A Safe Troubleshooting Guide", indexable: true },
+  { path: '/windows-11-update-stuck-troubleshooting', kind: 'article', title: "Windows 11 Update Stuck: What to Check Before Resetting Windows Update", indexable: true },
+  { path: '/windows-11-high-memory-usage-how-to-find-the-cause', kind: 'article', title: "Windows 11 High Memory Usage: How to Find the Real Cause", indexable: true },
+  { path: '/windows-11-unknown-device-device-manager', kind: 'article', title: "Windows 11 Unknown Device in Device Manager: How to Identify It", indexable: true },
+  { path: '/windows-11-disk-100-percent-usage', kind: 'article', title: "Windows 11 100% Disk Usage: What It Means and What to Check", indexable: true },
+  { path: '/windows-11-slow-startup-fix', kind: 'article', title: "Windows 11 Slow Startup: Find Out What Is Delaying Sign-In", indexable: true },
+  { path: '/pc-game-low-fps-how-to-find-the-cause', kind: 'article', title: "Low FPS in PC Games: How to Find the Real Bottleneck", indexable: true },
+  { path: '/pc-games-crashing-to-desktop-troubleshooting', kind: 'article', title: "PC Games Keep Crashing to Desktop: A Step-by-Step Diagnosis", indexable: true },
+  { path: '/gpu-100-percent-usage-gaming', kind: 'article', title: "GPU at 100% Usage While Gaming: Is That a Problem?", indexable: true },
+  { path: '/how-much-ram-do-you-need-gaming', kind: 'article', title: "How Much RAM Do You Need for Gaming and Windows?", indexable: true },
+  { path: '/gpu-overheating-gaming-pc-causes-fix', kind: 'article', title: "GPU Overheating While Gaming: What to Check Before Replacing It", indexable: true },
+  { path: '/pc-power-supply-problems-symptoms', kind: 'article', title: "PC Power Supply Problems: Symptoms That Point to the PSU", indexable: true },
+  { path: '/ssd-nearly-full-windows-performance', kind: 'article', title: "SSD Nearly Full: How Much Free Space Does Windows Need?", indexable: true },
+  { path: '/ddr4-vs-ddr5-ram-difference', kind: 'article', title: "DDR4 vs DDR5 RAM: What Actually Changes?", indexable: true },
+  { path: '/laptop-nvme-ssd-upgrade-compatibility', kind: 'article', title: "Laptop NVMe SSD Upgrade: Check Compatibility Before You Buy", indexable: true },
+  { path: '/gaming-laptop-upgradeable-ram-ssd', kind: 'article', title: "Can You Upgrade a Gaming Laptop? Check RAM and SSD First", indexable: true },
 ];
 
 export const navigation = routeGraph
