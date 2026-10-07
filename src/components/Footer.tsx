@@ -27,6 +27,8 @@ export function Footer() {
               <Link to="/contact">Contact</Link>
               <Link to="/privacy-policy">Privacy</Link>
               <Link to="/affiliate-disclosure">Affiliate Disclosure</Link>
+              <Link to="/testing">Testing Methodology</Link>
+              <Link to="/research">TWW Research</Link>
             </div>
           </div>
         </div>
