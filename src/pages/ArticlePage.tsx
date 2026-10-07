@@ -79,8 +79,11 @@ export function ArticlePage() {
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
       <div className="article-byline">
-        <Link className="author-avatar small" to={`/authors/${article.authorId.replace('imranNatiq', 'imran-natiq')}`} aria-label={`About ${author?.name || 'the author'}`}>IN</Link>
-        <div><strong>{author?.name || 'Editorial Team'}</strong><span>{author?.role || 'Editorial'} · Published {article.publishedAt}{article.updatedAt ? ` · Updated ${article.updatedAt}` : ''}</span></div>
+        <Link className="author-avatar small" to={author?.url || '/authors/imran-natiq'} aria-label={`About ${author?.name || 'the author'}`}>IN</Link>
+        <div>
+          <Link className="author-byline-name" to={author?.url || '/authors/imran-natiq'}><strong>{author?.name || 'Editorial Team'}</strong></Link>
+          <span>{author?.role || 'Editorial'} · Published {article.publishedAt}{article.updatedAt ? ` · Updated ${article.updatedAt}` : ''}</span>
+        </div>
         <span className="reading-time">{article.readingTime} min read</span>
       </div>
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
@@ -119,11 +122,26 @@ export function ArticlePage() {
         </section> : null}
 
         <div className="article-disclaimer">
-          <strong>Editorial standard</strong>
+          <strong>How TWW approaches this guide</strong>
           <p>We distinguish documented facts, measured results, and informed guidance. If a claim depends on a specific device, software version, game, or test method, that context should be stated rather than implied.</p>
+          <p className="editorial-links"><Link to="/authors/imran-natiq">Meet the author</Link><span>·</span><Link to="/testing">See our testing methodology</Link><span>·</span><Link to="/editorial-policy">Read our editorial policy</Link></p>
         </div>
       </div>
     </div>
+
+    {author && <section className="section article-author-section">
+      <div className="article-author-card">
+        <div className="author-avatar">IN</div>
+        <div className="article-author-copy">
+          <span className="eyebrow">ABOUT THE AUTHOR</span>
+          <h2>{author.name}</h2>
+          <p><strong>{author.role}</strong></p>
+          <p>{author.bio}</p>
+          <div className="author-expertise">{author.expertise.map(item => <span key={item}>{item}</span>)}</div>
+          <Link className="text-link" to={author.url}>View author profile and background →</Link>
+        </div>
+      </div>
+    </section>}
 
     {related.length > 0 && <section className="section related-section"><div className="section-heading"><div><span className="eyebrow">KEEP READING</span><h2>Related stories</h2></div></div><div className="article-grid">{related.map(item => <ArticleCard key={item.id} article={item} />)}</div></section>}
   </article>;
