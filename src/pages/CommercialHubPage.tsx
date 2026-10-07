@@ -46,17 +46,32 @@ const hubs: Record<string, HubConfig> = {
   '/reviews/gpus': {
     title: 'GPU Reviews', eyebrow: 'HARDWARE REVIEWS',
     description: 'Graphics-card reviews covering gaming performance, frame times, thermals and value.',
-    intro: 'GPU reviews will prioritize measurable performance and frame-time behavior rather than headline FPS alone.', cards: [],
+    intro: 'GPU reviews will prioritize measurable performance, frame-time behavior, thermals and power rather than headline FPS alone. Until hands-on testing is published, use the diagnostic guides below to understand GPU behavior.', cards: [
+      { title: 'GPU at 100% Usage While Gaming', description: 'Learn when 100% GPU utilization is normal, useful evidence, or a sign that something else is wrong.', href: '/gpu-100-percent-usage-gaming', label: 'Guide' },
+      { title: 'GPU Frame-Time Spikes', description: 'Diagnose uneven frame delivery instead of relying only on average FPS.', href: '/gpu-frame-time-spikes-causes-fix', label: 'Guide' },
+      { title: 'GPU Overheating While Gaming', description: 'Separate normal GPU load from thermal throttling and cooling problems.', href: '/gpu-overheating-gaming-pc-causes-fix', label: 'Guide' },
+      { title: 'PC Game Stuttering: Frame-Time Spikes', description: 'Use a symptom-first method to find the real source of stutter.', href: '/pc-game-stuttering-fix-frame-time', label: 'Pillar' },
+    ],
   },
   '/reviews/laptops': {
     title: 'Laptop Reviews', eyebrow: 'HARDWARE REVIEWS',
     description: 'Laptop reviews focused on performance, thermals, battery behavior and upgradeability.',
-    intro: 'Laptop reviews will emphasize ownership details that matter after the first week: cooling, sustained performance, storage, memory, display and repairability.', cards: [],
+    intro: 'Laptop reviews will emphasize ownership details that matter after the first week: cooling, sustained performance, storage, memory, display and repairability. While the hands-on review library grows, these guides cover the decisions buyers can verify now.', cards: [
+      { title: 'Best Gaming Laptops', description: 'A practical framework for comparing GPU, CPU, cooling, display, RAM and upgradeability.', href: '/best-gaming-laptops', label: 'Buying Guide' },
+      { title: 'Can You Upgrade a Gaming Laptop?', description: 'Check RAM and SSD upgrade paths before buying or opening a laptop.', href: '/gaming-laptop-upgradeable-ram-ssd', label: 'Guide' },
+      { title: 'Laptop NVMe SSD Upgrade', description: 'Check physical, interface and firmware compatibility before buying a replacement drive.', href: '/laptop-nvme-ssd-upgrade-compatibility', label: 'Guide' },
+      { title: 'How Much RAM Do You Need?', description: 'Match memory capacity to gaming, multitasking and Windows workloads.', href: '/how-much-ram-do-you-need-gaming', label: 'Guide' },
+    ],
   },
   '/reviews/cpus': {
     title: 'CPU Reviews', eyebrow: 'HARDWARE REVIEWS',
     description: 'CPU reviews and comparisons for gaming, productivity, thermals and platform decisions.',
-    intro: 'CPU coverage will distinguish manufacturer specifications from measured results and explain where each processor makes sense.', cards: [],
+    intro: 'CPU coverage will distinguish manufacturer specifications from measured results and explain where each processor makes sense. Use the platform and performance guides below while the hands-on CPU test library is built.', cards: [
+      { title: 'CPU Bottlenecks and Low FPS', description: 'Find out when the CPU is actually limiting game performance before changing hardware.', href: '/pc-game-low-fps-how-to-find-the-cause', label: 'Guide' },
+      { title: 'Low FPS in PC Games', description: 'Find out whether the CPU, GPU, memory, thermals or software is limiting frame rate.', href: '/pc-game-low-fps-how-to-find-the-cause', label: 'Guide' },
+      { title: 'PC Game Stuttering: Frame-Time Spikes', description: 'Separate CPU scheduling and frame-pacing problems from GPU limitations.', href: '/pc-game-stuttering-fix-frame-time', label: 'Pillar' },
+      { title: 'Best RAM for Gaming PCs', description: 'Choose capacity and platform compatibility before chasing memory speed.', href: '/best-ram', label: 'Buying Guide' },
+    ],
   },
 };
 
