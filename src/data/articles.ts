@@ -1,4 +1,5 @@
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
+import { phase4Articles } from './phase4-articles';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
@@ -77,6 +78,7 @@ export function articleWordCount(article: Article): number {
 export const articles: Article[] = [
 
   windowsTroubleshootingPillar,
+  ...phase4Articles,
 
   {
     id: 'windows-wifi-diagnosis',
