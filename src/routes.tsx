@@ -9,6 +9,8 @@ import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
 import { CommercialHubPage } from './pages/CommercialHubPage';
 import { StaticPage } from './pages/StaticPage';
+import { ProductReviewPage } from './pages/ProductReviewPage';
+import { ProductComparisonPage } from './pages/ProductComparisonPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 function elementForRoute(route: RouteNode): ReactNode {
@@ -23,6 +25,10 @@ function elementForRoute(route: RouteNode): ReactNode {
       return <ToolsHubPage />;
     case 'category':
       return route.path.startsWith('/reviews') || route.path.startsWith('/best') ? <CommercialHubPage /> : <CategoryPage />;
+    case 'product-review':
+      return <ProductReviewPage />;
+    case 'comparison':
+      return <ProductComparisonPage />;
     case 'author':
     case 'static':
       return <StaticPage />;
