@@ -751,7 +751,7 @@ export const articles: Article[] = [
     id: 'microsoft-windows-surface-event-oct-7',
     slug: 'microsoft-windows-surface-event-october-7-what-to-watch',
     title: 'Microsoft October 7 Windows & Surface Event: Surface Laptop Ultra, RTX Spark and Local AI',
-    seoTitle: 'Microsoft October 7 Event: Surface Laptop Ultra, RTX Spark & Windows AI',
+    seoTitle: 'Microsoft October 7 Event: Surface Laptop Ultra and RTX Spark',
     dek: 'Microsoft has now shown its next Windows and Surface direction. Here is what was announced, what the new hardware means, and what matters for ordinary PC buyers.',
     metaDescription: 'Microsoft’s October 7 event revealed Surface Laptop Ultra, NVIDIA RTX Spark and new Windows AI capabilities. Here is what changed and what matters.',
     excerpt: 'The event is no longer a preview: Microsoft has shown the Surface Laptop Ultra and a deeper local-AI strategy. The useful question is what the hardware and software mean in real-world Windows PCs.',
