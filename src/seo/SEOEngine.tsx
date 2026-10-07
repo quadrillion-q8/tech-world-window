@@ -96,6 +96,16 @@ export function BreadcrumbStructuredData({ items }: { items: { name: string; pat
   return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
 }
 
+
+
+export function HowToStructuredData({ name, steps }: { name: string; steps: string[] }) {
+  const data = {
+    '@context': 'https://schema.org', '@type': 'HowTo', name,
+    step: steps.map((text, index) => ({ '@type': 'HowToStep', position: index + 1, name: text })),
+  };
+  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
+}
+
 export function FAQStructuredData({ items }: { items: { question: string; answer: string }[] }) {
   const data = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
