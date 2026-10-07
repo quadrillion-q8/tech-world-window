@@ -39,6 +39,16 @@ const content: Record<string, Page> = {
       `Corrections are made transparently when a material error is identified. To report one, email ${CONTACT_EMAIL}.`,
     ],
   },
+  '/affiliate-disclosure': {
+    title: 'Affiliate Disclosure',
+    description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
+    body: [
+      'Tech World Window may use affiliate links in reviews, comparisons and buying guides. If you purchase through one of these links, we may receive a commission at no additional cost to you.',
+      'Affiliate relationships do not determine our test results or guarantee a positive recommendation. We aim to recommend products because they fit the stated use case, not because a commission is available.',
+      'When we have personally tested a product, we will say so and explain the test context. Product specifications, prices and availability can change, so readers should confirm current details with the retailer or manufacturer before purchasing.',
+      'Commercial partnerships, sponsored content and affiliate links will be disclosed clearly on the relevant page. Our editorial policy explains the broader standards we use for testing, corrections and independence.',
+    ],
+  },
   '/privacy-policy': {
     title: 'Privacy Policy',
     description: 'What data Tech World Window collects, why, and the choices you have.',
