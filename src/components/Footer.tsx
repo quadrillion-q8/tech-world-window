@@ -8,8 +8,9 @@ export function Footer() {
       <div className="footer-inner">
         <div className="footer-main">
           <div className="footer-brand-block">
-            <Link className="footer-brand" to="/">TECH WORLD WINDOW</Link>
-            <p>Your Window Into Technology.</p>
+            <Link className="footer-brand-logo" to="/" aria-label="Tech World Window home">
+              <img src="/tech-world-window-logo.png" alt="Tech World Window — Your Window Into Technology" />
+            </Link>
             <p className="muted">Technology news, practical fixes, real-world testing and useful tools — clearly explained.</p>
           </div>
           <div className="footer-columns">
