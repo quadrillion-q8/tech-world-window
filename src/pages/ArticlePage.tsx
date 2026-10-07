@@ -48,7 +48,7 @@ export function ArticlePage() {
       type="article"
       publishedAt={article.publishedAt}
       updatedAt={article.updatedAt}
-      image={article.heroImage}
+      image={article.heroImage || '/og-default.png'}
     />
     <BreadcrumbStructuredData items={[
       { name: 'Home', path: '/' },
@@ -63,7 +63,7 @@ export function ArticlePage() {
       updatedAt={article.updatedAt}
       authorName={author?.name || 'Tech World Window Editorial Team'}
       category={article.category}
-      image={article.heroImage}
+      image={article.heroImage || '/og-default.png'}
       keywords={article.tags}
       wordCount={articleWordCount(article)}
       authorUrl={author?.url}
