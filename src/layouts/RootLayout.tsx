@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { SiteStructuredData } from '../components/SiteStructuredData';
 
 // GA4 Measurement ID for techworldwindow.com.
 // If this is ever emptied, no analytics script is loaded.
@@ -42,6 +43,7 @@ export function RootLayout() {
   useAnalytics();
   return (
     <>
+      <SiteStructuredData />
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <main id="main-content"><Outlet /></main>
