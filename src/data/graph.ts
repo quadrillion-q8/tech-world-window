@@ -46,6 +46,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/nvme-ssd-temperature-too-high', kind: 'article', title: 'NVMe SSD Temperature Too High: What the Numbers Actually Mean', indexable: true },
   { path: '/why-ssd-is-slowing-down-windows', kind: 'article', title: 'Why an SSD Can Slow Down Over Time: What to Check Before Replacing It', indexable: true },
   { path: '/how-to-check-ram-for-errors-windows', kind: 'article', title: 'How to Check RAM for Errors on Windows (MemTest86 and Windows Memory Diagnostic)', indexable: true },
+  { path: '/windows-11-blue-screen-stop-code-how-to-read', kind: 'article', title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -92,6 +93,8 @@ export const menuGroups: MenuGroup[] = [
       { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
       { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
       { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
+      { label: 'RAM Testing', href: '/how-to-check-ram-for-errors-windows', description: 'Test memory for errors.' },
+      { label: 'Blue Screens', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Read stop codes and find the cause.' },
     ],
   },
   {
