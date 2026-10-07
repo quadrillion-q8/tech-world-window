@@ -10,6 +10,14 @@ export function SiteStructuredData() {
     slogan: SITE_TAGLINE,
     description: 'Practical Windows troubleshooting, PC gaming performance guides, hardware analysis, buying advice and useful technology tools.',
     logo: { '@type': 'ImageObject', url: `${SITE_URL}/tech-world-window-mark.png` },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'editorial', url: `${SITE_URL}/contact` },
+    knowsAbout: [
+      'Windows troubleshooting',
+      'PC hardware diagnostics',
+      'PC gaming performance',
+      'SSD and RAM health',
+      'Technology testing',
+    ],
   };
   const website = {
     '@context': 'https://schema.org',
