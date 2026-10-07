@@ -24,6 +24,7 @@ export const SITE_TAGLINE = 'Your Window Into Technology';
 
 export const routeGraph: RouteNode[] = [
   { path: '/', kind: 'home', title: SITE_NAME, indexable: true },
+  { path: '/news', kind: 'category', title: 'Technology News', indexable: true, navOrder: 10, navLabel: 'News' },
   { path: '/windows', kind: 'category', title: 'Windows', indexable: true, navOrder: 20, navLabel: 'Windows' },
   { path: '/gaming', kind: 'category', title: 'Gaming', indexable: true, navOrder: 30, navLabel: 'Gaming' },
   { path: '/hardware', kind: 'category', title: 'Hardware', indexable: true, navOrder: 40, navLabel: 'Hardware' },
@@ -48,6 +49,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/how-to-check-ram-for-errors-windows', kind: 'article', title: 'How to Check RAM for Errors on Windows (MemTest86 and Windows Memory Diagnostic)', indexable: true },
   { path: '/windows-11-blue-screen-stop-code-how-to-read', kind: 'article', title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause', indexable: true },
   { path: '/windows-11-freezing-randomly-causes-fix', kind: 'article', title: 'Windows 11 Freezing Randomly: How to Find the Cause', indexable: true },
+  { path: '/microsoft-windows-surface-event-october-7-what-to-watch', kind: 'article', title: 'Microsoft’s October 7 Windows and Surface Event: What Is Confirmed and What to Watch', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -60,6 +62,15 @@ export const navigation = routeGraph
  * groupings, not additional URLs. Every href must resolve to a graph route.
  */
 export const menuGroups: MenuGroup[] = [
+  {
+    label: 'News',
+    href: '/news',
+    description: 'Technology updates with context, not just headlines.',
+    links: [
+      { label: 'Latest Technology News', href: '/news', description: 'What matters and why.' },
+      { label: 'Windows and Surface Event', href: '/microsoft-windows-surface-event-october-7-what-to-watch', description: 'What is confirmed and what to watch.' },
+    ],
+  },
   {
     label: 'Windows',
     href: '/windows',
