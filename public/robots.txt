@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://techworldwindow.com/sitemap.xml
+
+# RSS feed for publishers and readers
