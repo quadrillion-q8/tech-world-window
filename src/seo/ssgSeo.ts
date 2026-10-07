@@ -10,7 +10,10 @@ type SeoData = {
   publishedAt?: string;
   updatedAt?: string;
   authorName?: string;
+  image?: string;
 };
+
+const DEFAULT_OG_IMAGE = '/og-default.png';
 
 const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   '/about': {
@@ -28,6 +31,14 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   '/privacy-policy': {
     title: 'Privacy Policy',
     description: 'Privacy information for Tech World Window, including data collection and service-use disclosures before launch.',
+  },
+  '/testing': {
+    title: 'TWW Testing Methodology',
+    description: 'How Tech World Window approaches hands-on testing, measurements, troubleshooting evidence, repeatability and technical limitations.',
+  },
+  '/research': {
+    title: 'TWW Technology Research',
+    description: 'Original technical studies, benchmark data and evidence-led research from Tech World Window.',
   },
   '/authors/imran-natiq': {
     title: 'Imran Natiq',
@@ -57,6 +68,7 @@ export function getSeoData(path: string): SeoData {
       publishedAt: article.publishedAt,
       updatedAt: article.updatedAt,
       authorName: authors[article.authorId]?.name || 'Tech World Window Editorial Team',
+      image: article.heroImage || DEFAULT_OG_IMAGE,
     };
   }
 
@@ -90,8 +102,8 @@ export function getSeoData(path: string): SeoData {
 
   if (normalizedPath === '/') {
     return {
-      title: 'Tech World Window — Your Window Into Technology',
-      description: 'Technology news, practical fixes, real-world testing and useful tools — clearly explained.',
+      title: 'Tech World Window: Windows, PC Gaming & Hardware Guides',
+      description: 'Practical Windows troubleshooting, PC gaming performance guides, hardware analysis, buying advice and free PC tools — explained with evidence.',
       canonical: SITE_URL,
       type: 'website',
     };
@@ -174,14 +186,15 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       description: seo.description,
     });
   }
-    schemas.unshift({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: siteEntity.name,
-      url: SITE_URL,
-      description: siteEntity.description,
-      slogan: SITE_TAGLINE,
-    });
+  schemas.unshift({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteEntity.name,
+    url: SITE_URL,
+    description: siteEntity.description,
+    slogan: SITE_TAGLINE,
+    logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') },
+  });
   if (article) {
     schemas.push({
       '@context': 'https://schema.org',
@@ -201,7 +214,8 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
         name: seo.authorName || 'Tech World Window Editorial Team',
         ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role } : {}),
       },
-      publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL },
+      publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
+      image: [absoluteUrl(article.heroImage || DEFAULT_OG_IMAGE)],
     });
     if (article.faq?.length) {
       schemas.push({
@@ -241,9 +255,13 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     `<meta property="og:title" content="${escapeHtml(seo.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(seo.description)}" />`,
     `<meta property="og:url" content="${escapeHtml(seo.canonical)}" />`,
-    '<meta name="twitter:card" content="summary" />',
+    `<meta property="og:image" content="${escapeHtml(absoluteUrl(seo.image || DEFAULT_OG_IMAGE))}" />`,
+    '<meta property="og:image:width" content="1200" />',
+    '<meta property="og:image:height" content="630" />',
+    '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(seo.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(seo.description)}" />`,
+    `<meta name="twitter:image" content="${escapeHtml(absoluteUrl(seo.image || DEFAULT_OG_IMAGE))}" />`,
   ];
 
   if (seo.publishedAt) headTags.push(`<meta property="article:published_time" content="${escapeHtml(seo.publishedAt)}" />`);
