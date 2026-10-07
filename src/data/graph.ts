@@ -47,6 +47,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/why-ssd-is-slowing-down-windows', kind: 'article', title: 'Why an SSD Can Slow Down Over Time: What to Check Before Replacing It', indexable: true },
   { path: '/how-to-check-ram-for-errors-windows', kind: 'article', title: 'How to Check RAM for Errors on Windows (MemTest86 and Windows Memory Diagnostic)', indexable: true },
   { path: '/windows-11-blue-screen-stop-code-how-to-read', kind: 'article', title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause', indexable: true },
+  { path: '/windows-11-freezing-randomly-causes-fix', kind: 'article', title: 'Windows 11 Freezing Randomly: How to Find the Cause', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -95,6 +96,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
       { label: 'RAM Testing', href: '/how-to-check-ram-for-errors-windows', description: 'Test memory for errors.' },
       { label: 'Blue Screens', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Read stop codes and find the cause.' },
+      { label: 'Random Freezes', href: '/windows-11-freezing-randomly-causes-fix', description: 'Classify freezes and find the cause.' },
     ],
   },
   {
