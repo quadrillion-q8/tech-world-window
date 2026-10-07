@@ -112,27 +112,29 @@ export const phase4Articles: Article[] = [
   },
   {
     "id": "windows-update-stuck",
-    "slug": "windows-11-update-stuck-troubleshooting",
-    "title": "Windows 11 Update Stuck: What to Check Before Resetting Windows Update",
-    "seoTitle": "Windows 11 Update Stuck: Safe Troubleshooting Steps",
-    "dek": "If a Windows update appears frozen, separate a slow installation from a real failure before clearing caches or resetting update components.",
-    "metaDescription": "Windows 11 update stuck? Learn how to tell a slow update from a failed one, check restart requirements, storage, services, and update history safely.",
-    "excerpt": "A percentage that does not move for a while is not proof that Windows Update is broken. Check activity, restart requirements, storage, and update history before resetting components.",
+    "slug": "windows/windows-update-stuck",
+    "title": "Windows Update Stuck? How Long to Wait, What to Check, and How to Fix It (Windows 11 & 10)",
+    "seoTitle": "Windows Update Stuck? How Long to Wait & How to Fix It (2026)",
+    "dek": "Windows 11 or 10 update stuck at 0%, 30%, 99% or ‘Working on updates’? Learn how long to wait, how to tell slow from frozen, and fix it step by step without losing data.",
+    "metaDescription": "Windows 11 or 10 update stuck at 0%, 30%, 99% or ‘Working on updates’? Learn how long to wait, how to tell slow from frozen, and fix it step by step.",
+    "excerpt": "Most ‘stuck’ updates are just slow. If disk or CPU activity is still happening, keep waiting; if there is absolutely no activity for 2 to 3 hours, treat the update as genuinely stuck and move to the least-destructive fix first.",
     "category": "Windows",
     "subcategory": "Updates",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
     "updatedAt": "2026-10-07",
-    "readingTime": 8,
+    "readingTime": 14,
     "tags": [
       "Windows 11",
+      "Windows 10",
       "Windows Update",
       "Updates",
-      "Troubleshooting"
+      "Troubleshooting",
+      "Error Codes"
     ],
     "appliesTo": [
-      "Windows 10",
-      "Windows 11"
+      "Windows 11",
+      "Windows 10"
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
@@ -141,44 +143,515 @@ export const phase4Articles: Article[] = [
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
+    "howTo": {
+      "name": "Safely diagnose and fix a stuck Windows Update",
+      "steps": [
+        "Confirm the update is genuinely stuck by checking disk, CPU, network, or installation activity.",
+        "If Windows is responsive, restart normally and check Windows Update again.",
+        "Run the Windows Update troubleshooter and record what it reports.",
+        "Free disk space and remove common blockers such as VPNs, proxies, and unnecessary USB devices.",
+        "Verify date, time, and time-zone settings and sync the clock.",
+        "Reset Windows Update services and cache folders if the same update repeatedly fails or downloads never start.",
+        "Repair the component store and system files with DISM followed by SFC when corruption is suspected.",
+        "Install a specific failed update manually from the Microsoft Update Catalog when appropriate.",
+        "Use Windows Recovery Environment to uninstall a broken update or use System Restore when normal boot fails.",
+        "Use an in-place repair install only after the safer fixes fail, keeping personal files and apps when the installer permits it."
+      ]
+    },
     "content": [
       {
-        "heading": "Slow is not the same as stuck",
+        "heading": "How long should a Windows update take?",
         "paragraphs": [
-          "Large cumulative or feature updates can spend time downloading, preparing, verifying, or installing. A percentage can appear unchanged while disk or network activity continues.",
-          "If the machine is still responsive, leave it connected to power and give the update time before forcing a shutdown. An interrupted installation can create a second problem."
+          "These are realistic ranges, not guarantees. Your storage type matters more than almost anything else."
+        ],
+        "table": {
+          "caption": "Typical Windows Update time ranges",
+          "headers": [
+            "Update type",
+            "SSD / NVMe",
+            "Older HDD",
+            "Notes"
+          ],
+          "rows": [
+            [
+              "Monthly cumulative update",
+              "15 to 45 min",
+              "45 to 120 min",
+              "Most common, usually 2 reboots"
+            ],
+            [
+              ".NET, driver, or definition updates",
+              "5 to 20 min",
+              "10 to 40 min",
+              "Often silent"
+            ],
+            [
+              "Annual feature update (for example, 24H2 or 25H2 style releases)",
+              "45 to 120 min",
+              "2 to 4+ hours",
+              "Multiple restarts are normal"
+            ],
+            [
+              "First update after a fresh install",
+              "1 to 3 hours",
+              "3+ hours",
+              "Large backlog downloads"
+            ],
+            [
+              "Very slow connection (under 5 Mbps)",
+              "Add download time",
+              "Add download time",
+              "The download phase can dominate"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Slow or stuck? The 60-second test",
+        "paragraphs": [
+          "Do this before touching anything.",
+          "If Windows is still on the desktop while the update downloads or installs in the background, press Ctrl + Shift + Esc to open Task Manager. Open Performance and watch Disk and Ethernet/Wi-Fi for 60 seconds, then check Processes for Windows Modules Installer Worker (TiWorker.exe) and Windows Update activity.",
+          "If the PC is on the blue ‘Working on updates’ or ‘Restarting’ screen, watch the drive activity light if the machine has one and check whether the spinning dots are still animating. A static percentage with animated dots can still mean Windows is working."
+        ],
+        "table": {
+          "caption": "What activity means during an update",
+          "headers": [
+            "What you see",
+            "Meaning",
+            "Action"
+          ],
+          "rows": [
+            [
+              "Disk activity or CPU use that rises and falls",
+              "Update is working",
+              "Wait"
+            ],
+            [
+              "Network traffic during downloading",
+              "Still downloading",
+              "Wait and check connection speed"
+            ],
+            [
+              "TiWorker.exe using CPU",
+              "Installing",
+              "Wait"
+            ],
+            [
+              "Zero disk, zero CPU, zero network for 2+ hours",
+              "Probably hung",
+              "Move to the safe fix order"
+            ],
+            [
+              "Reboot loop (restarts, rolls back, repeats)",
+              "Failed install",
+              {
+                "text": "Use recovery to uninstall or roll back the update",
+                "href": "#fix-9-use-recovery-to-uninstall-the-update-or-roll-back"
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Find your stage: where is the update stuck?",
+        "paragraphs": [
+          "Different stages fail for different reasons. Match what you see before applying a fix."
+        ],
+        "bullets": [
+          "Pending download or Downloading 0% → usually a connection, proxy, VPN, or update-service problem. Check the connection, disconnect a VPN or proxy, and confirm free storage.",
+          "Installing 0% or Installing 30% → the update may be extracting or staging large packages. Wait, but verify activity with the 60-second test.",
+          "Installing 99% or 100% → Windows may be finalizing, configuring components, and preparing to restart. A long pause can be normal.",
+          "Working on updates, 0% complete → this is the restart/configuration phase. Percentages can jump in large steps with long pauses.",
+          "Restarting or a black screen with a spinner → if there is no drive activity for hours, a display or driver hang may be involved rather than an update hang. Escalate only after the waiting rule is met.",
+          "We couldn't complete the updates. Undoing changes. → Windows is rolling back. Do not power off during the rollback unless it has clearly hung beyond the normal waiting window."
         ]
       },
       {
-        "heading": "Check the basics first",
+        "heading": "Before you do anything: protect your data",
         "paragraphs": [
-          "Confirm the PC has free storage, a stable internet connection, and enough battery or AC power. Remove unnecessary external storage and disconnect a VPN if it is interfering with the connection.",
-          "Open Settings and review Windows Update history. The failure code or update name can be more useful than the percentage shown during installation."
+          "If the PC is stuck and you are about to take stronger action, protect your data and recovery path first."
+        ],
+        "steps": [
+          "Back up important files if you can still reach the desktop. Use an external drive or cloud storage.",
+          "Find your BitLocker or Device Encryption recovery key through your Microsoft account or work/school administrator. Recovery actions can trigger a recovery-key prompt.",
+          "Plug in the charger on a laptop. Do not troubleshoot a long update on battery power.",
+          "Disconnect unnecessary USB drives, docks, and external displays."
         ]
       },
       {
-        "heading": "Use the built-in troubleshooter and restart",
+        "heading": "The safe fix order: least to most destructive",
         "paragraphs": [
-          "Restart the PC normally if Windows is responsive and the update is clearly waiting for a reboot. Then check for updates again.",
-          "If Windows provides a Windows Update troubleshooter, run it and record what it reports. Avoid third-party 'update repair' utilities that make undocumented system changes."
+          "Work through these in order and stop as soon as the update completes."
         ]
       },
       {
-        "heading": "When update components need deeper repair",
+        "heading": "Fix 1: Make sure it is really stuck, and wait the right amount",
         "paragraphs": [
-          "If repeated attempts fail with the same error, the Windows Update cache or servicing stack may need repair. Use Microsoft's documented repair procedures for the specific Windows version rather than deleting system folders at random.",
-          "If system files are also damaged, SFC and DISM can be appropriate, but they should be used as targeted repairs rather than a universal first response."
+          "Apply the 60-second test above. If there is any meaningful activity, wait. Leave the PC plugged in, do not close the lid, and check again in 30 to 60 minutes."
+        ]
+      },
+      {
+        "heading": "Fix 2: Restart normally (if Windows is responsive)",
+        "paragraphs": [
+          "If you are on the desktop and Windows Update says Restart now or Restart required, restart from the Start menu. Then open Settings → Windows Update and check for updates again. Many apparent ‘stuck’ updates are simply waiting for a reboot."
+        ]
+      },
+      {
+        "heading": "Fix 3: Run the built-in Windows Update troubleshooter",
+        "paragraphs": [
+          "On current Windows 11 builds, start with the automated Windows Update troubleshooter in the Get Help app. Some builds also expose a troubleshooter under Settings → System → Troubleshoot → Other troubleshooters.",
+          "Run the Windows Update troubleshooter, apply any fixes it offers, restart, and check for updates again. Record what the tool reports so you have evidence if the problem continues."
+        ],
+        "steps": [
+          "Open Get Help and search for Windows Update troubleshooter, or use Settings → System → Troubleshoot → Other troubleshooters when that option is present.",
+          "Run the Windows Update diagnostics.",
+          "Apply any suggested fixes, restart, and check Windows Update again."
+        ]
+      },
+      {
+        "heading": "Fix 4: Free up disk space and remove blockers",
+        "paragraphs": [
+          "Low storage is a common reason updates fail or become unreliable. Give Windows enough working room before deeper repair."
+        ],
+        "bullets": [
+          "Aim for at least 20 GB free for large feature updates and at least 10 GB for cumulative updates as a practical troubleshooting target.",
+          "Run Settings → System → Storage → Temporary files and remove safe temporary or update-cleanup data.",
+          "Disconnect VPNs, proxies, external drives, and unnecessary USB devices while testing.",
+          "Temporarily pause third-party antivirus only if its vendor documents doing so for Windows Update troubleshooting, then re-enable it immediately."
+        ]
+      },
+      {
+        "heading": "Fix 5: Check date, time, and region",
+        "paragraphs": [
+          "An incorrect clock or time zone can interfere with secure connections to Microsoft services."
+        ],
+        "steps": [
+          "Open Settings → Time & language → Date & time.",
+          "Turn on Set time automatically and Set time zone automatically.",
+          "Click Sync now and retry Windows Update."
+        ]
+      },
+      {
+        "heading": "Fix 6: Reset the Windows Update components (manual repair)",
+        "paragraphs": [
+          "Use this when the same update keeps failing with the same error, or downloads never start. This resets the update cache and related services; it does not intentionally delete personal files or installed apps.",
+          "Open Command Prompt as administrator and run the commands below one at a time. Renaming the cache folders rather than deleting them keeps the change reversible."
+        ],
+        "codeBlocks": [
+          "net stop wuauserv\nnet stop cryptSvc\nnet stop bits\nnet stop msiserver",
+          "ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old\nren C:\\Windows\\System32\\catroot2 catroot2.old",
+          "net start wuauserv\nnet start cryptSvc\nnet start bits\nnet start msiserver"
+        ],
+        "bullets": [
+          "Restart the PC and check for updates again. Windows will rebuild the renamed cache folders automatically.",
+          "If everything works, the .old folders can be removed later after you are satisfied the system is stable.",
+          "Do not delete unrelated folders inside C:\\Windows."
+        ]
+      },
+      {
+        "heading": "Fix 7: Repair system files with DISM and SFC",
+        "paragraphs": [
+          "When error codes or symptoms point to corruption, repair the component store first and then verify system files. Microsoft documents DISM repair and SFC as part of Windows servicing troubleshooting.",
+          "RestoreHealth can pause at a percentage for a while. Do not cancel it simply because the percentage has stopped moving.",
+          "If DISM cannot find the required source files, use a clean source that matches the installed Windows version and follow Microsoft's documented /Source guidance. Restart after both tools finish and retry Windows Update."
+        ],
+        "codeBlocks": [
+          "DISM /Online /Cleanup-Image /CheckHealth\nDISM /Online /Cleanup-Image /ScanHealth\nDISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow"
+        ],
+        "bullets": [
+          "Common corruption-related codes include 0x80073712, 0x800f081f, and 0x80070002, but error-code meanings should be confirmed against current Microsoft documentation.",
+          "Run DISM before SFC when following this repair path."
+        ]
+      },
+      {
+        "heading": "Fix 8: Install the update manually",
+        "paragraphs": [
+          "When Windows Update repeatedly fails on one specific update, install that update directly instead of retrying the same broken path."
+        ],
+        "steps": [
+          "Note the KB number from Settings → Windows Update → Update history.",
+          "Search that KB number at the Microsoft Update Catalog.",
+          "Choose the package matching the Windows version and architecture, such as x64 or ARM64.",
+          "Run the downloaded .msu package and restart when prompted."
+        ]
+      },
+      {
+        "heading": "Fix 9: Use Recovery to uninstall the update or roll back",
+        "paragraphs": [
+          "If the PC will not finish booting after the update, use Windows Recovery Environment (WinRE) and choose the least destructive recovery option that matches the evidence."
+        ],
+        "steps": [
+          "After the normal waiting period, trigger Windows Recovery Environment if it does not appear automatically. Repeated failed starts can cause Windows to enter WinRE; avoid unnecessary hard shutdowns when the system is still actively working.",
+          "Go to Troubleshoot → Advanced options.",
+          "Choose Uninstall Updates and remove the latest quality update first. If that does not help, consider the latest feature update.",
+          "Use System Restore if a suitable restore point exists.",
+          "Use Startup Repair when the boot path itself appears damaged."
+        ]
+      },
+      {
+        "heading": "Fix 10: Repair install (keep files and apps)",
+        "paragraphs": [
+          "If repeated failures persist after the targeted fixes above, an in-place upgrade (repair install) can reinstall Windows while preserving personal files and apps when the installer offers that option."
+        ],
+        "steps": [
+          "Download the current Windows ISO from Microsoft's official software download page.",
+          "Mount the ISO by double-clicking it in File Explorer.",
+          "Run setup.exe from the mounted drive.",
+          "Choose Keep personal files and apps when prompted, then follow the installer."
+        ]
+      },
+      {
+        "heading": "Last resort: Reset this PC or clean install",
+        "paragraphs": [
+          "Use reset or a clean installation only after repair options fail and your backup, license information, and recovery keys are secured. Reset this PC → Keep my files is less destructive than a clean install, but a clean install erases the system drive's existing Windows installation and application environment."
+        ]
+      },
+      {
+        "heading": "Windows Update error codes: what they actually mean",
+        "paragraphs": [
+          "Searching the exact code plus your Windows version usually gives a more targeted path than searching the generic ‘Windows Update stuck’ message. The meanings below are general troubleshooting guidance and should be confirmed against current Microsoft documentation for the specific build."
+        ],
+        "table": {
+          "caption": "Common Windows Update errors and useful first checks",
+          "headers": [
+            "Error code",
+            "Typical meaning",
+            "Best first fixes"
+          ],
+          "rows": [
+            [
+              "0x80070002 / 0x80070003",
+              "Files missing or path not found; corrupted cache",
+              "Fix 6; Fix 7"
+            ],
+            [
+              "0x80070005",
+              "Access denied; permissions or security software may interfere",
+              "Troubleshooter; security-software check; Fix 7"
+            ],
+            [
+              "0x80070070",
+              "Not enough disk space",
+              "Fix 4"
+            ],
+            [
+              "0x800f0922",
+              "Often a connection/VPN issue or a partition-space problem",
+              "Disconnect VPN; Fix 4; check partition space"
+            ],
+            [
+              "0x80073712",
+              "Component store has missing or damaged files",
+              "Fix 7"
+            ],
+            [
+              "0x800f081f / 0x800f0831",
+              "Source files not found or a prior update is missing",
+              "Fix 7 with a clean source; Fix 8"
+            ],
+            [
+              "0x8024a105",
+              "Windows Update client or cache problem",
+              "Fix 6; restart services; Fix 3"
+            ],
+            [
+              "0x80070643",
+              "Install failure that can involve recovery or MSI/.NET components",
+              "Fix 7; inspect the specific KB; Fix 8"
+            ],
+            [
+              "0x80240fff / 0x8024001e",
+              "Update service is busy or unavailable",
+              "Restart; wait; Fix 6"
+            ],
+            [
+              "0x8024402c / 0x80072ee2 / 0x80072efe",
+              "Unable to reach update services; network, proxy, or DNS may be involved",
+              "Check connection; remove proxy/VPN; use the DNS guide"
+            ],
+            [
+              "0xC1900101 (with sub-codes)",
+              "Driver or software conflict during a feature update",
+              "Update/remove problem drivers; disconnect peripherals; Fix 10"
+            ],
+            [
+              "0x800705b4",
+              "Timeout during the update process",
+              "Wait; Fix 3; Fix 6"
+            ]
+          ]
+        },
+        "bullets": [
+          "If your code is not listed, search the exact code plus your Windows version and favor Microsoft Support, Microsoft Learn, and Microsoft Q&A over random ‘driver updater’ pages."
+        ]
+      },
+      {
+        "heading": "What not to do",
+        "bullets": [
+          "Do not hard-power-off during active disk activity.",
+          "Do not download ‘update fixer’ tools from unknown sites.",
+          "Do not delete files inside C:\\Windows at random. Use only the deliberate cache-reset steps described above.",
+          "Do not disable Windows Update permanently to avoid the problem.",
+          "Do not run Reset this PC as your first step."
+        ],
+        "paragraphs": [
+          "An update can look frozen while it is still staging, verifying, or configuring files. The safest troubleshooting path is to preserve the evidence and change as little as possible at each step."
+        ]
+      },
+      {
+        "heading": "Windows 10 vs Windows 11: what changes",
+        "paragraphs": [
+          "The core troubleshooting logic is similar, but menu paths differ. For example, Windows 10 used Update & Security while Windows 11 uses Windows Update under Settings.",
+          "Windows 10 reached end of support on October 14, 2025. Devices that are enrolled in Microsoft's Extended Security Updates program can continue receiving eligible security updates, while standard support and free feature updates are no longer available.",
+          "Some PCs cannot run Windows 11 because of hardware requirements such as TPM 2.0, Secure Boot, and supported processor requirements. A feature-update failure can therefore be a compatibility block rather than a corrupted installation."
+        ]
+      },
+      {
+        "heading": "How to prevent stuck updates",
+        "bullets": [
+          "Keep 20 GB or more free on the system drive as a practical headroom target for larger updates.",
+          "Install updates when you can leave the PC plugged in and powered on.",
+          "Keep BIOS/UEFI and key storage, chipset, and graphics drivers current from the PC or component manufacturer.",
+          "Keep a recent backup. It turns a recovery problem into an inconvenience rather than a data-loss event.",
+          "If you use a VPN or proxy, disconnect it before large update operations when troubleshooting connectivity issues.",
+          "Avoid stacking multiple restart-pending installs back to back."
+        ]
+      },
+      {
+        "heading": "When it might be hardware, not software",
+        "paragraphs": [
+          "If updates fail repeatedly across clean installs, or the PC also freezes, crashes, corrupts files, or responds very slowly to disk operations, the problem may be hardware rather than Windows."
+        ],
+        "bullets": [
+          "SSD/HDD health → use the drive maker's diagnostics or inspect SMART data. A failing drive can stall on writes and look like a stuck update.",
+          "Memory → run Windows Memory Diagnostic or MemTest86 when random install failures suggest RAM instability.",
+          "Overheating → laptops that throttle heavily during long installs can take far longer or crash.",
+          "Power → a failing battery, adapter, or power supply can cause shutdowns during installation."
+        ]
+      },
+      {
+        "heading": "Related Windows guides",
+        "paragraphs": [
+          "Use the broader Windows troubleshooting pillar when the symptom is not clearly limited to updates. These pages cover the adjacent failure modes most likely to overlap with update problems."
+        ],
+        "table": {
+          "caption": "Related Windows troubleshooting guides",
+          "headers": [
+            "Guide",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              {
+                "text": "Windows Troubleshooting: Complete Guide",
+                "href": "/windows-troubleshooting-complete-guide"
+              },
+              "Use when you are not sure whether the problem is Windows, hardware, startup, networking, or storage."
+            ],
+            [
+              {
+                "text": "Windows 11 Won’t Start",
+                "href": "/windows-11-wont-start-troubleshooting"
+              },
+              "Use when the update appears to have left the PC unable to reach Windows."
+            ],
+            [
+              {
+                "text": "Windows 11 100% Disk Usage",
+                "href": "/windows-11-disk-100-percent-usage"
+              },
+              "Use when disk activity is persistently high and you need to identify the process behind it."
+            ],
+            [
+              {
+                "text": "Windows Says Connected but No Internet",
+                "href": "/windows-11-wifi-connected-no-internet"
+              },
+              "Use when the update is failing because Windows cannot reach Microsoft services reliably."
+            ],
+            [
+              {
+                "text": "Windows 11 DNS Not Working",
+                "href": "/windows-11-dns-not-working-how-to-fix"
+              },
+              "Use when names fail to resolve but the underlying network is otherwise working."
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Frequently asked questions",
+        "paragraphs": [
+          "These answers cover the most common decisions people face when an update appears frozen."
         ]
       }
     ],
     "faq": [
       {
         "question": "Should I turn off the PC when a Windows update is stuck?",
-        "answer": "Avoid forcing a shutdown while an installation is actively progressing if the system is still responsive. First check whether there is disk activity, a restart prompt, or another sign that the process is still working."
+        "answer": "Only as a last resort. If there is any disk, CPU, or network activity, wait. If there has been absolutely no activity for 2 to 3 hours, a forced shutdown may be reasonable as a recovery step, but back up first when possible and be prepared for Windows to roll back or enter recovery."
+      },
+      {
+        "question": "How long is too long for a Windows update to take?",
+        "answer": "For a cumulative update, more than about 2 hours with no measurable activity is a useful point to escalate. Feature updates can take several hours, especially on older hard drives, so verify activity before deciding that the percentage is frozen."
+      },
+      {
+        "question": "Why is my Windows update stuck at 100%?",
+        "answer": "At 100%, Windows may still be finalizing changes and preparing to restart. A long pause can be normal. If there is no meaningful activity for a couple of hours, treat it as a likely hang and move to recovery steps."
+      },
+      {
+        "question": "Why is Windows stuck on ‘Working on updates’ after restart?",
+        "answer": "That is the post-restart configuration phase. The percentage can jump in large steps with long pauses, particularly during feature updates. Judge it by activity and elapsed time rather than the percentage alone."
       },
       {
         "question": "Can low storage cause Windows Update to fail?",
-        "answer": "Yes. Updates need working space for downloads, staging, temporary files, and rollback data. Freeing safe disk space can remove one common cause."
+        "answer": "Yes. Updates need working space for downloads, staging, temporary files, and rollback data. Freeing at least 10 GB for smaller monthly updates and around 20 GB or more for larger feature updates is a practical troubleshooting target."
+      },
+      {
+        "question": "Will I lose my files if I force a shutdown?",
+        "answer": "Usually Windows will attempt to roll back an interrupted installation, but a forced shutdown during an active write carries a real risk of corruption. Back up first whenever possible and only use a forced shutdown after the appropriate waiting period."
+      },
+      {
+        "question": "Is it safe to delete the SoftwareDistribution folder?",
+        "answer": "Use the documented reset process rather than deleting it at random. Renaming the SoftwareDistribution and catroot2 folders after stopping the related services is the more cautious, reversible approach."
+      },
+      {
+        "question": "Does resetting Windows Update delete my files or apps?",
+        "answer": "The cache reset described in this guide is intended to rebuild Windows Update's working folders and restart its services; it is not a Reset this PC operation and does not intentionally remove personal files or installed applications."
+      },
+      {
+        "question": "What if the update keeps failing with the same error code?",
+        "answer": "Search the exact code, then work through the troubleshooter, disk-space and blocker checks, the Windows Update component reset, DISM and SFC when appropriate, manual installation from the Microsoft Update Catalog, and finally a repair install if necessary."
+      },
+      {
+        "question": "Why does Windows Update get stuck more on some PCs?",
+        "answer": "Common contributors include old hard drives, low free storage, corrupted update state, VPN or security-software interference, failing hardware, and incompatible drivers. The pattern of failure is more useful than the percentage shown on screen."
+      }
+    ],
+    "sources": [
+      {
+        "label": "Microsoft Support: Troubleshoot problems updating Windows",
+        "url": "https://support.microsoft.com/en-gb/windows/deployment/updates-lifecycle/troubleshoot-problems-updating-windows"
+      },
+      {
+        "label": "Microsoft Learn: DISM Command-Line Options",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/deployment-image-servicing-and-management--dism--command-line-options?view=windows-11"
+      },
+      {
+        "label": "Microsoft Learn: Fix Windows Update corruptions and installation failures",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"
+      },
+      {
+        "label": "Microsoft Update Catalog",
+        "url": "https://www.catalog.update.microsoft.com/"
+      },
+      {
+        "label": "Microsoft: Download Windows 11",
+        "url": "https://www.microsoft.com/en-us/software-download/windows11"
+      },
+      {
+        "label": "Microsoft Support: Windows 10 support and Extended Security Updates",
+        "url": "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025"
       }
     ]
   },
