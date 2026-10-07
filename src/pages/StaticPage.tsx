@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
-import { SEOEngine } from '../seo/SEOEngine';
+import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
 import { SITE_NAME, SITE_URL } from '../data/graph';
 
 // Public contact address shown on the Contact, Privacy and Editorial pages.
@@ -106,6 +106,11 @@ export function StaticPage() {
   return (
     <section className="section static-page">
       <SEOEngine title={page.title} description={page.description} path={location.pathname} />
+      <BreadcrumbStructuredData items={[
+        { name: 'Home', path: '/' },
+        { name: page.title, path: location.pathname },
+      ]} />
+      <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><span>{page.title}</span></div>
       {location.pathname === '/authors/imran-natiq' && <Head><script type="application/ld+json">{JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'ProfilePage',
@@ -123,6 +128,15 @@ export function StaticPage() {
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{page.title}</h1>
       {page.body.map((p, i) => <p key={i}>{p}</p>)}
+      {location.pathname === '/authors/imran-natiq' && <div className="author-profile-links">
+        <h2>Explore the work</h2>
+        <div className="profile-link-grid">
+          <Link to="/testing"><strong>Testing Methodology</strong><span>How TWW handles measurements, troubleshooting and evidence.</span></Link>
+          <Link to="/research"><strong>TWW Research</strong><span>Original technical studies and evidence-led investigations.</span></Link>
+          <Link to="/editorial-policy"><strong>Editorial Policy</strong><span>Accuracy, corrections, sourcing and commercial independence.</span></Link>
+          <Link to="/guides"><strong>Practical Guides</strong><span>Windows, gaming and hardware troubleshooting.</span></Link>
+        </div>
+      </div>}
       <Link className="text-link" to="/">Return to the homepage →</Link>
     </section>
   );
