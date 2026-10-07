@@ -29,8 +29,10 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-blue-screen-stop-code",
-      "windows-freezing-randomly"
+      "windows-update-stuck",
+      "windows-unknown-device",
+      "windows-slow-startup",
+      "windows-high-memory"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -134,7 +136,6 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-freezing-randomly",
       "windows-wont-start"
     ],
     "contentRole": "cluster",
@@ -208,8 +209,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "check-ram-for-errors",
-      "windows-freezing-randomly"
+      "windows-wont-start"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -282,8 +282,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-wont-start",
-      "windows-freezing-randomly"
+      "windows-wont-start"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -355,9 +354,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "ssd-health",
-      "ssd-slowdown",
-      "windows-freezing-randomly"
+      "windows-slow-startup"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -499,7 +496,10 @@ export const phase4Articles: Article[] = [
     "relatedArticles": [
       "gaming-stutter",
       "gpu-frame-time-spikes",
-      "shader-compilation-stutter"
+      "shader-compilation-stutter",
+      "gaming-gpu-100-percent",
+      "gaming-crashes-desktop",
+      "gaming-laptop-upgrade-check"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
@@ -574,8 +574,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "gpu-frame-time-spikes",
-      "check-ram-for-errors",
-      "windows-blue-screen-stop-code"
+      "gaming-low-fps",
+      "gaming-laptop-upgrade-check"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
@@ -644,8 +644,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "gaming-low-fps",
-      "gpu-frame-time-spikes",
-      "nvme-temperature"
+      "gpu-frame-time-spikes"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
@@ -707,8 +706,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "check-ram-for-errors",
-      "windows-high-memory",
-      "best-ram"
+      "ddr4-vs-ddr5",
+      "gpu-overheating"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -775,9 +774,8 @@ export const phase4Articles: Article[] = [
       "PC Hardware"
     ],
     "relatedArticles": [
-      "gpu-frame-time-spikes",
-      "gaming-low-fps",
-      "gaming-gpu-100-percent"
+      "psu-failure-symptoms",
+      "ram-upgrade-gaming"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -845,7 +843,6 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-freezing-randomly",
-      "gaming-low-fps",
       "gpu-overheating"
     ],
     "contentRole": "cluster",
@@ -914,8 +911,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "ssd-health",
-      "ssd-slowdown",
-      "windows-disk-100-percent"
+      "ssd-slowdown"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -984,8 +980,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "ram-upgrade-gaming",
-      "check-ram-for-errors",
-      "best-ram"
+      "check-ram-for-errors"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -1054,8 +1049,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "ssd-health",
-      "ssd-slowdown",
-      "best-ssds"
+      "ssd-slowdown"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -1123,9 +1117,8 @@ export const phase4Articles: Article[] = [
       "Hardware"
     ],
     "relatedArticles": [
-      "nvme-laptop-upgrade",
-      "ram-upgrade-gaming",
-      "best-gaming-laptops"
+      "gaming-low-fps",
+      "gaming-crashes-desktop"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
