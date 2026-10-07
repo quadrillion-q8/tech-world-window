@@ -34,9 +34,14 @@ const hubs: Record<string, HubConfig> = {
   },
   '/reviews/ssds': {
     title: 'SSD Reviews', eyebrow: 'HARDWARE REVIEWS',
-    description: 'SSD testing and reviews focused on speed, thermals, endurance and real-world Windows use.',
-    intro: 'This review hub is ready for product-specific pages. Product pages will only claim hands-on results when the product was actually tested; otherwise specifications and independent evidence will be clearly identified.',
-    cards: [],
+    description: 'SSD coverage focused on specifications, thermals, endurance and real-world buying decisions.',
+    intro: 'Product pages distinguish manufacturer specifications from TWW hands-on testing. Current SSD profiles are specification-based until TWW has independently tested the drive.',
+    cards: [
+      { title: 'Samsung 990 PRO 4TB', description: 'PCIe 4.0 SSD with 4TB capacity and a 2,400 TBW rating.', href: '/reviews/ssds/samsung-990-pro-4tb', label: 'SSD Profile' },
+      { title: 'Crucial T500 2TB', description: 'PCIe 4.0 SSD with up to 7,400/7,000 MB/s rated sequential performance.', href: '/reviews/ssds/crucial-t500-2tb', label: 'SSD Profile' },
+      { title: 'Samsung 990 PRO vs Crucial T500', description: 'Compare capacity, rated performance, endurance and use cases.', href: '/compare/samsung-990-pro-vs-crucial-t500', label: 'Comparison' },
+      { title: 'Best SSDs for Gaming and Windows', description: 'How to choose capacity, interface, thermals, endurance and value.', href: '/best-ssds', label: 'Buying Guide' },
+    ],
   },
   '/reviews/gpus': {
     title: 'GPU Reviews', eyebrow: 'HARDWARE REVIEWS',
