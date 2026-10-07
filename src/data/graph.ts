@@ -24,12 +24,10 @@ export const SITE_TAGLINE = 'Your Window Into Technology';
 
 export const routeGraph: RouteNode[] = [
   { path: '/', kind: 'home', title: SITE_NAME, indexable: true },
-  { path: '/news', kind: 'category', title: 'Technology News', indexable: true, navOrder: 10, navLabel: 'News' },
   { path: '/windows', kind: 'category', title: 'Windows', indexable: true, navOrder: 20, navLabel: 'Windows' },
   { path: '/gaming', kind: 'category', title: 'Gaming', indexable: true, navOrder: 30, navLabel: 'Gaming' },
   { path: '/hardware', kind: 'category', title: 'Hardware', indexable: true, navOrder: 40, navLabel: 'Hardware' },
   { path: '/guides', kind: 'category', title: 'Guides', indexable: true, navOrder: 50, navLabel: 'Guides' },
-  { path: '/reviews', kind: 'category', title: 'Reviews', indexable: true, navOrder: 60, navLabel: 'Reviews' },
   { path: '/tools', kind: 'tools', title: 'Technology Tools', indexable: true, navOrder: 70, navLabel: 'Tools' },
   { path: '/tools/pc-bottleneck-calculator', kind: 'tool', title: 'PC Bottleneck Calculator', indexable: true },
   { path: '/about', kind: 'static', title: 'About Tech World Window', indexable: true },
@@ -60,16 +58,6 @@ export const navigation = routeGraph
  * groupings, not additional URLs. Every href must resolve to a graph route.
  */
 export const menuGroups: MenuGroup[] = [
-  {
-    label: 'News',
-    href: '/news',
-    description: 'Technology updates with context, not just headlines.',
-    links: [
-      { label: 'Latest Technology News', href: '/news', description: 'What matters and why.' },
-      { label: 'Windows', href: '/windows', description: 'Microsoft and Windows coverage.' },
-      { label: 'Hardware', href: '/hardware', description: 'PC components and devices.' },
-    ],
-  },
   {
     label: 'Windows',
     href: '/windows',
@@ -104,7 +92,6 @@ export const menuGroups: MenuGroup[] = [
       { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
       { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
       { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
-      { label: 'Reviews', href: '/reviews', description: 'Evidence-led product coverage.' },
     ],
   },
   {
@@ -116,16 +103,6 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Windows', href: '/windows' },
       { label: 'Gaming', href: '/gaming' },
       { label: 'Hardware', href: '/hardware' },
-    ],
-  },
-  {
-    label: 'Reviews',
-    href: '/reviews',
-    description: 'Practical testing with methods and limitations.',
-    links: [
-      { label: 'All Reviews', href: '/reviews' },
-      { label: 'Hardware', href: '/hardware' },
-      { label: 'Editorial Policy', href: '/editorial-policy', description: 'How testing claims are handled.' },
     ],
   },
   {
