@@ -28,7 +28,7 @@ export function Home() {
         <div className="section-heading"><div><span className="eyebrow">LATEST EXPLAINERS</span><h2>Make your next tech problem easier.</h2></div><Link className="text-link" to="/guides">Browse all guides →</Link></div>
         <div className="article-grid">{featured.map(article => <ArticleCard key={article.id} article={article} featured />)}{articles.filter(a => !a.featured).map(article => <ArticleCard key={article.id} article={article} />)}</div>
       </section>
-      <section className="tool-banner"><div><span className="eyebrow">FREE TOOL · IN DEVELOPMENT</span><h2>Understand your PC before you upgrade.</h2><p>Use our starter bottleneck estimator to think through CPU/GPU pairing, resolution, and the limits of simple calculators.</p></div><Link className="button button-light" to="/tools/pc-bottleneck-calculator">Open the PC tool →</Link></section>
+      <section className="tool-banner"><div><span className="eyebrow">FREE TECH TOOLS</span><h2>Understand your PC before you upgrade.</h2><p>Use our free calculators to plan PC upgrades, storage, memory and power before you spend money.</p></div><Link className="button button-light" to="/tools/pc-bottleneck-calculator">Open the PC tool →</Link></section>
       <section className="author-strip"><div className="author-avatar">IN</div><div><span className="eyebrow">FROM THE WORKBENCH</span><h2>Advice informed by real hardware work.</h2><p>Imran Natiq is a hardware repair engineer focused on practical PC and laptop troubleshooting. Articles should show their evidence, limits, and sources—not just confident claims.</p></div><Link className="text-link" to="/authors/imran-natiq">Meet the author →</Link></section>
     </>
   );
