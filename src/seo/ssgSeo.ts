@@ -217,6 +217,14 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
       image: [absoluteUrl(article.heroImage || DEFAULT_OG_IMAGE)],
     });
+    if (article.howTo?.steps.length) {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: article.howTo.name,
+        step: article.howTo.steps.map((text, index) => ({ '@type': 'HowToStep', position: index + 1, name: text })),
+      });
+    }
     if (article.faq?.length) {
       schemas.push({
         '@context': 'https://schema.org',
