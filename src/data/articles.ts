@@ -743,6 +743,70 @@ export const articles: Article[] = [
       { question: 'Can a full or failing drive make Windows freeze?', answer: 'Yes. Windows waits for the drive, so slow or failing storage can stall the whole system. Check drive health and free space.' },
       { question: 'Should I turn off Fast Startup?', answer: 'It is a reasonable test if freezes follow sleep or a quick start. Turn it off, restart fully, and see whether the problem stops.' }
     ]
+  },
+
+  {
+    id: 'microsoft-windows-surface-event-oct-7',
+    slug: 'microsoft-windows-surface-event-october-7-what-to-watch',
+    title: 'Microsoft’s October 7 Windows and Surface Event: What Is Confirmed and What to Watch',
+    seoTitle: 'Microsoft Windows and Surface Event Oct 7: What to Watch',
+    dek: 'Microsoft, NVIDIA and Surface are on one stage today. Here is what the company has actually said, what is still only reported, and the questions that will decide whether the announcements matter for ordinary PC buyers.',
+    metaDescription: 'Microsoft’s October 7 Windows and Surface event: what is confirmed, what is rumored, no Windows 12 expected, and what to check after the livestream.',
+    excerpt: 'A pre-event guide that separates Microsoft’s own statements from rumor, with a checklist for judging the announcements once they are out.',
+    category: 'News',
+    subcategory: 'Windows',
+    authorId: 'imranNatiq',
+    publishedAt: '2026-10-07',
+    updatedAt: '2026-10-07',
+    readingTime: 6,
+    tags: ['Microsoft', 'Surface', 'Windows 11', 'NVIDIA RTX Spark', 'Local AI', 'News'],
+    searchIntent: 'informational',
+    content: [
+      { heading: 'What is confirmed', paragraphs: [
+        'Microsoft has announced a Windows and Surface event for October 7, 2026 at 10 a.m. Pacific Time, which is 8 p.m. in Kuwait and Saudi Arabia and 9 p.m. in the UAE. It is streamed live on the Windows YouTube channel.',
+        'Microsoft’s own description says the event covers what is next from Windows, Surface and NVIDIA, with RTX Spark and new experiences for developers and builders. Reports say Microsoft CEO Satya Nadella, Surface and Windows chief Pavan Davuluri and NVIDIA CEO Jensen Huang are due to appear.'
+      ], bullets: [
+        'The Surface Laptop Ultra and NVIDIA’s RTX Spark platform were both announced earlier in 2026, so neither is a surprise reveal.',
+        'Microsoft has not announced Windows 12 for this event, and coverage of the run-up says not to expect it.',
+        'The framing from Microsoft is local AI, meaning AI work that runs on the PC rather than only in the cloud.'
+      ] },
+      { heading: 'What has already been shown', paragraphs: [
+        'The Surface Laptop Ultra is a 15-inch laptop built around NVIDIA’s RTX Spark chip, which pairs an Arm-based CPU with RTX graphics and a single pool of unified memory. Published figures include a thickness under 18 mm, up to 128 GB of unified memory, and up to one petaflop of AI compute.',
+        'Treat that last number carefully. It is a vendor-stated peak figure for a specific kind of AI arithmetic, not a result from a real application. It tells you the ceiling of the hardware, not how fast your own work will run.'
+      ] },
+      { heading: 'What is reported but not confirmed', paragraphs: [
+        'Several outlets have described possible Windows announcements: support for AI agents that run on the device, controls for how GPU memory is shared, and design changes to parts of the interface. These come from reporting and previews, not from Microsoft, so treat them as possibilities until the stream shows them.',
+        'Pricing is also unconfirmed. Reports expect the Surface Laptop Ultra to be expensive, but no official price had been published when we wrote this.'
+      ] },
+      { heading: 'Five questions that decide whether it matters', paragraphs: [
+        'Announcements are easy to like. What counts is what you can buy and use. Once the event ends, check these.'
+      ], steps: [
+        'Which exact configurations will ship, and what do they cost? Memory and chip choices change the price a lot.',
+        'When can you actually buy one in your country? An international announcement is not a local launch.',
+        'Does the software you use run natively on this Arm-based platform, or through compatibility layers? Check your key apps, games and drivers.',
+        'How does it behave under a long load? Thin designs can throttle, so look for independent tests of temperatures, fan noise and sustained speed.',
+        'What can a local AI feature really do offline, and what permissions does an on-device agent need? Local does not automatically mean private.'
+      ] },
+      { heading: 'What it means if you are not buying one', paragraphs: [
+        'Most people will not buy a premium Surface laptop. The more useful result is what filters down: changes to Windows 11, better driver and software support for AI workloads, and the next round of cheaper laptops built on similar ideas.',
+        'If you are shopping for a laptop in the next few months, an AI chip or a petaflop number should not decide it. Battery life, cooling, memory, storage, repairability and warranty still matter more for day-to-day use.'
+      ] },
+      { heading: 'What we will update', paragraphs: [
+        'This article was written before the event. After the stream we will update it with what Microsoft actually announced, official specifications, pricing and availability where published, and independent test results when they exist.'
+      ] }
+    ],
+    testing: 'This is a pre-event news preview. We have not tested any of the products mentioned, and every specification is quoted from the manufacturers or from the sources listed below. Items marked as reported are unconfirmed.',
+    sources: [
+      { label: 'Windows Central: how to watch Microsoft’s Windows and Surface event', url: 'https://www.windowscentral.com/microsoft/windows-11/how-to-watch-microsofts-windows-and-surface-event' },
+      { label: 'Windows Central: what to expect at the October 7 event', url: 'https://www.windowscentral.com/microsoft/windows-11/what-to-expect-at-microsofts-special-windows-and-surface-event-on-october-7-surface-laptop-ultra-and-rtx-spark-revealed-new-agentic-os-capabilities-and-more' },
+      { label: 'Windows Latest: Microsoft confirms its first major Windows event in two years', url: 'https://www.windowslatest.com/2026/09/16/microsoft-confirms-first-major-windows-event-in-two-years-but-dont-hold-your-breath-for-windows-12/' }
+    ],
+    faq: [
+      { question: 'What time is the Microsoft Windows and Surface event?', answer: 'It starts at 10 a.m. Pacific Time on October 7, 2026, which is 8 p.m. in Kuwait and Saudi Arabia. It streams on the Windows YouTube channel.' },
+      { question: 'Will Microsoft announce Windows 12 on October 7?', answer: 'Microsoft has not announced Windows 12 for the event, and coverage of the run-up says it is not expected.' },
+      { question: 'Is the Surface Laptop Ultra new at this event?', answer: 'No. It was announced earlier in 2026. The event is expected to add details such as configurations, availability and software.' },
+      { question: 'What does the one-petaflop figure mean?', answer: 'It is a vendor-stated peak for a specific kind of AI calculation, not a real-world benchmark. Wait for independent tests to see how it performs in applications.' }
+    ]
   }
 ];
 
