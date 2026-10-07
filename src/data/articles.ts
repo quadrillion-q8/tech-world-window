@@ -386,7 +386,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 10,
     tags: ['SSD', 'SMART', 'Storage', 'Windows'],
-    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -514,7 +514,7 @@ export const articles: Article[] = [
     readingTime: 8,
     tags: ['RAM', 'Memory', 'MemTest86', 'Blue Screen', 'Troubleshooting'],
     appliesTo: ['Windows 10', 'Windows 11'],
-    relatedArticles: ['ssd-health', 'ssd-slowdown', 'windows-blue-screen-stop-code'],
+    relatedArticles: ['ssd-health', 'ssd-slowdown', 'windows-blue-screen-stop-code', 'windows-freezing-randomly'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -588,7 +588,7 @@ export const articles: Article[] = [
     readingTime: 9,
     tags: ['Windows 11', 'Blue Screen', 'BSOD', 'Stop Code', 'Troubleshooting'],
     appliesTo: ['Windows 10', 'Windows 11'],
-    relatedArticles: ['check-ram-for-errors', 'ssd-health'],
+    relatedArticles: ['check-ram-for-errors', 'ssd-health', 'windows-freezing-randomly'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -659,6 +659,89 @@ export const articles: Article[] = [
       { question: 'Is one blue screen a sign my PC is failing?', answer: 'Not necessarily. A single crash can be a one-off. Repeated crashes, especially with the same code or file, deserve investigation.' },
       { question: 'Where does Windows save blue screen crash files?', answer: 'Small memory dumps are saved in C:\\Windows\\Minidump when enabled, and crash events also appear in Reliability Monitor and Event Viewer.' },
       { question: 'Should I reinstall Windows after a blue screen?', answer: 'Usually not as a first step. Undo recent changes, repair system files, and test memory and storage first, because a reinstall will not fix a hardware fault.' }
+    ]
+  },
+
+  {
+    id: 'windows-freezing-randomly',
+    slug: 'windows-11-freezing-randomly-causes-fix',
+    title: 'Windows 11 Freezing Randomly: How to Find the Cause',
+    seoTitle: 'Windows 11 Freezing Randomly: Causes and How to Fix It',
+    dek: 'A freeze can come from a driver, a struggling drive, heat, memory, or power. Learn to classify the freeze, read the evidence Windows leaves behind, and test the likely causes in order.',
+    metaDescription: 'Windows 11 freezing randomly? Learn how to tell freeze types apart, check Event Viewer and drive health, and test the likely causes step by step.',
+    excerpt: 'How a PC freezes tells you where to look. Classify the freeze first, then check the logs, the drive, the temperatures, and the drivers.',
+    category: 'Hardware',
+    subcategory: 'Crashes',
+    authorId: 'imranNatiq',
+    publishedAt: '2026-10-07',
+    updatedAt: '2026-10-07',
+    readingTime: 9,
+    tags: ['Windows 11', 'Freezing', 'Hang', 'Troubleshooting', 'Performance'],
+    appliesTo: ['Windows 10', 'Windows 11'],
+    relatedArticles: ['windows-blue-screen-stop-code', 'ssd-health', 'check-ram-for-errors'],
+    contentRole: 'cluster',
+    pillarPath: '/hardware',
+    searchIntent: 'informational',
+    content: [
+      { heading: 'Start by classifying the freeze', paragraphs: [
+        'Not every freeze is the same fault. A PC that stops for a few seconds and recovers behaves differently from one that locks up completely and needs a hard power-off. Which kind you have narrows the search before you change anything.',
+        'Next time it happens, note what still works. Does the mouse pointer move? Does the Caps Lock light respond when you press the key? Does sound keep playing? Does it recover on its own?'
+      ], table: {
+        caption: 'What the type of freeze suggests',
+        headers: ['What you see', 'Worth checking first'],
+        rows: [
+          ['Stops for a few seconds, then recovers', 'A busy or slow drive, a background task, or a driver delay.'],
+          ['Pointer moves but windows will not respond', 'A hung application, high disk use, or memory pressure.'],
+          ['Everything stops, including the pointer, and it does not recover', 'A driver fault, overheating, memory, or an unstable power supply.'],
+          ['Freezes only in games or while using the GPU', 'Graphics driver, GPU temperature, or power delivery.'],
+          ['Freezes after waking from sleep or after a fast start', 'Power settings and chipset or graphics drivers.']
+        ]
+      } },
+      { heading: 'Step 1: check what changed', paragraphs: [
+        'Freezes that started recently usually have a trigger: a driver or Windows update, new hardware, a new program, or a BIOS or overclock change. Think back to what changed in the days before the first freeze.',
+        'If you can pin it down, undo that change first. A rolled-back driver or removed program is the cheapest fix there is.'
+      ] },
+      { heading: 'Step 2: read the evidence Windows left behind', paragraphs: [
+        'Press Windows + R, type perfmon /rel, and press Enter to open Reliability Monitor. It shows a timeline of crashes, hangs, and failures, and it often records which application stopped responding.',
+        'In Event Viewer, go to Windows Logs, then System, and look around the time of a freeze. Some events are especially informative.'
+      ], bullets: [
+        'Kernel-Power event 41 means the PC restarted or lost power without shutting down cleanly, which is what a hard power-off after a freeze looks like.',
+        'Disk or storage errors, including messages about a device reset, point to the drive, its cable, or its driver.',
+        'Display driver messages, such as one saying the driver stopped responding and recovered, point to the graphics driver.'
+      ] },
+      { heading: 'Step 3: look at the drive', paragraphs: [
+        'A failing or full drive is one of the most common causes of freezes, because Windows waits for the drive and everything stalls. Open Task Manager during a slow period and look at the Disk column. A drive stuck near 100 percent while little is actually being read or written is a warning sign.',
+        'Check the drive health with the SSD health guide, and make sure the drive has free space. Drives that are nearly full tend to slow down and stall more often.'
+      ] },
+      { heading: 'Step 4: temperatures and power', paragraphs: [
+        'Overheating can make a PC freeze rather than shut down, especially when the CPU or GPU throttles hard. Watch temperatures under load with a monitoring tool and clear dust from fans and vents.',
+        'Freezes that arrive under heavy load, or with no pattern at all, can also come from an underpowered or failing power supply. This is harder to prove without swapping the part, so treat it as a later suspect.'
+      ] },
+      { heading: 'Step 5: test in a sensible order', paragraphs: [
+        'Work from the least disruptive test to the most invasive, and change only one thing at a time so you know what made the difference.'
+      ], steps: [
+        'Restart fully rather than using Fast Startup, which can carry a faulty state across shutdowns. In Control Panel, Power Options, Choose what the power buttons do, you can turn Fast Startup off as a test.',
+        'Run Windows Security to scan for malware, and turn off any second antivirus program that may be conflicting with it.',
+        'Do a clean boot to test for software conflicts. Open msconfig, hide Microsoft services, disable the rest, restart, and see if the freezes stop.',
+        'Update the graphics, chipset, and storage drivers from the manufacturer or Windows Update. If a recent driver started the problem, roll it back instead.',
+        'Repair system files by running sfc /scannow in an administrator terminal, then DISM /Online /Cleanup-Image /RestoreHealth if it finds problems.',
+        'Test the memory with the RAM testing guide, and check the drive health.',
+        'Check for a BIOS or firmware update from the maker of your PC or motherboard, and remove any overclock or memory profile as a test.'
+      ] },
+      { heading: 'When it turns into a blue screen', paragraphs: [
+        'If a freeze is followed by a blue screen or an automatic restart, the stop code gives you extra evidence. Follow the blue screen guide to read it.',
+        'If you have worked through the steps and the freezes continue without a clear pattern, a failing drive, power supply, or motherboard becomes more likely. At that point, back up your files and have the hardware tested.'
+      ] }
+    ],
+    testing: 'The steps use tools built into Windows 10 and 11. Menu names and event wording can vary slightly between versions, and freezes can have more than one cause at once.',
+    sources: [
+      { label: 'Microsoft Support: Windows help', url: 'https://support.microsoft.com/windows' }
+    ],
+    faq: [
+      { question: 'Why does my Windows 11 PC freeze randomly?', answer: 'Common causes are a driver fault, a failing or full drive, overheating, faulty memory, or an unstable power supply. How the freeze behaves helps narrow it down.' },
+      { question: 'What does Kernel-Power event 41 mean?', answer: 'It means Windows restarted without shutting down cleanly, for example after a hard power-off following a freeze. It shows that a crash happened but not why.' },
+      { question: 'Can a full or failing drive make Windows freeze?', answer: 'Yes. Windows waits for the drive, so slow or failing storage can stall the whole system. Check drive health and free space.' },
+      { question: 'Should I turn off Fast Startup?', answer: 'It is a reasonable test if freezes follow sleep or a quick start. Turn it off, restart fully, and see whether the problem stops.' }
     ]
   }
 ];
