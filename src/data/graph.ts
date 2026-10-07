@@ -46,7 +46,8 @@ export const routeGraph: RouteNode[] = [
   { path: '/gpu-frame-time-spikes-causes-fix', kind: 'article', title: 'GPU Frame-Time Spikes: Common Causes of Uneven PC Game Performance', indexable: true },
   { path: '/shader-compilation-stutter-pc-games', kind: 'article', title: 'Shader Compilation Stutter in PC Games: Why It Happens and What to Check', indexable: true },
   { path: '/nvme-ssd-temperature-too-high', kind: 'article', title: 'NVMe SSD Temperature Too High: What the Numbers Actually Mean', indexable: true },
-  { path: '/why-ssd-is-slowing-down-windows', kind: 'article', title: 'Why an SSD Can Slow Down Over Time: What to Check Before Replacing It', indexable: true }
+  { path: '/why-ssd-is-slowing-down-windows', kind: 'article', title: 'Why an SSD Can Slow Down Over Time: What to Check Before Replacing It', indexable: true },
+  { path: '/how-to-check-ram-for-errors-windows', kind: 'article', title: 'How to Check RAM for Errors on Windows (MemTest86 and Windows Memory Diagnostic)', indexable: true },
 ];
 
 export const navigation = routeGraph
