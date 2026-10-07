@@ -30,7 +30,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/hardware', kind: 'category', title: 'Hardware', indexable: true, navOrder: 40, navLabel: 'Hardware' },
   { path: '/reviews', kind: 'category', title: 'Technology Reviews', indexable: true, navOrder: 50, navLabel: 'Reviews' },
   { path: '/best', kind: 'category', title: 'Best Technology Picks', indexable: true, navOrder: 60, navLabel: 'Best' },
-  { path: '/guides', kind: 'category', title: 'Guides', indexable: true, navOrder: 40, navLabel: 'Guides' },
+  { path: '/guides', kind: 'category', title: 'Guides', indexable: true, navOrder: 70, navLabel: 'Guides' },
   { path: '/tools', kind: 'tools', title: 'Technology Tools', indexable: true, navOrder: 80, navLabel: 'Tools' },
   { path: '/reviews/ssds', kind: 'category', title: 'SSD Reviews', indexable: true },
   { path: '/reviews/gpus', kind: 'category', title: 'GPU Reviews', indexable: true },
