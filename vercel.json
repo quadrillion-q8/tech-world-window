@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/windows-11-update-stuck-troubleshooting",
+      "destination": "/windows/windows-update-stuck",
+      "permanent": true
+    }
+  ]
+}
