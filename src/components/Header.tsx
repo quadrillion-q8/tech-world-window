@@ -15,7 +15,9 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Tech World Window home" onClick={closeAll}>
-          <span className="brand-mark" aria-hidden="true">TW</span>
+          <span className="brand-mark" aria-hidden="true">
+            <img src="/tech-world-window-mark.png" alt="" />
+          </span>
           <span className="brand-copy"><strong>TECH WORLD WINDOW</strong><small>Your Window Into Technology</small></span>
         </Link>
 
