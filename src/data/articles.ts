@@ -824,7 +824,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-07',
     readingTime: 10,
     tags: ['SSD', 'NVMe', 'PCIe 4.0', 'PCIe 5.0', 'Gaming', 'Windows', 'Buying Guide'],
-    relatedArticles: ['best-gaming-laptops', 'best-ram'],
+    relatedArticles: ['best-gaming-laptops', 'best-ram', 'best-gaming-monitors'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'commercial',
