@@ -386,7 +386,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 10,
     tags: ['SSD', 'SMART', 'Storage', 'Windows'],
-    relatedArticles: ['nvme-temperature', 'ssd-slowdown'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -468,7 +468,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 8,
     tags: ['SSD', 'Performance', 'Storage', 'Windows'],
-    relatedArticles: ['ssd-health', 'nvme-temperature'],
+    relatedArticles: ['ssd-health', 'nvme-temperature', 'check-ram-for-errors'],
     contentRole: 'cluster',
     pillarPath: '/how-to-check-ssd-health-windows',
     searchIntent: 'informational',
@@ -495,6 +495,80 @@ export const articles: Article[] = [
     ],
     faq: [
       { question: 'Should I defragment an SSD?', answer: 'No. Windows optimizes SSDs with TRIM instead, and traditional defragmentation is not needed.' }
+    ]
+  },
+
+  {
+    id: 'check-ram-for-errors',
+    slug: 'how-to-check-ram-for-errors-windows',
+    title: 'How to Check RAM for Errors on Windows (MemTest86 and Windows Memory Diagnostic)',
+    seoTitle: 'How to Check RAM for Errors in Windows 11 and 10',
+    dek: 'How to tell whether random crashes, blue screens, or corrupted files point to faulty memory, which RAM test to run, and how to read the result.',
+    metaDescription: 'Random crashes or blue screens? Learn how to test RAM for errors with Windows Memory Diagnostic and MemTest86, and how to read the results.',
+    excerpt: 'Bad memory causes crashes that look like software problems. A proper test, run the right way, separates a failing module from a driver or storage fault.',
+    category: 'Hardware',
+    subcategory: 'Memory',
+    authorId: 'imranNatiq',
+    publishedAt: '2026-10-07',
+    updatedAt: '2026-10-07',
+    readingTime: 8,
+    tags: ['RAM', 'Memory', 'MemTest86', 'Blue Screen', 'Troubleshooting'],
+    appliesTo: ['Windows 10', 'Windows 11'],
+    relatedArticles: ['ssd-health', 'ssd-slowdown'],
+    contentRole: 'cluster',
+    pillarPath: '/hardware',
+    searchIntent: 'informational',
+    content: [
+      { heading: 'When RAM is worth testing', paragraphs: [
+        'Faulty memory rarely announces itself. It shows up as problems that seem unrelated and do not follow a pattern: crashes in different programs, blue screens with changing stop codes, files that turn out corrupted, or a PC that fails to boot only some of the time.',
+        'A RAM test is worth running when several of these appear together, when the crashes started after installing or moving memory, or when software fixes have not helped. A single crash is not enough evidence.'
+      ], bullets: [
+        'Blue screens with codes such as MEMORY_MANAGEMENT or PAGE_FAULT_IN_NONPAGED_AREA.',
+        'Different applications crashing for no clear reason.',
+        'Corrupted downloads, archives, or installers.',
+        'Random restarts or a PC that sometimes will not start.'
+      ] },
+      { heading: 'Before you test: remove the easy explanations', paragraphs: [
+        'Reseat the memory modules and make sure they are fully clicked in. Check that you have not just changed BIOS settings. A memory profile such as XMP or EXPO runs the RAM faster than its default speed, and an unstable profile produces the same errors as a bad module.',
+        'If you have a profile enabled, run the test once with it enabled and, if errors appear, again at default settings. Errors that disappear at default speed point to an unstable setting rather than a dead module.'
+      ] },
+      { heading: 'Method 1: Windows Memory Diagnostic (quick check)', paragraphs: [
+        'This is built into Windows and needs nothing to download. It is good for a first check but less thorough than MemTest86.'
+      ], steps: [
+        'Save your work, press Windows + R, type mdsched.exe, and press Enter.',
+        'Choose Restart now and check for problems. The PC reboots into the test.',
+        'Let it finish. It runs in standard mode by default; press F1 to choose Extended for a longer, more thorough run.',
+        'After Windows starts, open Event Viewer, go to Windows Logs, then System, and look for events from MemoryDiagnostics-Results. The message says whether errors were found.'
+      ] },
+      { heading: 'Method 2: MemTest86 (thorough check)', paragraphs: [
+        'MemTest86 runs from a USB drive before Windows loads, so nothing else is using the memory while it is tested. This makes it the better tool when the quick check finds nothing but you still suspect the RAM.',
+        'Download it from the official PassMark site, write it to a USB drive with the included tool, boot from that drive, and start the test. Let it complete several full passes. One pass is not enough, because some faults appear only intermittently.'
+      ], bullets: [
+        'Any reported error is a fail, even a single one.',
+        'A clean result across multiple passes makes failing RAM unlikely, though it cannot prove memory is perfect.',
+        'Do not stop at the first pass because it looks fine.'
+      ] },
+      { heading: 'If errors appear: find the faulty module', paragraphs: [
+        'Errors tell you something is wrong with the memory system, not necessarily which stick. Test one module at a time in the same slot. If one module fails alone, it is the faulty one. If every module passes alone but fails together, try different slots, because the slot, the motherboard, or the memory settings may be the cause.',
+        'A module that fails on its own should be replaced. If it is under warranty, the test result is useful evidence for a claim.'
+      ] },
+      { heading: 'If the test passes but crashes continue', paragraphs: [
+        'A clean result moves suspicion elsewhere. Check storage health next, because failing drives cause similar corruption and crashes, then drivers, then temperatures and the power supply.'
+      ], bullets: [
+        'Check drive health with the SSD health guide.',
+        'Update or roll back recent graphics and chipset drivers.',
+        'Watch CPU and GPU temperatures under load.'
+      ] }
+    ],
+    testing: 'The steps use tools built into Windows 10 and 11 and the publicly available MemTest86 utility. Menu names and test options can vary slightly between versions.',
+    sources: [
+      { label: 'Microsoft Support: Windows Memory Diagnostic', url: 'https://support.microsoft.com/windows' },
+      { label: 'PassMark MemTest86', url: 'https://www.memtest86.com/' }
+    ],
+    faq: [
+      { question: 'How long should I run a RAM test?', answer: 'Run several full passes. Windows Memory Diagnostic in Extended mode or MemTest86 can take from under an hour to several hours depending on how much memory you have.' },
+      { question: 'Can a RAM test pass and the RAM still be bad?', answer: 'Yes. Some faults are intermittent, so a clean run reduces the likelihood of a memory fault but does not rule it out entirely.' },
+      { question: 'Can XMP or EXPO cause RAM errors?', answer: 'Yes. An unstable memory profile can produce the same errors as faulty RAM, so retest at default speed before deciding to replace a module.' }
     ]
   }
 ];
