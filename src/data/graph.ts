@@ -4,7 +4,7 @@
  */
 export type RouteNode = {
   path: string;
-  kind: 'home' | 'category' | 'article' | 'author' | 'tool' | 'tools' | 'static';
+  kind: 'home' | 'category' | 'article' | 'author' | 'tool' | 'tools' | 'static' | 'product-review' | 'comparison';
   title: string;
   indexable: boolean;
   navOrder?: number;
@@ -33,6 +33,9 @@ export const routeGraph: RouteNode[] = [
   { path: '/guides', kind: 'category', title: 'Guides', indexable: true, navOrder: 70, navLabel: 'Guides' },
   { path: '/tools', kind: 'tools', title: 'Technology Tools', indexable: true, navOrder: 80, navLabel: 'Tools' },
   { path: '/reviews/ssds', kind: 'category', title: 'SSD Reviews', indexable: true },
+  { path: '/reviews/ssds/samsung-990-pro-4tb', kind: 'product-review', title: 'Samsung 990 PRO 4TB Review', indexable: true },
+  { path: '/reviews/ssds/crucial-t500-2tb', kind: 'product-review', title: 'Crucial T500 2TB Review', indexable: true },
+  { path: '/compare/samsung-990-pro-vs-crucial-t500', kind: 'comparison', title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB', indexable: true },
   { path: '/reviews/gpus', kind: 'category', title: 'GPU Reviews', indexable: true },
   { path: '/reviews/laptops', kind: 'category', title: 'Laptop Reviews', indexable: true },
   { path: '/reviews/cpus', kind: 'category', title: 'CPU Reviews', indexable: true },
