@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
-import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData } from '../seo/SEOEngine';
+import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
 import { ArticleCard } from '../components/ArticleCard';
 
 /** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
@@ -69,6 +69,7 @@ export function ArticlePage() {
       authorUrl={author?.url}
       authorJobTitle={author?.role}
     />
+    {article.howTo?.steps.length ? <HowToStructuredData name={article.howTo.name} steps={article.howTo.steps} /> : null}
     {article.faq?.length ? <FAQStructuredData items={article.faq} /> : null}
 
     <div className="article-head">
@@ -104,6 +105,7 @@ export function ArticlePage() {
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
           {section.table && <ArticleTableView table={section.table} />}
+          {section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
           {section.steps && <ol className="article-steps">{section.steps.map(step => <li key={step}>{renderInline(step)}</li>)}</ol>}
           {section.bullets && <ul>{section.bullets.map(b => <li key={b}>{renderInline(b)}</li>)}</ul>}
         </section>)}
