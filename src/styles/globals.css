@@ -102,3 +102,5 @@
 .article-thumbnail svg,.article-thumbnail img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .38s cubic-bezier(.22,1,.36,1)}
 .article-card:hover .card-thumbnail-link{border-color:rgba(8,124,145,.45);box-shadow:0 10px 24px rgba(8,124,145,.14)}
 .article-card:hover .article-thumbnail svg,.article-card:hover .article-thumbnail img{transform:scale(1.035)}
+
+.authority-section{padding-top:0}.topic-section{padding-top:1rem}.topic-section+.topic-section{padding-top:2rem}.authority-section .article-card-featured{border-top-color:var(--cyan)}
