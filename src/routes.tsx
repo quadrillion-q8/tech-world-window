@@ -7,6 +7,7 @@ import { CategoryPage } from './pages/Category';
 import { ArticlePage } from './pages/ArticlePage';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
+import { CommercialHubPage } from './pages/CommercialHubPage';
 import { StaticPage } from './pages/StaticPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
@@ -14,14 +15,14 @@ function elementForRoute(route: RouteNode): ReactNode {
   switch (route.kind) {
     case 'home':
       return <Home />;
-    case 'category':
-      return <CategoryPage />;
     case 'article':
       return <ArticlePage />;
     case 'tool':
       return <ToolPage />;
     case 'tools':
       return <ToolsHubPage />;
+    case 'category':
+      return route.path.startsWith('/reviews') || route.path.startsWith('/best') ? <CommercialHubPage /> : <CategoryPage />;
     case 'author':
     case 'static':
       return <StaticPage />;
