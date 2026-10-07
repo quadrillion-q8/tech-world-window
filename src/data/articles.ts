@@ -386,7 +386,7 @@ export const articles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 10,
     tags: ['SSD', 'SMART', 'Storage', 'Windows'],
-    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -514,7 +514,7 @@ export const articles: Article[] = [
     readingTime: 8,
     tags: ['RAM', 'Memory', 'MemTest86', 'Blue Screen', 'Troubleshooting'],
     appliesTo: ['Windows 10', 'Windows 11'],
-    relatedArticles: ['ssd-health', 'ssd-slowdown'],
+    relatedArticles: ['ssd-health', 'ssd-slowdown', 'windows-blue-screen-stop-code'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -569,6 +569,96 @@ export const articles: Article[] = [
       { question: 'How long should I run a RAM test?', answer: 'Run several full passes. Windows Memory Diagnostic in Extended mode or MemTest86 can take from under an hour to several hours depending on how much memory you have.' },
       { question: 'Can a RAM test pass and the RAM still be bad?', answer: 'Yes. Some faults are intermittent, so a clean run reduces the likelihood of a memory fault but does not rule it out entirely.' },
       { question: 'Can XMP or EXPO cause RAM errors?', answer: 'Yes. An unstable memory profile can produce the same errors as faulty RAM, so retest at default speed before deciding to replace a module.' }
+    ]
+  },
+
+  {
+    id: 'windows-blue-screen-stop-code',
+    slug: 'windows-11-blue-screen-stop-code-how-to-read',
+    title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause',
+    seoTitle: 'Windows 11 Blue Screen: Read the Stop Code and Fix It',
+    dek: 'A blue screen tells you what Windows detected, not always what is broken. Learn to read the stop code, find the crash record, and work from the cheapest test to the most invasive.',
+    metaDescription: 'Windows 11 blue screen? Learn what the stop code and "what failed" file mean, where to find crash records, and which fixes to try first.',
+    excerpt: 'The stop code and the "what failed" file are clues, not a verdict. Record them, find the crash log, then test the likely causes in a sensible order.',
+    category: 'Hardware',
+    subcategory: 'Crashes',
+    authorId: 'imranNatiq',
+    publishedAt: '2026-10-07',
+    updatedAt: '2026-10-07',
+    readingTime: 9,
+    tags: ['Windows 11', 'Blue Screen', 'BSOD', 'Stop Code', 'Troubleshooting'],
+    appliesTo: ['Windows 10', 'Windows 11'],
+    relatedArticles: ['check-ram-for-errors', 'ssd-health'],
+    contentRole: 'cluster',
+    pillarPath: '/hardware',
+    searchIntent: 'informational',
+    content: [
+      { heading: 'What a blue screen actually is', paragraphs: [
+        'A blue screen, officially a stop error, appears when Windows detects a problem it cannot safely recover from, so it halts the system to prevent damage or data loss. The cause may be a driver, memory, storage, overheating, corrupted system files, or a recent update. The screen is a symptom, not a diagnosis.',
+        'One blue screen is not a reason to reinstall Windows. A single crash can be a one-off. Repeated crashes, especially with the same code, are worth investigating.'
+      ] },
+      { heading: 'Step 1: write down what the screen says', paragraphs: [
+        'Modern Windows shows a short message, a QR code, a percentage, and a stop code in capital letters. Some screens also show a line beginning "What failed" followed by a file name that ends in .sys. Photograph the screen with your phone before it restarts.',
+        'If the PC restarts too fast to read, turn off automatic restart. Open Settings, go to System, About, Advanced system settings, then under Startup and Recovery choose Settings and clear Automatically restart.'
+      ], bullets: [
+        'The stop code, for example MEMORY_MANAGEMENT or CRITICAL_PROCESS_DIED.',
+        'The "what failed" file name, if one is shown.',
+        'What you were doing: gaming, waking from sleep, installing something, or nothing at all.',
+        'Whether it happens every time, at random, or only under heavy load.'
+      ] },
+      { heading: 'Step 2: what common stop codes usually point to', paragraphs: [
+        'A stop code narrows the field but does not name the culprit. Treat the table as a starting point for where to look first.'
+      ], table: {
+        caption: 'Common stop codes and where to start',
+        headers: ['Stop code', 'Usually worth checking first'],
+        rows: [
+          ['MEMORY_MANAGEMENT', { text: 'Memory. Run a RAM test.', href: '/how-to-check-ram-for-errors-windows' }],
+          ['PAGE_FAULT_IN_NONPAGED_AREA', { text: 'Memory or a faulty driver. Start with a RAM test.', href: '/how-to-check-ram-for-errors-windows' }],
+          ['IRQL_NOT_LESS_OR_EQUAL', 'A driver or memory. Note the .sys file shown.'],
+          ['SYSTEM_SERVICE_EXCEPTION', 'A driver or security software. Check the .sys file.'],
+          ['CRITICAL_PROCESS_DIED', 'Corrupted system files, a bad update, or storage problems.'],
+          ['INACCESSIBLE_BOOT_DEVICE', { text: 'Storage or boot configuration. Check drive health.', href: '/how-to-check-ssd-health-windows' }],
+          ['DPC_WATCHDOG_VIOLATION', 'Drivers, often storage or firmware related.'],
+          ['WHEA_UNCORRECTABLE_ERROR', 'Hardware: CPU, memory, overheating, or unstable overclocks.']
+        ]
+      } },
+      { heading: 'Step 3: find the crash record', paragraphs: [
+        'Windows keeps a record of each crash, which gives you more detail than the screen did. The easiest place to look is Reliability Monitor: press Windows + R, type perfmon /rel, and press Enter. Critical events list the crash time and sometimes the cause.',
+        'You can also open Event Viewer, go to Windows Logs, then System, and look for a BugCheck event. If small memory dumps are enabled, Windows saves them in C:\\Windows\\Minidump. A free tool such as WinDbg from Microsoft can open a dump, and a third-party viewer such as BlueScreenView offers a simpler summary.'
+      ], bullets: [
+        'The same driver file named in several crashes is a strong clue.',
+        'Different codes and different files each time often point to hardware, especially memory, power, or heat.',
+        'Treat a driver named in a dump as a suspect, not a proven culprit. A driver can be the victim of a fault elsewhere.'
+      ] },
+      { heading: 'Step 4: work from the cheapest test to the most invasive', paragraphs: [
+        'Start with the least disruptive checks. Each step is easy to undo, and a fix at an early step saves you from changing things you did not need to.'
+      ], steps: [
+        'Undo the most recent change. If crashes began after a driver, update, or new program, roll it back or uninstall it. Use Device Manager, Driver, Roll Back Driver, or Settings, Windows Update, Update history, Uninstall updates.',
+        'Disconnect non-essential devices such as extra USB hardware, then test again.',
+        'Repair system files. Open Terminal as administrator and run sfc /scannow. If it reports problems it cannot fix, run DISM /Online /Cleanup-Image /RestoreHealth, then run sfc /scannow again.',
+        'Check the drive for errors and review its health with the SSD health guide.',
+        'Test the memory with Windows Memory Diagnostic or MemTest86, following the RAM testing guide.',
+        'Watch temperatures under load and make sure fans and vents are clear. Remove any overclock or memory profile and test at default settings.',
+        'Update the graphics, chipset, and storage drivers from the manufacturer or Windows Update.'
+      ] },
+      { heading: 'If you cannot start Windows', paragraphs: [
+        'If the PC blue screens before you can reach the desktop, Windows normally offers recovery options after a few failed starts. From there choose Troubleshoot, Advanced options, and try Startup Settings to boot into Safe Mode, or use System Restore if a restore point exists. In Safe Mode you can uninstall a recent driver or update.',
+        'If nothing in the recovery options helps, back up your files from a recovery environment or another computer before considering a reset or reinstall.'
+      ] },
+      { heading: 'When to suspect hardware', paragraphs: [
+        'Hardware moves up the list when crashes are random, the stop codes change, the crash dumps name no consistent driver, and software steps have made no difference. Memory is the most common hardware cause, followed by storage, overheating, and an unstable power supply.',
+        'If a memory test passes, the drive is healthy, and temperatures are normal, a failing power supply or motherboard becomes more likely. Those are harder to confirm without swapping parts, so this is the point to get a technician to test them.'
+      ] }
+    ],
+    testing: 'The steps use tools built into Windows 10 and 11. Menu names can vary slightly between versions, and the stop codes listed are common examples, not a complete list.',
+    sources: [
+      { label: 'Microsoft Support: Windows help', url: 'https://support.microsoft.com/windows' }
+    ],
+    faq: [
+      { question: 'What does the stop code on a Windows blue screen mean?', answer: 'It names the type of error Windows detected, such as a memory management or driver fault. It narrows where to look but does not always identify the exact cause.' },
+      { question: 'Is one blue screen a sign my PC is failing?', answer: 'Not necessarily. A single crash can be a one-off. Repeated crashes, especially with the same code or file, deserve investigation.' },
+      { question: 'Where does Windows save blue screen crash files?', answer: 'Small memory dumps are saved in C:\\Windows\\Minidump when enabled, and crash events also appear in Reliability Monitor and Event Viewer.' },
+      { question: 'Should I reinstall Windows after a blue screen?', answer: 'Usually not as a first step. Undo recent changes, repair system files, and test memory and storage first, because a reinstall will not fix a hardware fault.' }
     ]
   }
 ];
