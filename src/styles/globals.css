@@ -71,6 +71,8 @@
 }
 
 /* Pillar-guide upgrades: tables, numbered steps, inline code, scoped TOC. */
+.article-body pre.article-code{white-space:pre-wrap;overflow:auto;margin:1rem 0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:10px;background:#0b1220;color:#e6edf7;font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace;font-size:.9rem;line-height:1.55}
+.article-body pre.article-code code{background:none;border:0;padding:0;color:inherit}
 .article-body code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace;font-size:.88em;background:#eef2f6;border:1px solid var(--line);border-radius:6px;padding:.08em .38em;color:#172235;overflow-wrap:anywhere}
 .article-body ol.article-steps{padding-left:1.4rem;margin:1.2rem 0}
 .article-body ol.article-steps li::marker{font-weight:800;color:#087c91}
