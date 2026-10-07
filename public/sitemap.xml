@@ -4,9 +4,6 @@
     <loc>https://techworldwindow.com/</loc>
   </url>
   <url>
-    <loc>https://techworldwindow.com/news</loc>
-  </url>
-  <url>
     <loc>https://techworldwindow.com/windows</loc>
   </url>
   <url>
@@ -17,9 +14,6 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/guides</loc>
-  </url>
-  <url>
-    <loc>https://techworldwindow.com/reviews</loc>
   </url>
   <url>
     <loc>https://techworldwindow.com/tools</loc>
@@ -43,16 +37,20 @@
     <loc>https://techworldwindow.com/authors/imran-natiq</loc>
   </url>
   <url>
+    <loc>https://techworldwindow.com/windows-troubleshooting-complete-guide</loc>
+    <lastmod>2026-10-06</lastmod>
+  </url>
+  <url>
     <loc>https://techworldwindow.com/windows-11-wifi-connected-no-internet</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-06</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/pc-game-stuttering-fix-frame-time</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-06</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/how-to-check-ssd-health-windows</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-06</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-dns-not-working-how-to-fix</loc>
@@ -77,5 +75,17 @@
   <url>
     <loc>https://techworldwindow.com/why-ssd-is-slowing-down-windows</loc>
     <lastmod>2026-10-06</lastmod>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/how-to-check-ram-for-errors-windows</loc>
+    <lastmod>2026-10-07</lastmod>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/windows-11-blue-screen-stop-code-how-to-read</loc>
+    <lastmod>2026-10-07</lastmod>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/windows-11-freezing-randomly-causes-fix</loc>
+    <lastmod>2026-10-07</lastmod>
   </url>
 </urlset>
