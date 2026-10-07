@@ -15,10 +15,10 @@ const hubs: Record<string, HubConfig> = {
     description: 'Evidence-led technology reviews, comparisons and buying advice from Tech World Window.',
     intro: 'We separate hands-on testing from specifications and manufacturer claims. As this section grows, each review will explain what was tested, how it was tested, what we found, and who should buy it.',
     cards: [
-      { title: 'SSD Reviews', description: 'Storage performance, thermals, endurance and real-world Windows use.', href: '/reviews/ssds', label: 'Coming next' },
-      { title: 'GPU Reviews', description: 'Gaming performance, frame-time behavior, thermals and value.', href: '/reviews/gpus', label: 'Coming next' },
-      { title: 'Laptop Reviews', description: 'Performance, cooling, upgradeability, battery behavior and practical ownership.', href: '/reviews/laptops', label: 'Coming next' },
-      { title: 'CPU Reviews', description: 'Platform performance, efficiency, thermals and gaming behavior.', href: '/reviews/cpus', label: 'Coming next' },
+      { title: 'SSD Reviews', description: 'Storage performance, thermals, endurance and real-world Windows use.', href: '/reviews/ssds', label: 'Category' },
+      { title: 'GPU Reviews', description: 'Gaming performance, frame-time behavior, thermals and value.', href: '/reviews/gpus', label: 'Category' },
+      { title: 'Laptop Reviews', description: 'Performance, cooling, upgradeability, battery behavior and practical ownership.', href: '/reviews/laptops', label: 'Category' },
+      { title: 'CPU Reviews', description: 'Platform performance, efficiency, thermals and gaming behavior.', href: '/reviews/cpus', label: 'Category' },
     ],
   },
   '/best': {
@@ -26,10 +26,10 @@ const hubs: Record<string, HubConfig> = {
     description: 'Practical technology buying guides built around use cases, compatibility, performance and value.',
     intro: 'Buying guides are designed for people who are ready to compare products. Recommendations will be based on documented criteria and clearly separated from affiliate relationships.',
     cards: [
-      { title: 'Best SSDs', description: 'Find the right SSD for Windows, gaming, laptops and demanding workloads.', href: '/best-ssds', label: 'Planned' },
-      { title: 'Best Gaming Laptops', description: 'Compare gaming laptops by performance, cooling, display and upgradeability.', href: '/best-gaming-laptops', label: 'Planned' },
-      { title: 'Best Gaming Monitors', description: 'Refresh rate, response behavior, resolution and GPU matching.', href: '/best-gaming-monitors', label: 'Planned' },
-      { title: 'Best RAM', description: 'Choose capacity, speed and platform compatibility without guesswork.', href: '/best-ram', label: 'Planned' },
+      { title: 'Best SSDs', description: 'Find the right SSD for Windows, gaming, laptops and demanding workloads.', href: '/best-ssds', label: 'Guide' },
+      { title: 'Best Gaming Laptops', description: 'Compare gaming laptops by performance, cooling, display and upgradeability.', href: '/best-gaming-laptops', label: 'Guide' },
+      { title: 'Best Gaming Monitors', description: 'Refresh rate, response behavior, resolution and GPU matching.', href: '/best-gaming-monitors', label: 'Guide' },
+      { title: 'Best RAM', description: 'Choose capacity, speed and platform compatibility without guesswork.', href: '/best-ram', label: 'Guide' },
     ],
   },
   '/reviews/ssds': {
@@ -52,26 +52,6 @@ const hubs: Record<string, HubConfig> = {
     title: 'CPU Reviews', eyebrow: 'HARDWARE REVIEWS',
     description: 'CPU reviews and comparisons for gaming, productivity, thermals and platform decisions.',
     intro: 'CPU coverage will distinguish manufacturer specifications from measured results and explain where each processor makes sense.', cards: [],
-  },
-  '/best-ssds': {
-    title: 'Best SSDs', eyebrow: 'BUYING GUIDE',
-    description: 'A structured guide to choosing the right SSD for Windows, gaming and laptops.',
-    intro: 'This page is being prepared as a commercial-intent guide. It will compare products using speed, sustained performance, thermals, endurance, warranty and price/value—not affiliate commission.', cards: [],
-  },
-  '/best-gaming-laptops': {
-    title: 'Best Gaming Laptops', eyebrow: 'BUYING GUIDE',
-    description: 'Gaming laptop recommendations based on performance, cooling, display and upgradeability.',
-    intro: 'The finished guide will separate raw benchmark performance from sustained cooling behavior and practical ownership factors.', cards: [],
-  },
-  '/best-gaming-monitors': {
-    title: 'Best Gaming Monitors', eyebrow: 'BUYING GUIDE',
-    description: 'Gaming monitor recommendations organized by resolution, refresh rate, panel behavior and GPU class.',
-    intro: 'The guide will help readers choose a monitor around the GPU and games they actually use, rather than buying refresh rate in isolation.', cards: [],
-  },
-  '/best-ram': {
-    title: 'Best RAM', eyebrow: 'BUYING GUIDE',
-    description: 'RAM buying advice for gaming PCs, Windows systems and modern AMD and Intel platforms.',
-    intro: 'The finished guide will focus on capacity, compatibility, speed, latency and platform-specific behavior.', cards: [],
   },
 };
 
