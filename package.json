@@ -11,8 +11,9 @@
     "dev:csr": "vite",
     "typecheck": "tsc --noEmit",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts",
+    "generate:rss": "tsx scripts/generate-rss.ts",
     "validate": "tsx scripts/validate-build.ts",
-    "build": "npm run generate:sitemap && npm run typecheck && vite-react-ssg build && npm run validate",
+    "build": "npm run generate:sitemap && npm run generate:rss && npm run typecheck && vite-react-ssg build && npm run validate",
     "preview": "vite preview"
   },
   "dependencies": {
