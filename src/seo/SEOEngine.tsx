@@ -68,6 +68,20 @@ export function ArticleStructuredData({
   return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
 }
 
+
+export function ProductStructuredData({ product, path }: { product: { name: string; brand: string; description: string; sku?: string }; path: string }) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    brand: { '@type': 'Brand', name: product.brand },
+    mainEntityOfPage: absoluteUrl(path),
+    ...(product.sku ? { sku: product.sku } : {}),
+  };
+  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
+}
+
 export function BreadcrumbStructuredData({ items }: { items: { name: string; path: string }[] }) {
   const data = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
