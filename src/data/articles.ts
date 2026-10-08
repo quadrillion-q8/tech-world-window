@@ -1,5 +1,6 @@
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
+import { enhanceArticles } from './content-enhancements';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
@@ -80,7 +81,7 @@ export function articleWordCount(article: Article): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
-export const articles: Article[] = [
+const baseArticles: Article[] = [
 
   windowsTroubleshootingPillar,
   ...phase4Articles,
@@ -1085,6 +1086,8 @@ export const articles: Article[] = [
   },
 
 ];
+
+export const articles: Article[] = enhanceArticles(baseArticles);
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.' },
