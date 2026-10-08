@@ -3,6 +3,7 @@ import { articles, articleWordCount, headingId, type ArticleTable, type TableCel
 import { authors } from '../data/authors';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
 import { ArticleCard } from '../components/ArticleCard';
+import { ToolCallout } from '../components/ToolCallout';
 
 /** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
 function renderInline(text: string) {
@@ -101,6 +102,7 @@ export function ArticlePage() {
       </aside>
       <div className="article-body">
         <div className="quick-answer"><strong>Quick answer</strong><p>{article.excerpt}</p></div>
+        <ToolCallout slug={article.slug} />
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
