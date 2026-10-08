@@ -114,15 +114,15 @@ export const phase4Articles: Article[] = [
     "id": "windows-update-stuck",
     "slug": "windows/windows-update-stuck",
     "title": "Windows Update Stuck? How Long to Wait, What to Check, and How to Fix It (Windows 11 & 10)",
-    "seoTitle": "Windows Update Stuck? How Long to Wait & How to Fix It (2026)",
+    "seoTitle": "Windows Update Stuck? How Long to Wait Before You Fix It",
     "dek": "Windows 11 or 10 update stuck at 0%, 30%, 99% or ‘Working on updates’? Learn how long to wait, how to tell slow from frozen, and fix it step by step without losing data.",
-    "metaDescription": "Windows 11 or 10 update stuck at 0%, 30%, 99% or ‘Working on updates’? Learn how long to wait, how to tell slow from frozen, and fix it step by step.",
+    "metaDescription": "Windows update stuck at 0%, 30% or 99%? See how long each update type should take, the 60-second test for slow vs frozen, and the safest fix order.",
     "excerpt": "Most ‘stuck’ updates are just slow. If disk or CPU activity is still happening, keep waiting; if there is absolutely no activity for 2 to 3 hours, treat the update as genuinely stuck and move to the least-destructive fix first.",
     "category": "Windows",
     "subcategory": "Updates",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
+    "updatedAt": "2026-10-08",
     "readingTime": 14,
     "tags": [
       "Windows 11",
@@ -159,6 +159,13 @@ export const phase4Articles: Article[] = [
       ]
     },
     "content": [
+      {
+        "heading": "Short answer: how long to wait",
+        "paragraphs": [
+          "Most ‘stuck’ updates are just slow. If the disk or CPU is still active, keep waiting. Only treat the update as genuinely stuck when there is absolutely no activity for 2 to 3 hours.",
+          "The table below shows realistic times by update type and storage type, and the 60-second test after it shows how to tell slow from frozen before you try any fix."
+        ]
+      },
       {
         "heading": "How long should a Windows update take?",
         "paragraphs": [
@@ -734,16 +741,16 @@ export const phase4Articles: Article[] = [
   {
     "id": "windows-unknown-device",
     "slug": "windows-11-unknown-device-device-manager",
-    "title": "Windows 11 Unknown Device in Device Manager: How to Identify It",
-    "seoTitle": "Windows 11 Unknown Device: Device Manager Fix",
+    "title": "Windows 11 Unknown Device in Device Manager: Find the Driver with the Hardware ID",
+    "seoTitle": "Unknown Device in Device Manager: Find the Driver (Win 11)",
     "dek": "An Unknown Device entry usually means Windows lacks the right driver or cannot identify the hardware correctly. Identify the hardware before downloading a random driver.",
-    "metaDescription": "Windows 11 shows an Unknown Device? Learn how to identify its hardware ID, find the correct driver, and avoid unsafe third-party driver downloads.",
+    "metaDescription": "Unknown Device in Windows 11 Device Manager? Find its Hardware ID, identify the part, and get the right driver from the maker instead of a driver-pack site.",
     "excerpt": "Do not guess the driver from the device name. Use Device Manager's hardware identifiers, then get the driver from the PC, motherboard, or component manufacturer.",
     "category": "Windows",
     "subcategory": "Drivers",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
+    "updatedAt": "2026-10-08",
     "readingTime": 7,
     "tags": [
       "Windows 11",
@@ -764,6 +771,13 @@ export const phase4Articles: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "content": [
+      {
+        "heading": "Short answer: how to identify an Unknown Device",
+        "paragraphs": [
+          "In Device Manager, right-click the Unknown Device, choose Properties, open Details, and select Hardware Ids. Use the first ID to identify the component, then download the driver from the PC, motherboard, or component maker.",
+          "On a freshly installed system, install the manufacturer's chipset and platform drivers first, because they often identify several unknown devices at once."
+        ]
+      },
       {
         "heading": "Why Device Manager shows Unknown Device",
         "paragraphs": [
@@ -1368,15 +1382,15 @@ export const phase4Articles: Article[] = [
     "id": "ssd-full-space",
     "slug": "ssd-nearly-full-windows-performance",
     "title": "SSD Nearly Full: How Much Free Space Does Windows Need?",
-    "seoTitle": "SSD Nearly Full: Windows Performance and Storage",
+    "seoTitle": "How Much Free Space Does Windows Need on an SSD?",
     "dek": "A nearly full SSD can leave too little working space for Windows, updates, applications, and temporary data. Learn what to clean and when a larger drive makes sense.",
-    "metaDescription": "SSD nearly full? Learn why free space matters for Windows, what to remove safely, and when upgrading to a larger SSD is the better option.",
+    "metaDescription": "How much free space does Windows need on an SSD? Why a nearly full drive hurts updates and performance, what is safe to clean, and when to upgrade.",
     "excerpt": "There is no single magic free-space percentage for every SSD, but a system drive that stays nearly full has less room for updates, temporary files, and normal workload changes.",
     "category": "Hardware",
     "subcategory": "Storage",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
+    "updatedAt": "2026-10-08",
     "readingTime": 7,
     "tags": [
       "SSD",
@@ -1393,6 +1407,13 @@ export const phase4Articles: Article[] = [
     "pillarPath": "/hardware",
     "searchIntent": "informational",
     "content": [
+      {
+        "heading": "Short answer: how much free space does Windows need?",
+        "paragraphs": [
+          "There is no single percentage that suits every SSD, but a system drive that stays nearly full leaves less room for updates, temporary files, and normal workload changes.",
+          "Check Settings > System > Storage to see what is using the space, clean only what Windows' own storage tools mark as safe, and consider a larger SSD if the drive keeps filling up."
+        ]
+      },
       {
         "heading": "Why free space matters",
         "paragraphs": [
