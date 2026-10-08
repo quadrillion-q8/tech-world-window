@@ -2,6 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
 import { SITE_NAME, SITE_URL } from '../data/graph';
+import { articles } from '../data/articles';
+import { ArticleCard } from '../components/ArticleCard';
 
 // Public contact address shown on the Contact, Privacy and Editorial pages.
 const CONTACT_EMAIL = 'quadrillion1980@gmail.com';
@@ -129,6 +131,13 @@ export function StaticPage() {
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{page.title}</h1>
       {page.body.map((p, i) => <p key={i}>{p}</p>)}
+      {location.pathname === '/research' && <div className="author-profile-links research-index">
+        <h2>Research currently in the lab</h2>
+        <p>These studies define the questions TWW is investigating. Pages distinguish test design from results; benchmark numbers are published only after the corresponding test has actually been run.</p>
+        <div className="profile-link-grid">{articles.filter(a => a.subcategory === 'Research').map(item =>
+          <ArticleCard key={item.id} article={item} />
+        )}</div>
+      </div>}
       {location.pathname === '/authors/imran-natiq' && <div className="author-profile-links">
         <h2>Explore the work</h2>
         <div className="profile-link-grid">
