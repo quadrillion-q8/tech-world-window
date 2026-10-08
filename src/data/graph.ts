@@ -2,9 +2,12 @@
  * Entity-first single source of truth for canonical public routes.
  * Navigation, sitemap generation, SSG inclusion and validation consume this graph.
  */
+import { bsodEntries, bsodPath, shortHex } from './bsod';
+import { tools } from './tools';
+
 export type RouteNode = {
   path: string;
-  kind: 'home' | 'category' | 'article' | 'author' | 'tool' | 'tools' | 'static' | 'product-review' | 'comparison';
+  kind: 'home' | 'category' | 'article' | 'author' | 'tool' | 'tools' | 'bsod-code' | 'static' | 'product-review' | 'comparison';
   title: string;
   indexable: boolean;
   navOrder?: number;
@@ -45,10 +48,9 @@ export const routeGraph: RouteNode[] = [
   { path: '/best-gaming-laptops', kind: 'article', title: 'Best Gaming Laptops: How to Choose', indexable: true },
   { path: '/best-gaming-monitors', kind: 'article', title: 'Best Gaming Monitors: How to Choose', indexable: true },
   { path: '/best-ram', kind: 'article', title: 'Best RAM for Gaming PCs and Windows', indexable: true },
-  { path: '/tools/pc-bottleneck-calculator', kind: 'tool', title: 'PC Bottleneck Calculator', indexable: true },
-  { path: '/tools/psu-wattage-calculator', kind: 'tool', title: 'PSU Wattage Calculator', indexable: true },
-  { path: '/tools/ram-calculator', kind: 'tool', title: 'RAM Calculator', indexable: true },
-  { path: '/tools/storage-calculator', kind: 'tool', title: 'Storage Calculator', indexable: true },
+  // Tool pages come from the tools registry (src/data/tools.ts); BSOD code pages from src/data/bsod.ts.
+  ...tools.map(tool => ({ path: tool.path, kind: 'tool' as const, title: tool.title, indexable: true })),
+  ...bsodEntries.map(entry => ({ path: bsodPath(entry.slug), kind: 'bsod-code' as const, title: `${entry.name} (${shortHex(entry.hex)})`, indexable: true })),
   { path: '/about', kind: 'static', title: 'About Tech World Window', indexable: true },
   { path: '/contact', kind: 'static', title: 'Contact', indexable: true },
   { path: '/editorial-policy', kind: 'static', title: 'Editorial Policy', indexable: true },
@@ -117,6 +119,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
       { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
+      { label: 'BSOD Code Lookup', href: '/tools/bsod-error-code-lookup', description: 'Look up a blue screen stop code.' },
       { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
     ],
   },
@@ -129,6 +132,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
       { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU workload from other causes.' },
       { label: 'Shader Stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize shader compilation behavior.' },
+      { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Upload a capture and measure stutter.' },
       { label: 'Hardware', href: '/hardware', description: 'Components that affect gaming.' },
     ],
   },
@@ -183,10 +187,7 @@ export const menuGroups: MenuGroup[] = [
     description: 'Useful interactive tools with transparent assumptions.',
     links: [
       { label: 'Free Tech Tools', href: '/tools' },
-      { label: 'PC Bottleneck Calculator', href: '/tools/pc-bottleneck-calculator', description: 'Explore CPU/GPU pairing.' },
-      { label: 'PSU Wattage Calculator', href: '/tools/psu-wattage-calculator', description: 'Estimate practical PSU headroom.' },
-      { label: 'RAM Calculator', href: '/tools/ram-calculator', description: 'Estimate memory requirements.' },
-      { label: 'Storage Calculator', href: '/tools/storage-calculator', description: 'Plan storage capacity and headroom.' },
+      ...tools.map(tool => ({ label: tool.title, href: tool.path, description: tool.menuDescription })),
       { label: 'Guides', href: '/guides', description: 'Understand the result before acting.' },
     ],
   },
