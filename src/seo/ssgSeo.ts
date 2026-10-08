@@ -1,4 +1,5 @@
 import { articles, articleWordCount, categories } from '../data/articles';
+import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
@@ -16,6 +17,34 @@ type SeoData = {
 const DEFAULT_OG_IMAGE = '/og-default.png';
 
 const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
+  '/affiliate-disclosure': {
+    title: 'Affiliate Disclosure | Tech World Window',
+    description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
+  },
+  '/tools/psu-wattage-calculator': {
+    title: 'PSU Wattage Calculator | Tech World Window',
+    description: 'Estimate a sensible power supply range from your GPU, CPU and other system load before you buy a PSU.',
+  },
+  '/tools/ram-calculator': {
+    title: 'RAM Calculator | Tech World Window',
+    description: 'Estimate a practical memory capacity from Windows, application and gaming use before you buy or upgrade RAM.',
+  },
+  '/tools/storage-calculator': {
+    title: 'Storage Calculator | Tech World Window',
+    description: 'Estimate how much SSD or HDD capacity your games, apps and files will need before choosing a drive.',
+  },
+  '/reviews/ssds/samsung-990-pro-4tb': {
+    title: 'Samsung 990 PRO 4TB Review | Tech World Window',
+    description: 'Samsung 990 PRO 4TB specification profile: PCIe 4.0 interface, 4TB capacity and a 2,400 TBW endurance rating.',
+  },
+  '/reviews/ssds/crucial-t500-2tb': {
+    title: 'Crucial T500 2TB Review | Tech World Window',
+    description: 'Crucial T500 2TB specification profile: PCIe 4.0 interface with up to 7,400/7,000 MB/s rated sequential speeds.',
+  },
+  '/compare/samsung-990-pro-vs-crucial-t500': {
+    title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB | Tech World Window',
+    description: 'Compare the Samsung 990 PRO 4TB and Crucial T500 2TB by capacity, rated performance, endurance and best use case.',
+  },
   '/about': {
     title: 'About Tech World Window',
     description: 'Learn about Tech World Window, its editorial mission, and its approach to practical technology coverage.',
@@ -69,6 +98,16 @@ export function getSeoData(path: string): SeoData {
       updatedAt: article.updatedAt,
       authorName: authors[article.authorId]?.name || 'Tech World Window Editorial Team',
       image: article.heroImage || DEFAULT_OG_IMAGE,
+    };
+  }
+
+  const hub = hubSeo[normalizedPath];
+  if (hub) {
+    return {
+      title: `${hub.title} | Tech World Window`,
+      description: hub.description,
+      canonical: absoluteUrl(normalizedPath),
+      type: 'website',
     };
   }
 
