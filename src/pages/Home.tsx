@@ -62,7 +62,7 @@ export function Home() {
         <div className="article-grid">{latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}</div>
       </section>
 
-      <section className="tool-banner"><div><span className="eyebrow">FREE TECH TOOLS</span><h2>Measure before you upgrade.</h2><p>Use free calculators to explore CPU/GPU pairing, PSU headroom, RAM and storage planning — then read the guide that explains what the result actually means.</p></div><Link className="button button-light" to="/tools">Explore all tools →</Link></section>
+      <section className="tool-banner"><div><span className="eyebrow">FREE TECH TOOLS</span><h2>Measure before you upgrade.</h2><p>Analyze a frame-time capture, look up a blue screen stop code, or plan PSU, RAM and storage headroom — then read the guide that explains what the result actually means.</p></div><Link className="button button-light" to="/tools">Explore all tools →</Link></section>
 
       <section className="author-strip"><div className="author-avatar">IN</div><div><span className="eyebrow">FROM THE WORKBENCH</span><h2>Advice informed by real hardware work.</h2><p>Imran Natiq is a hardware repair engineer focused on practical PC and laptop troubleshooting. TWW separates documented facts, measured results and informed guidance instead of presenting every claim as a test.</p></div><Link className="text-link" to="/authors/imran-natiq">Meet the author →</Link></section>
     </>
