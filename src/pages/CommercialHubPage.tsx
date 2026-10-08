@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
+import { hubSeo } from '../data/hubs';
 
 type HubConfig = {
   title: string;
@@ -80,7 +81,7 @@ export function CommercialHubPage() {
   const hub = hubs[location.pathname];
   if (!hub) return <section className="section static-page"><h1>Page not found</h1><Link to="/">Return home →</Link></section>;
   return <section className="section category-page commercial-hub">
-    <SEOEngine title={hub.title} description={hub.description} path={location.pathname} />
+    <SEOEngine title={hubSeo[location.pathname]?.title ?? hub.title} description={hubSeo[location.pathname]?.description ?? hub.description} path={location.pathname} />
     <div className="category-hero">
       <span className="eyebrow">{hub.eyebrow}</span>
       <h1>{hub.title}</h1>
