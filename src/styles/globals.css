@@ -160,3 +160,11 @@
 
 @media(max-width:900px){.ft-stats{grid-template-columns:repeat(2,1fr)}.bsod-grid{grid-template-columns:repeat(2,1fr)}.ft-hist-row{grid-template-columns:1fr 56px}.ft-hist-row .ft-hist-bar{grid-column:1/-1;grid-row:2}}
 @media(max-width:520px){.ft-stats{grid-template-columns:1fr}.bsod-grid{grid-template-columns:1fr}.ft-input{padding:1.1rem}}
+
+/* Content authority layer: make research and contextual topic relationships visible. */
+.research-badge{display:flex;gap:.75rem;align-items:flex-start;margin-top:1rem;padding:.8rem .95rem;border:1px solid rgba(8,124,145,.22);border-radius:12px;background:linear-gradient(90deg,rgba(8,124,145,.07),rgba(8,124,145,.02));font-size:.82rem;line-height:1.55}
+.research-badge strong{white-space:nowrap;color:#087c91}
+.research-badge span{color:var(--muted)}
+.research-connection-section{padding-top:2rem}
+.research-connection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+@media(max-width:760px){.research-connection-grid{grid-template-columns:1fr}.research-badge{flex-direction:column;gap:.2rem}}
