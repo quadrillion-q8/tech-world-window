@@ -1,6 +1,7 @@
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
+import { researchArticles } from './research-articles';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
@@ -85,6 +86,7 @@ const baseArticles: Article[] = [
 
   windowsTroubleshootingPillar,
   ...phase4Articles,
+  ...researchArticles,
 
   {
     id: 'windows-wifi-diagnosis',
