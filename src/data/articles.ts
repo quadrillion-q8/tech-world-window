@@ -1089,7 +1089,26 @@ const baseArticles: Article[] = [
 
 ];
 
-export const articles: Article[] = enhanceArticles(baseArticles);
+/**
+ * Research articles link out to existing guides by ID. The internal-link graph
+ * must be reciprocal, so mirror each research link back onto its target guide.
+ */
+function withResearchBacklinks(list: Article[]): Article[] {
+  const backlinks = new Map<string, string[]>();
+  for (const research of researchArticles) {
+    for (const targetId of research.relatedArticles ?? []) {
+      backlinks.set(targetId, [...(backlinks.get(targetId) ?? []), research.id]);
+    }
+  }
+  return list.map(article => {
+    const extra = backlinks.get(article.id);
+    if (!extra) return article;
+    const existing = article.relatedArticles ?? [];
+    return { ...article, relatedArticles: [...existing, ...extra.filter(id => !existing.includes(id))] };
+  });
+}
+
+export const articles: Article[] = enhanceArticles(withResearchBacklinks(baseArticles));
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.' },
