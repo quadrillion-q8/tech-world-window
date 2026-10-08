@@ -7,6 +7,10 @@ import { CategoryPage } from './pages/Category';
 import { ArticlePage } from './pages/ArticlePage';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
+import { FrameTimeAnalyzerPage } from './pages/FrameTimeAnalyzerPage';
+import { BsodLookupPage } from './pages/BsodLookupPage';
+import { BsodCodePage } from './pages/BsodCodePage';
+import { BSOD_BASE_PATH } from './data/bsod';
 import { CommercialHubPage } from './pages/CommercialHubPage';
 import { StaticPage } from './pages/StaticPage';
 import { ProductReviewPage } from './pages/ProductReviewPage';
@@ -20,7 +24,11 @@ function elementForRoute(route: RouteNode): ReactNode {
     case 'article':
       return <ArticlePage />;
     case 'tool':
+      if (route.path === '/tools/frame-time-analyzer') return <FrameTimeAnalyzerPage />;
+      if (route.path === BSOD_BASE_PATH) return <BsodLookupPage />;
       return <ToolPage />;
+    case 'bsod-code':
+      return <BsodCodePage />;
     case 'tools':
       return <ToolsHubPage />;
     case 'category':
