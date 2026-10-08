@@ -1088,9 +1088,9 @@ export const articles: Article[] = [
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.' },
-  { slug: 'windows', name: 'Windows', description: 'Fixes, settings, updates and practical Windows help.' },
+  { slug: 'windows', name: 'Windows', description: 'Step-by-step Windows fixes for updates, drivers, networking, startup and performance problems.' },
   { slug: 'gaming', name: 'Gaming', description: 'Performance, frame-time, stability and gaming hardware.' },
   { slug: 'hardware', name: 'Hardware', description: 'PC parts, laptops, storage, cooling and displays.' },
-  { slug: 'guides', name: 'Guides', description: 'Evergreen answers for real technology problems.' },
+  { slug: 'guides', name: 'Guides', description: 'Start-here guides that cover a whole problem area, such as Windows troubleshooting, PC stuttering and SSD health.' },
   { slug: 'reviews', name: 'Reviews', description: 'Practical testing with methods and limitations.' }
 ];
