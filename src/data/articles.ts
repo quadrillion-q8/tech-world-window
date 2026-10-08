@@ -425,14 +425,16 @@ export const articles: Article[] = [
   {
     id: 'nvme-temperature',
     slug: 'nvme-ssd-temperature-too-high',
-    title: 'NVMe SSD Temperature Too High: What the Numbers Actually Mean',
+    title: 'NVMe SSD Temperature Too High: What Is Normal and When It Throttles',
+    seoTitle: 'NVMe SSD Too Hot? What Is Normal and When It Throttles',
     dek: 'How to interpret NVMe SSD temperature readings, when heat reduces performance, and practical ways to improve cooling.',
+    metaDescription: 'NVMe SSD temperature too high? See how to read the number, the signs of thermal throttling, when to worry, and how to improve heatsink and airflow cooling.',
     excerpt: 'High NVMe temperatures cause throttling long before they threaten the drive. Read the number alongside performance and the manufacturer limits.',
     category: 'Hardware',
     subcategory: 'Storage',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    updatedAt: '2026-10-06',
+    updatedAt: '2026-10-08',
     readingTime: 7,
     tags: ['NVMe', 'SSD', 'Temperature', 'Cooling'],
     relatedArticles: ['ssd-health', 'ssd-slowdown'],
@@ -440,6 +442,10 @@ export const articles: Article[] = [
     pillarPath: '/how-to-check-ssd-health-windows',
     searchIntent: 'informational',
     content: [
+      { heading: 'Short answer: is my NVMe temperature too high?', paragraphs: [
+        'There is no single number that applies to every drive, so check the manufacturer specification. Brief spikes under heavy load are normal; what matters is whether speeds drop sharply while the temperature is high, which means the drive is throttling.',
+        'Sustained high temperatures at idle, or warnings from a health tool, are the point to check the heatsink, thermal pad, airflow, and the drive health report.'
+      ] },
       { heading: 'Reading the temperature', paragraphs: [
         'Tools usually report a composite temperature. Limits differ by drive, so check the manufacturer specification rather than relying on a single universal number. What matters most is whether the drive throttles: speeds drop sharply when it gets too hot.'
       ] },
@@ -582,16 +588,16 @@ export const articles: Article[] = [
   {
     id: 'windows-blue-screen-stop-code',
     slug: 'windows-11-blue-screen-stop-code-how-to-read',
-    title: 'Windows 11 Blue Screen: How to Read the Stop Code and Find the Cause',
-    seoTitle: 'Windows 11 Blue Screen: Read the Stop Code and Fix It',
+    title: 'Windows 11 Blue Screen Stop Codes: What They Mean and How to Find the Cause',
+    seoTitle: 'Windows 11 Blue Screen Stop Codes: What They Mean',
     dek: 'A blue screen tells you what Windows detected, not always what is broken. Learn to read the stop code, find the crash record, and work from the cheapest test to the most invasive.',
-    metaDescription: 'Windows 11 blue screen? Learn what the stop code and "what failed" file mean, where to find crash records, and which fixes to try first.',
+    metaDescription: 'Windows 11 blue screen? What stop codes like MEMORY_MANAGEMENT or CRITICAL_PROCESS_DIED usually point to, how to find the crash record, and what to test first.',
     excerpt: 'The stop code and the "what failed" file are clues, not a verdict. Record them, find the crash log, then test the likely causes in a sensible order.',
     category: 'Hardware',
     subcategory: 'Crashes',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-07',
-    updatedAt: '2026-10-07',
+    updatedAt: '2026-10-08',
     readingTime: 9,
     tags: ['Windows 11', 'Blue Screen', 'BSOD', 'Stop Code', 'Troubleshooting'],
     appliesTo: ['Windows 10', 'Windows 11'],
