@@ -127,3 +127,5 @@
   .article-author-card { grid-template-columns: 1fr; }
   .profile-link-grid { grid-template-columns: 1fr; }
 }
+
+.category-topics{margin-top:3rem;padding:2rem;background:#fff;border:1px solid var(--line);border-radius:18px}.category-topics h2{margin:0 0 .5rem}.category-topic-links{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}
