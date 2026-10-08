@@ -4,6 +4,7 @@ import { authors } from '../data/authors';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
 import { ArticleCard } from '../components/ArticleCard';
 import { ToolCallout } from '../components/ToolCallout';
+import { contextualRelated, researchConnections } from '../lib/contentRelationships';
 
 /** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
 function renderInline(text: string) {
@@ -35,9 +36,13 @@ export function ArticlePage() {
   if (!article) return <section className="section"><h1>Article not found</h1><Link to="/">Return home</Link></section>;
 
   const author = authors[article.authorId];
-  const related = (article.relatedArticles || [])
+  const explicitRelated = (article.relatedArticles || [])
     .map(id => articles.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
+  const contextual = contextualRelated(article, articles, 4);
+  const relatedIds = new Set(explicitRelated.map(a => a.id));
+  const related = [...explicitRelated, ...contextual.filter(a => !relatedIds.has(a.id))].slice(0, 6);
+  const researchLinks = researchConnections(article, articles, 2);
 
   const breadcrumbPath = article.category.toLowerCase() === 'guides' ? '/guides' : `/${article.category.toLowerCase()}`;
 
@@ -91,6 +96,7 @@ export function ArticlePage() {
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
       {article.pillarPath && <div className="article-pillar"><span>PART OF THIS TOPIC</span><Link to={article.pillarPath}>Explore the {article.category} hub →</Link></div>}
+      {article.subcategory === 'Research' && <div className="research-badge"><strong>TWW Research</strong><span>Evidence-led analysis. Measured results are added only when TWW has actually run the stated test.</span></div>}
     </div>
 
     <div className="article-layout">
@@ -147,6 +153,10 @@ export function ArticlePage() {
       </div>
     </section>}
 
+    {researchLinks.length > 0 && <section className="section research-connection-section">
+      <div className="section-heading"><div><span className="eyebrow">TWW RESEARCH</span><h2>See the evidence behind this topic</h2></div><p>Related technical investigations that add measurement and diagnostic context.</p></div>
+      <div className="research-connection-grid">{researchLinks.map(item => <ArticleCard key={item.id} article={item} />)}</div>
+    </section>}
     {related.length > 0 && <section className="section related-section"><div className="section-heading"><div><span className="eyebrow">KEEP READING</span><h2>Related stories</h2></div></div><div className="article-grid">{related.map(item => <ArticleCard key={item.id} article={item} />)}</div></section>}
   </article>;
 }
