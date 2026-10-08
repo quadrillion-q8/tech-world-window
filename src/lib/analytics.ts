@@ -1,4 +1,4 @@
-export type MonetizationEvent = 'affiliate_click' | 'newsletter_signup' | 'sponsor_click' | 'tool_conversion';
+export type MonetizationEvent = 'affiliate_click' | 'newsletter_signup' | 'sponsor_click' | 'tool_conversion' | 'tool_used' | 'tool_completed';
 
 type EventParams = Record<string, string | number | boolean | undefined>;
 
