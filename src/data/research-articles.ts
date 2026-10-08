@@ -10,7 +10,7 @@ import type { Article } from './articles';
 export const researchArticles: Article[] = [
   {
     id: 'research-ssd-nearly-full',
-    slug: 'ssd-nearly-full-what-really-changes',
+    slug: 'research/ssd-nearly-full-what-really-changes',
     title: 'What Really Changes When an SSD Gets Nearly Full?',
     seoTitle: 'SSD Nearly Full: What Really Changes? | TWW Research',
     dek: 'A practical TWW investigation into free space, Windows storage behavior, sustained workloads, and what evidence actually points to an SSD becoming the bottleneck.',
@@ -23,7 +23,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 8,
     tags: ['SSD', 'NVMe', 'Windows', 'Storage', 'Research'],
-    relatedArticles: ['ssd-nearly-full-windows-performance', 'why-ssd-is-slowing-down-windows', 'how-to-check-ssd-health-windows', 'nvme-ssd-temperature-too-high'],
+    relatedArticles: ['ssd-full-space', 'ssd-slowdown', 'ssd-health', 'nvme-temperature'],
     contentRole: 'cluster',
     pillarPath: '/research',
     searchIntent: 'informational',
@@ -77,7 +77,7 @@ export const researchArticles: Article[] = [
 
   {
     id: 'research-disk-100-low-mbps',
-    slug: 'windows-100-percent-disk-usage-low-mbps',
+    slug: 'research/windows-100-percent-disk-usage-low-mbps',
     title: 'Windows Shows 100% Disk Usage but Very Low MB/s: What Is Actually Happening?',
     seoTitle: '100% Disk Usage but Low MB/s: Windows Diagnosis | TWW',
     dek: 'Why Task Manager can show 100% disk active time while transfer speed remains low, and how to diagnose latency, queueing, background I/O and storage faults.',
@@ -90,7 +90,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 8,
     tags: ['Windows 11', 'Disk Usage', 'SSD', 'HDD', 'Troubleshooting'],
-    relatedArticles: ['windows-11-disk-100-percent-usage', 'why-ssd-is-slowing-down-windows', 'windows-11-freezing-randomly-causes-fix', 'ssd-nearly-full-windows-performance'],
+    relatedArticles: ['windows-disk-100-percent', 'windows-slow-startup', 'windows-troubleshooting-universal'],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
@@ -136,7 +136,7 @@ export const researchArticles: Article[] = [
 
   {
     id: 'research-gaming-stutter',
-    slug: 'what-actually-causes-pc-game-stuttering',
+    slug: 'research/what-actually-causes-pc-game-stuttering',
     title: 'What Actually Causes PC Game Stuttering? A Frame-Time Investigation',
     seoTitle: 'What Actually Causes PC Game Stuttering? | TWW Research',
     dek: 'A TWW framework for separating shader compilation, CPU limits, GPU limits, asset streaming, background tasks and thermal behavior using frame-time evidence.',
@@ -149,7 +149,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 9,
     tags: ['PC Gaming', 'Stuttering', 'Frame Time', 'GPU', 'CPU', 'Research'],
-    relatedArticles: ['pc-game-stuttering-fix-frame-time', 'gpu-frame-time-spikes-causes-fix', 'shader-compilation-stutter-pc-games', 'pc-game-low-fps-how-to-find-the-cause'],
+    relatedArticles: ['gaming-stutter', 'gpu-frame-time-spikes', 'shader-compilation-stutter', 'gaming-low-fps'],
     contentRole: 'pillar',
     pillarPath: '/research',
     searchIntent: 'informational',
@@ -195,7 +195,7 @@ export const researchArticles: Article[] = [
 
   {
     id: 'research-ram-capacity',
-    slug: 'does-more-ram-make-windows-faster',
+    slug: 'research/does-more-ram-make-windows-faster',
     title: 'Does More RAM Actually Make Windows Faster? What to Measure Before Upgrading',
     seoTitle: 'Does More RAM Make Windows Faster? TWW Research',
     dek: 'More RAM can help when a workload is running short of memory, but the benefit depends on what Windows is doing before and after the upgrade.',
@@ -208,7 +208,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 8,
     tags: ['RAM', 'Windows 11', 'Memory', 'PC Upgrades', 'Research'],
-    relatedArticles: ['how-much-ram-do-you-need-gaming', 'windows-11-high-memory-usage-how-to-find-the-cause', 'how-to-check-ram-for-errors-windows', 'ddr4-vs-ddr5-ram-difference'],
+    relatedArticles: ['ram-upgrade-gaming', 'check-ram-for-errors', 'ddr4-vs-ddr5'],
     contentRole: 'pillar',
     pillarPath: '/research',
     searchIntent: 'informational',
@@ -254,7 +254,7 @@ export const researchArticles: Article[] = [
 
   {
     id: 'research-nvme-thermal',
-    slug: 'how-ssd-temperature-affects-performance',
+    slug: 'research/how-ssd-temperature-affects-performance',
     title: 'How SSD Temperature Can Affect Real-World Performance',
     seoTitle: 'How SSD Temperature Affects Performance | TWW Research',
     dek: 'SSD temperature matters most when heat changes behavior. TWW explains how to distinguish harmless warmth from a thermal-performance problem.',
@@ -267,7 +267,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 8,
     tags: ['NVMe', 'SSD', 'Thermals', 'Storage', 'Research'],
-    relatedArticles: ['nvme-ssd-temperature-too-high', 'why-ssd-is-slowing-down-windows', 'how-to-check-ssd-health-windows', 'ssd-nearly-full-windows-performance'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'ssd-health', 'ssd-full-space'],
     contentRole: 'cluster',
     pillarPath: '/research',
     searchIntent: 'informational',
