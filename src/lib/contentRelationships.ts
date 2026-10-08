@@ -1,14 +1,14 @@
 import type { Article } from '../data/articles';
 
 const RESEARCH_BY_TOPIC: Record<string, string[]> = {
-  'SSD': ['ssd-nearly-full-what-really-changes', 'how-ssd-temperature-affects-performance'],
-  'Storage': ['ssd-nearly-full-what-really-changes', 'windows-100-percent-disk-usage-low-mbps', 'how-ssd-temperature-affects-performance'],
-  'Windows 11': ['windows-100-percent-disk-usage-low-mbps', 'does-more-ram-make-windows-faster'],
-  'Disk Usage': ['windows-100-percent-disk-usage-low-mbps'],
-  'RAM': ['does-more-ram-make-windows-faster'],
-  'Gaming': ['what-actually-causes-pc-game-stuttering'],
-  'Gaming Performance': ['what-actually-causes-pc-game-stuttering'],
-  'Stuttering': ['what-actually-causes-pc-game-stuttering'],
+  'SSD': ['research-ssd-nearly-full', 'research-nvme-thermal'],
+  'Storage': ['research-ssd-nearly-full', 'research-disk-100-low-mbps', 'research-nvme-thermal'],
+  'Windows 11': ['research-disk-100-low-mbps', 'research-ram-capacity'],
+  'Disk Usage': ['research-disk-100-low-mbps'],
+  'RAM': ['research-ram-capacity'],
+  'Gaming': ['research-gaming-stutter'],
+  'Gaming Performance': ['research-gaming-stutter'],
+  'Stuttering': ['research-gaming-stutter'],
 };
 
 function score(a: Article, b: Article): number {
@@ -40,7 +40,7 @@ export function getRelatedArticles(article: Article, articles: Article[], limit 
 
 export function getResearchForArticle(article: Article, articles: Article[], limit = 2): Article[] {
   const researchIds = new Set<string>();
-  for (const tag of article.tags) for (const id of RESEARCH_BY_TOPIC[tag]) researchIds.add(id);
+  for (const tag of article.tags) for (const id of RESEARCH_BY_TOPIC[tag] ?? []) researchIds.add(id);
   return [...researchIds]
     .map(id => articles.find(a => a.id === id))
     .filter((a): a is Article => Boolean(a && a.slug.startsWith('research/')))
