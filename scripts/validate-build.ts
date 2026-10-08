@@ -3,6 +3,8 @@ import { join, normalize, relative, resolve } from 'node:path';
 import { articles, headingId } from '../src/data/articles';
 import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph';
 import { getSeoData } from '../src/seo/ssgSeo';
+import { BSOD_BASE_PATH, bsodEntries, bsodPath } from '../src/data/bsod';
+import { articleToolLinks, getToolPageData, toolByPath, tools } from '../src/data/tools';
 
 const errors: string[] = [];
 const root = resolve('.');
@@ -183,6 +185,53 @@ for (const article of articles) {
 }
 
 // ---------------------------------------------------------------------------
+// Tools registry and BSOD knowledge-base integrity
+// ---------------------------------------------------------------------------
+const toolGraphPaths = new Set(routeGraph.filter(route => route.kind === 'tool').map(route => route.path));
+for (const tool of tools) {
+  if (!toolGraphPaths.has(tool.path)) errors.push(`Tool "${tool.id}" is missing from routeGraph: ${tool.path}`);
+  if (tool.seoTitle.length > 65) errors.push(`Tool "${tool.id}" seoTitle is ${tool.seoTitle.length} characters; keep it at 65 or fewer.`);
+  if (tool.metaDescription.length < 70 || tool.metaDescription.length > 160) errors.push(`Tool "${tool.id}" metaDescription is ${tool.metaDescription.length} characters; keep it between 70 and 160.`);
+  for (const item of tool.faq || []) {
+    if (item.answer.includes('`')) errors.push(`Tool "${tool.id}" FAQ answer contains a backtick: "${item.question}"`);
+  }
+}
+for (const path of toolGraphPaths) if (!toolByPath.has(path)) errors.push(`Graph tool route has no registry entry: ${path}`);
+
+const bsodSlugs = new Set<string>();
+const bsodNames = new Set<string>();
+const bsodHexes = new Set<string>();
+const bsodGraphPaths = new Set(routeGraph.filter(route => route.kind === 'bsod-code').map(route => route.path));
+for (const entry of bsodEntries) {
+  if (bsodSlugs.has(entry.slug)) errors.push(`Duplicate BSOD slug: ${entry.slug}`);
+  if (bsodNames.has(entry.name)) errors.push(`Duplicate BSOD name: ${entry.name}`);
+  if (bsodHexes.has(entry.hex)) errors.push(`Duplicate BSOD hex code: ${entry.hex}`);
+  bsodSlugs.add(entry.slug); bsodNames.add(entry.name); bsodHexes.add(entry.hex);
+  if (!/^0x[0-9A-F]{8}$/.test(entry.hex)) errors.push(`BSOD "${entry.name}" hex must look like 0x000000EF: ${entry.hex}`);
+  if (entry.slug !== entry.name.toLowerCase().replace(/_/g, '-')) errors.push(`BSOD slug must match the lower-case hyphenated name: ${entry.slug}`);
+  if (entry.steps.length < 4) errors.push(`BSOD "${entry.name}" needs at least 4 fix steps.`);
+  if (entry.causes.length < 3) errors.push(`BSOD "${entry.name}" needs at least 3 causes.`);
+  if (!entry.related.length) errors.push(`BSOD "${entry.name}" needs at least one related guide.`);
+  for (const related of entry.related) {
+    if (!indexablePaths.has(related)) errors.push(`BSOD "${entry.name}" links to a missing/non-indexable route: ${related}`);
+  }
+  if (!bsodGraphPaths.has(bsodPath(entry.slug))) errors.push(`BSOD "${entry.name}" is missing from routeGraph.`);
+  const page = getToolPageData(bsodPath(entry.slug));
+  if (!page) errors.push(`No page data for BSOD "${entry.name}".`);
+  else {
+    if (page.description.length < 70 || page.description.length > 160) errors.push(`BSOD "${entry.name}" meta description is ${page.description.length} characters; keep it between 70 and 160.`);
+    for (const item of page.faq) if (item.answer.includes('`')) errors.push(`BSOD "${entry.name}" FAQ answer contains a backtick: "${item.question}"`);
+  }
+}
+for (const path of bsodGraphPaths) {
+  if (!path.startsWith(`${BSOD_BASE_PATH}/`) || !bsodSlugs.has(path.slice(BSOD_BASE_PATH.length + 1))) errors.push(`Graph BSOD route has no knowledge-base entry: ${path}`);
+}
+for (const [slug, toolPaths] of Object.entries(articleToolLinks)) {
+  if (!articlePaths.has(`/${slug}`)) errors.push(`articleToolLinks references a missing article: ${slug}`);
+  for (const toolPath of toolPaths) if (!toolByPath.has(toolPath)) errors.push(`articleToolLinks references a missing tool: ${toolPath}`);
+}
+
+// ---------------------------------------------------------------------------
 // Sitemap ↔ graph and robots ↔ sitemap parity
 // ---------------------------------------------------------------------------
 const sitemapPath = join(publicDir, 'sitemap.xml');
@@ -269,6 +318,19 @@ if (!existsSync(dist)) {
     if (!html.includes('application/ld+json')) errors.push(`Missing JSON-LD structured data in ${route.path}`);
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
     if (route.path === '/' && !html.includes('"@type":"Organization"')) errors.push('Homepage is missing Organization JSON-LD.');
+
+    if (route.kind === 'tool' || route.kind === 'bsod-code') {
+      const toolPage = getToolPageData(route.path);
+      if (toolPage?.faq.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
+      if (toolPage?.webApp && !html.includes('"@type":"WebApplication"')) errors.push(`Missing WebApplication JSON-LD in ${route.path}`);
+      if (route.kind === 'bsod-code') {
+        const entry = bsodEntries.find(item => bsodPath(item.slug) === route.path);
+        if (entry && !html.includes(entry.name)) errors.push(`Prerendered HTML is missing the stop code name in ${route.path}`);
+        if (entry && !html.includes('article-steps')) errors.push(`Prerendered HTML is missing the numbered fix steps in ${route.path}`);
+        if (!html.includes('"name":"BSOD Error Code Lookup"')) errors.push(`Breadcrumb for ${route.path} is missing the BSOD lookup level.`);
+      }
+      if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
+    }
 
     if (route.kind === 'article') {
       if (!html.includes('"@type":"Article"')) errors.push(`Missing Article JSON-LD in ${route.path}`);
