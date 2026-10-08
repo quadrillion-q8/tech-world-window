@@ -71,6 +71,12 @@
     <lastmod>2026-10-07</lastmod>
   </url>
   <url>
+    <loc>https://techworldwindow.com/tools/frame-time-analyzer</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup</loc>
+  </url>
+  <url>
     <loc>https://techworldwindow.com/tools/pc-bottleneck-calculator</loc>
   </url>
   <url>
@@ -81,6 +87,81 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/tools/storage-calculator</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/critical-process-died</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/irql-not-less-or-equal</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/driver-irql-not-less-or-equal</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/page-fault-in-nonpaged-area</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/system-service-exception</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/system-thread-exception-not-handled</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/kmode-exception-not-handled</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/kernel-security-check-failure</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/dpc-watchdog-violation</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/video-tdr-failure</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/video-scheduler-internal-error</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/video-dxgkrnl-fatal-error</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/thread-stuck-in-device-driver</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/inaccessible-boot-device</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/unmountable-boot-volume</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/memory-management</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/whea-uncorrectable-error</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/clock-watchdog-timeout</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/unexpected-kernel-mode-trap</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/bad-pool-header</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/ntfs-file-system</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/kernel-data-inpage-error</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/unexpected-store-exception</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/driver-power-state-failure</loc>
+  </url>
+  <url>
+    <loc>https://techworldwindow.com/tools/bsod-error-code-lookup/store-data-structure-corruption</loc>
   </url>
   <url>
     <loc>https://techworldwindow.com/about</loc>
@@ -102,6 +183,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-troubleshooting-complete-guide</loc>
+    <lastmod>2026-10-06</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-wifi-connected-no-internet</loc>
@@ -133,7 +215,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/nvme-ssd-temperature-too-high</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/why-ssd-is-slowing-down-windows</loc>
@@ -145,7 +227,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-blue-screen-stop-code-how-to-read</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-freezing-randomly-causes-fix</loc>
@@ -161,7 +243,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/windows/windows-update-stuck</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-high-memory-usage-how-to-find-the-cause</loc>
@@ -169,7 +251,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-unknown-device-device-manager</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/windows-11-disk-100-percent-usage</loc>
@@ -205,7 +287,7 @@
   </url>
   <url>
     <loc>https://techworldwindow.com/ssd-nearly-full-windows-performance</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://techworldwindow.com/ddr4-vs-ddr5-ram-difference</loc>
