@@ -1,6 +1,8 @@
 import { articles, articleWordCount, categories } from '../data/articles';
 import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
+import { BSOD_BASE_PATH } from '../data/bsod';
+import { getToolPageData } from '../data/tools';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
 type SeoData = {
@@ -20,18 +22,6 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   '/affiliate-disclosure': {
     title: 'Affiliate Disclosure | Tech World Window',
     description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
-  },
-  '/tools/psu-wattage-calculator': {
-    title: 'PSU Wattage Calculator | Tech World Window',
-    description: 'Estimate a sensible power supply range from your GPU, CPU and other system load before you buy a PSU.',
-  },
-  '/tools/ram-calculator': {
-    title: 'RAM Calculator | Tech World Window',
-    description: 'Estimate a practical memory capacity from Windows, application and gaming use before you buy or upgrade RAM.',
-  },
-  '/tools/storage-calculator': {
-    title: 'Storage Calculator | Tech World Window',
-    description: 'Estimate how much SSD or HDD capacity your games, apps and files will need before choosing a drive.',
   },
   '/reviews/ssds/samsung-990-pro-4tb': {
     title: 'Samsung 990 PRO 4TB Review | Tech World Window',
@@ -101,6 +91,16 @@ export function getSeoData(path: string): SeoData {
     };
   }
 
+  const toolPage = getToolPageData(normalizedPath);
+  if (toolPage) {
+    return {
+      title: toolPage.title,
+      description: toolPage.description,
+      canonical: absoluteUrl(normalizedPath),
+      type: 'website',
+    };
+  }
+
   const hub = hubSeo[normalizedPath];
   if (hub) {
     return {
@@ -125,15 +125,6 @@ export function getSeoData(path: string): SeoData {
     return {
       title: 'Free Tech Tools | Tech World Window',
       description: 'Free technology tools from Tech World Window, including practical calculators and troubleshooting helpers.',
-      canonical: absoluteUrl(normalizedPath),
-      type: 'website',
-    };
-  }
-
-  if (normalizedPath === '/tools/pc-bottleneck-calculator') {
-    return {
-      title: 'PC Bottleneck Calculator | Tech World Window',
-      description: 'A simple educational PC pairing estimator. Learn why CPU and GPU bottlenecks depend on resolution, games, settings, and target frame rate.',
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
     };
@@ -192,6 +183,11 @@ function breadcrumbSchema(path: string, seo: SeoData) {
     items.push({ name: article.title, path });
   } else if (category) {
     items.push({ name: category.name, path });
+  } else if (path.startsWith('/tools/')) {
+    items.push({ name: 'Tools', path: '/tools' });
+    if (path.startsWith(`${BSOD_BASE_PATH}/`)) items.push({ name: 'BSOD Error Code Lookup', path: BSOD_BASE_PATH });
+    const route = routeGraph.find(item => item.path === path);
+    items.push({ name: route?.title || seo.title.replace(/ \| Tech World Window$/, ''), path });
   } else if (path !== '/') {
     const route = routeGraph.find(item => item.path === path);
     items.push({ name: route?.title || seo.title.replace(/ \| Tech World Window$/, ''), path });
@@ -275,6 +271,34 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
         })),
       });
     }
+  }
+
+  const toolPage = getToolPageData(path);
+  if (toolPage?.webApp) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: toolPage.webApp.name,
+      description: toolPage.webApp.description,
+      url: seo.canonical,
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript',
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    });
+  }
+  if (toolPage?.faq.length) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: toolPage.faq.map(item => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    });
   }
 
   const managedPatterns = [
