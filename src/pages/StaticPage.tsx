@@ -85,7 +85,8 @@ const content: Record<string, Page> = {
       'TWW Research is the home for original measurements and technical studies that go beyond a conventional news article or buying guide.',
       'Research projects may cover Windows performance, PC gaming frame times, storage behavior, thermals, hardware compatibility, upgrade decisions, and other practical questions where controlled evidence is more useful than a generic list of tips.',
       'Each study should state its hardware, software versions, test method, variables, limitations, and conclusions. Where raw measurements are available, we aim to publish enough context for another technically minded reader to understand how the result was produced.',
-      'The purpose is not to manufacture a headline. It is to create useful primary information that readers, builders, repair technicians, creators and other publications can verify, discuss and cite.'
+      'The purpose is not to manufacture a headline. It is to create useful primary information that readers, builders, repair technicians, creators and other publications can verify, discuss and cite.',
+      'Current research series: SSD capacity pressure, Windows disk active time, PC game frame-time stutter, RAM capacity decisions, and SSD thermal behavior. These studies separate published facts and technical analysis from measurements that still need to be run on specified hardware.'
     ],
   },
   '/authors/imran-natiq': {
