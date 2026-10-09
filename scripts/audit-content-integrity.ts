@@ -18,7 +18,8 @@ function sectionText(article: Article): string[] {
   const values: string[] = [article.title, article.dek, article.excerpt, ...(article.tags ?? [])];
   for (const section of article.content) {
     values.push(section.heading ?? '', ...section.paragraphs, ...(section.bullets ?? []),
-      ...(section.steps ?? []), ...(section.codeBlocks ?? []));
+      ...(section.steps ?? []), ...(section.codeBlocks ?? []),
+      ...(section.relatedLinks ?? []).flatMap(link => [link.label, link.description]));
     if (section.table) {
       values.push(section.table.caption, ...section.table.headers);
       for (const row of section.table.rows) {
@@ -43,6 +44,18 @@ function checkInternalUrl(rawUrl: string, context: string) {
 }
 
 for (const article of articles) {
+  for (const section of article.content) {
+    for (const link of section.relatedLinks ?? []) {
+      if (!link.label.trim()) errors.push(`Article ${article.slug}: related link has an empty label.`);
+      if (!link.description.trim()) errors.push(`Article ${article.slug}: related link has an empty description: ${link.href}`);
+      if (!link.href.startsWith('/') || link.href.startsWith('//')) {
+        errors.push(`Article ${article.slug}: contextual related link must be an internal path: ${link.href}`);
+      } else {
+        checkInternalUrl(link.href, `Article ${article.slug} contextual link`);
+      }
+    }
+  }
+
   const content = sectionText(article).join('\n');
   const markdownLinks = [...content.matchAll(/\[[^\]]+\]\(([^)\s]+)(?:\s+[^)]*)?\)/g)];
   for (const match of markdownLinks) {
