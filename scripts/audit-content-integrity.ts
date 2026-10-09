@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { articles, type Article } from '../src/data/articles';
+import { articles, categories, type Article } from '../src/data/articles';
 import { routeGraph, SITE_URL } from '../src/data/graph';
 
 /**
@@ -13,6 +13,15 @@ const warnings: string[] = [];
 const publicDir = resolve('public');
 const routePaths = new Set(routeGraph.filter(route => route.indexable).map(route => route.path));
 const incoming = new Map(articles.map(article => [article.id, 0]));
+
+// Keep category-card responsive WebP assets present in the repository. These
+// images are lazy-loaded and use srcset, so both target widths must exist.
+for (const category of categories) {
+  for (const width of [480, 960]) {
+    const assetPath = join(publicDir, `${category.imageBase}-${width}.webp`);
+    if (!existsSync(assetPath)) errors.push(`Category ${category.slug}: missing card image ${category.imageBase}-${width}.webp`);
+  }
+}
 
 function sectionText(article: Article): string[] {
   const values: string[] = [article.title, article.dek, article.excerpt, ...(article.tags ?? [])];
