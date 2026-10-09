@@ -4,6 +4,7 @@ type Enhancement = {
   sections: ArticleSection[];
   faq?: { question: string; answer: string }[];
   relatedArticles?: string[];
+  updatedAt?: string;
 };
 
 /**
@@ -243,6 +244,206 @@ const enhancements: Record<string, Enhancement> = {
   }
 };
 
+
+/**
+ * Authority enrichment layer added 2026-10-10.
+ * The goal is diagnostic completeness and contextual pathways, not word-count inflation.
+ * All internal links are checked by validate-build and audit-content-integrity.
+ */
+const authorityEnrichments: Record<string, Enhancement> = {
+  'windows-troubleshooting-complete-guide': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'Build a diagnosis from evidence, not guesses',
+      paragraphs: [
+        'A strong diagnosis connects at least two observations: the symptom pattern and a test result that supports one likely cause. For example, a freeze that coincides with storage errors is a different lead from a freeze that began immediately after a graphics-driver update. Neither observation proves the root cause on its own, but each tells you which test to run next.',
+        'Use a short record for recurring faults: the exact symptom, time, recent changes, Windows build, error or event ID, test performed, result, and the single change made. This prevents repeated fixes and makes it easier to reverse a change that did not help.'
+      ],
+      table: {
+        caption: 'Match the next test to the evidence you have',
+        headers: ['Evidence so far', 'Next useful investigation', 'What not to conclude yet'],
+        rows: [
+          ['A stop code repeats after a driver change', 'Record the code and named driver, then test a targeted rollback or update', 'The named driver is always the root cause'],
+          ['Freezes coincide with disk errors or drive dropouts', 'Protect important data first; review drive health and system storage events', 'A Windows reinstall will repair a failing drive'],
+          ['Performance falls only after a long gaming session', 'Compare clock speeds and temperatures before and during the drop', 'A single temperature reading proves throttling'],
+          ['Only one application fails', 'Update or repair that application and compare with another user profile', 'The entire Windows installation is corrupt'],
+          ['Several devices on one network fail together', 'Check router, DNS, and provider status from another device', 'The Windows network adapter is necessarily at fault']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Windows will not start', href: '/windows-11-wont-start-troubleshooting', description: 'Identify whether the failure occurs before Windows, during boot, or at sign-in.' },
+        { label: 'Windows Update is stuck', href: '/windows/windows-update-stuck', description: 'Separate a slow update from a stalled installation before interrupting it.' },
+        { label: '100% disk usage', href: '/windows-11-disk-100-percent-usage', description: 'Interpret active time, throughput, background activity, and storage health together.' },
+        { label: 'Windows freezes randomly', href: '/windows-11-freezing-randomly-causes-fix', description: 'Use freeze behavior and event records to narrow the likely cause.' }
+      ]
+    }]
+  },
+  'windows-11-high-memory-usage-how-to-find-the-cause': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'Tell normal memory use from actual memory pressure',
+      paragraphs: [
+        'A large memory number by itself does not mean Windows has a memory leak. Windows can use otherwise available RAM for caches, and applications may reserve memory that is not the same as memory that is actively preventing other work. Look at available memory, committed memory, the applications using the most memory, and whether the PC is paging heavily or becoming unresponsive.',
+        'Compare the machine during the slowdown with a normal period. If closing one application restores responsiveness and available memory, that application is a useful lead. If usage keeps rising without returning after the workload ends, record the process and repeat the observation before deciding it is a leak.'
+      ],
+      table: {
+        caption: 'Memory readings: what they can and cannot tell you',
+        headers: ['Observation', 'Interpretation to investigate', 'Next test'],
+        rows: [
+          ['High RAM use but the PC remains responsive', 'Could be normal caching or a workload using available memory', 'Check available memory and workload behavior before changing settings'],
+          ['Memory use grows steadily while one app is open', 'Possible application memory growth or leak', 'Record the process over time and compare after closing it'],
+          ['High committed memory with slow app switching', 'Memory pressure and paging may be contributing', 'Close a known heavy workload and check whether responsiveness returns'],
+          ['Crashes, corrupt files, or stop codes as well as high use', 'A separate memory-stability issue is possible', 'Run a memory diagnostic instead of relying on Task Manager alone']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check for hardware instability when the symptoms go beyond high utilization.' },
+        { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Evaluate capacity by workload rather than by a single utilization percentage.' },
+        { label: 'TWW research: does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Review what measurements can distinguish capacity pressure from other bottlenecks.' }
+      ]
+    }]
+  },
+  'how-to-check-ssd-health-windows': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'Use health data alongside symptoms and event logs',
+      paragraphs: [
+        'A single “good” status is not a promise that a drive cannot fail, and a wear percentage alone is not a complete diagnosis. Check the drive model and firmware, the manufacturer utility or a reputable SMART reader, temperature, critical-warning state, and whether media or data-integrity error counters are changing. Names and thresholds differ between SATA and NVMe devices and between vendors.',
+        'If Windows intermittently loses the drive, files become unreadable, or storage-related errors keep appearing, copy important data before running long benchmarks or stress tests. Performance testing is secondary when reliability is in question.'
+      ],
+      steps: [
+        'Identify the exact drive model and interface in Windows or the manufacturer utility.',
+        'Capture the current health report, temperature, and available error counters so you have a baseline.',
+        'Check Reliability Monitor and Event Viewer for storage or controller errors around the time of the slowdown.',
+        'Back up important files, then compare the symptom with free capacity, temperature, and background disk activity.',
+        'Repeat the same observation later; changes over time are often more useful than one isolated reading.'
+      ],
+      relatedLinks: [
+        { label: 'Why an SSD can slow down', href: '/why-ssd-is-slowing-down-windows', description: 'Separate low free space, background I/O, heat, and sustained-write behavior from failure.' },
+        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature in context of workload and thermal throttling.' },
+        { label: 'SSD nearly full: what to check', href: '/ssd-nearly-full-windows-performance', description: 'Check capacity pressure without treating a full drive as proof of damage.' },
+        { label: 'TWW research: SSD free-space behavior', href: '/research/ssd-nearly-full-what-really-changes', description: 'See which observations help separate capacity pressure from drive failure.' }
+      ]
+    }]
+  },
+  'why-ssd-is-slowing-down-windows': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'A practical decision path before replacing the drive',
+      paragraphs: [
+        'Test the activity that feels slow, not just a synthetic maximum-speed number. Record whether the issue affects boot, launching apps, small file operations, or long writes, and check whether Task Manager shows another process generating disk activity. Use the same workload and conditions when comparing results.',
+        'If the drive is reporting errors or disappearing, stop performance experiments and protect data. If health looks normal, continue by checking available space, temperature, background work, power settings, and whether sustained writes have outlasted the drive’s fast write cache.'
+      ],
+      table: {
+        caption: 'SSD slowdown: choose the next check by symptom',
+        headers: ['Symptom', 'Check first', 'Important limitation'],
+        rows: [
+          ['Windows is slow at random times', 'Task Manager disk activity and the process creating I/O', 'High active time does not identify the process or root cause by itself'],
+          ['Large copies start fast then slow down', 'Temperature and sustained-write behavior after the initial burst', 'Peak sequential speed does not describe long writes'],
+          ['Drive is nearly full', 'Free space, temporary files, and repeat the same workload after cleanup', 'There is no universal free-space percentage that guarantees speed'],
+          ['Drive reports errors or disappears', 'Backup, health report, firmware, connection and controller events', 'Do not use a benchmark as the first response to possible failure']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Check SSD health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART data, warnings and when to prioritize a backup.' },
+        { label: 'SSD temperature and throttling', href: '/nvme-ssd-temperature-too-high', description: 'Check whether heat coincides with performance loss.' },
+        { label: 'TWW research: 100% disk but low MB/s', href: '/research/windows-100-percent-disk-usage-low-mbps', description: 'Understand why active time and throughput can tell different stories.' }
+      ]
+    }]
+  },
+  'windows-11-freezing-randomly-causes-fix': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'Preserve a timeline around each freeze',
+      paragraphs: [
+        'Reliability Monitor (`perfmon /rel`) is a useful first timeline because it shows crashes, application failures, and some Windows failures by date. Event Viewer can add details, but an event close to the freeze is a clue rather than proof: Windows logs many routine warnings, and the timestamp must match the incident.',
+        'Look for repeatability. If each freeze follows the same game, wake-from-sleep action, device connection, or workload, reproduce that condition carefully and change one variable. If the machine is unstable across unrelated workloads, broaden the investigation to memory, storage, temperatures, and power.'
+      ],
+      bullets: [
+        'Write down the exact time and whether the system recovered or required a forced shutdown.',
+        'Check Reliability Monitor first, then inspect relevant System log events at the same time.',
+        'If drive errors or disappearing storage are present, back up before repeated repair attempts.',
+        'Avoid reading an isolated Kernel-Power event as a diagnosis; it often records an unexpected shutdown rather than its root cause.'
+      ],
+      relatedLinks: [
+        { label: 'Read Windows blue-screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Preserve the error code and use crash records to choose targeted tests.' },
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Investigate memory instability when crashes or corruption accompany freezing.' },
+        { label: 'Check SSD health', href: '/how-to-check-ssd-health-windows', description: 'Look for storage warnings or errors when freezes coincide with I/O problems.' },
+        { label: 'Universal Windows troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Return to the symptom-first diagnostic framework.' }
+      ]
+    }]
+  },
+  'pc-game-stuttering-fix-frame-time': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'Make a frame-time capture useful and repeatable',
+      paragraphs: [
+        'A useful capture records the game, scene, resolution, graphics settings, frame cap, driver version, and whether it is a first or repeat run. Keep the capture window short enough to match the event, but long enough to show what happened immediately before and after the hitch. Compare like with like; a different scene or shader cache state can invalidate a simple before-and-after comparison.',
+        'Frame-time graphs can show when frames arrive late, but they do not always identify the cause. Correlate spikes with CPU and GPU load, VRAM/RAM pressure, storage activity, temperatures, clocks, and repeated in-game events. Treat one sensor or one capture as a lead, then test it.'
+      ],
+      table: {
+        caption: 'Read the frame-time pattern before changing settings',
+        headers: ['Pattern', 'Hypothesis worth testing', 'How to check it'],
+        rows: [
+          ['A spike on the first encounter with an effect', 'Shader compilation or asset loading', 'Repeat the same route and compare first-run with warm-cache behavior'],
+          ['Spikes repeat at the same scene transition', 'Asset streaming or a game-engine workload', 'Capture the transition several times and compare resource activity'],
+          ['GPU load drops as frame time spikes', 'GPU may be waiting on CPU, storage, or another dependency', 'Correlate the timestamp with CPU and disk activity'],
+          ['Performance worsens after a long session', 'Temperature, power limits or background accumulation', 'Compare clock and temperature trends from cool start to the slowdown'],
+          ['Only one game is affected', 'Game-specific settings, cache, or game update', 'Compare another game and record the exact game build']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate what the GPU is doing around a hitch.' },
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize first-run and cache-related hitching.' },
+        { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Use TWW’s tool to inspect frame-time samples and summary metrics.' },
+        { label: 'TWW research: PC game stuttering', href: '/research/what-actually-causes-pc-game-stuttering', description: 'Review the variables a reproducible stutter investigation should measure.' }
+      ]
+    }]
+  },
+  'best-ssds': {
+    updatedAt: '2026-10-10',
+    sections: [{
+      heading: 'How to compare SSDs without overvaluing peak speed',
+      paragraphs: [
+        'Use the same workload when comparing drives and separate short burst performance from sustained writes. Include capacity, controller and NAND configuration where known, cache behavior, power use, temperature, endurance rating, warranty, and the price at the time of publication. Manufacturer specifications are useful, but they are not the same as independent testing.',
+        'TWW should call a product “tested” only when the editorial team has actually tested it using a disclosed method. Where a page relies on manufacturer specifications, published independent measurements, and compatibility research instead, label that basis clearly and do not imply firsthand results. Prices and product availability should be rechecked before each commercial update.'
+      ],
+      table: {
+        caption: 'A transparent SSD comparison checklist',
+        headers: ['Factor', 'Why it matters', 'Evidence to record'],
+        rows: [
+          ['Capacity and price per TB', 'Affects usable space and value', 'Capacity, current price, warranty and date checked'],
+          ['Short and sustained writes', 'Drives can behave differently after a fast cache is exhausted', 'Workload, test duration, drive fill state and sustained result'],
+          ['Thermals and power', 'Laptop cooling and sustained workloads differ from open desktop test benches', 'Ambient conditions, cooling setup, temperature and power state'],
+          ['Endurance and warranty', 'Useful for heavy writes and long-term ownership decisions', 'Manufacturer rating, warranty terms and exclusions'],
+          ['Compatibility', 'Interface, physical dimensions and cooling affect real usability', 'System model, M.2 size, PCIe support and clearance']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Samsung 990 PRO 4TB review profile', href: '/reviews/ssds/samsung-990-pro-4tb', description: 'Check the model-specific page and its stated evidence basis.' },
+        { label: 'Crucial T500 2TB review profile', href: '/reviews/ssds/crucial-t500-2tb', description: 'Compare capacity and product-specific specifications.' },
+        { label: 'SSD health guide', href: '/how-to-check-ssd-health-windows', description: 'Understand the maintenance and health indicators that matter after purchase.' },
+        { label: 'NVMe temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Account for thermal limits when planning sustained workloads.' }
+      ]
+    }]
+  }
+};
+
+for (const [slug, authority] of Object.entries(authorityEnrichments)) {
+  const existing = enhancements[slug];
+  if (!existing) {
+    enhancements[slug] = authority;
+    continue;
+  }
+  enhancements[slug] = {
+    ...existing,
+    sections: [...existing.sections, ...authority.sections],
+    faq: [...(existing.faq ?? []), ...(authority.faq ?? [])],
+    relatedArticles: Array.from(new Set([...(existing.relatedArticles ?? []), ...(authority.relatedArticles ?? [])])),
+    updatedAt: authority.updatedAt ?? existing.updatedAt
+  };
+}
+
 export function enhanceArticles(baseArticles: Article[]): Article[] {
   return baseArticles.map(article => {
     const enhancement = enhancements[article.slug];
@@ -253,7 +454,7 @@ export function enhanceArticles(baseArticles: Article[]): Article[] {
 
     return {
       ...article,
-      updatedAt: '2026-10-08',
+      updatedAt: enhancement.updatedAt ?? '2026-10-08',
       content: [...article.content, ...addedSections],
       faq: [...(article.faq ?? []), ...(enhancement.faq ?? [])],
       relatedArticles: enhancement.relatedArticles
