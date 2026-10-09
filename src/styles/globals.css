@@ -167,3 +167,6 @@
 .research-connection ul{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem}
 .research-connection li{display:grid;gap:.25rem}
 .research-connection li span{color:var(--muted,#aab4c3);font-size:.95rem}
+
+/* Contextual in-body links: distinct from the general related-story cards. */
+.article-next-steps{margin:1.25rem 0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:12px;background:rgba(18,164,184,.045)}.article-next-steps ul{list-style:none;display:grid;gap:.85rem;padding:0;margin:0}.article-next-steps li{display:grid;gap:.18rem;margin:0}.article-next-steps a{color:var(--accent,#087c91);text-decoration:underline;text-underline-offset:3px}.article-next-steps span{font-size:.9rem;line-height:1.6;color:var(--muted,#6b788b)}
