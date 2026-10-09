@@ -5,6 +5,9 @@ type Enhancement = {
   faq?: { question: string; answer: string }[];
   relatedArticles?: string[];
   updatedAt?: string;
+  seoTitle?: string;
+  metaDescription?: string;
+  sources?: { label: string; url: string }[];
 };
 
 /**
@@ -429,7 +432,385 @@ const authorityEnrichments: Record<string, Enhancement> = {
   }
 };
 
-for (const [slug, authority] of Object.entries(authorityEnrichments)) {
+
+/**
+ * Second editorial pass, 2026-10-10.
+ * These sections deepen the lowest-coverage diagnostic articles identified in
+ * the source audit. Every addition must help a reader decide what to test next.
+ */
+const additionalAuthorityEnrichments: Record<string, Enhancement> = {
+  'windows-11-network-adapter-reset-guide': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'Windows 11 Network Reset: When to Use It',
+    metaDescription: 'Learn what Windows 11 Network Reset changes, what it removes, and which checks to try before rebuilding network settings.',
+    sources: [
+      { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/fix-wi-fi-connection-issues-in-windows-9424a1f7-6a3b-65a6-4d78-7f07eee84d2c' },
+      { label: 'Microsoft Learn: Test-NetConnection', url: 'https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2025-ps' }
+    ],
+    sections: [{
+      heading: 'Before you use Network Reset: preserve the evidence',
+      paragraphs: [
+        'Network Reset is a broad recovery action, not the first diagnostic test. Before using it, note whether the failure affects Wi-Fi, Ethernet, a VPN, or only one application; record the current adapter name and any non-default IP, DNS, proxy, or VPN settings. This gives you a baseline if the reset removes a configuration that you need to restore.',
+        'A reset can remove and reinstall network adapters and return network components to defaults. You may need to reconnect to saved Wi-Fi networks, reconfigure VPN software, or reinstall virtual network adapters used by virtualization or security tools. Check your work or school VPN instructions before proceeding on a managed device.'
+      ],
+      table: {
+        caption: 'Choose a proportionate network repair',
+        headers: ['Evidence', 'Try first', 'Why not reset yet?'],
+        rows: [
+          ['Only one website or application fails', 'Test another site and check application/proxy settings', 'The adapter may be working normally'],
+          ['Other devices on the same network are offline', 'Check router, modem, and provider status', 'Resetting this PC will not fix an upstream outage'],
+          ['Only this PC has no connection', 'Check IP address, default gateway, VPN/proxy, and adapter status', 'A narrower fault may be identifiable'],
+          ['Several network repairs failed and adapter settings appear damaged', 'Record settings, then consider Network Reset', 'This is the point where a broader reset may be justified']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Connected but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Test the router, IP configuration, gateway, DNS, and VPN in sequence.' },
+        { label: 'Windows DNS troubleshooting', href: '/windows-11-dns-not-working-how-to-fix', description: 'Confirm whether name resolution is actually the failing layer.' }
+      ]
+    }],
+    faq: [{ question: 'Will Windows Network Reset delete my personal files?', answer: 'It is intended to reset network components rather than personal documents, but it can remove network configuration and adapter settings. Record non-default settings and ensure you know how to reconnect before using it.' }]
+  },
+  'gpu-100-percent-usage-gaming': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'GPU at 100% Usage While Gaming: Explained',
+    metaDescription: 'GPU usage at 100% is often normal. Check temperatures, clocks, frame times and game settings to distinguish expected load from a problem.',
+    sources: [
+      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
+      { label: 'AMD: Monitor Performance Metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' }
+    ],
+    sections: [{
+      heading: 'A useful GPU check compares load, performance, and symptoms',
+      paragraphs: [
+        'Record GPU utilization alongside GPU temperature, clock, board power if available, VRAM use, CPU activity, frame time, and the actual in-game frame rate. A utilization percentage without those surrounding signals cannot tell you whether performance is healthy or whether the card is overheating, power-limited, or simply rendering a demanding scene.',
+        'Repeat the same short game sequence at the same resolution and settings. Then change only one factor, such as render scale or an expensive graphics option. If the GPU load and frame rate respond substantially, the graphics workload is likely important. If performance barely changes, investigate CPU limits, frame caps, synchronization, asset streaming, or the game engine.'
+      ],
+      table: {
+        caption: 'Interpret GPU utilization with the other measurements',
+        headers: ['Pattern', 'Possible explanation', 'Next test'],
+        rows: [
+          ['Near 100% with stable clocks and expected FPS', 'Normal GPU-limited rendering', 'Compare performance with the same scene and settings'],
+          ['Near 100% plus rising temperature and falling clocks', 'Thermal or power behavior may be limiting performance', 'Check cooling, fan behavior, power profile, and manufacturer limits'],
+          ['GPU utilization drops during each hitch', 'The GPU may be waiting on another part of the workload', 'Compare CPU thread load, storage activity, and frame-time capture'],
+          ['Near 100% while idle at desktop', 'Another process or background workload may be active', 'Check Task Manager GPU engine usage and the process list']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate what changes immediately before and during an individual hitch.' },
+        { label: 'GPU overheating', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check temperature and clock evidence before changing cooling or replacing hardware.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze a supported frame-time capture rather than relying only on average FPS.' }
+      ]
+    }],
+    faq: [{ question: 'Is 100% GPU usage by itself a fault?', answer: 'No. High GPU utilization is common when a game is limited by graphics rendering. Investigate the associated temperature, clock, frame-time, stability, and performance behavior instead of treating the percentage alone as a fault.' }]
+  },
+  'pc-games-crashing-to-desktop-troubleshooting': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'PC Games Crashing to Desktop: Diagnose It',
+    metaDescription: 'Diagnose PC games crashing to desktop by separating game-specific faults from driver, overlay, memory, thermal and system-wide problems.',
+    sources: [
+      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
+      { label: 'Microsoft: Bug check code reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' }
+    ],
+    sections: [{
+      heading: 'Use the crash pattern to separate game faults from system instability',
+      paragraphs: [
+        'Start by determining whether one game crashes or several unrelated games fail. A single-game failure makes game files, mods, configuration, overlays, or a game-specific issue sensible first checks. Crashes across several demanding games raise the priority of shared components such as the graphics driver, memory stability, temperatures, power delivery, and Windows system events; they still do not identify a failed component by themselves.',
+        'Record the time of each crash and check Reliability Monitor or Event Viewer for a matching application fault, Windows error, or hardware event. A nearby event is a lead, not proof of cause. Note the faulting application or module and whether the failure is a return to desktop, a driver reset, a blue screen, or a complete power loss: those outcomes point to different investigations.'
+      ],
+      steps: [
+        'Reproduce the failure once with the same game, scene, and settings; note the exact outcome and time.',
+        'For one affected game, verify its files through the game launcher and temporarily test without mods or optional overlays.',
+        'If several games fail, return CPU/GPU/RAM tuning to known-stable defaults and check temperatures and clock behavior.',
+        'Review the matching Windows event and update or roll back only the driver or component that has a plausible connection to the failure.',
+        'If the PC loses power, shows artifacts, or produces repeated blue screens, stop repeated stress tests and prioritize hardware safety and data protection.'
+      ],
+      relatedLinks: [
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a proper memory test when crashes occur across multiple applications or workloads.' },
+        { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the crash type and stop-code evidence if the system blue-screens instead of closing the game.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' }
+      ]
+    }],
+    faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' }]
+  },
+  'laptop-nvme-ssd-upgrade-compatibility': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'Laptop NVMe SSD: Compatibility Checklist',
+    metaDescription: 'Before upgrading a laptop SSD, verify interface, M.2 length, clearance, supported capacity, migration method, and data backup.',
+    sources: [
+      { label: 'Microsoft Learn: Overview of Disk Management', url: 'https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management' },
+      { label: 'Microsoft Learn: Initialize new disks', url: 'https://learn.microsoft.com/en-us/windows-server/storage/disk-management/initialize-new-disks' }
+    ],
+    sections: [{
+      heading: 'Confirm the exact laptop model before choosing an SSD',
+      paragraphs: [
+        'Do not use the phrase “M.2 slot” as a complete compatibility check. M.2 describes the module form factor; the laptop documentation must confirm whether the slot accepts PCIe NVMe, SATA, or both, which drive lengths are supported, and whether any side of a double-sided module has enough clearance. Some laptops have multiple slots with different capabilities.',
+        'Also distinguish physical compatibility from performance compatibility. A PCIe 4.0 drive may negotiate at a lower supported generation in a compatible older slot, but firmware support, capacity validation, power behavior, and thermal limits still depend on the exact laptop. Use the service manual or specification for the full model number, not only the marketing family name.'
+      ],
+      table: {
+        caption: 'SSD upgrade checks to complete before ordering',
+        headers: ['Check', 'Evidence to find', 'Why it matters'],
+        rows: [
+          ['Interface', 'Manufacturer specification or service manual', 'M.2 shape alone does not confirm SATA/NVMe support'],
+          ['Length and sides', 'Supported length such as 2230 or 2280; clearance notes', 'A physically incompatible module may not mount or fit safely'],
+          ['Slot generation and capacity', 'Laptop platform documentation', 'Avoid assumptions about maximum supported configuration'],
+          ['Thermal design', 'Heatsink, pad, shield and chassis notes', 'A high-power drive may throttle in a thin chassis'],
+          ['Migration and recovery', 'Verified backup plus clean-install or cloning plan', 'Protect files before opening or changing the system drive']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Check the existing drive before deciding that replacement is necessary.' },
+        { label: 'Why an SSD slows down', href: '/why-ssd-is-slowing-down-windows', description: 'Separate capacity, workload, temperature, and health symptoms.' },
+        { label: 'NVMe SSD temperature', href: '/nvme-ssd-temperature-too-high', description: 'Understand why laptop cooling can affect sustained storage performance.' }
+      ]
+    }],
+    faq: [{ question: 'Will every M.2 NVMe SSD work in my laptop?', answer: 'No. The exact interface, module length, physical clearance, firmware, and laptop specifications must be checked. Confirm the complete model number and service documentation before buying.' }]
+  },
+  'windows-11-dns-not-working-how-to-fix': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'Windows 11 DNS Problems: Diagnose and Fix',
+    metaDescription: 'Confirm a Windows 11 DNS failure with simple tests, interpret the result, and avoid changing network settings until the cause is clearer.',
+    sources: [
+      { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/fix-wi-fi-connection-issues-in-windows-9424a1f7-6a3b-65a6-4d78-7f07eee84d2c' },
+      { label: 'Microsoft Learn: Test-NetConnection', url: 'https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2025-ps' }
+    ],
+    sections: [{
+      heading: 'A DNS error should be tested, not guessed from the browser message',
+      paragraphs: [
+        'A failed website lookup can come from the current DNS resolver, a local cache, a VPN or security product, a router issue, or the destination domain itself. First test more than one unrelated domain and check whether another device on the same network has the same problem. A single website failure is not enough evidence to replace DNS settings.',
+        'In PowerShell, use Resolve-DnsName for a domain and compare it with nslookup if needed. A timeout, SERVFAIL, NXDOMAIN, and a successful response are different outcomes: NXDOMAIN can mean that the queried name does not exist, while a timeout means the query did not receive a response in time. Confirm the domain spelling and query a known-good domain before drawing a conclusion.'
+      ],
+      codeBlocks: ['Resolve-DnsName example.com\nnslookup example.com\nTest-NetConnection example.com -Port 443'],
+      bullets: [
+        'If name lookup fails for multiple domains but general connectivity works, investigate DNS resolution and the configured resolver.',
+        'If the DNS test succeeds but a browser still fails, check proxy/VPN settings, browser-specific errors, and the destination service.',
+        'If several devices on the same network fail together, investigate router DNS settings or upstream service before changing one Windows PC.',
+        'Change one variable at a time and record the original resolver settings so you can reverse the test.'
+      ],
+      relatedLinks: [
+        { label: 'Connected but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'If the failure could be broader than DNS, test the local gateway and internet route first.' },
+        { label: 'Network Reset guide', href: '/windows-11-network-adapter-reset-guide', description: 'Reserve the broad reset for after narrower connectivity and resolver checks.' }
+      ]
+    }],
+    faq: [{ question: 'Does a successful ping to an IP address prove DNS is broken?', answer: 'No. It is one clue. Compare name-resolution results, more than one domain, other devices, and the browser or application error before identifying DNS as the failing layer.' }]
+  },
+  'gpu-overheating-gaming-pc-causes-fix': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'GPU Overheating While Gaming: Causes and Fixes',
+    metaDescription: 'Diagnose GPU heat using temperature, hotspot, fan, clock and power trends. Check airflow and manufacturer limits before replacing hardware.',
+    sources: [
+      { label: 'AMD: Monitor Performance Metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' },
+      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' }
+    ],
+    sections: [{
+      heading: 'Check the temperature trend alongside clock speed and fan behavior',
+      paragraphs: [
+        'A single temperature reading cannot establish overheating. Record the GPU temperature and, when the hardware exposes it, hotspot or junction temperature, fan speed, clock frequency, board power and performance during a repeatable game scene. Compare those readings with the specific card or laptop manufacturer’s stated operating guidance; different GPU designs and sensors do not share one universal threshold.',
+        'Look for the sequence: does temperature rise, then clock speed fall and frame time worsen, or does the game hitch first while temperature remains steady? The second pattern makes heat a weaker immediate explanation. On laptops, compare the manufacturer performance profile and AC-power behavior; on desktops, check unobstructed intake/exhaust, fan operation, dust, and whether the case changes when the side panel is temporarily removed for diagnosis.'
+      ],
+      table: {
+        caption: 'What GPU thermal readings should be interpreted together',
+        headers: ['Observed pattern', 'Possible interpretation', 'Next check'],
+        rows: [
+          ['Temperature rises but clocks and performance remain stable', 'May be normal behavior for that GPU under load', 'Compare with the exact manufacturer guidance'],
+          ['Temperature rises, clocks drop, and FPS declines', 'Thermal limiting is plausible', 'Check fan response, dust, airflow, and power profile'],
+          ['High fan noise but moderate GPU temperature', 'Case airflow, CPU heat, fan curve, or another component may be involved', 'Compare CPU/GPU sensors and fan behavior together'],
+          ['Artifacts or sudden shutdowns', 'Potential stability or hardware problem beyond temperature alone', 'Stop repeated stress tests and inspect system evidence']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU at 100% usage', href: '/gpu-100-percent-usage-gaming', description: 'Separate ordinary GPU load from a performance issue that needs investigation.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Check whether heat correlates with the actual frame-time problem.' }
+      ]
+    }]
+  },
+  'pc-power-supply-problems-symptoms': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'PC Power Supply Problems: Signs and Tests',
+    metaDescription: 'Learn which PC shutdown patterns can implicate a PSU, what to check safely, and why symptoms alone cannot confirm power-supply failure.',
+    sources: [
+      { label: 'Seasonic: GPU and PSU failure symptoms', url: 'https://seasonic.com/pl/insights/gpu-and-psu-failure-symptoms/' },
+      { label: 'Seasonic: Common mistakes when calculating PSU wattage', url: 'https://seasonic.com/insights/power-supply-calculator-errors/' }
+    ],
+    sections: [{
+      heading: 'PSU symptoms are clues; do not open the power supply',
+      paragraphs: [
+        'A sudden shutdown under load can be consistent with a power-delivery problem, but temperature, GPU/CPU instability, faulty cabling, motherboard issues, memory errors and software crashes can overlap. Build a timeline: did the system lose power instantly, restart, blue-screen, or return to the desktop? Does the fault happen only when the GPU load rises, or also at idle and during startup?',
+        'Check the external power path first: outlet, power strip, AC lead, PSU switch, and securely seated component power connectors if you are comfortable working inside a PC and the system is fully unplugged. If the power supply is modular, use only cables specified for that exact PSU; cables from another unit may have incompatible pinouts even when they fit. Never open a PSU enclosure because hazardous charge can remain after it is unplugged.'
+      ],
+      table: {
+        caption: 'Separate a PSU lead from similar symptoms',
+        headers: ['Symptom', 'Other causes to consider', 'Safe next evidence'],
+        rows: [
+          ['Instant power loss during demanding games', 'PSU, GPU power, thermal protection, outlet/cabling', 'Record load and temperature; inspect external cabling and system logs'],
+          ['Game closes but Windows stays running', 'Game files, driver, unstable tuning, RAM', 'Validate game files and inspect matching application errors'],
+          ['Blue screen under mixed workloads', 'Driver, RAM, CPU/GPU, storage, firmware', 'Record stop code and test components systematically'],
+          ['Restart after a hardware upgrade', 'Connector seating, load headroom, BIOS/settings, component fit', 'Verify model-specific power and connector requirements']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU overheating', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check whether temperature and clock behavior align with the shutdown.' },
+        { label: 'PC games crashing', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Separate application crashes from system-wide power loss or a blue screen.' }
+      ]
+    }],
+    faq: [{ question: 'Can I confirm a PSU fault from a shutdown symptom alone?', answer: 'No. Shutdown under load can implicate power delivery, but temperatures, cabling, GPU behavior, memory, and the motherboard can produce overlapping symptoms. Confirmation requires systematic testing or a qualified hardware check.' }]
+  },
+  'gaming-laptop-upgradeable-ram-ssd': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'Can You Upgrade a Gaming Laptop? Check RAM and SSD',
+    metaDescription: 'Check a gaming laptop’s exact service manual for soldered RAM, SODIMM slots, M.2 storage, supported capacities and safe upgrade limits.',
+    sources: [
+      { label: 'Intel: Extreme Memory Profile (XMP)', url: 'https://www.intel.com/content/www/us/en/gaming/extreme-memory-profile-xmp.html' },
+      { label: 'Microsoft Learn: Overview of Disk Management', url: 'https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management' }
+    ],
+    sections: [{
+      heading: 'Use the full model number and service manual—not the laptop family name',
+      paragraphs: [
+        'Two laptops in the same marketing family can have different motherboards, memory arrangements, storage slots, or maximum supported configurations. Find the complete model or SKU and use the manufacturer’s specification and service manual to determine which components are replaceable. Do not assume that a visible access panel means both RAM and storage are upgradeable.',
+        'For memory, confirm whether it is soldered, how many SODIMM slots exist, the supported memory generation and capacity, and any module arrangement requirements. For storage, confirm the slot count, SATA or PCIe/NVMe support, module length, physical clearance, and whether the manufacturer restricts the supported configuration. Back up important files and understand the warranty/service conditions before opening the device.'
+      ],
+      table: {
+        caption: 'Laptop upgrade checklist',
+        headers: ['Part', 'Confirm', 'Common mistake'],
+        rows: [
+          ['RAM', 'Soldered vs SODIMM, free slots, capacity and generation', 'Buying desktop DIMMs or a DDR generation the laptop cannot use'],
+          ['SSD', 'Interface, M.2 length, slot count and clearance', 'Assuming every M.2 drive is supported'],
+          ['Cooling and battery', 'Service procedure and safe disconnection requirements', 'Working on the laptop while powered or connected to AC'],
+          ['Software migration', 'Verified backup, recovery key and install/clone plan', 'Replacing the boot drive without a recoverable backup']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Laptop NVMe compatibility', href: '/laptop-nvme-ssd-upgrade-compatibility', description: 'Check SSD interface, physical size, slot and thermal requirements before ordering.' },
+        { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Decide whether the workload needs more capacity before buying modules.' },
+        { label: 'DDR4 vs DDR5 RAM', href: '/ddr4-vs-ddr5-ram-difference', description: 'Understand memory-generation compatibility and trade-offs.' }
+      ]
+    }]
+  },
+  'ddr4-vs-ddr5-ram-difference': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'DDR4 vs DDR5 RAM: Differences Explained',
+    metaDescription: 'Compare DDR4 and DDR5 compatibility, bandwidth, latency, platform cost and real workload benefits before buying memory or a new PC.',
+    sources: [
+      { label: 'Intel: Extreme Memory Profile (XMP)', url: 'https://www.intel.com/content/www/us/en/gaming/extreme-memory-profile-xmp.html' },
+      { label: 'Intel: How to check XMP compatibility', url: 'https://www.intel.com/content/www/us/en/support/articles/000060130/processors.html' }
+    ],
+    sections: [{
+      heading: 'Compare the full platform cost, not the memory kit in isolation',
+      paragraphs: [
+        'DDR4 and DDR5 are not interchangeable in a typical consumer motherboard. Decide based on the motherboard and CPU you own or plan to buy before comparing frequency or timings. A switch from an existing DDR4 platform to DDR5 usually involves a compatible motherboard and sometimes a CPU change, so the total platform cost may outweigh a small memory-only performance gain.',
+        'For a controlled performance comparison, keep the CPU, GPU, game scene, graphics settings, and background workload the same where possible; change only the memory configuration. Report average FPS and frame-time or 1% low behavior across repeat runs rather than generalizing from a single benchmark. Differences vary by application and platform, so a headline transfer rate is not a universal FPS prediction.'
+      ],
+      table: {
+        caption: 'A practical DDR4 versus DDR5 decision',
+        headers: ['Situation', 'What to prioritize', 'Usually avoid'],
+        rows: [
+          ['Upgrading an existing working PC', 'Compatible capacity and platform support', 'Replacing the whole platform solely for a memory-generation label'],
+          ['Building a new PC', 'Total CPU/motherboard/RAM price and workload performance', 'Comparing RAM kits without the platform context'],
+          ['Gaming system already GPU-limited', 'GPU settings and stable capacity first', 'Assuming faster memory will substantially lift FPS'],
+          ['Memory instability after enabling XMP', 'Return to stable defaults and validate compatibility', 'Increasing voltage or timings without a recovery plan']
+        ]
+      },
+      relatedLinks: [
+        { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Choose a useful capacity for your actual workloads first.' },
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check stability after an upgrade or memory-profile change.' }
+      ]
+    }]
+  },
+  'how-much-ram-do-you-need-gaming': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'How Much RAM Do You Need for Gaming?',
+    metaDescription: 'Choose 16GB, 32GB or 64GB RAM by workload. Learn how to spot memory pressure and avoid buying extra capacity that will not fix another bottleneck.',
+    sources: [
+      { label: 'Intel: Extreme Memory Profile (XMP)', url: 'https://www.intel.com/content/www/us/en/gaming/extreme-memory-profile-xmp.html' },
+      { label: 'Intel: How to check XMP compatibility', url: 'https://www.intel.com/content/www/us/en/support/articles/000060130/processors.html' }
+    ],
+    sections: [{
+      heading: 'Measure memory pressure before deciding to upgrade',
+      paragraphs: [
+        'Check RAM use during the workload that actually feels slow: launch the game, load the usual map, keep your normal browser/voice-chat/streaming applications open, and observe available memory, committed memory, and responsiveness. Repeat the observation after closing one known heavy application. If the system becomes responsive again, background workload may be contributing; if a game is GPU-limited or storage latency is high, adding RAM will not address that bottleneck by itself.',
+        'Capacity targets are practical starting points, not universal rules. 16GB can remain adequate for lighter gaming and modest multitasking; 32GB gives more headroom for modern games plus a wider background workload; 64GB is mainly justified by heavier creation workloads, virtual machines, large projects, or unusually intensive multitasking. Check requirements for the exact software you use and preserve budget for the components that actually limit performance.'
+      ],
+      table: {
+        caption: 'How to evaluate a RAM-capacity choice',
+        headers: ['Workload pattern', 'Capacity to investigate first', 'Evidence to collect'],
+        rows: [
+          ['One game plus everyday background apps', 'Compare 16GB and 32GB against the title and system load', 'Available memory, paging symptoms, frame-time behavior'],
+          ['Gaming plus streaming, heavy browser use or creation apps', '32GB may offer practical headroom', 'Peak concurrent usage and whether closing apps improves performance'],
+          ['Virtual machines, large media projects, specialist workloads', 'Consider 64GB or workload-specific needs', 'Application requirements and peak working set/committed memory'],
+          ['High FPS but stutters or crashes', 'Do not assume capacity is the cause', 'GPU/CPU limits, driver timing, thermals and memory stability']
+        ]
+      },
+      relatedLinks: [
+        { label: 'DDR4 vs DDR5', href: '/ddr4-vs-ddr5-ram-difference', description: 'Check the memory generation your CPU and motherboard support.' },
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a stability test if crashes or stop codes accompany memory symptoms.' },
+        { label: 'Low FPS diagnosis', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Separate memory pressure from a CPU or GPU performance limit.' }
+      ]
+    }]
+  },
+  'gpu-frame-time-spikes-causes-fix': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'GPU Frame-Time Spikes: Find the Cause',
+    metaDescription: 'Use repeatable frame-time captures and GPU, CPU, temperature and storage metrics to investigate stutter without guessing from average FPS.',
+    sources: [
+      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
+      { label: 'AMD: Monitor Performance Metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' }
+    ],
+    sections: [{
+      heading: 'Capture the same scene before comparing fixes',
+      paragraphs: [
+        'A frame-time graph is most useful when the workload is repeatable. Use the same game version, scene, camera path, graphics settings, resolution, frame cap and capture duration. Warm the scene consistently between runs, and record any driver or configuration change. If the test conditions change each time, small differences can be normal variation rather than evidence that a fix worked.',
+        'Inspect what happens around a spike rather than only its maximum. A GPU utilization drop may mean the GPU is waiting on CPU work, asset streaming, compilation, or another dependency; a steady high GPU load during a longer frame can indicate a rendering-heavy event. Overlay data is a clue to correlate, not a guaranteed identification of the cause.'
+      ],
+      table: {
+        caption: 'Frame-time patterns and the next investigation',
+        headers: ['Pattern in repeated runs', 'Investigate', 'Do not assume'],
+        rows: [
+          ['Hitch repeats at the first encounter with an effect', 'Shader compilation or game-specific first-use work', 'That every repeated hitch is shader compilation'],
+          ['Hitch repeats while entering a new area', 'Asset streaming, storage and game-engine behavior', 'That the SSD is failing'],
+          ['GPU use drops as frame time spikes', 'CPU thread load, background tasks and streaming', 'That a low GPU percentage means the GPU is defective'],
+          ['Hitch follows rising temperature and falling clocks', 'Thermal or power limiting', 'That temperature alone proves a hardware fault'],
+          ['Spikes occur randomly across different games', 'Driver, background software, power, thermal and stability tests', 'That one game setting explains the whole system']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze compatible frame-time data with the tool’s documented assumptions.' },
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Compare first-use stutter with recurring instability.' },
+        { label: 'Low FPS diagnosis', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Use controlled settings changes to look for the main performance limit.' }
+      ]
+    }]
+  },
+  'shader-compilation-stutter-pc-games': {
+    updatedAt: '2026-10-10',
+    seoTitle: 'Shader Compilation Stutter in PC Games',
+    metaDescription: 'Recognize likely shader compilation stutter, distinguish it from asset streaming or system instability, and compare repeatable game runs safely.',
+    sources: [
+      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
+      { label: 'AMD: Monitor Performance Metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' }
+    ],
+    sections: [{
+      heading: 'Use first-run versus repeat-run behavior as a diagnostic clue',
+      paragraphs: [
+        'Shader compilation is more plausible when a hitch appears as the game first encounters a particular visual effect, material, area or rendering path, and that specific hitch becomes less frequent after the relevant content has been visited again. The pattern differs by game, graphics API, driver, and how the game manages its shader cache, so one brief test cannot prove the cause.',
+        'Repeat the same route and record whether the spike happens at the same moment, whether GPU utilization drops, and whether CPU activity or storage access changes. If identical hitches continue on every run, investigate asset streaming, background tasks, CPU limits, thermal behavior, overlays and driver changes before clearing caches or reinstalling software. Cache deletion can make the next run worse while shaders are rebuilt.'
+      ],
+      table: {
+        caption: 'Distinguish common causes of gaming stutter',
+        headers: ['Observation', 'More plausible lead', 'Next comparison'],
+        rows: [
+          ['First visit hitches; later passes improve', 'Shader or first-use compilation', 'Compare another repeat pass under the same conditions'],
+          ['Hitch when crossing into new areas', 'Asset streaming or game-engine loading', 'Observe storage and CPU activity during the event'],
+          ['Stutter starts immediately after a driver update', 'Driver regression or changed cache behavior', 'Compare driver history and use a controlled rollback if justified'],
+          ['Hitches vary across unrelated games and workloads', 'System, background software, power or thermal issue', 'Capture system metrics and test one variable at a time']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Correlate individual spikes with GPU utilization, clocks, CPU activity and temperatures.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect compatible captures instead of relying on the average FPS counter.' },
+        { label: 'PC game stuttering guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the broader diagnostic sequence when the symptom is not limited to first-use events.' }
+      ]
+    }]
+  }
+};
+
+for (const [slug, authority] of [...Object.entries(authorityEnrichments), ...Object.entries(additionalAuthorityEnrichments)]) {
   const existing = enhancements[slug];
   if (!existing) {
     enhancements[slug] = authority;
@@ -440,24 +821,78 @@ for (const [slug, authority] of Object.entries(authorityEnrichments)) {
     sections: [...existing.sections, ...authority.sections],
     faq: [...(existing.faq ?? []), ...(authority.faq ?? [])],
     relatedArticles: Array.from(new Set([...(existing.relatedArticles ?? []), ...(authority.relatedArticles ?? [])])),
+    sources: [...(existing.sources ?? []), ...(authority.sources ?? [])].filter((source, index, all) => all.findIndex(item => item.url === source.url) === index),
+    seoTitle: authority.seoTitle ?? existing.seoTitle,
+    metaDescription: authority.metaDescription ?? existing.metaDescription,
     updatedAt: authority.updatedAt ?? existing.updatedAt
   };
 }
 
+
+/**
+ * Concise search titles for pages whose full editorial headline would create an
+ * unnecessarily long title tag after the site-name suffix is appended. The
+ * descriptive H1 and article URL remain unchanged.
+ */
+const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?: string }> = {
+  'windows-11-wifi-connected-no-internet': {
+    seoTitle: 'Windows Connected but No Internet',
+    metaDescription: 'Windows says connected but there is no internet? Test the router, IP configuration, DNS, VPN and adapter in a safe order.'
+  },
+  'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
+  'windows-11-network-adapter-reset-guide': { seoTitle: 'Windows 11 Network Reset: When to Use It' },
+  'pc-game-stuttering-fix-frame-time': {
+    seoTitle: 'PC Game Stuttering: Diagnose the Cause',
+    metaDescription: 'Diagnose PC game stutter by separating frame-time spikes from low FPS, shader work, CPU/GPU limits, storage activity and thermals.'
+  },
+  'gpu-frame-time-spikes-causes-fix': { seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter' },
+  'shader-compilation-stutter-pc-games': { seoTitle: 'Shader Compilation Stutter: PC Games' },
+  'nvme-ssd-temperature-too-high': { seoTitle: 'NVMe SSD Temperature: Normal or Too Hot?' },
+  'why-ssd-is-slowing-down-windows': { seoTitle: 'Why an SSD Slows Down Over Time' },
+  'how-to-check-ram-for-errors-windows': { seoTitle: 'How to Test RAM for Errors' },
+  'windows-11-blue-screen-stop-code-how-to-read': { seoTitle: 'Windows 11 Blue Screen Stop Codes' },
+  'windows-11-freezing-randomly-causes-fix': { seoTitle: 'Windows 11 Freezing: Find the Cause' },
+  'microsoft-windows-surface-event-october-7-what-to-watch': { seoTitle: 'Microsoft Windows Event: What to Watch' },
+  'best-gaming-laptops': { seoTitle: 'Best Gaming Laptops: Buying Guide' },
+  'best-gaming-monitors': { seoTitle: 'Best Gaming Monitors: Buying Guide' },
+  'best-ram': { seoTitle: 'Best RAM for Gaming PCs' },
+  'windows/windows-update-stuck': { seoTitle: 'Windows Update Stuck: What to Do' },
+  'windows-11-unknown-device-device-manager': { seoTitle: 'Unknown Device in Device Manager' },
+  'pc-games-crashing-to-desktop-troubleshooting': { seoTitle: 'PC Games Crashing to Desktop: Diagnose' },
+  'gpu-overheating-gaming-pc-causes-fix': { seoTitle: 'GPU Overheating: Causes and Fixes' },
+  'ssd-nearly-full-windows-performance': { seoTitle: 'How Much Free Space Does an SSD Need?' },
+  'laptop-nvme-ssd-upgrade-compatibility': { seoTitle: 'Laptop NVMe SSD: Compatibility Checklist' },
+  'gaming-laptop-upgradeable-ram-ssd': { seoTitle: 'Can You Upgrade a Gaming Laptop?' },
+  'research/ssd-nearly-full-what-really-changes': { seoTitle: 'SSD Nearly Full: Research Findings' },
+  'research/windows-100-percent-disk-usage-low-mbps': { seoTitle: 'Windows 100% Disk Usage: Research' },
+  'research/what-actually-causes-pc-game-stuttering': { seoTitle: 'Causes of PC Game Stuttering: Research' },
+  'research/does-more-ram-make-windows-faster': { seoTitle: 'Does More RAM Make Windows Faster?' },
+  'research/how-ssd-temperature-affects-performance': { seoTitle: 'SSD Temperature and Performance: Research' },
+  'windows-troubleshooting-complete-guide': { seoTitle: 'Windows Troubleshooting: Complete Guide' }
+};
+
 export function enhanceArticles(baseArticles: Article[]): Article[] {
   return baseArticles.map(article => {
     const enhancement = enhancements[article.slug];
-    if (!enhancement) return article;
+    const seoOverride = seoMetadataOverrides[article.slug];
+    if (!enhancement && !seoOverride) return article;
 
     const existingHeadings = new Set(article.content.map(section => section.heading));
-    const addedSections = enhancement.sections.filter(section => !section.heading || !existingHeadings.has(section.heading));
+    const addedSections = enhancement
+      ? enhancement.sections.filter(section => !section.heading || !existingHeadings.has(section.heading))
+      : [];
+    const mergedSources = [...(article.sources ?? []), ...(enhancement?.sources ?? [])]
+      .filter((source, index, all) => all.findIndex(item => item.url === source.url) === index);
 
     return {
       ...article,
-      updatedAt: enhancement.updatedAt ?? '2026-10-08',
+      updatedAt: enhancement ? (enhancement.updatedAt ?? '2026-10-08') : article.updatedAt,
+      seoTitle: seoOverride?.seoTitle ?? enhancement?.seoTitle ?? article.seoTitle,
+      metaDescription: seoOverride?.metaDescription ?? enhancement?.metaDescription ?? article.metaDescription,
+      sources: mergedSources.length ? mergedSources : article.sources,
       content: [...article.content, ...addedSections],
-      faq: [...(article.faq ?? []), ...(enhancement.faq ?? [])],
-      relatedArticles: enhancement.relatedArticles
+      faq: [...(article.faq ?? []), ...(enhancement?.faq ?? [])],
+      relatedArticles: enhancement?.relatedArticles
         ? Array.from(new Set([...(article.relatedArticles ?? []), ...enhancement.relatedArticles]))
         : article.relatedArticles
     };
