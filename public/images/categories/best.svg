@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset=".58" stop-color="#10233a"/><stop offset="1" stop-color="#332411"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#ffbf42" stop-opacity=".34"/><stop offset="1" stop-color="#ffbf42" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2ad"/><stop offset=".28" stop-color="#ffcf55"/><stop offset=".62" stop-color="#d98620"/><stop offset="1" stop-color="#fff0a5"/></linearGradient>
+ <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#233b56"/><stop offset="1" stop-color="#07101d"/></linearGradient>
+ <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.7"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="960" height="540" fill="url(#bg)"/><ellipse cx="488" cy="272" rx="330" ry="270" fill="url(#glow)"/>
+<g opacity=".22" stroke="#dba345" fill="none" stroke-width="2"><path d="M0 116H130l24 24h92M960 100H820l-30 30h-75M0 421h132l25-25h70M960 410H825l-26-26h-72"/><path d="M86 0v68l25 25M872 0v60l-32 32M76 540v-62l28-28M883 540v-70l-30-30"/></g>
+<g fill="#ffc95a" opacity=".55"><circle cx="156" cy="156" r="4"/><circle cx="793" cy="163" r="4"/><circle cx="204" cy="370" r="3"/><circle cx="750" cy="372" r="3"/><circle cx="693" cy="93" r="2.5"/></g>
+<ellipse cx="481" cy="431" rx="205" ry="33" fill="#000" opacity=".48" filter="url(#shadow)"/>
+<!-- circular award halo -->
+<circle cx="480" cy="222" r="158" fill="#091827" stroke="#d5912c" stroke-width="3" opacity=".8"/><circle cx="480" cy="222" r="139" fill="none" stroke="#ffd15d" stroke-width="2" stroke-dasharray="3 12" opacity=".8"/>
+<!-- laurel branches -->
+<g fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"><path d="M359 331C320 289 314 239 331 181"/><path d="M601 331C640 289 646 239 629 181"/></g>
+<g fill="url(#gold)"><ellipse cx="341" cy="279" rx="12" ry="28" transform="rotate(-36 341 279)"/><ellipse cx="330" cy="243" rx="12" ry="28" transform="rotate(-13 330 243)"/><ellipse cx="337" cy="207" rx="12" ry="27" transform="rotate(15 337 207)"/><ellipse cx="354" cy="176" rx="11" ry="25" transform="rotate(33 354 176)"/><ellipse cx="619" cy="279" rx="12" ry="28" transform="rotate(36 619 279)"/><ellipse cx="630" cy="243" rx="12" ry="28" transform="rotate(13 630 243)"/><ellipse cx="623" cy="207" rx="12" ry="27" transform="rotate(-15 623 207)"/><ellipse cx="606" cy="176" rx="11" ry="25" transform="rotate(-33 606 176)"/></g>
+<!-- trophy cup -->
+<path d="M410 142h140v45c0 58-29 94-70 94s-70-36-70-94z" fill="url(#gold)" stroke="#fff0ae" stroke-width="4"/>
+<path d="M410 159h-39c0 50 20 74 65 82M550 159h39c0 50-20 74-65 82" fill="none" stroke="url(#gold)" stroke-width="19" stroke-linecap="round"/>
+<path d="M460 277h40v49h-40z" fill="url(#gold)"/><path d="M421 320h118l25 37H396z" fill="url(#gold)" stroke="#fff0ae" stroke-width="3"/>
+<path d="M480 167l9 19 21 3-15 15 4 21-19-10-19 10 4-21-15-15 21-3z" fill="#fff7cb" stroke="#d58920" stroke-width="2"/>
+<!-- plinth -->
+<path d="M302 382l58-26h240l58 26-58 25H360z" fill="#1b3049" stroke="#e3a33e" stroke-width="3"/><path d="M360 407h240v22H360z" fill="url(#plate)" stroke="#b97a25" stroke-width="2"/><path d="M338 429h284l-23 26H361z" fill="#07101d" stroke="#d5912c" stroke-width="3"/>
+<g stroke="#e7a93c" stroke-width="2" fill="none" opacity=".65"><path d="M95 278h105l35-35h55M760 272h44l24-24h80M125 350h90l18 18h62M760 354h73l23-23h43"/></g>
+</svg>
