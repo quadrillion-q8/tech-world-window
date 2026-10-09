@@ -181,8 +181,10 @@ for (const article of articles) {
     }
   }
 
-  // Search-result snippets: keep overrides within display limits.
-  if (article.seoTitle && article.seoTitle.length > 65) errors.push(`Article "${article.id}" seoTitle is ${article.seoTitle.length} characters; keep it at 65 or fewer.`);
+  // Validate the final title tag after SEOEngine appends the site-name suffix.
+  const titleBase = article.seoTitle ?? article.title;
+  const renderedTitle = titleBase.includes('Tech World Window') ? titleBase : `${titleBase} | Tech World Window`;
+  if (renderedTitle.length > 65) errors.push(`Article "${article.id}" rendered title is ${renderedTitle.length} characters after the brand suffix; target 65 or fewer: "${renderedTitle}".`);
   if (article.metaDescription && (article.metaDescription.length < 70 || article.metaDescription.length > 160)) {
     errors.push(`Article "${article.id}" metaDescription is ${article.metaDescription.length} characters; keep it between 70 and 160.`);
   }
