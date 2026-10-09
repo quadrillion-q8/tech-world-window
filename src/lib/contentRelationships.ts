@@ -25,9 +25,18 @@ function score(a: Article, b: Article): number {
 }
 
 export function getRelatedArticles(article: Article, articles: Article[], limit = 4): Article[] {
-  const explicit = (article.relatedArticles || [])
-    .map(id => articles.find(a => a.id === id))
-    .filter((a): a is Article => Boolean(a));
+  // If a cluster explicitly names an article pillar, surface it first even when
+  // an older article's relatedArticles list forgot to include the reciprocal edge.
+  const pillar = article.pillarPath
+    ? articles.find(candidate => `/${candidate.slug}` === article.pillarPath && candidate.id !== article.id)
+    : undefined;
+  const explicitCandidates = [
+    ...(pillar ? [pillar] : []),
+    ...(article.relatedArticles || [])
+      .map(id => articles.find(candidate => candidate.id === id))
+      .filter((candidate): candidate is Article => Boolean(candidate)),
+  ];
+  const explicit = [...new Map(explicitCandidates.map(candidate => [candidate.id, candidate])).values()];
   const explicitIds = new Set(explicit.map(a => a.id));
   const discovered = articles
     .filter(a => !explicitIds.has(a.id) && a.id !== article.id)
@@ -39,10 +48,25 @@ export function getRelatedArticles(article: Article, articles: Article[], limit 
 }
 
 export function getResearchForArticle(article: Article, articles: Article[], limit = 2): Article[] {
-  const researchIds = new Set<string>();
-  for (const tag of article.tags) for (const id of RESEARCH_BY_TOPIC[tag] ?? []) researchIds.add(id);
-  return [...researchIds]
-    .map(id => articles.find(a => a.id === id))
-    .filter((a): a is Article => Boolean(a && a.slug.startsWith('research/')))
-    .slice(0, limit);
+  // Research pages declare their related article IDs. Prefer these editorially
+  // curated reverse relationships, then use the topic map as a fallback.
+  const researchPages = articles.filter(candidate =>
+    candidate.slug.startsWith('research/') && candidate.id !== article.id
+  );
+  const direct = researchPages.filter(candidate =>
+    (candidate.relatedArticles ?? []).includes(article.id)
+  );
+  const researchIds = new Set<string>(direct.map(candidate => candidate.id));
+  for (const tag of article.tags) {
+    for (const id of RESEARCH_BY_TOPIC[tag] ?? []) researchIds.add(id);
+  }
+  const byId = new Map(articles.map(candidate => [candidate.id, candidate]));
+  const curatedFirst = [
+    ...direct,
+    ...[...researchIds]
+      .filter(id => !direct.some(candidate => candidate.id === id))
+      .map(id => byId.get(id))
+      .filter((candidate): candidate is Article => Boolean(candidate && candidate.slug.startsWith('research/'))),
+  ];
+  return [...new Map(curatedFirst.map(candidate => [candidate.id, candidate])).values()].slice(0, limit);
 }
