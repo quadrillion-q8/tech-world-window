@@ -38,7 +38,7 @@ writeFileSync(sitemapPath, xml, 'utf8');
 const robotsPath = resolve(publicDir, 'robots.txt');
 writeFileSync(
   robotsPath,
-  `User-agent: *\nAllow: /\n\nSitemap: ${new URL('/sitemap.xml', SITE_URL).toString()}\n`,
+  `User-agent: *\nAllow: /\n\nSitemap: ${new URL('/sitemap.xml', SITE_URL).toString()}\n\n# RSS feed for publishers and readers\n`,
   'utf8',
 );
 
