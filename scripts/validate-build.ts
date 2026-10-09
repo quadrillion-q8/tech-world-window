@@ -151,6 +151,16 @@ for (const article of articles) {
   }
 
   for (const section of article.content) {
+    for (const link of section.relatedLinks ?? []) {
+      if (!link.label.trim()) errors.push(`Article "${article.id}" has a contextual link with an empty label.`);
+      if (!link.description.trim()) errors.push(`Article "${article.id}" has a contextual link with an empty description: ${link.href}`);
+      if (!link.href.startsWith('/') || link.href.startsWith('//')) {
+        errors.push(`Article "${article.id}" contextual link must be an internal path: ${link.href}`);
+      } else if (!indexablePaths.has(link.href)) {
+        errors.push(`Article "${article.id}" contextual link points to a missing/non-indexable route: ${link.href}`);
+      }
+    }
+
     const table = section.table;
     if (!table) continue;
     if (!table.caption.trim()) errors.push(`Article "${article.id}" has a table without a caption.`);
