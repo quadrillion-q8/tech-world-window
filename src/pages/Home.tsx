@@ -33,8 +33,27 @@ export function Home() {
       </section>
 
       <section className="section section-featured">
-        <div className="section-heading"><div><span className="eyebrow">START HERE</span><h2>Three technology problems. One practical method.</h2></div><p>Start with the symptom, measure what is happening, isolate the cause, then choose the least destructive fix.</p></div>
-        <div className="category-grid">{categories.map((category, index) => <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}><span className="category-number">0{index + 1}</span><h3>{category.name}</h3><p>{category.description}</p><span className="tile-arrow">↗</span></Link>)}</div>
+        <div className="section-heading"><div><span className="eyebrow">EXPLORE TWW</span><h2>Find the right technology topic.</h2></div><p>Browse practical fixes, complete guides, hardware analysis, reviews and technology updates by category.</p></div>
+        <div className="category-grid">{categories.map((category, index) => <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}>
+          <span className="category-tile-image-wrap" aria-hidden="true">
+            <img
+              className="category-tile-image"
+              src={`${category.imageBase}-960.webp`}
+              srcSet={`${category.imageBase}-480.webp 480w, ${category.imageBase}-960.webp 960w`}
+              sizes="(max-width: 520px) calc(100vw - 2.5rem), (max-width: 800px) calc(50vw - 1.75rem), (max-width: 1240px) calc((100vw - 4rem) / 3), 380px"
+              alt=""
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+          <div className="category-tile-content">
+            <div className="category-tile-top"><span className="category-number">0{index + 1}</span><span className="tile-arrow" aria-hidden="true">↗</span></div>
+            <h3 className="category-tile-title">{category.name}</h3>
+            <p className="category-tile-description">{category.description}</p>
+          </div>
+        </Link>)}</div>
       </section>
 
       <section className="section authority-section">
