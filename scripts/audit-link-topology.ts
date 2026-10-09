@@ -24,10 +24,28 @@ for (const article of articles) {
     incoming.get(targetId)?.add(article.id);
     if (target.id === article.id) issues.push(`${article.slug}: self-referencing related article`);
   }
+  // In-body contextual links are navigation pathways too. Include them in
+  // incoming/outgoing counts, but not in the reciprocal relatedArticles graph.
+  for (const section of article.content) {
+    for (const link of section.relatedLinks ?? []) {
+      const target = bySlug.get(link.href.replace(/^\//, '').replace(/\/$/, ''));
+      if (target && target.id !== article.id) {
+        outgoing.get(article.id)?.add(target.id);
+        incoming.get(target.id)?.add(article.id);
+      }
+    }
+  }
+
   if (article.pillarPath) {
     const pillar = bySlug.get(article.pillarPath.replace(/^\//, ''));
-    if (pillar && !(pillar.relatedArticles ?? []).includes(article.id)) {
-      warnings.push(`Pillar backlink gap: /${article.slug} points to ${article.pillarPath}, but the pillar's relatedArticles does not list this cluster.`);
+    if (pillar && pillar.id !== article.id) {
+      // ArticlePage also adds this pillar to the related-card fallback, so
+      // include the rendered navigation path in topology counts.
+      outgoing.get(article.id)?.add(pillar.id);
+      incoming.get(pillar.id)?.add(article.id);
+      if (!(pillar.relatedArticles ?? []).includes(article.id)) {
+        warnings.push(`Explicit pillar edge missing: /${article.slug} points to ${article.pillarPath}; ArticlePage supplies a rendered pillar fallback, but consider adding a reviewed reciprocal relatedArticles edge if appropriate.`);
+      }
     }
   }
 }
