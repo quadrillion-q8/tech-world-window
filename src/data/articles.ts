@@ -776,6 +776,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-07',
     readingTime: 8,
     tags: ['Microsoft', 'Surface Laptop Ultra', 'Windows', 'NVIDIA RTX Spark', 'Local AI', 'Windows 11'],
+    relatedArticles: ['best-gaming-laptops', 'gaming-laptop-upgrade-check', 'ram-upgrade-gaming'],
     searchIntent: 'informational',
     content: [
       { heading: 'The event happened — here is what actually changed', paragraphs: [
@@ -909,7 +910,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-07',
     readingTime: 10,
     tags: ['Gaming Laptops', 'GPU', 'CPU', 'Cooling', 'Displays', 'Buying Guide'],
-    relatedArticles: ['best-ssds', 'best-ram'],
+    relatedArticles: ['best-ssds', 'best-ram', 'microsoft-windows-surface-event-oct-7'],
     contentRole: 'pillar',
     pillarPath: '/gaming',
     searchIntent: 'commercial',
