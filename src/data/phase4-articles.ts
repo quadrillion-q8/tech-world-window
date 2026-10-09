@@ -1197,8 +1197,7 @@ export const phase4Articles: Article[] = [
     "relatedArticles": [
       "check-ram-for-errors",
       "ddr4-vs-ddr5",
-      "gpu-overheating",
-      "microsoft-windows-surface-event-oct-7"
+      "gpu-overheating"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -1616,8 +1615,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "gaming-low-fps",
-      "gaming-crashes-desktop",
-      "microsoft-windows-surface-event-oct-7"
+      "gaming-crashes-desktop"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
