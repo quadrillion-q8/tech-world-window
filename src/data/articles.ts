@@ -22,6 +22,8 @@ export type ArticleSection = {
   /** Optional command/code blocks rendered as preformatted text. */
   codeBlocks?: string[];
   table?: ArticleTable;
+  /** Curated in-body links that help readers choose the next diagnostic step. */
+  relatedLinks?: { label: string; href: string; description: string }[];
 };
 
 export type Article = {
@@ -76,6 +78,7 @@ export function articleWordCount(article: Article): number {
       ...(section.steps ?? []),
       ...(section.codeBlocks ?? []),
       ...(section.table ? [section.table.caption, ...section.table.headers, ...section.table.rows.flat().map(cellText)] : []),
+      ...(section.relatedLinks ?? []).flatMap(link => [link.label, link.description]),
     ]),
     ...(article.faq ?? []).flatMap(item => [item.question, item.answer]),
   ].join(' ');
