@@ -9,7 +9,7 @@ This checklist is for the first indexing phase after the codebase is deployed.
 - [ ] Confirm `https://techworldwindow.com/` returns HTTP 200.
 - [ ] Confirm `https://techworldwindow.com/robots.txt` returns HTTP 200.
 - [ ] Confirm `https://techworldwindow.com/sitemap.xml` returns HTTP 200.
-- [ ] Confirm the sitemap contains the current 62 indexable routes.
+- [ ] Confirm the sitemap URL count matches the current `routeGraph` indexable-route count (the build validator checks exact parity; do not maintain a hardcoded count here).
 - [ ] Confirm a representative article returns HTTP 200 directly, not only after client-side navigation.
 
 ## 2. Google Search Console
@@ -74,7 +74,11 @@ For hands-on claims, record where practical:
 
 Never describe an untested product or result as personally tested.
 
-## 6. First 30-day measurement goals
+## 6. Automated checks before every release
+
+Run `npm run build`. The build regenerates the sitemap and RSS feed, type-checks the project, prerenders the indexable routes, and validates sitemap/robots parity, metadata, structured data, and content integrity. The content-integrity pass checks explicit internal Markdown links, source URLs, hero-image paths, and article-route parity. Treat content-review warnings as editorial review prompts rather than automatic ranking signals.
+
+## 7. First 30-day measurement goals
 
 Watch Search Console for:
 
