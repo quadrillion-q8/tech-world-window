@@ -63,6 +63,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/research/does-more-ram-make-windows-faster', kind: 'article', title: 'Does More RAM Actually Make Windows Faster? What to Measure Before Upgrading', indexable: true },
   { path: '/research/how-ssd-temperature-affects-performance', kind: 'article', title: 'How SSD Temperature Can Affect Real-World Performance', indexable: true },
   { path: '/windows-troubleshooting-complete-guide', kind: 'article', title: 'Windows Troubleshooting: Complete Guide to Diagnosing and Fixing Windows Problems', indexable: true },
+  { path: '/windows-11-26h2-installation-guide', kind: 'article', title: 'Windows 11 26H2 Installation Guide: Upgrade, ISO and Fixes', indexable: true },
   { path: '/windows-11-wifi-connected-no-internet', kind: 'article', title: 'Windows Says Connected but No Internet: Complete Troubleshooting Guide', indexable: true },
   { path: '/pc-game-stuttering-fix-frame-time', kind: 'article', title: 'PC Game Stuttering: Frame-Time Spikes', indexable: true },
   { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true },
@@ -120,6 +121,7 @@ export const menuGroups: MenuGroup[] = [
     links: [
       { label: 'Windows Hub', href: '/windows' },
       { label: 'Universal Windows Troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Start with the symptom and diagnose Windows problems systematically.' },
+      { label: 'Windows 11 26H2 Installation Guide', href: '/windows-11-26h2-installation-guide', description: 'Choose an upgrade or clean-install path and troubleshoot setup safely.' },
       { label: 'Windows Update Stuck', href: '/windows/windows-update-stuck', description: 'How long to wait, how to test activity, and the safest repair order.' },
       { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
