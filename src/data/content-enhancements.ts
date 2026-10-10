@@ -445,7 +445,9 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     metaDescription: 'Learn what Windows 11 Network Reset changes, what it removes, and which checks to try before rebuilding network settings.',
     sources: [
       { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/fix-wi-fi-connection-issues-in-windows-9424a1f7-6a3b-65a6-4d78-7f07eee84d2c' },
-      { label: 'Microsoft Learn: Test-NetConnection', url: 'https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2025-ps' }
+      { label: 'Microsoft Learn: netsh Winsock commands', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winsock' },
+      { label: 'Microsoft Learn: ipconfig commands', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig' },
+      { label: 'Microsoft Learn: reset TCP/IP', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/reset-tcp-ip-net-shell' }
     ],
     sections: [{
       heading: 'Before you use Network Reset: preserve the evidence',
@@ -467,8 +469,39 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'Connected but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Test the router, IP configuration, gateway, DNS, and VPN in sequence.' },
         { label: 'Windows DNS troubleshooting', href: '/windows-11-dns-not-working-how-to-fix', description: 'Confirm whether name resolution is actually the failing layer.' }
       ]
+    }, {
+      heading: 'Can you reset network settings from Command Prompt?',
+      paragraphs: [
+        'Windows 11 Network Reset in Settings is not the same operation as running one command in Command Prompt. There is no single command in this guide that should be presented as an exact replacement for the Settings workflow. Use targeted commands only when the symptoms point to the component they reset, and save any custom IP, DNS, VPN, or proxy settings before changing networking configuration.',
+        'Open Windows Terminal or Command Prompt as an administrator. Run only the command relevant to the suspected fault; do not paste a long batch of resets as a first step. A TCP/IP reset and a Winsock reset change different parts of the networking stack, while flushing DNS only clears the local resolver cache. Restart when prompted or after a stack reset, then retest the original problem.'
+      ],
+      table: {
+        caption: 'Common Windows networking commands and their scope',
+        headers: ['Command', 'What it does', 'Important limitation'],
+        rows: [
+          ['ipconfig /flushdns', 'Clears the local DNS resolver cache', 'Does not repair Wi-Fi, adapter drivers, or IP configuration'],
+          ['ipconfig /all', 'Shows adapter IP, gateway, DNS and DHCP details', 'Diagnostic only; it does not reset settings'],
+          ['netsh winsock reset', 'Resets the Winsock catalog to its default state', 'May affect custom Winsock providers; restart Windows afterward'],
+          ['netsh int ip reset', 'Resets TCP/IP configuration', 'A broader change; record custom IP/DNS settings and restart'],
+          ['ipconfig /release then ipconfig /renew', 'Releases and requests a DHCP address', 'Use only for DHCP-configured adapters; the connection may drop temporarily']
+        ]
+      },
+      codeBlocks: [
+        '# Diagnostic only: inspect the current adapter configuration',
+        'ipconfig /all',
+        '# DNS cache only; this does not reset the adapter',
+        'ipconfig /flushdns',
+        '# Use only when a Winsock reset is justified; restart afterward',
+        'netsh winsock reset',
+        '# Use only when a TCP/IP reset is justified; restart afterward',
+        'netsh int ip reset'
+      ]
     }],
-    faq: [{ question: 'Will Windows Network Reset delete my personal files?', answer: 'It is intended to reset network components rather than personal documents, but it can remove network configuration and adapter settings. Record non-default settings and ensure you know how to reconnect before using it.' }]
+    faq: [
+      { question: 'Will Windows Network Reset delete my personal files?', answer: 'It is intended to reset network components rather than personal documents, but it can remove network configuration and adapter settings. Record non-default settings and ensure you know how to reconnect before using it.' },
+      { question: 'Is netsh winsock reset the same as Network Reset in Windows 11 Settings?', answer: 'No. The command resets the Winsock catalog; the Settings Network Reset workflow removes and reinstalls network adapters and returns other network components to defaults. They are not interchangeable.' },
+      { question: 'Which command should I try first?', answer: 'Start with diagnosis, such as ipconfig /all, and choose a targeted repair based on the symptom. ipconfig /flushdns only clears the DNS cache; it is not a general network reset.' }
+    ]
   },
   'gpu-100-percent-usage-gaming': {
     updatedAt: '2026-10-10',
