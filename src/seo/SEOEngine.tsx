@@ -1,4 +1,5 @@
 import { Head } from 'vite-react-ssg';
+import { fitTitle } from './title';
 import { SITE_NAME, SITE_URL, siteEntity } from '../data/graph';
 
 type SEOProps = {
@@ -20,7 +21,7 @@ export function SEOEngine({
   robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
 }: SEOProps) {
   const canonical = absoluteUrl(path);
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = fitTitle(title);
   const imageUrl = absoluteUrl(image || DEFAULT_OG_IMAGE);
   return (
     <Head>
