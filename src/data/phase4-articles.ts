@@ -1295,10 +1295,7 @@ export const phase4Articles: Article[] = [
       "windows-troubleshooting-universal",
       "windows-wont-start",
       "windows-disk-100-percent",
-      "windows-slow-startup",
-      "check-ram-for-errors",
-      "research-ram-capacity",
-      "ram-upgrade-gaming"
+      "windows-slow-startup"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -1860,7 +1857,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-slow-startup"
+      "windows-slow-startup",
+      "windows-high-memory"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -1933,7 +1931,8 @@ export const phase4Articles: Article[] = [
     "relatedArticles": [
       "windows-troubleshooting-universal",
       "windows-disk-100-percent",
-      "windows-wont-start"
+      "windows-wont-start",
+      "windows-high-memory"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
