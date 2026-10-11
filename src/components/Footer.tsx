@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { menuGroups } from '../data/graph';
+import { OPEN_CONSENT_EVENT } from '../lib/consent';
 
 export function Footer() {
   const groups = menuGroups.slice(0, 4);
@@ -9,7 +10,7 @@ export function Footer() {
         <div className="footer-main">
           <div className="footer-brand-block">
             <Link className="footer-brand-logo" to="/" aria-label="Tech World Window home">
-              <img src="/tech-world-window-logo.png" alt="Tech World Window — Your Window Into Technology" />
+              <img src="/tech-world-window-logo.webp" width="570" height="409" alt="Tech World Window — Your Window Into Technology" loading="lazy" decoding="async" />
             </Link>
             <p className="muted">Technology news, practical fixes, real-world testing and useful tools — clearly explained.</p>
           </div>
@@ -34,7 +35,10 @@ export function Footer() {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Tech World Window. Built for curious minds.</span>
-          <span>Clear · Practical · Evidence-led</span>
+          <span>
+            <button type="button" className="footer-link-button" onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}>Privacy choices</button>
+            {' · '}Clear · Practical · Evidence-led
+          </span>
         </div>
       </div>
     </footer>
