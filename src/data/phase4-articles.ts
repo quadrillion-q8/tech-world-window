@@ -1268,73 +1268,491 @@ export const phase4Articles: Article[] = [
     "slug": "windows-11-high-memory-usage-how-to-find-the-cause",
     "title": "Windows 11 High Memory Usage: How to Find the Real Cause",
     "seoTitle": "Windows 11 High RAM Usage: Find the Cause",
-    "dek": "High RAM usage is not automatically a fault. Learn how to distinguish normal caching from a runaway application, memory pressure, or a genuine memory problem.",
-    "metaDescription": "Windows 11 using too much RAM? Learn how to read Task Manager, identify memory pressure, check startup apps, and test RAM when evidence points to hardware.",
-    "excerpt": "Windows intentionally uses available memory for applications and caching. The useful question is whether memory pressure is causing slowdowns, paging, crashes, or a specific process growing abnormally.",
+    "dek": "High RAM usage is not automatically a fault. Learn to distinguish normal caching from memory pressure, a runaway app, a driver leak, or a genuine RAM problem.",
+    "metaDescription": "Windows 11 RAM usage high? Learn which Task Manager numbers matter, spot leaks and runaway apps, and know when to test or upgrade RAM.",
+    "excerpt": "A high memory percentage alone does not prove a fault. Check Available and Committed memory, watch for paging and slowdowns, identify growing processes, and test RAM only when instability points to hardware.",
     "category": "Windows",
     "subcategory": "Performance",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 8,
+    "updatedAt": "2026-10-11",
+    "readingTime": 15,
     "tags": [
       "Windows 11",
+      "Windows 10",
       "RAM",
-      "Memory",
+      "Memory Usage",
+      "Memory Leak",
+      "Task Manager",
       "Performance",
       "Troubleshooting"
     ],
     "appliesTo": [
-      "Windows 10",
-      "Windows 11"
+      "Windows 11",
+      "Windows 10"
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-wont-start"
+      "windows-wont-start",
+      "windows-disk-100-percent",
+      "windows-slow-startup",
+      "check-ram-for-errors",
+      "research-ram-capacity",
+      "ram-upgrade-gaming"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "content": [
       {
+        "heading": "Quick answer: high RAM use is not automatically a fault",
+        "paragraphs": [
+          "Windows deliberately uses spare memory for cached data so apps and files can open faster, then reclaims that memory when applications need it. A PC showing 85% memory use can be healthy if it remains responsive. The percentage alone is not a diagnosis.",
+          "High use deserves investigation when it comes with slow app switching, sustained disk activity from paging, low-memory warnings, unexplained crashes, or one process that keeps growing and does not release memory after its workload ends.",
+          "Start with Task Manager, then move to Resource Monitor and deeper tools only if the first readings do not explain the slowdown. Do not buy RAM or disable Windows features until you have evidence of the actual bottleneck."
+        ],
+        "steps": [
+          "Open Task Manager and sort Processes by Memory.",
+          "Open Performance → Memory and compare Available, Committed, Cached, and In use rather than looking only at the percentage.",
+          "Compare a slow period with a normal period. If closing one known app restores responsiveness, investigate that app first.",
+          "If almost nothing is open but use remains high, check startup apps, virtual machines such as WSL, the non-paged pool, and hardware-reserved memory.",
+          "Suspect faulty RAM mainly when high usage is accompanied by crashes, blue screens, corrupted files, or other instability; then run a proper memory test."
+        ]
+      },
+      {
         "heading": "What high memory usage actually tells you",
         "paragraphs": [
-          "Task Manager showing a high memory percentage does not by itself mean Windows has a memory leak. Cached data, browser tabs, games, virtual machines, and background applications can all use RAM.",
-          "Look for symptoms: applications becoming unresponsive, heavy disk activity from paging, repeated out-of-memory messages, or one process growing continuously without releasing memory."
+          "Task Manager’s percentage combines different kinds of memory use: active application and Windows data, cached files that can often be reclaimed, compressed memory, and memory reserved for system or hardware work. A large number does not tell you which category is responsible.",
+          "Compare the readings while the problem is happening with readings from a normal period. A repeated pattern is much more useful than one snapshot."
+        ],
+        "bullets": [
+          "Warning signs: apps freeze for seconds when switching, the disk stays busy while you are not transferring files, Windows reports low memory, apps crash, or one process grows steadily over hours.",
+          "Usually not a fault by itself: a high percentage while the PC remains smooth, a large Cached or Standby amount, or a system process whose name is unfamiliar.",
+          "A process with a large working set is not automatically leaking memory; its use may match the tabs, project, VM, or workload currently open."
         ]
       },
       {
-        "heading": "Read Task Manager before closing anything",
+        "heading": "The Task Manager numbers that matter",
         "paragraphs": [
-          "Open Task Manager and sort the Processes view by Memory. Compare the top processes with what you were actually doing.",
-          "Then check the Performance > Memory view. Pay attention to total memory, available memory, committed memory, and whether the system is under sustained pressure. Do not end an unfamiliar system process simply because its number is large."
+          "Press Ctrl + Shift + Esc, open Performance, then Memory. Read the fields together and interpret them during the slowdown, not just at idle."
+        ],
+        "table": {
+          "caption": "Task Manager memory fields and what they help you diagnose",
+          "headers": [
+            "Field",
+            "What it means",
+            "What to look for"
+          ],
+          "rows": [
+            [
+              "In use (Compressed)",
+              "Memory actively held by apps, drivers, and Windows, including compressed data",
+              "Compare with installed capacity and the current workload"
+            ],
+            [
+              "Available",
+              "Memory Windows can hand to apps now, including reclaimable standby/cache data",
+              "Persistently low Available during slowdowns suggests pressure"
+            ],
+            [
+              "Committed (used / limit)",
+              "Memory promised to apps and backed by RAM plus the page file",
+              "If used approaches the limit, allocations can fail"
+            ],
+            [
+              "Cached",
+              "Files and data kept in RAM to speed access",
+              "A large value is commonly normal; cached memory can be reclaimed"
+            ],
+            [
+              "Paged pool / Non-paged pool",
+              "Kernel and driver memory allocations",
+              "A pool that keeps growing without an apparent workload may indicate a driver leak"
+            ],
+            [
+              "Speed / Slots used / Form factor",
+              "Details about detected memory modules",
+              "Check that expected modules appear and reported configuration makes sense"
+            ],
+            [
+              "Hardware reserved",
+              "Physical memory set aside for hardware rather than usable by Windows",
+              "An unusually large amount deserves investigation"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Read Available memory before reacting to the percentage",
+        "paragraphs": [
+          "Available memory and responsiveness matter more than a single utilization number. For example, 2 GB Available on a responsive system can be adequate for the work being done; the same amount alongside stuttering, high committed memory, and constant paging can indicate real pressure. These are contextual clues, not universal thresholds."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Step 1: find what is using the memory",
+        "paragraphs": [
+          "In Task Manager, open Processes and click the Memory column to sort. Expand grouped entries where possible, because browsers and other multi-process apps divide work across tabs, extensions, and helper processes.",
+          "For more detail, open Details, right-click a column header, choose Select columns, and add Commit size and Memory (private working set). Commit size helps show how memory commitments change over time; it is not interchangeable with the working-set number."
+        ],
+        "steps": [
+          "Sort the process list by Memory and note the largest entries while the slowdown is happening.",
+          "Compare those entries with what is open: browser tabs, games, creative projects, chat apps, launchers, and virtual machines.",
+          "Close or exit one known, nonessential workload, then see whether Available memory and responsiveness recover.",
+          "Repeat the same observation before concluding that an app is leaking memory. Do not end an unfamiliar Windows or system process solely because its number is large."
+        ],
+        "codeBlocks": [
+          "Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 10 Name, @{n='MB';e={[int]($_.WorkingSet/1MB)}}"
+        ],
+        "relatedLinks": [
+          {
+            "label": "Windows 11 freezing randomly",
+            "href": "/windows-11-freezing-randomly-causes-fix",
+            "description": "Compare freezes with resource use and event evidence instead of guessing at one cause."
+          }
         ]
       },
       {
-        "heading": "Check startup and background applications",
+        "heading": "Common heavy hitters",
         "paragraphs": [
-          "If memory usage is high immediately after sign-in, inspect Startup apps and background software. Browser helpers, launchers, cloud-sync clients, RGB utilities, and hardware monitoring tools can accumulate.",
-          "Disable one nonessential startup item at a time and restart. A controlled test is more informative than disabling everything at once."
+          "Some high-memory entries are expected. Identify what they represent before trying to close, disable, or remove them."
+        ],
+        "table": {
+          "caption": "Common memory users and a sensible first response",
+          "headers": [
+            "Process or area",
+            "Why it may use memory",
+            "What to do first"
+          ],
+          "rows": [
+            [
+              "Chrome / Edge",
+              "Each tab, extension, and helper can run in its own process",
+              "Use the browser’s own task manager (Shift + Esc); review tabs and extensions, and use Memory Saver or Sleeping tabs"
+            ],
+            [
+              "Teams, Discord, Slack, launchers",
+              "Web-based clients and background helpers can accumulate",
+              "Quit from the system tray or test by disabling one nonessential startup item"
+            ],
+            [
+              "vmmem / vmmemWSL",
+              "A WSL 2 or virtual-machine guest is using host memory",
+              "Stop unused workloads; `wsl --shutdown` stops all running WSL distributions, so save work first"
+            ],
+            [
+              "Docker Desktop / Hyper-V / Windows Sandbox",
+              "Virtual machines and containers need memory while running",
+              "Stop the VM or containers when they are not needed; configure VM limits only when appropriate"
+            ],
+            [
+              "MsMpEng (Microsoft Defender)",
+              "A scan can temporarily increase resource use",
+              "Let the scan complete and review scan timing if the pattern persists"
+            ],
+            [
+              "Windows Search indexer",
+              "Indexing after changes can temporarily use resources",
+              "Check whether indexing settles; investigate further if activity remains excessive"
+            ],
+            [
+              "Memory Compression",
+              "Windows compresses some data in RAM to reduce paging",
+              "Usually normal; do not disable it as a first fix"
+            ],
+            [
+              "Integrated graphics",
+              "The display processor shares system RAM",
+              "Some reserved/shared memory is expected; check BIOS and hardware details if the amount looks unusual"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Step 2: check startup and background software",
+        "paragraphs": [
+          "If memory is already high right after sign-in with little open, an auto-starting app, service, sync client, updater, launcher, RGB utility, or monitoring tool may be contributing. A background VM can also remain active even when no related window is visible.",
+          "A full Restart is a useful comparison. With Fast Startup enabled, Shut down can preserve part of the kernel session, so a restart may clear a condition that survives a normal shutdown."
+        ],
+        "steps": [
+          "Open Task Manager → Startup apps and review nonessential entries, including their startup impact.",
+          "Disable one nonessential item at a time, restart, then compare In use and Available at the desktop.",
+          "If the result changes, re-enable or disable items one by one to identify which change matters instead of leaving everything disabled.",
+          "For a stricter isolation test, run `msconfig`, open Services, check Hide all Microsoft services, and only then disable the remaining nonessential services. Disable startup apps, restart, and re-enable groups until the cause returns. Undo the clean boot afterward."
+        ]
+      },
+      {
+        "heading": "Step 3: confirm whether the PC has real memory pressure",
+        "paragraphs": [
+          "Memory pressure means RAM and reclaimable memory are not meeting the active workload comfortably, so Windows may rely more heavily on the page file. Look for a combination of persistently low Available memory, committed memory approaching its limit, a busy disk during apparent idle time, and delayed app switching.",
+          "Resource Monitor’s Hard Faults/sec is a clue, not a diagnosis on its own. Brief spikes when opening an app are normal; sustained activity during a sluggish period is more meaningful when it matches low Available memory and the symptoms you are seeing."
+        ],
+        "steps": [
+          "Press Win + R, type `resmon`, and press Enter.",
+          "Open the Memory tab and compare the memory bar, Available memory, and Hard Faults/sec while the PC is slow.",
+          "Repeat during a normal period. Look for a correlation between low Available memory, sustained hard faults, disk activity, and responsiveness.",
+          "For a simple time series, use the command below in Command Prompt. It prints a reading every ten seconds; press Ctrl + C to stop."
+        ],
+        "codeBlocks": [
+          "typeperf \"\\Memory\\Available MBytes\" \"\\Memory\\Committed Bytes\" -si 10"
+        ],
+        "table": {
+          "caption": "Memory observations and the next test to run",
+          "headers": [
+            "Observation",
+            "What it may mean",
+            "Next test"
+          ],
+          "rows": [
+            [
+              "High RAM use, but the PC stays responsive",
+              "Normal caching or a workload using the available capacity",
+              "Check Available memory and workload; avoid changing settings without a symptom"
+            ],
+            [
+              "Memory grows while one app is open",
+              "Possible app memory growth or leak",
+              "Record the process over time and compare after closing the workload"
+            ],
+            [
+              "High committed memory and slow app switching",
+              "Memory pressure and paging may be contributing",
+              "Close one known heavy workload and observe whether responsiveness returns"
+            ],
+            [
+              "High use with almost nothing open",
+              "Startup software, VM/WSL use, or kernel/driver allocation",
+              "Clean boot; check vmmem and pool growth"
+            ],
+            [
+              "Crashes, corrupted files, or stop codes",
+              "Memory stability may be a separate issue",
+              "Run a memory test and check drivers, firmware, and system stability"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Step 4: investigate an application or driver memory leak",
+        "paragraphs": [
+          "A possible leak is suggested when memory use rises steadily and does not come back after the app or workload is closed. Confirm the pattern over time; one high reading is not enough to prove a leak.",
+          "If total memory use is high but the process list does not explain it, look at the Paged pool and Non-paged pool under Task Manager → Performance → Memory. A pool that keeps growing for hours without a corresponding workload can point toward a kernel or driver allocation problem."
+        ],
+        "steps": [
+          "Record the suspected process’s Commit size and memory use during a repeatable workload.",
+          "Close the workload and check whether the readings fall; restart and repeat to see whether the pattern returns.",
+          "If one app consistently grows, update it or review issues affecting that version before considering a reinstall.",
+          "If pool memory grows instead, investigate recent network, storage, VPN, antivirus, or filter-driver changes and use the hardware maker’s supported driver package where a rollback or update is justified.",
+          "For deeper analysis, use Microsoft Sysinternals RAMMap to inspect how physical memory is being allocated."
+        ]
+      },
+      {
+        "heading": "Step 5: check installed, usable, and hardware-reserved RAM",
+        "paragraphs": [
+          "Compare the amount physically installed with the amount Windows can use. Press Win + R, run `msinfo32`, and compare Installed Physical Memory (RAM) with Total Physical Memory. Then open Task Manager → Performance → Memory and check Slots used, Speed, Form factor, and Hardware reserved.",
+          "Do not assume that every gap is caused by a bad module. Integrated graphics, firmware settings, remapping behavior, and operating-system architecture can affect usable memory; use the observed amount and the device’s specifications to decide what to check."
+        ],
+        "bullets": [
+          "Slots used shows fewer modules than expected → check whether a module is seated and detected correctly.",
+          "Hardware reserved accounts for several gigabytes → check integrated-graphics allocation and firmware/memory-remapping settings before assuming RAM has failed.",
+          "Reported speed is lower than a module’s advertised profile → that can affect performance but does not itself explain missing capacity; check platform support and memory settings.",
+          "A 32-bit Windows installation has a roughly 4 GB address-space ceiling and may not use all installed RAM; this is uncommon on modern Windows 11 PCs."
+        ],
+        "codeBlocks": [
+          "Get-CimInstance Win32_PhysicalMemory | Select-Object Manufacturer, PartNumber, @{n='GB';e={$_.Capacity/1GB}}, Speed, ConfiguredClockSpeed"
         ]
       },
       {
         "heading": "When RAM itself becomes a suspect",
         "paragraphs": [
-          "Hardware memory problems usually create broader symptoms such as crashes, corrupted files, blue screens, or applications failing unpredictably. They are not diagnosed from a high Task Manager percentage alone.",
-          "If the evidence points to RAM, run Windows Memory Diagnostic or a longer memory test and check the modules individually if necessary."
+          "Faulty or unstable memory usually presents as instability, not simply a high usage percentage. If crashes, different blue-screen stop codes, corrupted files, or failed installations accompany the memory complaint, test hardware instead of assuming the PC just needs more capacity."
+        ],
+        "bullets": [
+          "Random blue screens with changing codes such as MEMORY_MANAGEMENT, PAGE_FAULT_IN_NONPAGED_AREA, or IRQL_NOT_LESS_OR_EQUAL.",
+          "Different applications crash unpredictably, or files and installs become corrupted.",
+          "Problems began after moving or installing memory, or become worse when XMP/EXPO or another memory overclock is enabled.",
+          "Repeated errors persist across workloads and are not explained by one application."
+        ],
+        "steps": [
+          "For a first check, save your work, press Win + R, run `mdsched.exe`, and choose Restart now and check for problems. After Windows returns, review Event Viewer → Windows Logs → System for MemoryDiagnostics-Results. Use F1 during the test to select Extended mode where available.",
+          "For a deeper check, create a bootable MemTest86 or MemTest86+ USB and run multiple full passes. Any repeatable error is significant; a clean run reduces suspicion but is not a guarantee that every module and configuration is perfect.",
+          "If errors appear, test one memory stick at a time in the same slot, then compare the same stick in another supported slot. If errors follow a module, that module is suspect; if they follow a slot, investigate the board or memory channel.",
+          "Load BIOS defaults and disable XMP/EXPO while testing if an overclocked memory profile may be unstable. Check Event Viewer for WHEA-Logger hardware errors around crash times too."
+        ],
+        "relatedLinks": [
+          {
+            "label": "How to check RAM for errors",
+            "href": "/how-to-check-ram-for-errors-windows",
+            "description": "Follow a dedicated memory-test workflow and learn how to interpret results."
+          }
         ]
+      },
+      {
+        "heading": "What not to do when memory use is high",
+        "paragraphs": [
+          "Avoid aggressive cleanup tools and random registry fixes. They can obscure the evidence while making the system less stable or less responsive."
+        ],
+        "bullets": [
+          "Do not use RAM cleaner or memory booster apps. Forcing useful cached data out of memory can slow the next access rather than fix the cause.",
+          "Do not disable the page file as a general optimization. Apps can fail to allocate memory without appropriate commit backing, even when some physical RAM appears available.",
+          "Do not disable SysMain or Memory Compression as a first fix; they are normal Windows features and usually are not the root cause of memory complaints.",
+          "Do not apply registry tweaks from a random forum without understanding what they change.",
+          "Do not end unfamiliar Windows or system processes just to lower the number in Task Manager."
+        ]
+      },
+      {
+        "heading": "How much RAM do you actually need?",
+        "paragraphs": [
+          "Capacity should match the work you do, not a single utilization percentage. These are broad starting points rather than guarantees: background apps, project size, browser tabs, game settings, and virtual machines change the real demand.",
+          "Before buying RAM, confirm that your workload experiences pressure: low Available memory combined with sustained paging or sluggish multitasking is stronger evidence than a high percentage alone. If the slowdown comes from storage, thermals, a driver, or a CPU/GPU limit, more RAM may change very little."
+        ],
+        "table": {
+          "caption": "General RAM capacity starting points by workload",
+          "headers": [
+            "Typical use",
+            "Sensible starting point"
+          ],
+          "rows": [
+            [
+              "Web, email, documents, and streaming",
+              "8 GB can work; 16 GB is more comfortable with many tabs and multitasking"
+            ],
+            [
+              "Everyday multitasking, light photo editing, and most general gaming",
+              "16 GB is a common baseline; needs vary by title and background apps"
+            ],
+            [
+              "Heavy gaming with background apps, video editing, VMs, or large datasets",
+              "32 GB or more, depending on the application and project size"
+            ]
+          ]
+        },
+        "bullets": [
+          "Check the exact memory type supported by the motherboard or laptop (for example, DDR4 versus DDR5), maximum capacity, and supported module configuration before buying.",
+          "A matched pair can enable dual-channel operation on supported platforms, but compatibility and the system’s actual memory configuration matter more than a generic buying rule."
+        ],
+        "relatedLinks": [
+          {
+            "label": "How much RAM do you need?",
+            "href": "/how-much-ram-do-you-need-gaming",
+            "description": "Compare capacity ranges against real gaming and multitasking workloads."
+          },
+          {
+            "label": "Does more RAM actually make Windows faster?",
+            "href": "/research/does-more-ram-make-windows-faster",
+            "description": "See what to measure before deciding that an upgrade will solve the slowdown."
+          }
+        ]
+      },
+      {
+        "heading": "Decision guide: choose the next check from the evidence",
+        "paragraphs": [
+          "Use the symptom pattern to select the next diagnostic step. The goal is to rule in a likely cause with repeatable evidence, not to treat one memory percentage as a verdict."
+        ],
+        "table": {
+          "caption": "Use the symptom pattern to choose the next step",
+          "headers": [
+            "Situation",
+            "Sensible next step"
+          ],
+          "rows": [
+            [
+              "High percentage, smooth and responsive PC",
+              "Check Available memory and workload; likely no change is needed"
+            ],
+            [
+              "One app grows and does not release memory",
+              "Record its usage, update or troubleshoot that app, and repeat the same workload"
+            ],
+            [
+              "High use with almost nothing open",
+              "Clean boot; inspect WSL/VM activity and paged/non-paged pool growth"
+            ],
+            [
+              "Low Available memory, busy disk, hard faults, and slow app switching",
+              "Close a known heavy workload; if this repeatedly confirms pressure, consider whether more RAM fits the workload"
+            ],
+            [
+              "Crashes, corruption, or changing blue screens",
+              "Run an extended memory test and isolate modules; check drivers and firmware too"
+            ],
+            [
+              "Usable RAM is much lower than installed",
+              "Check detection, slots, hardware reservation, integrated-graphics allocation, and BIOS settings"
+            ],
+            [
+              "Windows 10 PC still in use",
+              "Windows 10 reached end of support on October 14, 2025; plan a supported upgrade path rather than endless tuning"
+            ]
+          ]
+        }
       }
     ],
     "faq": [
       {
         "question": "Is 80 or 90 percent RAM usage bad?",
-        "answer": "Not necessarily. It matters whether the system has enough available memory for its workload and whether paging, slowdowns, crashes, or runaway processes are occurring."
+        "answer": "Not by itself. Windows uses available memory for caching, so a high percentage with a responsive PC can be normal. Check Available and Committed memory, sustained paging, and whether the PC is slowing down. Persistent pressure plus symptoms is the warning sign."
       },
       {
         "question": "Does adding RAM always make Windows faster?",
-        "answer": "Only when the existing workload is memory-constrained. More RAM will not directly fix a slow SSD, CPU bottleneck, malware, or a misbehaving application."
+        "answer": "No. Extra RAM helps when the workload is running short of memory and paging or responsiveness improves after capacity is added. It will not directly fix a slow drive, overheating, a driver issue, or a CPU/GPU bottleneck."
+      },
+      {
+        "question": "How do I know if I have a memory leak?",
+        "answer": "Look for memory use that keeps rising during a repeatable workload and does not return after the app is closed. Record the process over time. If the processes do not explain total usage, watch the paged and non-paged pool for growth that could point to a driver."
+      },
+      {
+        "question": "Why is RAM usage high when nothing is open?",
+        "answer": "Startup apps, background services, WSL or another virtual machine, integrated graphics, and driver allocations can contribute. Check Task Manager, startup items, and pool usage. Cached memory is also counted and can be reclaimed when needed."
+      },
+      {
+        "question": "What is Memory Compression in Task Manager?",
+        "answer": "It is a normal Windows memory-management feature that compresses some data in RAM to reduce paging. Its presence does not, by itself, mean that memory is leaking."
+      },
+      {
+        "question": "Why is usable RAM lower than the installed amount?",
+        "answer": "Some RAM may be reserved for hardware such as integrated graphics. A large gap can also indicate a module that is not detected, a firmware/remapping setting, or a 32-bit operating system. Check Slots used, hardware reservation, and firmware details before replacing a module."
+      },
+      {
+        "question": "How do I test RAM for errors?",
+        "answer": "Run Windows Memory Diagnostic with mdsched.exe for a first check and review MemoryDiagnostics-Results in Event Viewer. For a deeper test, use a bootable MemTest86 or MemTest86+ drive for multiple passes, then isolate modules if errors appear."
+      },
+      {
+        "question": "Should I use a RAM cleaner or disable the page file?",
+        "answer": "No. RAM cleaners can discard useful cache and reduce responsiveness, while disabling the page file can cause applications to fail allocations. Identify the process or driver responsible instead."
+      },
+      {
+        "question": "Does Windows 10 behave the same way?",
+        "answer": "The core checks in Task Manager, Resource Monitor, and Windows Memory Diagnostic are also applicable to Windows 10. Windows 10 reached end of support on October 14, 2025, so consider a supported upgrade path."
       }
-    ]
+    ],
+    "sources": [
+      {
+        "label": "Microsoft Learn: RAMMap memory analysis utility",
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/rammap"
+      },
+      {
+        "label": "Microsoft Learn: Advanced settings configuration in WSL",
+        "url": "https://learn.microsoft.com/en-us/windows/wsl/wsl-config"
+      },
+      {
+        "label": "Microsoft Learn: Basic commands for WSL",
+        "url": "https://learn.microsoft.com/en-us/windows/wsl/reference"
+      },
+      {
+        "label": "Microsoft Learn: Bug checks and Windows Memory Diagnostics",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-checks--blue-screens-"
+      },
+      {
+        "label": "Microsoft Learn: Memory footprint optimization",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/test/wpt/memory-footprint-optimization"
+      },
+      {
+        "label": "Microsoft Support: Windows 10 support has ended",
+        "url": "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025"
+      }
+    ],
+    "testing": "Diagnostic guidance, not a claim of a measured bench result. No memory-usage benchmark or repair outcome is claimed without a documented test run on specified hardware, Windows build, workload, and measurement method."
   },
   {
     "id": "windows-unknown-device",
