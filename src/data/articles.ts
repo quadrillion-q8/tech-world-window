@@ -16,6 +16,8 @@ export type ArticleTable = {
 
 export type ArticleSection = {
   heading?: string;
+  /** Set false to keep a detailed subsection out of the compact in-article table of contents. */
+  toc?: boolean;
   paragraphs: string[];
   bullets?: string[];
   /** Ordered steps, rendered as a numbered list. */
