@@ -16,26 +16,6 @@ type Enhancement = {
  * they explain how to interpret evidence and choose the next test.
  */
 const enhancements: Record<string, Enhancement> = {
-  'windows-11-wont-start-troubleshooting': {
-    sections: [{
-      heading: 'TWW diagnosis: do not skip the startup stage',
-      paragraphs: [
-        'The most useful clue is not the error message alone; it is the last stage the machine can reliably reach. A PC that reaches firmware but never reaches the Windows logo points you toward boot storage or boot configuration. A PC that reaches Windows Recovery but crashes when loading the desktop points you toward drivers, updates, system files, or hardware instability.',
-        'Repeat the failure once after making no changes. If the stopping point changes from boot to boot, treat that variability as evidence of an underlying hardware, power, storage, or memory problem rather than assuming Windows itself is corrupt.'
-      ],
-      table: {
-        caption: 'Use the failure stage to choose the next test',
-        headers: ['Observed stage', 'Best next question', 'Avoid doing first'],
-        rows: [
-          ['No firmware logo', 'Does the machine complete basic hardware initialization?', 'Reinstalling Windows'],
-          ['Firmware works, Windows does not', 'Is the boot drive detected and can recovery start?', 'Random driver installs'],
-          ['Windows logo loops or crashes', 'Did an update, driver, BIOS change, or hardware change precede it?', 'Deleting system files'],
-          ['Sign-in works, desktop fails', 'Does Safe Mode load normally?', 'Resetting the whole PC']
-        ]
-      }
-    }],
-    faq: [{ question: 'When should I stop troubleshooting and back up my data?', answer: 'If the drive is disappearing, producing repeated I/O errors, making unusual noises, or the system becomes less reliable after each restart, prioritize data recovery before destructive repairs.' }]
-  },
   'windows/windows-update-stuck': {
     sections: [{
       heading: 'TWW diagnosis: stuck is not the same as slow',
