@@ -262,27 +262,29 @@ const authorityEnrichments: Record<string, Enhancement> = {
     }]
   },
   'windows-11-high-memory-usage-how-to-find-the-cause': {
-    updatedAt: '2026-10-10',
+    updatedAt: '2026-10-11',
     sections: [{
-      heading: 'Tell normal memory use from actual memory pressure',
+      heading: 'TWW diagnosis: compare the same workload before changing settings',
       paragraphs: [
-        'A large memory number by itself does not mean Windows has a memory leak. Windows can use otherwise available RAM for caches, and applications may reserve memory that is not the same as memory that is actively preventing other work. Look at available memory, committed memory, the applications using the most memory, and whether the PC is paging heavily or becoming unresponsive.',
-        'Compare the machine during the slowdown with a normal period. If closing one application restores responsiveness and available memory, that application is a useful lead. If usage keeps rising without returning after the workload ends, record the process and repeat the observation before deciding it is a leak.'
+        'A reliable diagnosis connects a symptom to a repeatable observation. Record the Windows build, installed and usable RAM, the applications or virtual machines running, Available and Committed memory, the time the slowdown starts, and whether disk activity or hard faults rise at the same time. Repeat the reading during a normal period so you have a baseline.',
+        'Change one variable at a time. If closing one application restores responsiveness, investigate that workload before changing system-wide settings. If no process explains the total use, look at kernel pools, virtual-machine memory and hardware reservation before deciding that Windows itself is at fault.'
       ],
       table: {
-        caption: 'Memory readings: what they can and cannot tell you',
-        headers: ['Observation', 'Interpretation to investigate', 'Next test'],
+        caption: 'Evidence log: what each pattern should trigger next',
+        headers: ['Evidence recorded', 'Next useful investigation', 'Avoid concluding too early'],
         rows: [
-          ['High RAM use but the PC remains responsive', 'Could be normal caching or a workload using available memory', 'Check available memory and workload behavior before changing settings'],
-          ['Memory use grows steadily while one app is open', 'Possible application memory growth or leak', 'Record the process over time and compare after closing it'],
-          ['High committed memory with slow app switching', 'Memory pressure and paging may be contributing', 'Close a known heavy workload and check whether responsiveness returns'],
-          ['Crashes, corrupt files, or stop codes as well as high use', 'A separate memory-stability issue is possible', 'Run a memory diagnostic instead of relying on Task Manager alone']
+          ['Slowdown occurs only with the same app or project open', 'Record its process memory and commit size, then compare after closing it', 'That all memory assigned to an app is a leak'],
+          ['Available falls as committed memory and hard faults rise', 'Repeat the workload and compare responsiveness and disk activity', 'That hard faults alone prove a failing drive or RAM'],
+          ['Process list looks normal but non-paged pool keeps climbing', 'Review recent driver changes and inspect allocation with RAMMap or deeper tracing', 'That a large system process is necessarily the cause'],
+          ['Several unrelated apps crash with changing stop codes', 'Test memory stability and review drivers, firmware and WHEA events', 'That more RAM capacity will resolve instability'],
+          ['Installed RAM is present but Windows can use much less', 'Check slots, firmware reservation and integrated-graphics settings', 'That a memory module must be replaced before checking configuration']
         ]
       },
       relatedLinks: [
-        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check for hardware instability when the symptoms go beyond high utilization.' },
-        { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Evaluate capacity by workload rather than by a single utilization percentage.' },
-        { label: 'TWW research: does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Review what measurements can distinguish capacity pressure from other bottlenecks.' }
+        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a dedicated memory-test sequence when crashes or data corruption suggest instability.' },
+        { label: '100% disk usage in Windows 11', href: '/windows-11-disk-100-percent-usage', description: 'Interpret disk activity and throughput without mistaking high active time for a diagnosis.' },
+        { label: 'Does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Review what to measure before investing in additional memory.' },
+        { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Match capacity to actual workloads rather than a universal percentage.' }
       ]
     }]
   },
@@ -851,6 +853,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   'windows-11-wifi-connected-no-internet': {
     seoTitle: 'Windows Connected but No Internet',
     metaDescription: 'Windows says connected but there is no internet? Test the router, IP configuration, DNS, VPN and adapter in a safe order.'
+  },
+  'windows-11-high-memory-usage-how-to-find-the-cause': {
+    seoTitle: 'Windows 11 High RAM Usage: Find the Cause',
+    metaDescription: 'Windows 11 RAM usage high? Learn which Task Manager numbers matter, spot leaks and runaway apps, and know when to test or upgrade RAM.'
   },
   'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
   'windows-11-network-adapter-reset-guide': { seoTitle: 'Windows 11 Network Reset: When to Use It' },
