@@ -19,5 +19,13 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        // Framework code changes rarely, so keep it in its own long-cached file.
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router') || id.includes('node_modules/scheduler') || id.includes('node_modules/@remix-run')) return 'vendor';
+        },
+      },
+    },
   },
 });
