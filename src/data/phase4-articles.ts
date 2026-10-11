@@ -6,26 +6,32 @@ export const phase4Articles: Article[] = [
     "id": "windows-wont-start",
     "slug": "windows-11-wont-start-troubleshooting",
     "title": "Windows 11 Won’t Start: A Safe Troubleshooting Guide",
-    "seoTitle": "Windows 11 Won’t Start: Troubleshooting Guide",
-    "dek": "Windows can fail before sign-in, hang on the logo, loop through recovery, or show a blank screen. Identify the stage first, then choose the least destructive fix.",
-    "metaDescription": "Windows 11 won’t start? Identify whether the failure is power, boot, recovery, or sign-in and work through safe fixes before reinstalling Windows.",
-    "excerpt": "Do not reinstall Windows just because it will not start. First identify whether the PC reaches firmware, the Windows boot process, recovery, or the sign-in screen.",
+    "seoTitle": "Windows 11 Won't Start? Safe Fixes",
+    "dek": "PC won’t boot, loops in recovery, shows a black screen, or fails before sign-in? Identify the startup stage first, then choose the safest next diagnostic step.",
+    "metaDescription": "PC won’t boot, loop in recovery, or show a black screen? Identify the startup stage and try safer fixes before resetting or reinstalling Windows.",
+    "excerpt": "If Windows 11 won’t start, do not reinstall first. Identify the last stage the PC reliably reaches, start with simple checks and recovery tools, and protect your data if the drive shows warning signs.",
     "category": "Windows",
     "subcategory": "Startup",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 8,
+    "updatedAt": "2026-10-11",
+    "readingTime": 18,
     "tags": [
       "Windows 11",
+      "Windows 10",
       "Startup",
-      "Boot",
+      "Boot Loop",
+      "Boot Repair",
       "Recovery",
+      "Safe Mode",
+      "Black Screen",
+      "BitLocker",
+      "Blue Screen",
       "Troubleshooting"
     ],
     "appliesTo": [
-      "Windows 10",
-      "Windows 11"
+      "Windows 11",
+      "Windows 10"
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
@@ -39,74 +45,666 @@ export const phase4Articles: Article[] = [
     "searchIntent": "informational",
     "content": [
       {
-        "heading": "First identify where startup stops",
+        "heading": "Safest troubleshooting order",
         "paragraphs": [
-          "A PC that shows no power is a different problem from one that reaches the Windows logo and then loops. If you can see the manufacturer's logo or enter firmware setup, the basic hardware startup path is working far enough to continue diagnosing Windows.",
-          "Write down the last screen you see. That single observation prevents many unnecessary repairs."
+          "If Windows 11 won't start, do not reinstall Windows first. Work out the last stage the PC reliably reaches: no power, firmware (BIOS/UEFI) screen, Windows logo, recovery, or sign-in. That stage tells you whether the problem is power, the boot drive, the boot configuration, a driver or update, or Windows itself.",
+          "Work through these actions in order, and retest after each change."
+        ],
+        "steps": [
+          "Unplug all USB devices, docks and extra drives, then restart.",
+          "Force Windows Recovery to open and run Startup Repair.",
+          "Try Safe Mode and undo the last change (update, driver, software).",
+          "Use System Restore or uninstall the latest update.",
+          "If the drive is not detected or makes noises, stop and protect your data before any repair.",
+          "Only then consider advanced commands, Reset this PC (Keep my files), or a clean install."
+        ]
+      },
+      {
+        "heading": "Record the exact error before changing anything",
+        "paragraphs": [
+          "If a blue screen showed a stop code, or the screen showed an error such as `0xc000000e`, write it down or photograph it before making changes. Use another phone or computer to look up the code, and compare the advice with the symptoms you observe."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Free BSOD Error Code Lookup",
+            "href": "/tools/bsod-error-code-lookup",
+            "description": "Look up a blue-screen stop code, its common causes, and a cautious first-fix sequence."
+          }
+        ]
+      },
+      {
+        "heading": "Identify where startup stops",
+        "paragraphs": [
+          "Write down the last thing you see. This single observation prevents most unnecessary repairs.",
+          "Tip: Repeat the failure once without changing anything. If the PC stops at a different stage each time, suspect hardware, power, storage or memory instead of corrupted Windows."
         ],
         "table": {
-          "caption": "Startup stage and first suspect",
+          "caption": "Startup symptoms, likely causes, and the next section",
           "headers": [
-            "What happens",
-            "Start here"
+            "What you see",
+            "Most likely area",
+            "Jump to section"
           ],
           "rows": [
             [
-              "No lights, fans, or display",
-              "Power, charger, PSU, motherboard, or display path."
+              "No lights, no fans, no display",
+              "Power, charger/PSU, motherboard, battery",
+              {
+                "text": "No power or no display",
+                "href": "#no-power-or-no-display"
+              }
             ],
             [
-              "Manufacturer logo appears but Windows never loads",
-              "Boot drive, boot configuration, or Windows recovery."
+              "Manufacturer logo, then \"No bootable device\" or a boot error",
+              "Boot drive, boot order, boot configuration",
+              {
+                "text": "Boot drive not found or boot error codes",
+                "href": "#boot-drive-not-found-or-boot-error-codes"
+              }
             ],
             [
-              "Windows logo appears then restarts",
-              "Driver, update, system files, or hardware instability."
+              "Windows logo with spinning dots that never ends",
+              "Update, driver, storage, system files",
+              {
+                "text": "Safe Mode and recent changes",
+                "href": "#safe-mode-and-recent-changes"
+              }
             ],
             [
-              "Sign-in appears but desktop will not load",
-              "User profile, startup software, shell, or storage pressure."
+              "Windows logo, then restart, repeating",
+              "Driver, failing storage, memory, system files",
+              {
+                "text": "Boot loop and Automatic Repair failed",
+                "href": "#boot-loop-and-automatic-repair-failed"
+              }
+            ],
+            [
+              "Blue screen with a stop code",
+              "Driver, storage, memory, hardware",
+              {
+                "text": "Blue screen during startup",
+                "href": "#blue-screen-during-startup"
+              }
+            ],
+            [
+              "\"Enter BitLocker recovery key\"",
+              "Encryption protection triggered",
+              {
+                "text": "BitLocker recovery screen",
+                "href": "#bitlocker-recovery-screen"
+              }
+            ],
+            [
+              "Black screen, cursor visible",
+              "Graphics driver, shell, display",
+              {
+                "text": "Black screen, with or without a cursor",
+                "href": "#black-screen-with-or-without-a-cursor"
+              }
+            ],
+            [
+              "Sign-in works, desktop never loads",
+              "Profile, startup software, shell",
+              {
+                "text": "Safe Mode and recent changes",
+                "href": "#safe-mode-and-recent-changes"
+              }
             ]
           ]
         }
       },
       {
-        "heading": "Step 1: remove simple external causes",
+        "heading": "Remove simple external causes",
         "paragraphs": [
-          "Disconnect unnecessary USB drives, docks, external storage, and other peripherals, then restart. A removable device can sometimes alter boot order or cause a device initialization problem.",
-          "If the PC is a laptop, connect the correct charger and check whether charging indicators behave normally. For a desktop, check the power cable and display connection before opening the case."
+          "A connected device can change the boot order or stall hardware initialization. This costs nothing and fixes more cases than people expect."
+        ],
+        "steps": [
+          "Shut the PC down fully (hold the power button about 10 seconds).",
+          "Disconnect USB drives, SD cards, docks, printers, external displays and any extra internal drives you can safely remove.",
+          "On a laptop, connect the original charger. Check the charging light behaves normally.",
+          "On a desktop, check the power cable, PSU switch and monitor cable. Try a different display cable or port.",
+          "Power on again."
         ]
       },
       {
-        "heading": "Step 2: use Windows Recovery Environment",
+        "heading": "Open Windows Recovery Environment (WinRE)",
         "paragraphs": [
-          "If Windows fails repeatedly, Windows Recovery Environment may appear automatically. From there, try Startup Repair before making manual boot changes.",
-          "System Restore can be useful when a recent driver, application, or update caused the failure and a restore point exists. Keep personal-file backup needs in mind before more invasive recovery actions."
+          "Windows Recovery Environment is where Startup Repair, System Restore, Safe Mode and Command Prompt live. If it does not appear automatically, use one of the methods below."
         ]
       },
       {
-        "heading": "Step 3: check Safe Mode and recent changes",
+        "heading": "Open recovery by interrupting startup",
         "paragraphs": [
-          "Safe Mode loads a reduced set of drivers and services. If Windows starts there, recent software, a driver, or a startup service becomes more suspicious than the basic boot path.",
-          "Undo the most recent change first: a graphics driver, storage driver, utility, antivirus product, or Windows update. Avoid changing several variables at once."
+          "On most PCs, two interrupted startup attempts are enough for Windows to offer Automatic Repair. Do not use forced shutdowns while firmware is updating or while a recovery operation is visibly running."
+        ],
+        "steps": [
+          "Power on the PC and wait for the Windows logo (or the manufacturer logo) to appear.",
+          "Hold the power button until the PC turns off.",
+          "Repeat the interruption once, for two interrupted starts in total.",
+          "Start the PC a third time. If Automatic Repair appears, choose Advanced options."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Open recovery from the sign-in screen",
+        "paragraphs": [
+          "At the sign-in screen, hold Shift while selecting Power → Restart. Then choose Troubleshoot → Advanced options."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Open recovery from Windows installation media",
+        "paragraphs": [
+          "Use this method if WinRE will not open or appears damaged. Create official Windows installation media on another working PC first."
+        ],
+        "steps": [
+          "On another PC, create Windows installation media with Microsoft's Media Creation Tool.",
+          "Boot the affected PC from the USB using the boot-menu key shown by the manufacturer; common keys include F12, F9, Esc or F10.",
+          "Choose the language and other preferences, then select Repair your computer → Troubleshoot → Advanced options."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Choose a recovery tool in WinRE",
+        "paragraphs": [
+          "Open Troubleshoot → Advanced options and choose the tool that best matches the failure stage. If BitLocker is enabled, Windows may request its recovery key before allowing access to some recovery options."
+        ],
+        "bullets": [
+          "Startup Repair: start here to let Windows diagnose common startup problems.",
+          "System Restore: rolls system files and settings back to a restore point when one exists; personal files are not normally removed.",
+          "Uninstall Updates: remove a recently installed quality or feature update when the timing suggests it caused the failure.",
+          "Startup Settings: use this to reach Safe Mode.",
+          "Command Prompt: use only for the advanced checks below, after confirming the correct drive letter."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "If Startup Repair cannot repair Windows",
+        "paragraphs": [
+          "Do not keep rerunning Startup Repair without reviewing the result. Check its log at `C:\\Windows\\System32\\Logfiles\\Srt\\SrtTrail.txt`; the Windows drive letter can be different inside recovery. Use that information to choose the next diagnostic step."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Safe Mode and recent changes",
+        "paragraphs": [
+          "Safe Mode loads a minimal set of drivers and services. If Windows starts there, the basic boot path works and the suspect becomes software, a driver, or an update.",
+          "To open Safe Mode from recovery, choose Troubleshoot → Advanced options → Startup Settings → Restart."
+        ],
+        "steps": [
+          "After the PC restarts, press 4 for Safe Mode or 5 for Safe Mode with Networking."
+        ],
+        "bullets": [
+          "Undo the most recent change first: a graphics or storage driver, antivirus or security suite, system utility, or Windows update.",
+          "Change one thing at a time and restart between changes. Changing several items at once hides the cause.",
+          "Check Settings → Windows Update → Update history → Uninstall updates for something installed just before the problem started.",
+          "Open Device Manager and look for warning icons. For unidentified devices, use the hardware ID rather than downloading a random driver.",
+          "If the desktop is slow only after sign-in, disable recent startup apps in Task Manager → Startup apps."
+        ]
+      },
+      {
+        "heading": "If Safe Mode also fails",
+        "paragraphs": [
+          "If Safe Mode also fails, the cause is more likely to involve storage, system files, memory or hardware than a normal startup app. Continue with the boot-drive and hardware checks below."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Boot drive not found or boot error codes",
+        "paragraphs": [
+          "If you see No bootable device, Operating system not found, or a blue recovery screen with an error code, check these in order."
+        ]
+      },
+      {
+        "heading": "Check firmware (BIOS/UEFI)",
+        "paragraphs": [
+          "Open firmware setup (commonly Del, F2, F10, F12 or Esc right after power on)."
+        ],
+        "bullets": [
+          "Is the SSD/HDD listed? If the drive is not detected at all, Windows cannot be the primary problem. Reseat the drive (see the hardware checks below) or test it in another machine or enclosure.",
+          "Boot order: make sure Windows Boot Manager or your internal drive is first, not a USB device or network boot.",
+          "Storage mode (SATA/AHCI/RAID/Intel VMD): if a BIOS update or reset changed this, Windows can fail with `INACCESSIBLE_BOOT_DEVICE`. Return it to the mode it had before. Do not flip it randomly: note what it was before you touch it.",
+          "UEFI vs Legacy/CSM and Secure Boot: a Windows 11 install on a GPT disk expects UEFI. Switching to Legacy/CSM can make a working install unbootable.",
+          "Date and time: a dead CMOS battery can reset settings and cause odd boot behavior."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Common boot error codes",
+        "paragraphs": [],
+        "table": {
+          "caption": "Common startup errors and the safest first action",
+          "headers": [
+            "Code or message",
+            "What it generally points to",
+            "First safe action"
+          ],
+          "rows": [
+            [
+              "`0xc000000e`",
+              "Boot device missing or boot configuration (BCD) problem",
+              "Check firmware detection, then Startup Repair, then rebuild BCD"
+            ],
+            [
+              "`0xc000000f`",
+              "Boot Configuration Data missing or damaged",
+              "Startup Repair, then BCD rebuild"
+            ],
+            [
+              "`0xc0000225`",
+              "Boot data cannot be loaded",
+              "Startup Repair, then BCD rebuild, then check the drive"
+            ],
+            [
+              "`0xc0000001`",
+              "Critical system file or memory-related fault",
+              "Safe Mode, System Restore, memory test"
+            ],
+            [
+              "`INACCESSIBLE_BOOT_DEVICE`",
+              "Storage driver or mode change, or failing drive",
+              "Revert storage mode, uninstall latest update, check drive health"
+            ],
+            [
+              "\"Automatic Repair couldn't repair your PC\"",
+              "A loop with many causes",
+              "Read `SrtTrail.txt`, then use the checks below"
+            ]
+          ]
+        },
+        "toc": false
+      },
+      {
+        "heading": "Advanced checks from Command Prompt (only if comfortable)",
+        "paragraphs": [
+          "These checks are for readers comfortable with recovery tools. Drive letters in WinRE often differ from normal Windows. If the drive is encrypted, have the BitLocker recovery key available. If the drive is disappearing, clicking, or reporting repeated I/O errors, stop and protect the data instead of running repair commands.",
+          "Use DiskPart only to list volumes at this stage. Do not delete, format, clean, or change partitions."
+        ],
+        "codeBlocks": [
+          "diskpart\nlist volume\nexit\ndir C:\\"
+        ],
+        "bullets": [
+          "Try `dir D:\\`, `dir E:\\` or another letter until you find the volume containing the `Windows` and `Users` folders. Substitute that detected drive letter for `C:` in the examples below."
+        ]
+      },
+      {
+        "heading": "Check system files offline",
+        "paragraphs": [
+          "After identifying the correct Windows volume, run the offline System File Checker command below. Replace `C:` with the drive letter that actually contains the Windows folder in WinRE."
+        ],
+        "codeBlocks": [
+          "sfc /scannow /offbootdir=C:\\ /offwindir=C:\\Windows"
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Check the file system",
+        "paragraphs": [
+          "Do not run file-system scans on a drive that is clicking, repeatedly disappearing, or showing repeated storage errors. Prioritize data recovery first. On a drive that is not showing those warning signs, use the correct Windows volume letter in this command."
+        ],
+        "codeBlocks": [
+          "chkdsk C: /f"
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Rebuild boot records",
+        "paragraphs": [
+          "Only continue if the internal drive is detected and you have confirmed the Windows installation and boot configuration are the likely issue. These commands change boot configuration; stop if the output does not match the expected Windows installation."
+        ],
+        "codeBlocks": [
+          "bootrec /scanos\nbootrec /rebuildbcd"
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Refresh UEFI boot files if Bootrec reports “Access is denied”",
+        "paragraphs": [
+          "On a UEFI system, `bootrec /fixboot` can return “Access is denied”. The following is an advanced alternative, not a step to run blindly: identify the correct disk and the small FAT32 EFI System partition first. Never assume the Windows disk is disk 0. Replace `<disk-number>`, `<efi-partition-number>`, and `<WindowsDrive>` with the values you confirmed. Selecting the wrong partition can make the system unbootable."
+        ],
+        "codeBlocks": [
+          "diskpart\nlist disk\nselect disk <disk-number>\nlist partition\nselect partition <efi-partition-number>\nassign letter=S\nexit\nbcdboot <WindowsDrive>:\\Windows /s S: /f UEFI"
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Undo pending update actions (advanced)",
+        "paragraphs": [
+          "If a pending Windows update is preventing startup, this DISM command may help. Replace `C:\\` with the root of the offline Windows volume you identified. Do not run it against an uncertain drive letter."
+        ],
+        "codeBlocks": [
+          "dism /image:C:\\ /cleanup-image /revertpendingactions"
+        ],
+        "toc": false
+      },
+      {
+        "heading": "BitLocker recovery screen",
+        "paragraphs": [
+          "A blue screen asking for a BitLocker recovery key is not a Windows failure. It means the PC detected a change (BIOS update, firmware reset, hardware change, boot order, or a motherboard or TPM change) and is protecting your data.",
+          "This is one of the most common startup surprises on newer Windows 11 PCs."
+        ],
+        "bullets": [
+          "Find the key at aka.ms/myrecoverykey by signing in with the Microsoft account used on that PC, from another device.",
+          "Work or school PCs: the key is usually held by your IT administrator.",
+          "The key can also be saved in a file, USB stick or printout from when encryption was enabled.",
+          "Do not reset, reinstall or wipe the drive just because the prompt appeared. Without the key, encrypted data is not recoverable.",
+          "After you unlock the PC, make sure the key is backed up to your account so it never blocks you again."
+        ]
+      },
+      {
+        "heading": "Boot loop and Automatic Repair failed",
+        "paragraphs": [
+          "A restart loop means Windows is failing before startup completes. Common leads to investigate include, in order:"
+        ],
+        "bullets": [
+          "A recent Windows update or driver.",
+          "A failing or disconnected storage drive.",
+          "Damaged system files or boot configuration.",
+          "Unstable memory (RAM) or overheating.",
+          "A power-supply or battery fault."
+        ]
+      },
+      {
+        "heading": "Troubleshoot a boot loop in order",
+        "paragraphs": [
+          "Work through one recovery option at a time and restart between attempts."
+        ],
+        "steps": [
+          "Open recovery and try Uninstall Updates → latest quality update, then the latest feature update if relevant.",
+          "Try System Restore if a suitable restore point exists.",
+          "Try Safe Mode and undo the most recent driver, update or application change.",
+          "Use the offline SFC and boot-repair commands above only after confirming the correct Windows volume.",
+          "Test the drive, memory, power and thermals if software recovery does not resolve the loop."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "If the stopping point changes between attempts",
+        "paragraphs": [
+          "If the loop happens at different points each time, treat that variability as a hardware warning. Prioritize storage, memory, power and temperature checks instead of repeatedly applying Windows repairs."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Blue screen during startup",
+        "paragraphs": [
+          "If the screen shows a stop code such as `CRITICAL_PROCESS_DIED`, `INACCESSIBLE_BOOT_DEVICE`, `KERNEL_DATA_INPAGE_ERROR` or `MEMORY_MANAGEMENT`, photograph it. Many codes are generic, so the pattern matters more than a single code:",
+          "Use the stop code lookup on another device, but verify it against what you observe rather than trusting one line of advice."
+        ],
+        "bullets": [
+          "Storage-related codes (such as `KERNEL_DATA_INPAGE_ERROR` and `INACCESSIBLE_BOOT_DEVICE`) point toward the drive, cable or storage driver.",
+          "Memory-related codes point toward RAM, XMP/EXPO overclock settings or an unstable motherboard.",
+          "Different codes on every crash strongly suggest hardware instability."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Windows 11 Blue-Screen Stop-Code Guide",
+            "href": "/windows-11-blue-screen-stop-code-how-to-read",
+            "description": "Compare the stop code with the crash pattern and use the least destructive checks first."
+          },
+          {
+            "label": "How to Test RAM for Errors",
+            "href": "/how-to-check-ram-for-errors-windows",
+            "description": "Use a structured memory test when stop codes vary or memory-related faults are suspected."
+          }
+        ]
+      },
+      {
+        "heading": "Black screen, with or without a cursor",
+        "paragraphs": [
+          "Try these checks in order; after each one, see whether the display returns or the PC responds."
+        ],
+        "steps": [
+          "Press Ctrl + Win + Shift + B to restart the graphics driver; this sometimes restores the display.",
+          "Press Win + P and cycle through display modes in case output is going to a disconnected screen.",
+          "Press Ctrl + Alt + Del to check whether Windows responds.",
+          "Disconnect extra monitors, reseat the HDMI/DisplayPort cable, and try another port.",
+          "On a desktop with a graphics card, connect the monitor to the card rather than the motherboard. If hardware was recently changed, test another output.",
+          "If Windows can reach recovery, boot to Safe Mode and roll back or reinstall the graphics driver."
+        ]
+      },
+      {
+        "heading": "When a black screen points beyond Windows",
+        "paragraphs": [
+          "If the PC shows a black screen and a firmware screen never appears, the display path or motherboard is the problem rather than Windows."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "No power or no display",
+        "paragraphs": [
+          "If nothing happens at all:"
+        ],
+        "bullets": [
+          "Laptop: hold the power button for 30 to 60 seconds with the charger and (if removable) battery disconnected, then reconnect the charger only and try again. Test with a known-good charger of the correct wattage.",
+          "Desktop: check the PSU switch, wall socket, power cable and front-panel connectors. Try powering with only one RAM stick and no extra drives.",
+          "Listen for fans, beeps or LED codes. Motherboard LED and beep codes are in your manufacturer's manual, and they are more reliable than guessing.",
+          "Any swelling, burning smell, heat or damage to a laptop battery means stop and have it inspected. Do not keep charging a swollen battery."
+        ]
+      },
+      {
+        "heading": "Bench checks: what to test when Windows is not the problem",
+        "paragraphs": [
+          "This is where a hardware workflow beats a reinstall. If the failure stage points away from Windows, test the parts:"
+        ],
+        "steps": [
+          "Reseat memory. Power off, disconnect power, remove the RAM, clean the contacts with care, and reseat firmly. Try one stick at a time in different slots. Faulty RAM is a classic cause of random stopping points and varied blue screens.",
+          "Test the drive elsewhere. Put the SSD/HDD in a USB enclosure or another PC. If it is not detected, or it appears and then disappears, the drive or its connection is the issue.",
+          "Reset firmware settings. Load BIOS defaults, or clear the CMOS (remove the coin cell battery for a few minutes on desktops, or use the manufacturer's method). Remember to restore the original storage mode if it differs.",
+          "Check temperatures and fans. Overheating can cause shutdowns during boot or a loop at the logo.",
+          "Swap known-good parts. Power supply, charger, RAM and display cable are the cheapest parts to rule out.",
+          "Look for physical damage. Liquid residue, corrosion, bent connectors and a loose M.2 screw are common on laptops."
         ]
       },
       {
         "heading": "When to stop and protect your data",
         "paragraphs": [
-          "If the drive is clicking, disappearing from firmware, repeatedly throwing storage errors, or becoming extremely slow, prioritize a backup or professional data-recovery assessment rather than repeated repair attempts.",
-          "If recovery tools cannot see the Windows drive at all, the problem may be hardware rather than a damaged Windows installation."
+          "Stop repairing and prioritize a backup or professional recovery assessment if any of these warning signs appear:"
+        ],
+        "bullets": [
+          "The drive clicks, grinds or beeps.",
+          "The drive keeps vanishing from firmware or recovery.",
+          "You see repeated storage or I/O errors.",
+          "The PC becomes extremely slow, or file copies keep failing.",
+          "Recovery cannot see the Windows drive at all."
         ]
+      },
+      {
+        "heading": "Copy files from a drive that appears healthy",
+        "paragraphs": [
+          "Only attempt this DIY route if the drive is not making unusual noises, disappearing, or showing repeated errors. Connect it to a working computer with an enclosure or adapter that matches its interface (SATA or NVMe M.2)."
+        ],
+        "steps": [
+          "Power off the PC and disconnect power before removing the drive.",
+          "Remove the drive and connect it to a working PC using a matching USB enclosure or adapter.",
+          "Copy important folders such as Documents, Desktop, Pictures and browser data to a different disk. Do not copy files onto the suspect drive.",
+          "If BitLocker encryption is enabled, unlock the drive with its recovery key before copying files."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "When to use a professional data-recovery lab",
+        "paragraphs": [
+          "Use a professional data-recovery service if the drive makes noises, has been exposed to liquid or heat, repeatedly disconnects, or contains irreplaceable data. Repeated power-on and repair attempts can reduce the chance of recovering data from a failing drive."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Reset this PC is not a data-recovery tool",
+        "paragraphs": [
+          "Reset this PC → Keep my files is less destructive than a clean install, but it is still a major change and can affect apps and settings. Back up first when possible, and do not expect a reset to fix a hardware fault."
+        ],
+        "toc": false
+      },
+      {
+        "heading": "Repair, reset or replace: how to decide",
+        "paragraphs": [],
+        "table": {
+          "caption": "Choose the next step based on the evidence",
+          "headers": [
+            "Situation",
+            "Sensible next step"
+          ],
+          "rows": [
+            [
+              "Starts in Safe Mode; problem began after an update or driver",
+              "Uninstall it, restore, or roll back"
+            ],
+            [
+              "Boot errors fixed by repair, then return",
+              "Check drive health and RAM; the repair is hiding a hardware fault"
+            ],
+            [
+              "Drive missing, noisy or erroring",
+              "Back up first, then replace the drive"
+            ],
+            [
+              "Random stopping points or varied blue screens",
+              "Test RAM, power and heat"
+            ],
+            [
+              "Everything checks out but Windows is damaged",
+              "Reset this PC (Keep my files), then clean install if needed"
+            ],
+            [
+              "Windows 10 PC on unsupported software",
+              "Windows 10 reached end of support on October 14, 2025, so plan an upgrade or replacement rather than endless repairs"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "TWW diagnosis: the stage is the clue",
+        "paragraphs": [
+          "The most useful clue is not the error message by itself. It is the last stage the machine reaches reliably."
+        ],
+        "bullets": [
+          "Reaches firmware but not the Windows logo → focus on boot storage and boot configuration.",
+          "Reaches Windows Recovery but crashes loading the desktop → drivers, updates, system files or hardware instability.",
+          "Stopping point changes between attempts → hardware, power, storage or memory."
+        ],
+        "table": {
+          "caption": "Match the observed startup stage to the next diagnostic question",
+          "headers": [
+            "Observed stage",
+            "Best next question",
+            "Avoid doing first"
+          ],
+          "rows": [
+            [
+              "No firmware logo",
+              "Does the machine finish basic hardware initialization?",
+              "Reinstalling Windows"
+            ],
+            [
+              "Firmware works, Windows does not",
+              "Is the boot drive detected, and can recovery start?",
+              "Random driver installs"
+            ],
+            [
+              "Windows logo loops or crashes",
+              "Did an update, driver, BIOS change or hardware change come first?",
+              "Deleting system files"
+            ],
+            [
+              "Sign-in works, desktop fails",
+              "Does Safe Mode load normally?",
+              "Resetting the whole PC"
+            ]
+          ]
+        },
+        "relatedLinks": [
+          {
+            "label": "Windows Troubleshooting: Complete Guide",
+            "href": "/windows-troubleshooting-complete-guide",
+            "description": "Use the broader symptom-first workflow for startup failures, freezes, updates, drivers, and networking."
+          },
+          {
+            "label": "Windows Update Stuck?",
+            "href": "/windows/windows-update-stuck",
+            "description": "Distinguish a slow update from a failed update and choose the least disruptive recovery step."
+          },
+          {
+            "label": "Windows 11 Slow Startup",
+            "href": "/windows-11-slow-startup-fix",
+            "description": "Separate firmware, boot, sign-in, and desktop delays before optimizing startup."
+          },
+          {
+            "label": "Unknown Device in Device Manager",
+            "href": "/windows-11-unknown-device-device-manager",
+            "description": "Identify hardware by its device ID rather than installing a random driver."
+          },
+          {
+            "label": "Windows 100% Disk Usage with Low MB/s",
+            "href": "/windows-11-disk-100-percent-usage",
+            "description": "Understand why high disk active time can coexist with a low transfer rate."
+          },
+          {
+            "label": "How to Check SSD Health",
+            "href": "/how-to-check-ssd-health-windows",
+            "description": "Review storage-health evidence when the drive disappears, errors, or becomes unusually slow."
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "Windows Recovery Environment (Microsoft Support)",
+        "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-recovery-environment"
+      },
+      {
+        "label": "Startup Repair (Microsoft Support)",
+        "url": "https://support.microsoft.com/en-gb/windows/experience/startup-boot/startup-repair"
+      },
+      {
+        "label": "Windows startup settings and Safe Mode (Microsoft Support)",
+        "url": "https://support.microsoft.com/en-us/windows/experience/startup-boot/windows-startup-settings"
+      },
+      {
+        "label": "Find your BitLocker recovery key (Microsoft Support)",
+        "url": "https://support.microsoft.com/en-us/windows/security/encryption/find-your-bitlocker-recovery-key?linkId=247750814"
+      },
+      {
+        "label": "System File Checker command and offline-repair syntax (Microsoft Learn)",
+        "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sfc"
+      },
+      {
+        "label": "Windows 10 end of support (Microsoft Support)",
+        "url": "https://support.microsoft.com/en-us/windows/experience/making-the-transition-to-a-new-era-of-computing"
       }
     ],
     "faq": [
       {
         "question": "Should I reinstall Windows if Windows 11 will not start?",
-        "answer": "Usually not as the first step. Identify the startup stage, try recovery and Safe Mode, and investigate recent changes or storage problems before reinstalling."
+        "answer": "Not first. A reinstall can erase data and does not fix hardware faults such as a failing SSD or bad RAM. Try Startup Repair, Safe Mode, uninstalling the latest update and System Restore, and confirm the drive is detected. Reinstall only after those checks, and back up your files if you can."
+      },
+      {
+        "question": "Why is my PC stuck on the Windows logo or spinning dots?",
+        "answer": "Common causes are a stuck update, a driver problem, damaged system files or a failing drive. Wait a reasonable time if a large update was installing, then force recovery and try Uninstall Updates and Startup Repair. If it gets stuck at different points each time, test RAM and the drive."
+      },
+      {
+        "question": "What does error 0xc000000e mean?",
+        "answer": "It generally means Windows cannot access the boot device or the boot configuration is damaged. Check that the drive is detected in firmware, confirm the boot order, run Startup Repair, and rebuild the boot configuration if needed."
       },
       {
         "question": "What if Windows shows a blue screen during startup?",
-        "answer": "Record the stop code and any driver filename, then use the blue-screen troubleshooting process. Repeated startup crashes can also point to storage, memory, or driver problems."
+        "answer": "Photograph the stop code and note whether it changes between crashes. Try Safe Mode and undo the latest driver or update. If the code changes each time or points to storage or memory, test the hardware."
+      },
+      {
+        "question": "How do I get into recovery if Windows will not open it?",
+        "answer": "Interrupt startup at the Windows or manufacturer logo twice, then start the PC a third time and look for Automatic Repair. If recovery still will not open, boot from Windows installation media and choose Repair your computer."
+      },
+      {
+        "question": "Can I recover my files if Windows will not start?",
+        "answer": "Often yes. If the drive is detected and healthy, connect it to another PC through a USB enclosure and copy your files. If the drive is noisy, undetected or erroring, stop and consult a data-recovery service. BitLocker-encrypted drives require the recovery key."
+      },
+      {
+        "question": "When should I stop troubleshooting and back up my data?",
+        "answer": "Stop when you hear clicking, the drive disappears, you see repeated storage errors, or everything becomes extremely slow. Protect the data first; repair second."
+      },
+      {
+        "question": "Does Windows 10 follow the same steps?",
+        "answer": "Yes. The recovery tools, Safe Mode and boot repair commands are the same in Windows 10 and Windows 11. Windows 10 reached end of support on October 14, 2025, so consider upgrading."
       }
     ]
   },
