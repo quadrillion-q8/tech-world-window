@@ -12,6 +12,12 @@ const toolMeta: Record<ToolKind, { title: string; description: string; path: str
   storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
 };
 
+function boundedNumber(value: string, min: number, max: number, fallback: number): number {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
+}
+
 function kindFromPath(path: string): ToolKind {
   if (path.includes('psu-wattage')) return 'psu';
   if (path.includes('ram-calculator')) return 'ram';
@@ -50,7 +56,8 @@ export function ToolPage() {
   const psu = useMemo(() => {
     const load = gpuWatts + cpuWatts + systemWatts;
     const recommended = Math.ceil((load * 1.35) / 50) * 50;
-    return { load, recommended };
+    const commonSize = [450, 550, 650, 750, 850, 1000, 1200, 1500].find(size => size >= recommended) ?? recommended;
+    return { load, recommended, commonSize };
   }, [gpuWatts, cpuWatts, systemWatts]);
 
   const ram = useMemo(() => {
@@ -60,7 +67,8 @@ export function ToolPage() {
 
   const storage = useMemo(() => {
     const total = games * gameSize + otherStorage;
-    return { total, recommended: Math.ceil((total * 1.2) / 100) * 100 };
+    const recommended = Math.ceil((total * 1.2) / 100) * 100;
+    return { total, recommended, terabytes: (recommended / 1000).toFixed(2) };
   }, [games, gameSize, otherStorage]);
 
   const conversion = (tool: string) => trackMonetization('tool_conversion', { tool });
@@ -77,34 +85,34 @@ export function ToolPage() {
         <label>GPU performance tier<select value={gpu} onChange={e => setGpu(Number(e.target.value))}>{['Entry-level GPU','Mid-range GPU','High-end GPU','Enthusiast GPU'].map((x,i)=><option value={i+1} key={x}>{x}</option>)}</select></label>
         <label>Gaming resolution<select value={resolution} onChange={e => setResolution(e.target.value)}><option>1080p</option><option>1440p</option><option>4K</option></select></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p></div>
+      <div className="tool-result"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
     </div>}
 
     {kind === 'psu' && <div className="tool-panel">
       <div className="tool-controls">
-        <label>GPU typical board power (W)<input type="number" min="30" max="800" value={gpuWatts} onChange={e=>setGpuWatts(Number(e.target.value))}/></label>
-        <label>CPU typical package power (W)<input type="number" min="20" max="400" value={cpuWatts} onChange={e=>setCpuWatts(Number(e.target.value))}/></label>
-        <label>Other system load (W)<input type="number" min="20" max="300" value={systemWatts} onChange={e=>setSystemWatts(Number(e.target.value))}/></label>
+        <label>GPU typical board power (W)<input type="number" min="30" max="800" value={gpuWatts} onChange={e=>setGpuWatts(boundedNumber(e.target.value, 30, 800, 220))}/></label>
+        <label>CPU typical package power (W)<input type="number" min="20" max="400" value={cpuWatts} onChange={e=>setCpuWatts(boundedNumber(e.target.value, 20, 400, 120))}/></label>
+        <label>Other system load (W)<input type="number" min="20" max="300" value={systemWatts} onChange={e=>setSystemWatts(boundedNumber(e.target.value, 20, 300, 80))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">ESTIMATE</span><h2>{psu.recommended} W PSU range</h2><p>Estimated sustained system load: about {psu.load} W. The calculator adds headroom for transient demand and normal operating margin.</p></div>
+      <div className="tool-result"><span className="eyebrow">ESTIMATE</span><h2>Start your shortlist at {psu.commonSize} W</h2><p>Estimated sustained system load: about {psu.load} W. A simple 35% planning margin gives roughly {psu.recommended} W before choosing a standard size.</p><small>Check the GPU maker’s PSU guidance, 12V-2x6/PCIe connector needs, transient spikes, PSU quality and independent reviews. A wattage estimate cannot verify a specific PSU model.</small></div>
     </div>}
 
     {kind === 'ram' && <div className="tool-panel">
       <div className="tool-controls">
-        <label>Windows + baseline use (GB)<input type="number" min="4" max="32" value={ramUse} onChange={e=>setRamUse(Number(e.target.value))}/></label>
-        <label>Gaming / application use (GB)<input type="number" min="2" max="64" value={ramApps} onChange={e=>setRamApps(Number(e.target.value))}/></label>
-        <label>Extra headroom (GB)<input type="number" min="2" max="32" value={headroom} onChange={e=>setHeadroom(Number(e.target.value))}/></label>
+        <label>Windows + baseline use (GB)<input type="number" min="4" max="32" value={ramUse} onChange={e=>setRamUse(boundedNumber(e.target.value, 4, 32, 12))}/></label>
+        <label>Gaming / application use (GB)<input type="number" min="2" max="64" value={ramApps} onChange={e=>setRamApps(boundedNumber(e.target.value, 2, 64, 4))}/></label>
+        <label>Extra headroom (GB)<input type="number" min="2" max="32" value={headroom} onChange={e=>setHeadroom(boundedNumber(e.target.value, 2, 32, 4))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">PRACTICAL TARGET</span><h2>{ram} GB RAM</h2><p>This rounds your estimated working set up to a common capacity. Check the exact motherboard or laptop limit before buying.</p></div>
+      <div className="tool-result"><span className="eyebrow">PRACTICAL TARGET</span><h2>{ram} GB RAM target</h2><p>This rounds your estimated working set up to a 4 GB step, not a guarantee that every workload needs this amount. For a real upgrade, check current memory use during your heaviest workload, channel configuration, supported capacity and laptop upgradeability.</p></div>
     </div>}
 
     {kind === 'storage' && <div className="tool-panel">
       <div className="tool-controls">
-        <label>Number of games<input type="number" min="0" max="100" value={games} onChange={e=>setGames(Number(e.target.value))}/></label>
-        <label>Average game size (GB)<input type="number" min="1" max="500" value={gameSize} onChange={e=>setGameSize(Number(e.target.value))}/></label>
-        <label>Other files/apps (GB)<input type="number" min="0" max="10000" value={otherStorage} onChange={e=>setOtherStorage(Number(e.target.value))}/></label>
+        <label>Number of games<input type="number" min="0" max="100" value={games} onChange={e=>setGames(boundedNumber(e.target.value, 0, 100, 8))}/></label>
+        <label>Average game size (GB)<input type="number" min="1" max="500" value={gameSize} onChange={e=>setGameSize(boundedNumber(e.target.value, 1, 500, 100))}/></label>
+        <label>Other files/apps (GB)<input type="number" min="0" max="10000" value={otherStorage} onChange={e=>setOtherStorage(boundedNumber(e.target.value, 0, 10000, 200))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended} GB</h2><p>Your listed content totals about {storage.total} GB. The result adds 20% planning room instead of treating every last gigabyte as usable capacity.</p></div>
+      <div className="tool-result"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
     </div>}
 
     <div className="editorial-note">
