@@ -1,34 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { SiteStructuredData } from '../components/SiteStructuredData';
+import { ConsentBanner } from '../components/ConsentBanner';
+import { loadAnalytics, readConsent, revokeAnalytics, type ConsentChoice } from '../lib/consent';
 
 // GA4 Measurement ID for techworldwindow.com.
 // If this is ever emptied, no analytics script is loaded.
 const GA_MEASUREMENT_ID = 'G-NMCN4Q7X4W';
 
-type GtagWindow = Window & { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
+type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
 function useAnalytics() {
   const location = useLocation();
+  const [consent, setConsent] = useState<ConsentChoice | null>(null);
 
+  // Read any saved choice on the client. Analytics never loads without "granted".
   useEffect(() => {
-    if (!GA_MEASUREMENT_ID || typeof window === 'undefined') return;
-    const w = window as GtagWindow;
-    if (w.gtag) return;
-    w.dataLayer = w.dataLayer || [];
-    w.gtag = function () { w.dataLayer!.push(arguments); };
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    document.head.appendChild(script);
-    w.gtag('js', new Date());
-    w.gtag('config', GA_MEASUREMENT_ID, { send_page_view: false });
+    const saved = readConsent();
+    setConsent(saved);
+    if (saved === 'granted') loadAnalytics(GA_MEASUREMENT_ID);
   }, []);
 
   useEffect(() => {
-    if (!GA_MEASUREMENT_ID || typeof window === 'undefined') return;
+    if (consent !== 'granted' || typeof window === 'undefined') return;
     const w = window as GtagWindow;
     if (!w.gtag) return;
     w.gtag('event', 'page_view', {
@@ -36,11 +32,17 @@ function useAnalytics() {
       page_location: window.location.href,
       page_title: document.title,
     });
-  }, [location.pathname, location.search]);
+  }, [consent, location.pathname, location.search]);
+
+  return (choice: ConsentChoice) => {
+    setConsent(choice);
+    if (choice === 'granted') loadAnalytics(GA_MEASUREMENT_ID);
+    else revokeAnalytics(GA_MEASUREMENT_ID);
+  };
 }
 
 export function RootLayout() {
-  useAnalytics();
+  const onConsentChoice = useAnalytics();
   return (
     <>
       <SiteStructuredData />
@@ -48,6 +50,7 @@ export function RootLayout() {
       <Header />
       <main id="main-content"><Outlet /></main>
       <Footer />
+      <ConsentBanner onChoice={onConsentChoice} />
       <ScrollRestoration />
     </>
   );
