@@ -134,6 +134,12 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'nvme-ssd-temperature-too-high': {
+    updatedAt: '2026-10-11',
+    sources: [
+      { label: 'NVM Express: NVMe specifications (composite temperature and warning/critical thresholds)', url: 'https://nvmexpress.org/specifications/' },
+      { label: 'smartmontools: reading NVMe SMART and temperature data', url: 'https://www.smartmontools.org/' },
+      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' }
+    ],
     sections: [{
       heading: 'TWW diagnosis: temperature must be interpreted with workload and throttling',
       paragraphs: [
@@ -145,7 +151,74 @@ const enhancements: Record<string, Enhancement> = {
         'Temperature rises and sustained performance falls → thermal throttling becomes more likely.',
         'Temperature is normal but errors or disappearing drives occur → investigate firmware, power and drive health instead.'
       ]
-    }]
+    }, {
+      heading: 'Which temperature number are you looking at?',
+      paragraphs: [
+        'Most tools show the composite temperature, a single value the drive calculates from its internal sensors. Many drives also expose one or two extra sensors, often near the controller and the flash chips, and these can read several degrees above or below the composite value.',
+        'The NVMe specification gives every drive a warning threshold and a critical threshold. The warning threshold is where the drive starts reducing speed to protect itself. The critical threshold is where it may slow sharply or shut down. The exact values are set by the manufacturer for each model, so read them from your own drive rather than from a general chart.'
+      ],
+      codeBlocks: [
+        'Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Temperature, TemperatureMax',
+        'smartctl -a /dev/nvme0   # on Linux or with smartmontools installed; look for the warning and critical temperature thresholds'
+      ]
+    }, {
+      heading: 'What temperature range to expect',
+      paragraphs: [
+        'These are common patterns rather than limits for any one drive. Your model datasheet is the authority.'
+      ],
+      table: {
+        caption: 'Typical NVMe temperature patterns and what they usually mean',
+        headers: ['Situation', 'What is common', 'What to do'],
+        rows: [
+          ['Idle in a desktop with airflow', 'Cool to moderately warm, often well below the warning threshold', 'Nothing. Note the value as your baseline.'],
+          ['Idle in a thin laptop', 'Warmer than a desktop because the drive shares a small heat budget with the CPU', 'Compare with the same laptop after a restart before drawing conclusions.'],
+          ['Short bursts of reads or writes', 'Brief rises that fall again within a minute or two', 'Normal. A short benchmark rarely heats a drive enough to throttle.'],
+          ['Long copy, install or game-library move', 'Steady climb toward the warning threshold on fast PCIe 4.0 and 5.0 drives', 'Watch whether speed drops as the number climbs. That is throttling.'],
+          ['Idle value close to the warning threshold', 'Points to poor airflow, a missing heatsink, or heat from a nearby GPU', 'Fix cooling first. Check the heatsink and thermal pad.']
+        ]
+      }
+    }, {
+      heading: 'How to test whether your drive throttles',
+      paragraphs: [
+        'A short benchmark will not heat a drive enough to show throttling. You need a sustained write, long enough for the temperature to settle.'
+      ],
+      steps: [
+        'Close background apps and leave the PC idle for a few minutes. Record the idle temperature with a monitoring tool.',
+        'Copy a large set of files (tens of gigabytes, from a different fast drive if possible) onto the NVMe drive while the temperature is being logged.',
+        'Watch the transfer speed and temperature together. Note the temperature at which the speed falls and whether it recovers when the drive cools.',
+        'Let the drive cool, change one thing (heatsink, pad, fan position, laptop stand), and repeat the same copy.',
+        'Compare the two runs. If the speed holds longer at a lower temperature, the change worked.'
+      ]
+    }, {
+      heading: 'Cooling fixes that usually matter, in order',
+      paragraphs: [
+        'Change one thing at a time so you know which fix helped.'
+      ],
+      bullets: [
+        'Check that the heatsink has made contact. Many drive and motherboard thermal pads ship with a thin plastic film on each side that must be removed before fitting.',
+        'Use the motherboard M.2 heatsink if there is one, and check that its pad is the right thickness for the drive. A pad that is too thin leaves a gap, and one that is too thick can stop the drive sitting flat.',
+        'Look at where the slot sits. A slot directly under a hot graphics card receives that heat. Moving the drive to another slot can lower temperatures without any new parts.',
+        'Add a little airflow across the board. Even a low-speed fan near the drive and VRM area can help a drive in a closed case.',
+        'In a laptop, check clearance before adding a heatsink. A heatsink that is too tall can press on the bottom cover or the drive connector.',
+        'Match the drive to the system. Very fast PCIe 5.0 drives often need more cooling than a thin laptop can provide, and a slower drive can finish a long copy sooner if the fast one throttles.'
+      ]
+    }, {
+      heading: 'Is heat damaging the drive?',
+      paragraphs: [
+        'Short periods near the warning threshold are what the throttling system is designed to handle. The risk is not an immediate failure but long periods of heat, which raise wear and reduce how well flash keeps data over time. If you keep important data on a drive that is always hot, check its health report and keep a backup.',
+        'If the drive disconnects, vanishes from Windows or shows data errors, look at firmware, power and the health report before you blame temperature alone.'
+      ],
+      relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Read wear, errors and remaining life alongside temperature.' },
+        { label: 'Why an SSD slows down', href: '/why-ssd-is-slowing-down-windows', description: 'Rule out low free space and background activity before blaming heat.' }
+      ]
+    }],
+    faq: [
+      { question: 'Is 80°C too hot for an NVMe SSD?', answer: 'It depends on the drive. Many consumer drives list a warning threshold in the 70s or low 80s °C, so 80°C can be at or near the point where throttling starts. Read your drive\'s warning threshold and check whether speed falls at that temperature.' },
+      { question: 'What is a normal idle temperature for an NVMe SSD?', answer: 'Idle values vary with the case, the slot and whether the drive has a heatsink. A desktop drive with airflow usually idles noticeably cooler than one in a thin laptop. Use your own idle value as the baseline and watch for changes.' },
+      { question: 'Can an NVMe SSD overheat and die?', answer: 'The drive protects itself by reducing speed and, at the critical threshold, may shut down. Brief heat is unlikely to destroy a drive, but long periods of high temperature raise wear. Keep a backup if the drive runs hot all the time.' },
+      { question: 'Why does my NVMe SSD slow down during long copies?', answer: 'There are two common reasons. The drive may be throttling because it is hot, or the faster write cache may be full so the drive drops to its sustained speed. Heat is the cause only if speed falls as temperature climbs and recovers when the drive cools.' }
+    ]
   },
   'why-ssd-is-slowing-down-windows': {
     sections: [{
