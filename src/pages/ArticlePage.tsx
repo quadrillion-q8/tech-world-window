@@ -96,7 +96,7 @@ export function ArticlePage() {
     <div className="article-layout">
       <aside className="article-aside">
         <span className="eyebrow">IN THIS ARTICLE</span>
-        <ol>{article.content.filter(section => section.heading).map(section => (
+        <ol>{article.content.filter(section => section.heading && section.toc !== false).map(section => (
           <li key={section.heading}><a href={`#${headingId(section.heading!)}`}>{section.heading}</a></li>
         ))}</ol>
       </aside>
