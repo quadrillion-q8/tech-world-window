@@ -16,7 +16,7 @@ export function Header() {
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Tech World Window home" onClick={closeAll}>
           <span className="brand-mark" aria-hidden="true">
-            <img src="/tech-world-window-mark.png" alt="" />
+            <img src="/tech-world-window-mark.webp" width="240" height="123" alt="" decoding="async" />
           </span>
           <span className="brand-copy"><strong>TECH WORLD WINDOW</strong><small>Your Window Into Technology</small></span>
         </Link>
