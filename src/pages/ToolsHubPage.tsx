@@ -18,7 +18,8 @@ export function ToolsHubPage() {
       <div className="category-hero">
         <span className="eyebrow">FREE TECH TOOLS</span>
         <h1>Useful tools, not mystery numbers.</h1>
-        <p>Interactive tools designed to help you understand a technology problem or make a better decision—not simply produce a score with no explanation.</p>
+        <p>Investigate stutter, decode Windows stop codes, and plan a PC upgrade with transparent estimates. Each tool explains what its result can—and cannot—tell you.</p>
+        <div className="tools-hub-proof" aria-label="Tool principles"><span><strong>Browser-first</strong><small>Analyzer runs locally</small></span><span><strong>Transparent</strong><small>Assumptions explained</small></span><span><strong>Practical</strong><small>Next steps included</small></span></div>
       </div>
 
       {groups.map(group => (
@@ -34,7 +35,7 @@ export function ToolsHubPage() {
                 </div>
                 <h3>{tool.title}</h3>
                 <p>{tool.hubDescription}</p>
-                <Link className="text-link" to={tool.path}>Use this tool →</Link>
+                <Link className="text-link" to={tool.path} aria-label={`Open ${tool.title}`}>Open tool <span aria-hidden="true">→</span></Link>
               </article>
             ))}
           </div>
@@ -42,8 +43,8 @@ export function ToolsHubPage() {
       ))}
 
       <div className="editorial-note">
-        <strong>Why we build tools</strong>
-        <p>Good technology tools should explain their assumptions and limitations. Results are educational aids, not a replacement for model-specific benchmarks, professional diagnosis, or independent testing.</p>
+        <strong>How to use these results</strong>
+        <p>Start with the estimate, then verify it against the exact device, workload or component specification. The bottleneck and capacity calculators are planning aids—not live benchmark databases—and a wattage result cannot certify PSU quality or compatibility. The Frame-Time Analyzer processes compatible captures in your browser; the BSOD lookup helps prioritize checks but cannot diagnose hardware from a stop code alone.</p>
       </div>
     </section>
   );
