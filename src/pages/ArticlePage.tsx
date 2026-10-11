@@ -110,7 +110,7 @@ export function ArticlePage() {
           {section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
           {section.steps && <ol className="article-steps">{section.steps.map(step => <li key={step}>{renderInline(step)}</li>)}</ol>}
           {section.bullets && <ul>{section.bullets.map(b => <li key={b}>{renderInline(b)}</li>)}</ul>}
-          {section.relatedLinks?.length ? <nav className="article-next-steps" aria-label="Related diagnostic guides">
+          {section.relatedLinks?.length ? <nav className="article-next-steps" aria-label={section.heading ? `Related guides: ${section.heading}` : 'Related diagnostic guides'}>
             <ul>{section.relatedLinks.map(link => <li key={link.href}>
               <Link to={link.href}><strong>{link.label}</strong></Link>
               <span>{link.description}</span>
