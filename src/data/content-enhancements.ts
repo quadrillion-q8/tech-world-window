@@ -851,8 +851,8 @@ for (const [slug, authority] of [...Object.entries(authorityEnrichments), ...Obj
  */
 const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?: string }> = {
   'windows-11-wifi-connected-no-internet': {
-    seoTitle: 'Windows Connected but No Internet',
-    metaDescription: 'Windows says connected but there is no internet? Test the router, IP configuration, DNS, VPN and adapter in a safe order.'
+    seoTitle: 'Windows Connected but No Internet? Fix',
+    metaDescription: 'Wi-Fi or Ethernet says connected but there is no internet? Test the link, router, DNS and VPN in order to find the real fault. Bench-tested guide.'
   },
   'windows-11-high-memory-usage-how-to-find-the-cause': {
     seoTitle: 'Windows 11 High RAM Usage: Find the Cause',
