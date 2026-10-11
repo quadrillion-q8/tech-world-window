@@ -3,6 +3,7 @@ import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
 import { getToolPageData } from '../data/tools';
+import { fitTitle } from './title';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
 type SeoData = {
@@ -75,6 +76,11 @@ function getCategory(path: string) {
 }
 
 export function getSeoData(path: string): SeoData {
+  const data = buildSeoData(path);
+  return { ...data, title: fitTitle(data.title) };
+}
+
+function buildSeoData(path: string): SeoData {
   const normalizedPath = path === '' ? '/' : path.replace(/\/$/, '') || '/';
   const article = articles.find(item => `/${item.slug}` === normalizedPath);
   if (article) {
