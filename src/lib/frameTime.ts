@@ -433,7 +433,7 @@ export function buildFindings(a: FrameAnalysis): Finding[] {
 
 export function summaryText(a: FrameAnalysis, label: string): string {
   const lines = [
-    `Frame-time analysis (${label}) from techworldwindow.com/tools/frame-time-analyzer`,
+    `Frame-time analysis (${label}) from www.techworldwindow.com/tools/frame-time-analyzer`,
     `Frames: ${a.frameCount.toLocaleString('en-US')} over ${a.durationSec.toFixed(1)} s`,
     `Average: ${a.avgFps.toFixed(1)} FPS`,
     `1% low: ${a.low1Fps.toFixed(1)} FPS | 0.1% low: ${a.low01Fps.toFixed(1)} FPS`,
