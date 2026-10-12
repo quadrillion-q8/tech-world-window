@@ -31,7 +31,7 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }]
     },
     {
-      "source": "/(favicon\\.png|favicon\\.svg|apple-touch-icon\\.png|icon-192\\.png|icon-512\\.png|tech-world-window-logo\\.(png|webp)|tech-world-window-mark\\.(png|webp)|og-default\\.(png|jpg))",
+      "source": "/(favicon\\.png|favicon\\.svg|apple-touch-icon\\.png|icon-192\\.png|icon-512\\.png|tech-world-window-logo\\.png|tech-world-window-logo\\.webp|tech-world-window-mark\\.png|tech-world-window-mark\\.webp|og-default\\.png|og-default\\.jpg)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }]
     },
     {
