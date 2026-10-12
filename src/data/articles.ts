@@ -547,9 +547,15 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'Storage, background software, and drivers', paragraphs: [
         'Games installed on a hard drive can hitch when streaming assets. Background updaters, overlays, and recorders can cause periodic spikes. A recent graphics driver change that lines up with new stutter is worth rolling back to test.'
+      ], relatedLinks: [
+        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'If hitches appear while a game streams from an SSD, check free space, background activity and drive condition first.' },
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Rule out drive errors and wear before blaming the game or the GPU.' }
       ] },
       { heading: 'Thermals, power, and laptops', paragraphs: [
         'Throttled clocks reduce performance and can cause uneven frames. Check temperatures and clocks during play. On laptops, confirm the power mode and use the charger, since battery operation often limits performance.'
+      ], relatedLinks: [
+        { label: 'NVMe SSD temperature too high', href: '/nvme-ssd-temperature-too-high', description: 'A hot NVMe drive can throttle during long game loads and installs; see what is normal and when it throttles.' },
+        { label: 'GPU frame-time spikes: common causes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU thermal and VRAM limits from other causes of uneven frames.' }
       ] },
       { heading: 'Network lag is different', paragraphs: [
         'Online latency and packet loss produce rubber-banding, not local rendering stutter. If frame-time graphs are smooth while the game still feels uneven, test network conditions separately.'
