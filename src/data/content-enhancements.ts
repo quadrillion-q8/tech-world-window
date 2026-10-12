@@ -407,7 +407,38 @@ const authorityEnrichments: Record<string, Enhancement> = {
         { label: 'SSD temperature and throttling', href: '/nvme-ssd-temperature-too-high', description: 'Check whether heat coincides with performance loss.' },
         { label: 'TWW research: 100% disk but low MB/s', href: '/research/windows-100-percent-disk-usage-low-mbps', description: 'Understand why active time and throughput can tell different stories.' }
       ]
-    }]
+    }, {
+      heading: 'Checks you can run in Windows before blaming the drive',
+      paragraphs: [
+        'These checks read information and make no destructive changes. Run PowerShell as administrator, note each result, and change only one thing at a time so you can tell which change helped.',
+        'TRIM tells the drive which blocks are no longer in use. Windows normally enables it for SSDs automatically. In the fsutil result, a value of 0 means TRIM notifications are enabled. A re-trim is safe to run on a healthy SSD, but it is not a cure for a drive that is failing.'
+      ],
+      steps: [
+        'Open Task Manager, go to Performance, select the drive, and note active time and whether the slowdown coincides with a specific process in the Processes tab.',
+        'Check free space on the drive and clear temporary files with Storage Settings. Repeat the same slow task afterwards to see whether anything changed.',
+        'Run the health and TRIM checks below and write down the results.',
+        'Check the power mode, especially on a laptop on battery, then repeat the same task on the charger.',
+        'If the drive stays slow and reports warnings or errors, back up first and see the SSD health guide before running any further tests.'
+      ],
+      codeBlocks: [
+        '# Read-only: drive type, health and operational status',
+        'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus',
+        '# Read-only: 0 means TRIM (delete notifications) is enabled',
+        'fsutil behavior query DisableDeleteNotify',
+        '# Re-trim the C: drive (safe on a healthy SSD; may take a short while)',
+        'Optimize-Volume -DriveLetter C -ReTrim -Verbose'
+      ]
+    }],
+    sources: [
+      { label: 'Microsoft Learn: Get-PhysicalDisk', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-physicaldisk' },
+      { label: 'Microsoft Learn: Optimize-Volume', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/optimize-volume' },
+      { label: 'Microsoft Learn: fsutil behavior', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior' }
+    ],
+    faq: [
+      { question: 'Why is my SSD getting slower in Windows?', answer: 'The usual causes are little free space, background activity, heat during long writes, power-saving modes and outdated drivers or firmware. Measure the specific slow task and check each of these before assuming the drive is worn out.' },
+      { question: 'Does a nearly full SSD run slower?', answer: 'It can, especially during sustained writes, because the drive has less spare room to work with. There is no single free-space percentage that guarantees speed, so clear space and repeat the same task to see whether it changes.' },
+      { question: 'How do I check whether TRIM is enabled on Windows?', answer: 'Run fsutil behavior query DisableDeleteNotify in an administrator terminal. A value of 0 means TRIM notifications are enabled. Windows normally manages this automatically for SSDs.' }
+    ]
   },
   'windows-11-freezing-randomly-causes-fix': {
     updatedAt: '2026-10-10',
@@ -551,8 +582,23 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         '# Use only when a TCP/IP reset is justified; restart afterward',
         'netsh int ip reset'
       ]
+    }, {
+      heading: 'How to run Network Reset in Windows 11 (and whether it is safe)',
+      paragraphs: [
+        'Network Reset is safe for your files and installed programs. The risk is losing network configuration: saved Wi-Fi networks, custom DNS or static IP settings, and VPN or virtual adapters. If you have written those down and can reconnect, it is a reasonable step after narrower checks have failed.',
+        'Windows will restart your PC after the reset, so save your work first. If the PC is managed by an employer or school, ask your administrator before resetting, because managed network profiles may not come back on their own.'
+      ],
+      steps: [
+        'Save open work and record any custom IP, DNS, proxy or VPN settings you rely on.',
+        'Open Settings, go to Network & internet, then Advanced network settings.',
+        'Select Network reset, then choose Reset now and confirm.',
+        'Let Windows restart, reconnect to your network, and test the original symptom before reinstalling anything.',
+        'Add VPN or custom settings back one at a time so you can see if one of them brings the fault back.'
+      ]
     }],
     faq: [
+      { question: 'Is Network Reset safe on Windows 11?', answer: 'It does not delete personal files or installed programs. It does remove saved networks and custom network settings and may require VPN software to be set up again, so record those settings first and use it after narrower checks have failed.' },
+      { question: 'How do I reset the network adapter in Windows 11?', answer: 'Go to Settings, Network & internet, Advanced network settings, then Network reset and choose Reset now. For a narrower repair, use a targeted command only when the symptom points to it, such as ipconfig /flushdns for a stale DNS cache.' },
       { question: 'Will Windows Network Reset delete my personal files?', answer: 'It is intended to reset network components rather than personal documents, but it can remove network configuration and adapter settings. Record non-default settings and ensure you know how to reconnect before using it.' },
       { question: 'Is netsh winsock reset the same as Network Reset in Windows 11 Settings?', answer: 'No. The command resets the Winsock catalog; the Settings Network Reset workflow removes and reinstalls network adapters and returns other network components to defaults. They are not interchangeable.' },
       { question: 'Which command should I try first?', answer: 'Start with diagnosis, such as ipconfig /all, and choose a targeted repair based on the symptom. ipconfig /flushdns only clears the DNS cache; it is not a general network reset.' }
@@ -937,8 +983,14 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     seoTitle: 'PC Game Stuttering: Diagnose the Cause',
     metaDescription: 'Diagnose PC game stutter by separating frame-time spikes from low FPS, shader work, CPU/GPU limits, storage activity and thermals.'
   },
-  'gpu-frame-time-spikes-causes-fix': { seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter' },
-  'shader-compilation-stutter-pc-games': { seoTitle: 'Shader Compilation Stutter: PC Games' },
+  'gpu-frame-time-spikes-causes-fix': {
+    seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter',
+    metaDescription: 'GPU frame-time spikes? Learn how to tell a GPU limit from VRAM pressure, driver problems, thermals or a CPU wait using usage and frame-time graphs.'
+  },
+  'shader-compilation-stutter-pc-games': {
+    seoTitle: 'Shader Compilation Stutter: PC Games',
+    metaDescription: 'Game hitches the first time you enter an area? Learn how to recognize shader compilation stutter, how shader caches work, and what else to rule out.'
+  },
   'nvme-ssd-temperature-too-high': {
     seoTitle: 'NVMe SSD Temperature Too High? What to Check',
     metaDescription: 'NVMe SSD running too hot? Learn normal temperature patterns, how to identify thermal throttling, and how to check heatsink contact, airflow and drive health.'
