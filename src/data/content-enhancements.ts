@@ -939,7 +939,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'gpu-frame-time-spikes-causes-fix': { seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter' },
   'shader-compilation-stutter-pc-games': { seoTitle: 'Shader Compilation Stutter: PC Games' },
-  'nvme-ssd-temperature-too-high': { seoTitle: 'NVMe SSD Temperature: Normal or Too Hot?' },
+  'nvme-ssd-temperature-too-high': {
+    seoTitle: 'NVMe SSD Temperature Too High? What to Check',
+    metaDescription: 'NVMe SSD running too hot? Learn normal temperature patterns, how to identify thermal throttling, and how to check heatsink contact, airflow and drive health.'
+  },
   'why-ssd-is-slowing-down-windows': { seoTitle: 'Why an SSD Slows Down Over Time' },
   'how-to-check-ram-for-errors-windows': { seoTitle: 'How to Test RAM for Errors' },
   'windows-11-blue-screen-stop-code-how-to-read': { seoTitle: 'Windows 11 Blue Screen Stop Codes' },
