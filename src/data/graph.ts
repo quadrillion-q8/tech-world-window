@@ -21,7 +21,7 @@ export type MenuGroup = {
   links: { label: string; href: string; description?: string }[];
 };
 
-export const SITE_URL = 'https://techworldwindow.com';
+export const SITE_URL = 'https://www.techworldwindow.com';
 export const SITE_NAME = 'Tech World Window';
 export const SITE_TAGLINE = 'Your Window Into Technology';
 
