@@ -150,12 +150,59 @@ export function FrameTimeAnalyzerPage() {
     } catch { setError('Copying was blocked by the browser. Select the numbers and copy them manually.'); }
   };
 
+  const onDownloadReport = () => {
+    if (!analysis || !loaded) return;
+    const label = loaded.isSample ? 'synthetic sample data' : loaded.data.application || 'local capture';
+    const spikeRows = worstSpikes.length
+      ? worstSpikes.map((spike, index) => `${index + 1}. ${spike.startSec.toFixed(2)} s — ${spike.worstMs.toFixed(2)} ms; ${spike.frameCount} frame(s) affected`).join('\n')
+      : 'No spikes met this analyzer’s detection rule.';
+    const report = [
+      'TECH WORLD WINDOW — FRAME-TIME ANALYSIS REPORT',
+      '==============================================',
+      summaryText(analysis, label),
+      '',
+      `Target refresh rate: ${analysis.targetHz} Hz (${(1000 / analysis.targetHz).toFixed(2)} ms per refresh)`,
+      `Frame-time source column: ${loaded.data.columnUsed || 'plain values'}`,
+      `Input rows read: ${loaded.data.rowsRead.toLocaleString('en-US')}`,
+      `Sample data: ${loaded.isSample ? 'Yes — generated demonstration data, not a real benchmark' : 'No — analyzed locally in this browser'}`,
+      `Frames taking more than 10% above the selected refresh budget: ${analysis.overBudgetPct.toFixed(2)}%`,
+      `Mean absolute frame-time change: ${analysis.meanAbsDeltaMs.toFixed(3)} ms`,
+      '',
+      'FINDINGS',
+      '--------',
+      ...(findings.length ? findings.map((finding, index) => `${index + 1}. [${levelLabel[finding.level]}] ${finding.title}\n   ${finding.detail}`) : ['No findings available.']),
+      '',
+      'WORST DETECTED STUTTER EVENTS (UP TO FIVE)',
+      '------------------------------------------',
+      spikeRows,
+      '',
+      ...(loaded.data.warnings.length ? ['IMPORT WARNINGS', '---------------', ...loaded.data.warnings, ''] : []),
+      'METHOD NOTES',
+      '------------',
+      'The report summarizes this capture and the analyzer’s current calculation rules. Findings are diagnostic leads, not proof of a root cause.',
+      '1% and 0.1% lows use the slowest 1% and 0.1% of frame times; tools can define lows differently, so compare results made with the same method.',
+      'No capture file or report data is uploaded by the analyzer. This report was generated locally in the browser.',
+    ].join('\n');
+
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = `frame-time-analysis-${new Date().toISOString().slice(0, 10)}.txt`;
+    anchor.style.display = 'none';
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'download_report', sample: loaded.isSample });
+  };
+
   return <section className="section tool-page ft-page">
     <SEOEngine title={tool.seoTitle} description={tool.metaDescription} path={TOOL_PATH} />
     <span className="eyebrow">FREE ANALYSIS TOOL</span>
     <h1>Frame-Time Analyzer</h1>
-    <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, find stutter events and read a frame-time graph, with every number explained.</p>
-    <p className="ft-privacy"><strong>Private by design.</strong> Your file is analyzed in your browser. It is never uploaded.</p>
+    <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, inspect detected spikes, read the graph, and download a plain-text report—all in your browser.</p>
+    <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are not uploaded.</p>
 
     <div className="ft-input">
       <div className="ft-input-actions">
@@ -228,7 +275,7 @@ export function FrameTimeAnalyzerPage() {
         </table>
       </div>}
 
-      <p><button type="button" className="ft-secondary" onClick={onCopy}>{copied ? 'Copied' : 'Copy summary'}</button></p>
+      <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onCopy}>{copied ? 'Copied' : 'Copy summary'}</button><button type="button" className="ft-secondary" onClick={onDownloadReport}>Download report (.txt)</button></p>
     </div>}
 
     <div className="article-body ft-explain">
