@@ -6,9 +6,10 @@ This checklist is for the first indexing phase after the codebase is deployed.
 
 - [ ] Register/activate `techworldwindow.com`.
 - [ ] Connect the domain to the Vercel project.
-- [ ] Confirm `https://techworldwindow.com/` returns HTTP 200.
-- [ ] Confirm `https://techworldwindow.com/robots.txt` returns HTTP 200.
-- [ ] Confirm `https://techworldwindow.com/sitemap.xml` returns HTTP 200.
+- [ ] Confirm `https://techworldwindow.com/` redirects permanently to `https://www.techworldwindow.com/`.
+- [ ] Confirm `https://www.techworldwindow.com/` returns HTTP 200 and is the preferred hostname.
+- [ ] Confirm `https://www.techworldwindow.com/robots.txt` returns HTTP 200.
+- [ ] Confirm `https://www.techworldwindow.com/sitemap.xml` returns HTTP 200.
 - [ ] Confirm the sitemap URL count matches the current `routeGraph` indexable-route count (the build validator checks exact parity; do not maintain a hardcoded count here).
 - [ ] Confirm a representative article returns HTTP 200 directly, not only after client-side navigation.
 
@@ -16,7 +17,7 @@ This checklist is for the first indexing phase after the codebase is deployed.
 
 Create a **Domain property** for `techworldwindow.com` and submit:
 
-`https://techworldwindow.com/sitemap.xml`
+`https://www.techworldwindow.com/sitemap.xml`
 
 Then inspect these pages first:
 
@@ -32,6 +33,8 @@ Then inspect these pages first:
 - `/authors/imran-natiq`
 
 Do not repeatedly request indexing for every URL. Submit the sitemap and let the internal links distribute discovery.
+
+Keep the root domain as the Search Console Domain property (`techworldwindow.com`), but use the preferred `www` URL for submitted sitemaps and page canonicals. Do not create separate duplicate site versions or change the preferred host without updating `SITE_URL`, canonicals, sitemap, robots, and RSS together.
 
 ## 3. Trust and editorial signals added in this release
 
