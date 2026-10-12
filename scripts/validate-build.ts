@@ -65,6 +65,9 @@ for (const route of indexableRoutes) {
 if (!SITE_URL.startsWith('https://')) {
   errors.push('SITE_URL must be HTTPS before launch.');
 }
+if (new URL(SITE_URL).hostname !== 'www.techworldwindow.com') {
+  errors.push(`SITE_URL must use the verified preferred hostname https://www.techworldwindow.com; got ${SITE_URL}`);
+}
 
 const navHrefs = new Set<string>();
 const navOrders = new Set<number>();
@@ -271,6 +274,15 @@ if (!existsSync(robotsPath)) {
   if (!robots.includes(`Sitemap: ${sitemapUrl}`)) errors.push('robots.txt is missing the canonical sitemap URL.');
   if (!/^User-agent:\s*\*\s*$/m.test(robots)) errors.push('robots.txt is missing a User-agent: * directive.');
   if (!/^Allow:\s*\/\s*$/m.test(robots)) errors.push('robots.txt is missing Allow: /.');
+}
+
+const feedPath = join(publicDir, 'feed.xml');
+if (!existsSync(feedPath)) {
+  errors.push('public/feed.xml was not generated.');
+} else {
+  const feed = readFileSync(feedPath, 'utf8');
+  if (!feed.includes(`<link>${SITE_URL}</link>`)) errors.push('RSS feed channel link does not use SITE_URL.');
+  if (/https:\/\/techworldwindow\.com\//.test(feed)) errors.push('RSS feed contains an apex-host URL; use the preferred www hostname.');
 }
 
 // ---------------------------------------------------------------------------
