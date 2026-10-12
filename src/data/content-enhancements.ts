@@ -964,6 +964,168 @@ for (const [slug, authority] of [...Object.entries(authorityEnrichments), ...Obj
 
 
 /**
+ * October 13 international-search upgrades: additional diagnostic depth for the
+ * pages already receiving impressions. These sections add useful next tests,
+ * not generic keyword blocks, and retain the site's existing article graph.
+ */
+const internationalGrowthEnhancements: Record<string, Enhancement> = {
+  'nvme-ssd-temperature-too-high': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Run a repeatable NVMe temperature and throttling check',
+      paragraphs: [
+        'Record the drive model, firmware, workload, ambient conditions, and the temperature sensor name shown by the monitoring utility. NVMe devices may expose a composite temperature and additional sensors; those readings are not interchangeable, and there is no single temperature limit that safely applies to every controller, NAND design, laptop chassis, and workload.',
+        'Use the same sustained file copy or benchmark twice, with time to cool between runs. Compare temperature with write speed, warning or critical SMART indicators, and whether the drive disappears or logs errors. A falling transfer rate alone does not prove thermal throttling: many SSDs also slow after a write cache is exhausted or when the workload changes.'
+      ],
+      table: {
+        caption: 'Interpret NVMe temperature with performance and health evidence',
+        headers: ['Observed pattern', 'What it may mean', 'Next step'],
+        rows: [
+          ['Temperature rises during sustained writes; speed later recovers after cooling', 'Thermal limiting is plausible, but cache behavior must also be considered', 'Repeat the same workload and compare the temperature and speed timelines'],
+          ['High reading at idle or immediately after startup', 'Sensor mapping, airflow, heatsink contact, or monitoring interpretation may be involved', 'Confirm the sensor label and compare readings with the drive vendor’s guidance'],
+          ['Speed drops while temperature stays steady', 'Write-cache exhaustion, background I/O, free-space pressure, or workload differences may explain it', 'Check drive activity, free space, health counters, and the exact test method'],
+          ['Drive disconnects, reports critical warnings, or produces recurring I/O errors', 'A reliability issue needs attention beyond cooling alone', 'Back up important files promptly and check vendor diagnostics before further stress tests']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review supported health counters and error evidence before deciding that heat is the only issue.' },
+        { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare temperature with free capacity, cache behavior, workload, and drive health.' },
+        { label: 'SSD temperature research', href: '/research/how-ssd-temperature-affects-performance', description: 'Read the related technical investigation and distinguish measured results from general guidance.' }
+      ]
+    }],
+    faq: [{
+      question: 'Does a hot NVMe SSD automatically need to be replaced?',
+      answer: 'No. First confirm which sensor is reported, compare the reading with the exact drive documentation, and look for correlated throttling or reliability warnings. Cooling, workload, write-cache behavior, and drive health are separate possibilities.'
+    }]
+  },
+  'pc-game-stuttering-fix-frame-time': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Use a controlled five-step stutter test',
+      paragraphs: [
+        'A useful troubleshooting run keeps the route, game settings, frame cap, power mode, and background applications as consistent as practical. Capture the same 60–120 second scene more than once before changing anything. The goal is to find a repeatable difference, not to declare a cause from one unusually bad frame.',
+        'Record frame time alongside GPU utilization and clocks, CPU per-core activity where available, VRAM and system-memory use, storage activity, and temperatures. No single overlay proves a bottleneck; timing correlations across repeated runs are more informative.'
+      ],
+      steps: [
+        'Reproduce the hitch and note the exact moment or in-game event.',
+        'Capture a baseline run with frame times and the relevant system metrics.',
+        'Repeat the same scene without changing settings to check whether the hitch repeats.',
+        'Change one variable only, such as an overlay, a graphics setting, or a recent driver version, then capture again.',
+        'Keep the change only if the improvement repeats and does not introduce another problem.'
+      ],
+      table: {
+        caption: 'Choose the next stutter investigation from the pattern',
+        headers: ['Pattern across runs', 'First area to investigate', 'Avoid assuming'],
+        rows: [
+          ['Hitch mainly on the first encounter with an effect', 'Shader compilation or first-use rendering work', 'That every hitch in the game is shader compilation'],
+          ['Hitch on the same transition into a new area', 'Asset streaming, CPU work, storage activity, or game-engine behavior', 'That the SSD is failing because a hitch coincides with loading'],
+          ['Frame time worsens as temperature rises and clocks fall', 'Thermal or power behavior', 'That the temperature alone proves a fault'],
+          ['Stutter occurs randomly across several unrelated games', 'Driver, background software, stability, power, and thermal checks', 'That one game-specific setting explains the whole system']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Measure frame-time variation and detected spikes from a supported CSV capture in your browser.' },
+        { label: 'What actually causes PC game stuttering?', href: '/research/what-actually-causes-pc-game-stuttering', description: 'Read the companion investigation into competing causes and the limits of symptom-based diagnosis.' }
+      ]
+    }]
+  },
+  'gpu-frame-time-spikes-causes-fix': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Test for a GPU workload limit without guessing from utilization alone',
+      paragraphs: [
+        'Repeat the same scene, then reduce render resolution or a GPU-heavy setting while leaving other settings unchanged. A clear, repeatable performance improvement supports a graphics-workload limit. Little change does not prove a CPU bottleneck by itself: frame caps, game-engine limits, background work, streaming, driver behavior, and measurement noise can all affect the result.',
+        'Line up the frame-time graph with utilization, clock speed, power, temperature, and VRAM use at the time of the spike. High GPU utilization during a demanding scene can be normal. A GPU utilization drop during a hitch may mean the GPU is waiting on another part of the pipeline rather than failing.'
+      ],
+      table: {
+        caption: 'What a controlled graphics-setting test can and cannot tell you',
+        headers: ['Result', 'Interpretation', 'Follow-up'],
+        rows: [
+          ['Lowering resolution clearly improves frame time', 'GPU workload is a stronger candidate', 'Restore the baseline, then test one additional GPU-heavy setting'],
+          ['Lowering resolution barely changes the hitch', 'The limiting work may be elsewhere or the test may be capped', 'Check CPU thread activity, frame caps, storage, and background tasks'],
+          ['GPU usage drops during the hitch', 'The GPU may be waiting for CPU, memory, storage, or engine work', 'Correlate the moment with other system metrics'],
+          ['Temperature rises and clocks fall before the hitch', 'Thermal or power limiting deserves a closer look', 'Compare the exact GPU or laptop model’s operating guidance']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Measure the frame-time pattern rather than relying only on an average FPS overlay.' },
+        { label: 'PC game stuttering guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow the broader repeatable diagnostic order for stutter from multiple possible sources.' }
+      ]
+    }]
+  },
+  'shader-compilation-stutter-pc-games': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Do not clear shader caches as the first troubleshooting step',
+      paragraphs: [
+        'Deleting a shader cache can force the game or driver to rebuild cached work, making the next session stutter more while compilation happens again. It is not a universal fix for all frame-time spikes. First compare a first pass with repeat passes through the same scene and note whether the hitch is tied to a new effect or returns at unrelated moments.',
+        'If the behavior began after a game or graphics-driver update, record that timing and check the game developer’s release notes before clearing files. Prefer supported in-game options or vendor-recommended steps, and change one variable at a time so the result remains interpretable.'
+      ],
+      table: {
+        caption: 'Decide whether shader compilation remains the leading explanation',
+        headers: ['Repeat-run result', 'Next interpretation'],
+        rows: [
+          ['The same first-use hitch becomes smaller or disappears', 'Shader or first-use work remains plausible'],
+          ['The same hitch happens on every pass at the same transition', 'Investigate asset streaming, game-engine loading, and storage activity'],
+          ['Hitches are random and occur in unrelated games', 'Expand the investigation to drivers, background tasks, thermals, and stability'],
+          ['The issue began immediately after a driver update', 'Compare the update timeline and use a controlled driver test if justified']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Analyze frame-time captures', href: '/tools/frame-time-analyzer', description: 'Compare repeat runs with actual frame-time data instead of relying on memory.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Check whether the spike aligns with GPU workload, VRAM, clocks, or another system metric.' }
+      ]
+    }]
+  },
+  'windows-11-dns-not-working-how-to-fix': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Separate a resolver problem from a browser or connection problem',
+      paragraphs: [
+        'Use more than one unrelated domain when testing DNS. A domain-specific NXDOMAIN response can be legitimate, while a timeout means the resolver did not reply in time; neither outcome alone proves that every DNS request is broken. Compare the normal lookup with a known public resolver only when your network policy permits it.',
+        'A successful DNS lookup proves that a name was resolved, not that the resulting website is reachable or healthy. If lookup succeeds but the browser fails, test the HTTPS connection and review proxy, VPN, filtering, certificate, and browser-specific errors before changing resolver addresses.'
+      ],
+      codeBlocks: [
+        'Resolve-DnsName example.com\nnslookup example.com\nTest-NetConnection example.com -Port 443'
+      ],
+      table: {
+        caption: 'Interpret common DNS troubleshooting outcomes',
+        headers: ['Result', 'What it means', 'Next check'],
+        rows: [
+          ['Several unrelated names time out', 'Resolver reachability or network filtering may be involved', 'Compare another device and inspect VPN, router, and resolver settings'],
+          ['One domain returns NXDOMAIN', 'That queried name may not exist or may be mis-typed', 'Verify the spelling and test a known-good domain'],
+          ['DNS succeeds but HTTPS test fails', 'The fault may be route, firewall, proxy, destination service, or TLS-related', 'Review the connection error and test another trusted site'],
+          ['Only one PC has failures', 'Local cache, VPN, adapter, or endpoint software may be involved', 'Compare settings and test one change at a time']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Windows connected but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Use the broader layer-by-layer guide when the cause may be outside DNS.' },
+        { label: 'Network adapter reset guide', href: '/windows-11-network-adapter-reset-guide', description: 'Understand the side effects before choosing a broader network reset.' }
+      ]
+    }]
+  }
+};
+
+for (const [slug, upgrade] of Object.entries(internationalGrowthEnhancements)) {
+  const existing = enhancements[slug];
+  if (!existing) {
+    enhancements[slug] = upgrade;
+    continue;
+  }
+  enhancements[slug] = {
+    ...existing,
+    updatedAt: upgrade.updatedAt ?? existing.updatedAt,
+    seoTitle: upgrade.seoTitle ?? existing.seoTitle,
+    metaDescription: upgrade.metaDescription ?? existing.metaDescription,
+    sections: [...existing.sections, ...upgrade.sections],
+    faq: [...(existing.faq ?? []), ...(upgrade.faq ?? [])],
+    relatedArticles: Array.from(new Set([...(existing.relatedArticles ?? []), ...(upgrade.relatedArticles ?? [])])),
+    sources: [...(existing.sources ?? []), ...(upgrade.sources ?? [])].filter((source, index, all) => all.findIndex(item => item.url === source.url) === index)
+  };
+}
+
+
+/**
  * Concise search titles for pages whose full editorial headline would create an
  * unnecessarily long title tag after the site-name suffix is appended. The
  * descriptive H1 and article URL remain unchanged.
@@ -981,19 +1143,19 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   'windows-11-network-adapter-reset-guide': { seoTitle: 'Windows 11 Network Reset: When to Use It' },
   'pc-game-stuttering-fix-frame-time': {
     seoTitle: 'PC Game Stuttering: Diagnose the Cause',
-    metaDescription: 'Diagnose PC game stutter by separating frame-time spikes from low FPS, shader work, CPU/GPU limits, storage activity and thermals.'
+    metaDescription: 'PC games stuttering despite high FPS? Compare frame-time spikes, shader compilation, CPU/GPU limits, memory, storage, drivers, and temperatures.'
   },
   'gpu-frame-time-spikes-causes-fix': {
     seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter',
-    metaDescription: 'GPU frame-time spikes? Learn how to tell a GPU limit from VRAM pressure, driver problems, thermals or a CPU wait using usage and frame-time graphs.'
+    metaDescription: 'Diagnose GPU frame-time spikes with repeatable tests. Compare GPU load, VRAM, clocks, temperatures and CPU activity to find the next check without guessing.'
   },
   'shader-compilation-stutter-pc-games': {
     seoTitle: 'Shader Compilation Stutter: PC Games',
-    metaDescription: 'Game hitches the first time you enter an area? Learn how to recognize shader compilation stutter, how shader caches work, and what else to rule out.'
+    metaDescription: 'PC game stutters on first use? Learn the signs of shader compilation, compare repeat runs, avoid unnecessary cache clearing, and check other causes of hitches.'
   },
   'nvme-ssd-temperature-too-high': {
     seoTitle: 'NVMe SSD Temperature Too High? What to Check',
-    metaDescription: 'NVMe SSD running too hot? Learn normal temperature patterns, how to identify thermal throttling, and how to check heatsink contact, airflow and drive health.'
+    metaDescription: 'How hot is too hot for an NVMe SSD? Check sensor readings, thermal throttling evidence, heatsink contact, airflow and drive health before replacing it.'
   },
   'why-ssd-is-slowing-down-windows': { seoTitle: 'Why an SSD Slows Down Over Time' },
   'how-to-check-ram-for-errors-windows': { seoTitle: 'How to Test RAM for Errors' },
