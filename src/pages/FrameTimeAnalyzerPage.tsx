@@ -202,7 +202,7 @@ export function FrameTimeAnalyzerPage() {
     <span className="eyebrow">FREE ANALYSIS TOOL</span>
     <h1>Frame-Time Analyzer</h1>
     <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, inspect detected spikes, read the graph, and download a plain-text report—all in your browser.</p>
-    <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are not uploaded.</p>
+    <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are never uploaded.</p>
 
     <div className="ft-input">
       <div className="ft-input-actions">
