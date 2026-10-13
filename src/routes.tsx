@@ -8,6 +8,7 @@ import { ArticlePage } from './pages/ArticlePage';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
 import { FrameTimeAnalyzerPage } from './pages/FrameTimeAnalyzerPage';
+import { WindowsTroubleshootingAssistantPage } from './pages/WindowsTroubleshootingAssistantPage';
 import { BsodLookupPage } from './pages/BsodLookupPage';
 import { BsodCodePage } from './pages/BsodCodePage';
 import { BSOD_BASE_PATH } from './data/bsod';
@@ -25,6 +26,7 @@ function elementForRoute(route: RouteNode): ReactNode {
       return <ArticlePage />;
     case 'tool':
       if (route.path === '/tools/frame-time-analyzer') return <FrameTimeAnalyzerPage />;
+      if (route.path === '/tools/windows-troubleshooting-assistant') return <WindowsTroubleshootingAssistantPage />;
       if (route.path === BSOD_BASE_PATH) return <BsodLookupPage />;
       return <ToolPage />;
     case 'bsod-code':
