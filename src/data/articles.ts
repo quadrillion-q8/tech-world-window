@@ -458,6 +458,9 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'Router versus PC', paragraphs: [
         'If several devices have the same DNS trouble, the router or provider resolver is the common factor. Changing the DNS server on the router fixes it for every device, while changing it on the PC fixes only that PC.'
+      ], relatedLinks: [
+        { label: 'Windows says connected but has no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Use the broader connection checks if both IP connectivity and name resolution are failing.' },
+        { label: 'Windows 11 network adapter reset guide', href: '/windows-11-network-adapter-reset-guide', description: 'Review what a network reset changes and when it is justified after targeted DNS checks.' }
       ] }
     ],
     faq: [
@@ -497,6 +500,9 @@ const baseArticles: Article[] = [
       { heading: 'When it is appropriate', paragraphs: [
         'Consider it when several targeted checks have failed, the router and other devices are fine, the problem is limited to this PC, and the evidence suggests a damaged network stack, such as repeated adapter errors after software changes.',
         'Do not use it as a first response. If other devices are also offline, a reset on this PC cannot fix it.'
+      ], relatedLinks: [
+        { label: 'Diagnose Windows 11 DNS problems first', href: '/windows-11-dns-not-working-how-to-fix', description: 'Confirm whether name resolution is failing before making broad network changes.' },
+        { label: 'Connected to Wi-Fi but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Separate a PC-side adapter issue from router, provider, VPN, and DNS problems.' }
       ] },
       { heading: 'After the reset', paragraphs: [
         'Reconnect to your network, test the original symptom, and reinstall or reconfigure any VPN or custom settings one at a time so you can see which one reintroduces the fault.'
@@ -787,6 +793,9 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'What to do', paragraphs: [
         'Free space, check temperatures, review background activity, and keep drivers and firmware current. Confirm that Windows is running TRIM, which is normally automatic for SSDs.'
+      ], relatedLinks: [
+        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review the drive health report and error indicators before deciding whether replacement is necessary.' },
+        { label: 'NVMe SSD temperature and throttling', href: '/nvme-ssd-temperature-too-high', description: 'Investigate temperature-related slowdowns during sustained transfers or heavy game loads.' }
       ] },
       { heading: 'When it is the drive', paragraphs: [
         'If speeds remain low after these checks and the health report shows high wear, spare capacity dropping, or errors, back up and plan to replace the drive.'
