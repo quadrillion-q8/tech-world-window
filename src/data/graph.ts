@@ -53,6 +53,7 @@ export const routeGraph: RouteNode[] = [
   ...bsodEntries.map(entry => ({ path: bsodPath(entry.slug), kind: 'bsod-code' as const, title: `${entry.name} (${shortHex(entry.hex)})`, indexable: true })),
   { path: '/about', kind: 'static', title: 'About Tech World Window', indexable: true },
   { path: '/contact', kind: 'static', title: 'Contact', indexable: true },
+  { path: '/gallery', kind: 'static', title: 'Repair Bench Photo Gallery', indexable: true },
   { path: '/editorial-policy', kind: 'static', title: 'Editorial Policy', indexable: true },
   { path: '/privacy-policy', kind: 'static', title: 'Privacy Policy', indexable: true },
   { path: '/affiliate-disclosure', kind: 'static', title: 'Affiliate Disclosure', indexable: true },
@@ -155,6 +156,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'RAM Testing', href: '/how-to-check-ram-for-errors-windows', description: 'Test memory for errors.' },
       { label: 'Blue Screens', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Read stop codes and find the cause.' },
       { label: 'Random Freezes', href: '/windows-11-freezing-randomly-causes-fix', description: 'Classify freezes and find the cause.' },
+      { label: 'Repair Bench Gallery', href: '/gallery', description: 'Real photos of dust, thermal paste and hardware repairs.' },
     ],
   },
   {
