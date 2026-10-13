@@ -458,9 +458,6 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'Router versus PC', paragraphs: [
         'If several devices have the same DNS trouble, the router or provider resolver is the common factor. Changing the DNS server on the router fixes it for every device, while changing it on the PC fixes only that PC.'
-      ], relatedLinks: [
-        { label: 'Windows says connected but has no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Use the broader connection checks if both IP connectivity and name resolution are failing.' },
-        { label: 'Windows 11 network adapter reset guide', href: '/windows-11-network-adapter-reset-guide', description: 'Review what a network reset changes and when it is justified after targeted DNS checks.' }
       ] }
     ],
     faq: [
@@ -500,9 +497,6 @@ const baseArticles: Article[] = [
       { heading: 'When it is appropriate', paragraphs: [
         'Consider it when several targeted checks have failed, the router and other devices are fine, the problem is limited to this PC, and the evidence suggests a damaged network stack, such as repeated adapter errors after software changes.',
         'Do not use it as a first response. If other devices are also offline, a reset on this PC cannot fix it.'
-      ], relatedLinks: [
-        { label: 'Diagnose Windows 11 DNS problems first', href: '/windows-11-dns-not-working-how-to-fix', description: 'Confirm whether name resolution is failing before making broad network changes.' },
-        { label: 'Connected to Wi-Fi but no internet', href: '/windows-11-wifi-connected-no-internet', description: 'Separate a PC-side adapter issue from router, provider, VPN, and DNS problems.' }
       ] },
       { heading: 'After the reset', paragraphs: [
         'Reconnect to your network, test the original symptom, and reinstall or reconfigure any VPN or custom settings one at a time so you can see which one reintroduces the fault.'
@@ -613,6 +607,9 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'Drivers and settings', paragraphs: [
         'A new driver can introduce or fix stutter. If the problem began after an update, test the previous version. Also check frame limiters, sync settings, and power management modes, which can change frame pacing.'
+      ], relatedLinks: [
+        { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Compare frame-time consistency and identify the moments that deserve closer investigation.' },
+        { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the main guide to distinguish GPU limits from shader, CPU, storage, and thermal causes.' }
       ] },
       { heading: 'Thermals and power', paragraphs: [
         'High temperatures or power limits cause clock drops mid-session. Monitor clocks and temperature while the stutter happens, and clean dust and verify airflow if clocks fall under load.'
@@ -659,7 +656,11 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'What to check', paragraphs: [
         'Let the game finish any shader precompile step it offers. Keep the driver shader cache enabled and give it enough disk space. After a driver update, expect some re-compilation before judging smoothness.',
-        'If stutter persists on repeat visits, look at other causes in the main stutter guide.'
+        'If stutter persists on repeat visits, capture frame times and compare the same scene twice. Persistent or rhythmic spikes are less likely to be shader compilation alone; investigate GPU/CPU limits, background tasks, thermals, and asset streaming.'
+      ], relatedLinks: [
+        { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Use a local browser tool to inspect spikes and frame-time consistency; the results suggest leads, not a proven root cause.' },
+        { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow the broader diagnostic sequence when hitches continue after shader compilation.' },
+        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Check storage only when the stutter pattern suggests asset streaming or drive activity.' }
       ] },
       { heading: 'What not to do', paragraphs: [
         'Do not delete caches repeatedly in search of a fix. That forces recompilation and makes the symptom worse.'
@@ -737,7 +738,12 @@ const baseArticles: Article[] = [
         'Sustained high temperatures at idle, or warnings from a health tool, are the point to check the heatsink, thermal pad, airflow, and the drive health report.'
       ] },
       { heading: 'Reading the temperature', paragraphs: [
-        'Tools usually report a composite temperature. Limits differ by drive, so check the manufacturer specification rather than relying on a single universal number. What matters most is whether the drive throttles: speeds drop sharply when it gets too hot.'
+        'Tools may show a composite temperature plus one or more sensor readings. These values are not always the same sensor, so compare the same field over time and check the exact model’s manufacturer specification. There is no universal temperature cutoff that applies to every NVMe drive.'
+      ], bullets: [
+        'Brief rise during a large copy, game install, or benchmark → often expected; check whether performance recovers afterward.',
+        'Temperature rises while transfer speed falls and stays low → possible thermal throttling; repeat the same workload and compare temperature with speed.',
+        'High reading while idle, a critical-warning flag, or repeated health alerts → check the drive utility, installation, airflow, and manufacturer guidance.',
+        'A single temperature snapshot cannot prove a fault. Record the drive model, sensor name, temperature, workload, and speed before changing hardware.'
       ] },
       { heading: 'Signs of thermal throttling', paragraphs: [
         'Transfers that start fast and then fall to a fraction of the speed, especially during long copies or heavy writes, together with a high temperature reading, point to throttling.'
@@ -750,7 +756,11 @@ const baseArticles: Article[] = [
         'Make sure the motherboard heatsink or drive heatsink is installed with its thermal pad correctly seated, improve case airflow, and avoid placing the drive directly under a hot GPU if the layout allows another slot. On laptops, clean vents and use a cooling-friendly power mode.'
       ] },
       { heading: 'When to worry', paragraphs: [
-        'Brief spikes under load are normal. Sustained high temperatures at idle, or warnings from health tools, justify checking airflow, seating, and the drive health report.'
+        'Brief spikes under load are often normal. Sustained high temperatures at idle, repeated speed drops that track with heat, or warnings from health tools justify checking airflow, seating, and the drive health report. Back up important files before troubleshooting a drive that reports errors or critical warnings.'
+      ], relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review SMART health, critical warnings, wear indicators, and media errors before assuming heat is the only problem.' },
+        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare heat with low free space, background activity, power settings, and drive health.' },
+        { label: 'PC game stuttering and frame-time spikes', href: '/pc-game-stuttering-fix-frame-time', description: 'If the symptom appears in games, compare frame-time spikes with temperatures and storage activity.' }
       ] }
     ],
     faq: [
@@ -793,9 +803,6 @@ const baseArticles: Article[] = [
       ] },
       { heading: 'What to do', paragraphs: [
         'Free space, check temperatures, review background activity, and keep drivers and firmware current. Confirm that Windows is running TRIM, which is normally automatic for SSDs.'
-      ], relatedLinks: [
-        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review the drive health report and error indicators before deciding whether replacement is necessary.' },
-        { label: 'NVMe SSD temperature and throttling', href: '/nvme-ssd-temperature-too-high', description: 'Investigate temperature-related slowdowns during sustained transfers or heavy game loads.' }
       ] },
       { heading: 'When it is the drive', paragraphs: [
         'If speeds remain low after these checks and the health report shows high wear, spare capacity dropping, or errors, back up and plan to replace the drive.'
