@@ -20,6 +20,10 @@ type SeoData = {
 const DEFAULT_OG_IMAGE = '/og-default.png';
 
 const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
+  '/gallery': {
+    title: 'Repair Bench Photo Gallery | Tech World Window',
+    description: 'Photos from real laptop and PC repair work: fan and heatsink cleaning, thermal paste, SSD and RAM upgrades, batteries, BIOS screens, MacBooks and desktops.',
+  },
   '/affiliate-disclosure': {
     title: 'Affiliate Disclosure | Tech World Window',
     description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
