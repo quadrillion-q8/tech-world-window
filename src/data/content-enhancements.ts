@@ -1104,6 +1104,83 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
       ]
     }]
   }
+  ,
+  'windows-11-wont-start-troubleshooting': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Choose the next step from the last screen you can reach',
+      paragraphs: [
+        'The most useful startup clue is the last stage the computer reaches consistently. A machine with no power signs needs a different path from one that reaches the manufacturer logo, Windows logo, recovery screen, or sign-in. Do not run boot commands until you know which stage is failing and whether the system drive is detected.',
+        'If the drive disappears from firmware, reports errors, or contains files you cannot replace, prioritize data protection and storage diagnosis before repeated repair attempts. If Windows Recovery opens, use its least destructive relevant option first and record any error code.'
+      ],
+      table: {
+        caption: 'Startup symptom to next diagnostic step',
+        headers: ['What you observe', 'Start here', 'Avoid for now'],
+        rows: [
+          ['No lights or fan activity', 'Power adapter, outlet, cable and manufacturer-specific power checks', 'Windows repair commands'],
+          ['Power on, but no drive in BIOS/UEFI', 'Drive detection, connection and hardware diagnosis', 'Repeated Windows resets'],
+          ['Windows logo, then recovery or restart loop', 'Startup Repair; recent update or driver history; Safe Mode if available', 'Blindly rebuilding boot configuration'],
+          ['Sign-in works, desktop hangs', 'Startup apps, resource usage and recent software changes', 'Treating it as a boot-file failure']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Complete Windows troubleshooting guide', href: '/windows-troubleshooting-complete-guide', description: 'Move to the broader diagnostic path if startup is only one of several symptoms.' },
+        { label: 'Windows blue-screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the recorded stop code if startup ends in a crash.' },
+        { label: 'Windows troubleshooting assistant', href: '/tools/windows-troubleshooting-assistant', description: 'Choose a safe first check based on the symptom you can observe.' }
+      ]
+    }],
+    faq: [
+      { question: 'Should I reset Windows if it will not start?', answer: 'Not as the first step. Check the last startup stage, run the appropriate recovery option, and investigate storage errors first. A reset can complicate recovery and cannot repair failing hardware.' },
+      { question: 'What if the computer has important files and the drive may be failing?', answer: 'Stop repeated repair attempts and prioritize a verified backup or professional data recovery assessment. Continued writes and resets can make recovery harder.' }
+    ]
+  },
+  'windows-11-high-memory-usage-how-to-find-the-cause': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Turn a high memory percentage into a useful diagnosis',
+      paragraphs: [
+        'Capture Task Manager readings while the slowdown is happening, not only after closing applications. Note total memory, Available memory, Committed memory, the process using the most memory, and whether disk activity rises as the system becomes sluggish. A single percentage cannot distinguish normal caching from pressure or a leak.',
+        'If one process grows steadily across repeated checks, investigate that application or its extensions. If no user process explains the use but system-wide memory keeps climbing, compare a clean boot, recent drivers and kernel-memory reporting before assuming the installed RAM is defective.'
+      ],
+      table: {
+        caption: 'Memory evidence and the next check',
+        headers: ['Evidence', 'What it may mean', 'Next check'],
+        rows: [
+          ['High use but PC remains responsive', 'Cache or active workload may be normal', 'Check Available and Committed memory over time'],
+          ['One app grows continuously', 'Possible application or extension leak', 'Restart/update the app and compare a repeat workload'],
+          ['Low Available memory plus paging and lag', 'Memory pressure is affecting responsiveness', 'Identify the workload and background processes'],
+          ['Crashes, blue screens or test errors', 'Instability may involve RAM, settings or another component', 'Return to stock memory settings and run a memory test']
+        ]
+      },
+      relatedLinks: [
+        { label: 'Windows freezes randomly', href: '/windows-11-freezing-randomly-causes-fix', description: 'Compare memory pressure with storage, driver and thermal clues when the whole PC stalls.' },
+        { label: 'Windows 100% disk usage', href: '/windows-11-disk-100-percent-usage', description: 'Check whether paging or storage latency is contributing to the slowdown.' },
+        { label: 'Windows blue-screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use crash evidence before deciding that memory is the failed part.' }
+      ]
+    }],
+    faq: [
+      { question: 'Is 80% RAM usage always bad in Windows 11?', answer: 'No. High use can be normal when the PC remains responsive and memory is available for applications. Investigate when it coincides with low available memory, sustained paging, slowdowns, or unexplained crashes.' },
+      { question: 'Should I buy more RAM because Task Manager shows high usage?', answer: 'Not from the percentage alone. Identify the workload, check available and committed memory, and confirm that memory pressure is causing the problem before upgrading.' }
+    ]
+  },
+  'windows-11-slow-startup-fix': {
+    updatedAt: '2026-10-13',
+    sections: [{
+      heading: 'Use a repeatable boot comparison before changing settings',
+      paragraphs: [
+        'Compare two or three normal starts under similar conditions and note where the delay occurs: before the Windows logo, during the logo, at sign-in, or after the desktop appears. A one-off slow start after updates or maintenance is weaker evidence than a repeatable delay at the same stage.',
+        'Change one recognized startup app or one recent driver at a time, then repeat the same test. Avoid registry cleaners, blanket service-disabling lists, and third-party “optimizer” tools; they can add new variables without identifying the original cause.'
+      ],
+      relatedLinks: [
+        { label: 'Windows will not start', href: '/windows-11-wont-start-troubleshooting', description: 'Use the startup-failure guide if Windows cannot reach sign-in reliably.' },
+        { label: 'Windows high RAM usage', href: '/windows-11-high-memory-usage-how-to-find-the-cause', description: 'Check memory pressure if the desktop loads but remains sluggish.' },
+        { label: 'Complete Windows troubleshooting guide', href: '/windows-troubleshooting-complete-guide', description: 'Continue with the complete diagnostic hub if the cause remains unclear.' }
+      ]
+    }],
+    faq: [
+      { question: 'Will disabling all startup apps make Windows boot faster?', answer: 'It may reduce some sign-in work, but disabling everything is unnecessary and can affect security, drivers or useful background functions. Disable only apps you recognize and can safely launch later, then compare results.' }
+    ]
+  }
 };
 
 for (const [slug, upgrade] of Object.entries(internationalGrowthEnhancements)) {
