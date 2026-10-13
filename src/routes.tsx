@@ -18,12 +18,14 @@ import { GalleryPage } from './pages/GalleryPage';
 import { ProductReviewPage } from './pages/ProductReviewPage';
 import { ProductComparisonPage } from './pages/ProductComparisonPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { GameBarPresenceWriterPage } from './pages/GameBarPresenceWriterPage';
 
 function elementForRoute(route: RouteNode): ReactNode {
   switch (route.kind) {
     case 'home':
       return <Home />;
     case 'article':
+      if (route.path === '/gamebar-presence-writer-fix') return <GameBarPresenceWriterPage />;
       return <ArticlePage />;
     case 'tool':
       if (route.path === '/tools/frame-time-analyzer') return <FrameTimeAnalyzerPage />;
