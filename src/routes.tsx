@@ -14,6 +14,7 @@ import { BsodCodePage } from './pages/BsodCodePage';
 import { BSOD_BASE_PATH } from './data/bsod';
 import { CommercialHubPage } from './pages/CommercialHubPage';
 import { StaticPage } from './pages/StaticPage';
+import { GalleryPage } from './pages/GalleryPage';
 import { ProductReviewPage } from './pages/ProductReviewPage';
 import { ProductComparisonPage } from './pages/ProductComparisonPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -41,6 +42,7 @@ function elementForRoute(route: RouteNode): ReactNode {
       return <ProductComparisonPage />;
     case 'author':
     case 'static':
+      if (route.path === '/gallery') return <GalleryPage />;
       return <StaticPage />;
   }
 }
