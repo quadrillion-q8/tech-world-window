@@ -30,6 +30,7 @@ export function Footer() {
               <Link to="/affiliate-disclosure">Affiliate Disclosure</Link>
               <Link to="/testing">Testing Methodology</Link>
               <Link to="/research">TWW Research</Link>
+              <Link to="/gallery">Repair Bench Gallery</Link>
             </div>
           </div>
         </div>
