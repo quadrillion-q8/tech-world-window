@@ -130,7 +130,7 @@ function buildSeoData(path: string): SeoData {
   if (normalizedPath === '/tools') {
     return {
       title: 'Free Tech Tools | Tech World Window',
-      description: 'Free technology tools from Tech World Window, including practical calculators and troubleshooting helpers.',
+      description: 'Free Windows troubleshooting assistant, frame-time analyzer, blue-screen lookup and PC hardware calculators to diagnose problems and plan upgrades.',
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
     };
