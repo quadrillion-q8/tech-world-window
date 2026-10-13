@@ -24,9 +24,27 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free technology tools from Tech World Window, including practical calculators and troubleshooting helpers.';
+export const HUB_SEO_DESCRIPTION = 'Free Windows troubleshooting assistant, frame-time analyzer, blue-screen lookup and PC hardware calculators to diagnose problems and plan upgrades.';
 
 export const tools: ToolDef[] = [
+  {
+    id: 'windows-troubleshooting-assistant',
+    path: '/tools/windows-troubleshooting-assistant',
+    title: 'Windows Troubleshooting Assistant',
+    group: 'diagnose',
+    kindLabel: 'Assistant',
+    status: 'New',
+    hubDescription: 'Choose the symptom—startup failure, blue screen, slow PC, network issue, stuck update or game stutter—and get a safe first-check plan with links to focused guides.',
+    menuDescription: 'Find the safest next check for Windows problems.',
+    seoTitle: 'Windows Troubleshooting Assistant',
+    metaDescription: 'Use this free Windows troubleshooting assistant to classify startup, blue-screen, slowdown, network, update or PC gaming problems and find safe next checks.',
+    faq: [
+      { question: 'Does the assistant diagnose my PC automatically?', answer: 'No. It routes the symptom you choose to safe first checks and relevant guides. It does not scan your computer, inspect logs, or prove a hardware fault.' },
+      { question: 'Does it upload my answers or computer data?', answer: 'No. The choices and recommendations run in your browser. If you have accepted analytics cookies, the site may record tool-use events containing the selected symptom category and chosen option, not files, diagnostic logs, or device identifiers.' },
+      { question: 'Should I reinstall Windows if the first check does not work?', answer: 'Usually not as a first step. Record the exact symptom and error, protect important files, and follow the focused guide before trying destructive recovery steps.' },
+      { question: 'What should I do if I suspect a failing drive or electrical damage?', answer: 'Stop repeated power-on attempts if you hear unusual drive noises, smell burning, see liquid damage or a swollen battery, or suspect electrical damage. Protect important data and seek qualified repair help rather than opening a power supply or forcing a repair.' },
+    ],
+  },
   {
     id: 'frame-time-analyzer',
     path: '/tools/frame-time-analyzer',
@@ -119,12 +137,18 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 
 /** Articles that should point readers at a tool (slug without leading slash -> tool paths). */
 export const articleToolLinks: Record<string, string[]> = {
-  'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH],
-  'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH],
-  'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer'],
-  'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer'],
-  'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer'],
-  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer'],
+  'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
+  'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
+  'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant'],
+  'windows-11-high-memory-usage-how-to-find-the-cause': ['/tools/windows-troubleshooting-assistant'],
+  'windows-11-disk-100-percent-usage': ['/tools/windows-troubleshooting-assistant'],
+  'windows-11-dns-not-working-how-to-fix': ['/tools/windows-troubleshooting-assistant'],
+  'windows-11-wifi-connected-no-internet': ['/tools/windows-troubleshooting-assistant'],
+  'windows-11-freezing-randomly-causes-fix': ['/tools/windows-troubleshooting-assistant'],
+  'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
 };
 
 const stripCode = (text: string) => text.replace(/`/g, '');
