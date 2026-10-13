@@ -3,7 +3,7 @@ import { SEOEngine } from '../seo/SEOEngine';
 import { HUB_SEO_DESCRIPTION, tools, type ToolGroup } from '../data/tools';
 
 const groups: { id: ToolGroup; heading: string; intro: string }[] = [
-  { id: 'diagnose', heading: 'Diagnose a problem', intro: 'Analyze a capture or look up an error code, then follow the guide that explains what to do next.' },
+  { id: 'diagnose', heading: 'Diagnose a problem', intro: 'Choose the symptom or analyze an error, then follow the focused guide that explains what to do next.' },
   { id: 'plan', heading: 'Plan a purchase or upgrade', intro: 'Estimate capacity and headroom before you spend money on parts.' },
 ];
 
@@ -18,7 +18,7 @@ export function ToolsHubPage() {
       <div className="category-hero">
         <span className="eyebrow">FREE TECH TOOLS</span>
         <h1>Useful tools, not mystery numbers.</h1>
-        <p>Investigate stutter, decode Windows stop codes, and plan a PC upgrade with transparent estimates. Each tool explains what its result can—and cannot—tell you.</p>
+        <p>Narrow down common Windows problems, investigate frame-time stutter, decode blue-screen stop codes, and plan a PC upgrade with transparent estimates. Each tool explains what its result can—and cannot—tell you.</p>
         <div className="tools-hub-proof" aria-label="Tool principles"><span><strong>Browser-first</strong><small>Analyzer runs locally</small></span><span><strong>Transparent</strong><small>Assumptions explained</small></span><span><strong>Practical</strong><small>Next steps included</small></span></div>
       </div>
 
