@@ -2,7 +2,6 @@ import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
-import { windows26H2InstallationGuide } from './windows-26h2-installation-guide';
 import { october2026Articles } from './october-2026-articles';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
@@ -1438,17 +1437,7 @@ function withResearchBacklinks(list: Article[]): Article[] {
   });
 }
 
-const articleListWithResearchBacklinks = enhanceArticles(withResearchBacklinks(baseArticles));
-const windows26H2RelatedIds = new Set(windows26H2InstallationGuide.relatedArticles ?? []);
-
-/** Keep the cross-links reciprocal in the published article graph. */
-export const articles: Article[] = articleListWithResearchBacklinks.map(article => {
-  if (!windows26H2RelatedIds.has(article.id)) return article;
-  return {
-    ...article,
-    relatedArticles: Array.from(new Set([...(article.relatedArticles ?? []), windows26H2InstallationGuide.id]))
-  };
-});
+export const articles: Article[] = enhanceArticles(withResearchBacklinks(baseArticles));
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
