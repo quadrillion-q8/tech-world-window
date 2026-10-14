@@ -73,7 +73,7 @@ const childRoutes: RouteRecord[] = [
       return { index: true, ...(lazy ? { lazy } : { element: elementForRoute(route) }) } as RouteRecord;
     }
     return {
-      path: route.path.replace(/^\\//, ''),
+      path: route.path.replace(/^\//, ''),
       ...(lazy ? { lazy } : { element: elementForRoute(route) }),
     } as RouteRecord;
   }),
