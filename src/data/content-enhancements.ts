@@ -16,6 +16,66 @@ type Enhancement = {
  * they explain how to interpret evidence and choose the next test.
  */
 const enhancements: Record<string, Enhancement> = {
+  'windows-11-wont-start-troubleshooting': {
+    sections: [{
+      heading: 'When the laptop itself will not power on',
+      paragraphs: [
+        'If there are no lights, fan movement or other signs of power, use the symptom-led laptop power guide before treating this as a Windows boot problem. A machine that never reaches firmware or the Windows logo needs a different diagnostic path from one that reaches recovery or sign-in.'
+      ],
+      relatedLinks: [
+        { label: 'Laptop won’t turn on: safe checks', href: '/laptop-wont-turn-on', description: 'Separate no-power symptoms from a black-screen or Windows startup failure.' }
+      ]
+    }],
+    relatedArticles: ['laptop-wont-turn-on']
+  },
+  'windows-11-high-memory-usage-how-to-find-the-cause': {
+    sections: [{
+      heading: 'When limited RAM may be part of the problem',
+      paragraphs: [
+        'High memory use does not automatically mean Windows has a fault. If normal multitasking leaves little available memory and application switching coincides with paging or disk activity, compare the workload against the practical limits of an 8GB system before disabling services.'
+      ],
+      relatedLinks: [
+        { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'Measure memory pressure and check upgrade compatibility before buying RAM.' }
+      ]
+    }],
+    relatedArticles: ['why-8gb-ram-no-longer-enough-windows-11']
+  },
+  'how-much-ram-do-you-need-gaming': {
+    sections: [{
+      heading: 'RAM capacity beyond gaming alone',
+      paragraphs: [
+        'The memory capacity that works for a game can change when a browser, voice chat, streaming software or creative application runs alongside it. For a Windows-focused explanation of memory pressure and paging, use the linked 8GB guide rather than assuming one capacity fits every workload.'
+      ],
+      relatedLinks: [
+        { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'See how everyday multitasking changes the memory budget.' }
+      ]
+    }],
+    relatedArticles: ['why-8gb-ram-no-longer-enough-windows-11']
+  },
+  'windows-11-26h2-installation-guide': {
+    sections: [{
+      heading: 'Release announcement and current availability',
+      paragraphs: [
+        'For the short version of Microsoft’s release announcement and the distinction between update rollout and installation media, see the 26H2 news note. Recheck Microsoft’s release-health page before a major installation because compatibility holds and known issues can change.'
+      ],
+      relatedLinks: [
+        { label: 'Windows 11 26H2 availability and ISO options', href: '/windows-11-26h2-iso-released', description: 'A concise, source-linked summary of the official announcement.' }
+      ]
+    }],
+    relatedArticles: ['windows-11-26h2-iso-released']
+  },
+  'gaming-laptop-upgradeable-ram-ssd': {
+    sections: [{
+      heading: 'Battery safety before opening the chassis',
+      paragraphs: [
+        'Before opening any laptop to inspect memory or storage, check for case deformation or other signs of a swollen battery. If the case or trackpad is lifting, stop using and charging the device; do not press the case closed to reach the screws.'
+      ],
+      relatedLinks: [
+        { label: 'Laptop battery warning signs', href: '/laptop-battery-warning-signs', description: 'Recognize swelling and other battery symptoms that change the safe next step.' }
+      ]
+    }],
+    relatedArticles: ['laptop-battery-warning-signs']
+  },
   'windows/windows-update-stuck': {
     sections: [{
       heading: 'TWW diagnosis: stuck is not the same as slow',
