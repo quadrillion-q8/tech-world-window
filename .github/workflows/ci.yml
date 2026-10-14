@@ -29,3 +29,6 @@ jobs:
 
       - name: Build, prerender and validate
         run: npm run build
+
+      - name: Report production JavaScript bundle sizes
+        run: npm run report:bundle
