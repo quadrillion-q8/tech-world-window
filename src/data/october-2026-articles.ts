@@ -18,7 +18,6 @@ export const october2026Articles: Article[] = [
     heroImage: '/images/gallery/dell-vostro-laptop-motherboard-repair-disassembled.webp',
     tags: ['Laptop Repair', 'Laptop Won’t Turn On', 'No Power', 'Black Screen', 'Charger', 'RAM', 'Motherboard'],
     appliesTo: ['Windows laptops', 'Brand-specific power and recovery steps vary'],
-    relatedArticles: ['windows-wont-start', 'windows-troubleshooting-universal'],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
@@ -102,7 +101,7 @@ export const october2026Articles: Article[] = [
     id: 'laptop-battery-warning-signs',
     slug: 'laptop-battery-warning-signs',
     title: 'Laptop Battery Warning Signs: Swelling, Heat and Sudden Shutdowns',
-    seoTitle: 'Laptop Battery Warning Signs: When to Stop Using It',
+    seoTitle: 'Laptop Battery Warning Signs',
     dek: 'Learn which laptop battery symptoms are urgent, which may have another cause, and how to handle a suspected battery problem safely.',
     metaDescription: 'Spot laptop battery warning signs including swelling, case lifting, unusual heat and sudden shutdowns. Learn when to stop charging and seek service.',
     excerpt: 'A lifting trackpad or bulging laptop case can indicate a swollen battery. Stop using and charging the device, do not press the case flat, and arrange safe service.',
@@ -113,7 +112,6 @@ export const october2026Articles: Article[] = [
     readingTime: 8,
     heroImage: '/images/gallery/dell-grnx5-laptop-battery-replacement.webp',
     tags: ['Laptop Battery', 'Battery Swelling', 'Battery Replacement', 'Laptop Safety', 'Battery Health'],
-    relatedArticles: ['laptop-wont-turn-on', 'gaming-laptop-upgrade-check'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -197,7 +195,7 @@ export const october2026Articles: Article[] = [
     id: 'why-8gb-ram-no-longer-enough-windows-11',
     slug: 'why-8gb-ram-is-no-longer-enough-for-windows-11',
     title: 'Why 8GB RAM Can Feel Limiting on Windows 11',
-    seoTitle: 'Is 8GB RAM Enough for Windows 11? Real-World Limits',
+    seoTitle: 'Is 8GB RAM Enough for Windows 11?',
     dek: 'Eight gigabytes can still run Windows 11, but browser tabs, video calls and modern apps can leave less room for multitasking. Learn what to measure before upgrading.',
     metaDescription: 'Is 8GB RAM enough for Windows 11? Understand memory pressure, paging and multitasking limits, and when a 16GB upgrade is worth it.',
     excerpt: '8GB is not a universal failure point. The practical question is whether your normal workload causes sustained memory pressure, paging and slow application switching.',
@@ -208,7 +206,6 @@ export const october2026Articles: Article[] = [
     readingTime: 9,
     heroImage: '/images/gallery/dell-inspiron-n4030-laptop-ram-slot-and-ssd-upgrade.webp',
     tags: ['8GB RAM', '16GB RAM', 'Windows 11', 'Memory Usage', 'RAM Upgrade', 'Paging'],
-    relatedArticles: ['ram-upgrade-gaming', 'windows-high-memory', 'research-ram-capacity', 'best-ram', 'gaming-laptop-upgrade-check'],
     contentRole: 'cluster',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -297,7 +294,7 @@ export const october2026Articles: Article[] = [
     id: 'windows-11-26h2-iso-released',
     slug: 'windows-11-26h2-iso-released',
     title: 'Windows 11 26H2 Is Available: What to Know About the ISO',
-    seoTitle: 'Windows 11 26H2 Available: ISO and Upgrade Options',
+    seoTitle: 'Windows 11 26H2: ISO Options',
     dek: 'Microsoft announced the Windows 11 2026 Update on September 29, 2026. Here is how to distinguish the normal update rollout from ISO installation media.',
     metaDescription: 'Windows 11 26H2 is available for eligible devices. Learn what Microsoft confirms about the rollout, ISO media, and safe installation choices.',
     excerpt: 'Microsoft says Windows 11 version 26H2 is available for eligible 24H2 and 25H2 devices through a phased rollout. Check the official download page and release-health notices before installing.',
@@ -307,7 +304,6 @@ export const october2026Articles: Article[] = [
     publishedAt: '2026-10-15',
     readingTime: 4,
     tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'Windows ISO', 'Microsoft', 'Windows Update'],
-    relatedArticles: ['windows-11-26h2-installation-guide', 'windows-wont-start', 'windows-troubleshooting-universal'],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
@@ -348,9 +344,6 @@ export const october2026Articles: Article[] = [
           'Use Microsoft’s own pages for the latest availability, download options and known issues. This article is a short release note; the installation guide above contains the longer step-by-step workflow.'
         ],
         relatedLinks: [
-          { label: 'How to get the Windows 11 2026 Update (Microsoft)', href: 'https://blogs.windows.com/windowsexperience/2026/09/29/how-to-get-windows-11-2026-update/', description: 'Microsoft’s September 29 announcement of 26H2 availability and rollout.' },
-          { label: 'Download Windows 11 (Microsoft)', href: 'https://www.microsoft.com/software-download/windows11', description: 'Official public Windows 11 download options.' },
-          { label: 'Windows release health (Microsoft)', href: 'https://learn.microsoft.com/windows/release-health/', description: 'Check current known issues and safeguard holds.' }
         ]
       }
     ],
