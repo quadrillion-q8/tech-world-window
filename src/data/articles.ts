@@ -111,6 +111,7 @@ const baseArticles: Article[] = [
       { heading: 'Avoid risky fixes', paragraphs: ['Ending a process is temporary and Windows may start it again. Avoid registry edits or protected system configuration changes unless you understand the consequences and have a recovery plan.', 'If the stutter remains, restore the original settings and investigate frame-time data rather than assuming GameBarPresenceWriter.exe is the cause.'] }
     ],
     sources: [{ label: 'Microsoft Support', url: 'https://support.microsoft.com/' }],
+    relatedArticles: ['gaming-stutter'],
     faq: [
       { question: 'Does GameBarPresenceWriter.exe definitely cause gaming stutter?', answer: 'No. Stutter has many possible causes. Test whether Game Bar activity correlates with the problem by changing one variable and comparing the same scene.' },
       { question: 'Is taskkill a permanent fix?', answer: 'No. It terminates a running process instance. Windows may start it again when the component is activated.' }
