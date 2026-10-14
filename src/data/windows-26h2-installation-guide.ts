@@ -21,7 +21,7 @@ export const windows26H2InstallationGuide: Article = {
   readingTime: 14,
   tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'Windows ISO', 'Clean Install', 'Windows Update', 'Troubleshooting'],
   appliesTo: ['Windows 11 versions 24H2, 25H2 and 26H2', 'Check Microsoft release guidance before applying version-specific steps'],
-  relatedArticles: ['windows-troubleshooting-universal', 'windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset', 'windows-11-26h2-iso-released'],
+  relatedArticles: ['windows-troubleshooting-universal', 'windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset'],
   contentRole: 'cluster',
   pillarPath: '/windows-troubleshooting-complete-guide',
   searchIntent: 'informational',
