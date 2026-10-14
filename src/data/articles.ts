@@ -549,7 +549,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 14,
     tags: ['PC Gaming', 'Stutter', 'Frame Time', 'FPS', 'Performance'],
-    relatedArticles: ['gpu-frame-time-spikes', 'shader-compilation-stutter', 'gaming-low-fps'],
+    relatedArticles: ['gpu-frame-time-spikes', 'shader-compilation-stutter', 'gaming-low-fps', 'gamebar-presence-writer-fix'],
     contentRole: 'pillar',
     pillarPath: '/gaming',
     searchIntent: 'informational',
