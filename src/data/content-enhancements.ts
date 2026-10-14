@@ -26,7 +26,6 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Laptop won’t turn on: safe checks', href: '/laptop-wont-turn-on', description: 'Separate no-power symptoms from a black-screen or Windows startup failure.' }
       ]
     }],
-    relatedArticles: ['laptop-wont-turn-on']
   },
   'windows-11-high-memory-usage-how-to-find-the-cause': {
     sections: [{
@@ -38,7 +37,6 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'Measure memory pressure and check upgrade compatibility before buying RAM.' }
       ]
     }],
-    relatedArticles: ['why-8gb-ram-no-longer-enough-windows-11']
   },
   'how-much-ram-do-you-need-gaming': {
     sections: [{
@@ -62,7 +60,6 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Windows 11 26H2 availability and ISO options', href: '/windows-11-26h2-iso-released', description: 'A concise, source-linked summary of the official announcement.' }
       ]
     }],
-    relatedArticles: ['windows-11-26h2-iso-released']
   },
   'gaming-laptop-upgradeable-ram-ssd': {
     sections: [{
