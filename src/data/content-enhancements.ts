@@ -71,7 +71,6 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Laptop battery warning signs', href: '/laptop-battery-warning-signs', description: 'Recognize swelling and other battery symptoms that change the safe next step.' }
       ]
     }],
-    relatedArticles: ['laptop-battery-warning-signs']
   },
   'windows/windows-update-stuck': {
     sections: [{
