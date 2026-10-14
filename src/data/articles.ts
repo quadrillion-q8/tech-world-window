@@ -3,6 +3,7 @@ import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { windows26H2InstallationGuide } from './windows-26h2-installation-guide';
+import { october2026Articles } from './october-2026-articles';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
@@ -122,6 +123,7 @@ const baseArticles: Article[] = [
   ...phase4Articles,
   ...researchArticles,
   windows26H2InstallationGuide,
+  ...october2026Articles,
 
   {
     id: 'windows-wifi-diagnosis',
