@@ -18,7 +18,7 @@ export const october2026Articles: Article[] = [
     heroImage: '/images/gallery/dell-vostro-laptop-motherboard-repair-disassembled.webp',
     tags: ['Laptop Repair', 'Laptop Won’t Turn On', 'No Power', 'Black Screen', 'Charger', 'RAM', 'Motherboard'],
     appliesTo: ['Windows laptops', 'Brand-specific power and recovery steps vary'],
-    relatedArticles: ['windows-wont-start', 'windows-troubleshooting-universal', 'pc-power-supply-problems'],
+    relatedArticles: ['windows-wont-start', 'windows-troubleshooting-universal'],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
