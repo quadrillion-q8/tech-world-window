@@ -123,7 +123,12 @@ async function checkPage(url) {
     } else {
       const expected = new URL(url);
       expected.hash = '';
-      if (canonical !== expected.href) {
+      const actualCanonical = new URL(canonical, expected);
+      actualCanonical.hash = '';
+      // Treat the root URL with and without a trailing slash as equivalent.
+      // Non-root paths must still match exactly, including their trailing slash.
+      const normalizeRootSlash = value => value.pathname === '/' ? `${value.origin}/` : value.href;
+      if (normalizeRootSlash(actualCanonical) !== normalizeRootSlash(expected)) {
         failures.push(`Canonical mismatch on ${url}: found ${canonical}`);
       }
     }
