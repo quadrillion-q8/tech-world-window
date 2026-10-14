@@ -16,7 +16,8 @@
     "validate": "tsx scripts/validate-build.ts && npm run validate:content",
     "build": "npm run generate:sitemap && npm run generate:rss && npm run typecheck && vite-react-ssg build && npm run validate",
     "preview": "vite preview",
-    "audit:links": "tsx scripts/audit-link-topology.ts"
+    "audit:links": "tsx scripts/audit-link-topology.ts",
+    "report:bundle": "node scripts/report-bundle-sizes.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",
