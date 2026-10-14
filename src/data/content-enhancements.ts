@@ -67,9 +67,7 @@ const enhancements: Record<string, Enhancement> = {
       paragraphs: [
         'Before opening any laptop to inspect memory or storage, check for case deformation or other signs of a swollen battery. If the case or trackpad is lifting, stop using and charging the device; do not press the case closed to reach the screws.'
       ],
-      relatedLinks: [
-        { label: 'Laptop battery warning signs', href: '/laptop-battery-warning-signs', description: 'Recognize swelling and other battery symptoms that change the safe next step.' }
-      ]
+      // Battery safety guidance remains in this section; avoid a cross-category cluster edge.
     }],
   },
   'windows/windows-update-stuck': {
