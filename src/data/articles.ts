@@ -1,3 +1,4 @@
+import { windows26H2InstallationGuide } from './windows-26h2-installation-guide';
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
@@ -1104,7 +1105,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-07',
     readingTime: 8,
     tags: ['Microsoft', 'Surface Laptop Ultra', 'Windows', 'NVIDIA RTX Spark', 'Local AI', 'Windows 11'],
-    relatedArticles: ['best-gaming-laptops'],
+    relatedArticles: ['best-gaming-laptops', 'windows-11-26h2-iso-released'],
     searchIntent: 'informational',
     content: [
       { heading: 'The event happened — here is what actually changed', paragraphs: [
