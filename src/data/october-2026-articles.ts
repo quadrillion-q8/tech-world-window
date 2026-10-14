@@ -307,6 +307,7 @@ export const october2026Articles: Article[] = [
     publishedAt: '2026-10-15',
     readingTime: 4,
     tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'Windows ISO', 'Microsoft', 'Windows Update'],
+    relatedArticles: ['microsoft-windows-surface-event-oct-7'],
     searchIntent: 'informational',
     testing: 'News summary based on Microsoft’s official Windows Experience Blog announcement published September 29, 2026. TWW did not independently host, mirror or test an ISO in this article.',
     content: [
