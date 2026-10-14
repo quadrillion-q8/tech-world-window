@@ -7,56 +7,74 @@ import { CategoryPage } from './pages/Category';
 import { ArticlePage } from './pages/ArticlePage';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
-import { FrameTimeAnalyzerPage } from './pages/FrameTimeAnalyzerPage';
-import { WindowsTroubleshootingAssistantPage } from './pages/WindowsTroubleshootingAssistantPage';
-import { BsodLookupPage } from './pages/BsodLookupPage';
-import { BsodCodePage } from './pages/BsodCodePage';
 import { BSOD_BASE_PATH } from './data/bsod';
 import { CommercialHubPage } from './pages/CommercialHubPage';
 import { StaticPage } from './pages/StaticPage';
-import { GalleryPage } from './pages/GalleryPage';
-import { ProductReviewPage } from './pages/ProductReviewPage';
-import { ProductComparisonPage } from './pages/ProductComparisonPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { GameBarPresenceWriterPage } from './pages/GameBarPresenceWriterPage';
 
 function elementForRoute(route: RouteNode): ReactNode {
   switch (route.kind) {
     case 'home':
       return <Home />;
     case 'article':
-      if (route.path === '/gamebar-presence-writer-fix') return <GameBarPresenceWriterPage />;
       return <ArticlePage />;
     case 'tool':
-      if (route.path === '/tools/frame-time-analyzer') return <FrameTimeAnalyzerPage />;
-      if (route.path === '/tools/windows-troubleshooting-assistant') return <WindowsTroubleshootingAssistantPage />;
-      if (route.path === BSOD_BASE_PATH) return <BsodLookupPage />;
+      if (route.path === BSOD_BASE_PATH) return null;
       return <ToolPage />;
     case 'bsod-code':
-      return <BsodCodePage />;
+      return null;
     case 'tools':
       return <ToolsHubPage />;
     case 'category':
       return route.path.startsWith('/reviews') || route.path.startsWith('/best') ? <CommercialHubPage /> : <CategoryPage />;
     case 'product-review':
-      return <ProductReviewPage />;
+      return null;
     case 'comparison':
-      return <ProductComparisonPage />;
+      return null;
     case 'author':
     case 'static':
-      if (route.path === '/gallery') return <GalleryPage />;
+      if (route.path === '/gallery') return null;
       return <StaticPage />;
   }
 }
 
+function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
+  if (route.path === '/gamebar-presence-writer-fix') {
+    return async () => ({ Component: (await import('./pages/GameBarPresenceWriterPage')).GameBarPresenceWriterPage });
+  }
+  if (route.path === '/tools/frame-time-analyzer') {
+    return async () => ({ Component: (await import('./pages/FrameTimeAnalyzerPage')).FrameTimeAnalyzerPage });
+  }
+  if (route.path === '/tools/windows-troubleshooting-assistant') {
+    return async () => ({ Component: (await import('./pages/WindowsTroubleshootingAssistantPage')).WindowsTroubleshootingAssistantPage });
+  }
+  if (route.path === BSOD_BASE_PATH) {
+    return async () => ({ Component: (await import('./pages/BsodLookupPage')).BsodLookupPage });
+  }
+  if (route.kind === 'bsod-code') {
+    return async () => ({ Component: (await import('./pages/BsodCodePage')).BsodCodePage });
+  }
+  if (route.kind === 'product-review') {
+    return async () => ({ Component: (await import('./pages/ProductReviewPage')).ProductReviewPage });
+  }
+  if (route.kind === 'comparison') {
+    return async () => ({ Component: (await import('./pages/ProductComparisonPage')).ProductComparisonPage });
+  }
+  if (route.path === '/gallery') {
+    return async () => ({ Component: (await import('./pages/GalleryPage')).GalleryPage });
+  }
+  return undefined;
+}
+
 const childRoutes: RouteRecord[] = [
   ...routeGraph.map(route => {
+    const lazy = lazyPageForRoute(route);
     if (route.path === '/') {
-      return { index: true, element: elementForRoute(route) } as RouteRecord;
+      return { index: true, ...(lazy ? { lazy } : { element: elementForRoute(route) }) } as RouteRecord;
     }
     return {
       path: route.path.replace(/^\//, ''),
-      element: elementForRoute(route),
+      ...(lazy ? { lazy } : { element: elementForRoute(route) }),
     } as RouteRecord;
   }),
   { path: '*', element: <NotFoundPage /> },
