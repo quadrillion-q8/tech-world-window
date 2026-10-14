@@ -2212,6 +2212,7 @@ export const phase4Articles: Article[] = [
     "relatedArticles": [
       "check-ram-for-errors",
       "ddr4-vs-ddr5",
+      "why-8gb-ram-no-longer-enough-windows-11",
       "gpu-overheating"
     ],
     "contentRole": "cluster",
