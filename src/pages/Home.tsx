@@ -11,7 +11,7 @@ const latestArticles = articles.filter(a => !shownIds.has(a.id)).slice(0, 6);
 
 export function Home() {
   return (
-    <>
+    <div className="home-page">
       <SEOEngine
         title="Tech World Window: Windows, PC Gaming & Hardware Guides"
         description="Practical Windows troubleshooting, PC gaming performance guides, hardware analysis, buying advice and free PC tools — explained with evidence."
@@ -22,13 +22,14 @@ export function Home() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
+            <p className="home-eyebrow"><span className="home-eyebrow-dot" aria-hidden="true" /> WINDOWS <span aria-hidden="true">/</span> GAMING <span aria-hidden="true">/</span> HARDWARE</p>
             <h1>Technology problems, <em>explained and solved.</em></h1>
             <p>Practical Windows troubleshooting, PC gaming performance guides and hardware analysis, built around evidence and real-world testing.</p>
             <div className="hero-actions">
               <Link className="button button-primary" to="/guides">Explore practical guides <span>→</span></Link>
               <Link className="button button-secondary" to="/tools/pc-bottleneck-calculator">Try a free tool</Link>
             </div>
-            <div className="hero-proof"><span><b>Symptom-first</b> guidance, evidence-led explanations, transparent testing limits</span></div>
+            <div className="hero-proof" aria-label="Our editorial approach"><span><b>01 / Diagnose</b>Symptom-first guidance</span><span><b>02 / Verify</b>Evidence-led explanations</span><span><b>03 / Disclose</b>Transparent testing limits</span></div>
           </div>
           <div className="hero-art" aria-label="Tech World Window technology illustration" role="img">
             <div className="orb orb-one" />
@@ -39,9 +40,9 @@ export function Home() {
       </section>
 
       {/* 2. Categories: the single entry point to Windows / Gaming / Hardware */}
-      <section className="section section-featured">
+      <section className="section section-featured home-topics">
         <div className="section-heading">
-          <div><h2>Find the right technology topic.</h2></div>
+          <div><p className="home-section-kicker">EXPLORE TWW</p><h2>Find the right technology topic.</h2><p className="home-section-intro">Browse practical fixes, complete guides, hardware analysis, reviews and useful tools by category.</p></div>
         </div>
         <div className="category-grid">
           {categories.map((category, index) => (
@@ -70,9 +71,9 @@ export function Home() {
       </section>
 
       {/* 3. Pillar guides: strongest topics, 4 cards */}
-      <section className="section authority-section">
+      <section className="section authority-section home-authorities">
         <div className="section-heading">
-          <div><h2>Deep guides for the problems people actually search.</h2></div>
+          <div><p className="home-section-kicker">TWW AUTHORITIES</p><h2>Deep guides for the problems people actually search.</h2><p className="home-section-intro">Connected, evidence-led guides for understanding the cause before changing settings or replacing hardware.</p></div>
           <Link className="text-link" to="/guides">Browse all guides →</Link>
         </div>
         <div className="article-grid">
@@ -81,9 +82,9 @@ export function Home() {
       </section>
 
       {/* 4. Latest: 6 cards, none repeated from above */}
-      <section className="section latest-section">
+      <section className="section latest-section home-latest">
         <div className="section-heading">
-          <div><h2>Fresh technical answers.</h2></div>
+          <div><p className="home-section-kicker">LATEST EXPLAINERS</p><h2>Fresh technical answers.</h2></div>
           <Link className="text-link" to="/guides">View all →</Link>
         </div>
         <div className="article-grid">
@@ -92,8 +93,9 @@ export function Home() {
       </section>
 
       {/* 5. Tools banner */}
-      <section className="tool-banner">
+      <section className="tool-banner home-tool-banner">
         <div>
+          <p className="home-section-kicker">FROM THE WORKBENCH</p>
           <h2>Measure before you upgrade.</h2>
           <p>Analyze a frame-time capture, look up a blue-screen stop code, or plan PSU, RAM and storage headroom, then read the guide that explains what the result means.</p>
         </div>
@@ -101,7 +103,7 @@ export function Home() {
       </section>
 
       {/* 6. Author strip */}
-      <section className="author-strip">
+      <section className="author-strip home-author-strip">
         <div className="author-avatar">IN</div>
         <div>
           <h2>Advice informed by real hardware work.</h2>
@@ -109,6 +111,6 @@ export function Home() {
         </div>
         <Link className="text-link" to="/authors/imran-natiq">Meet the author →</Link>
       </section>
-    </>
+    </div>
   );
 }
