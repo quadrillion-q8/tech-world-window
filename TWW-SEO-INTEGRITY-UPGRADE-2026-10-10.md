@@ -1,10 +1,10 @@
-# TWW — KCROC SEO Integrity Upgrade
+# TWW — SEO Integrity Upgrade
 
 Date: 2026-10-10
 
 ## Scope
 
-This pass transfers selected KCROC engineering practices into TWW's existing architecture. It does not copy KCROC's local-business schema, repair-service pages, location SEO, pricing, booking, or review-count logic.
+This pass adds selected engineering practices to TWW's existing architecture. It does not add local-business schema, repair-service pages, location SEO, pricing, booking, or review-count logic.
 
 ## Changes
 

@@ -1,6 +1,6 @@
-# KCROC Patterns Integrated into Tech World Window
+# Architecture Patterns Integrated into Tech World Window
 
-This upgrade adapts reusable engineering and SEO patterns from the KCROC project to TWW without copying KCROC's repair-business branding or local-service intent.
+This upgrade adds reusable engineering and SEO patterns to TWW while keeping it an editorial site, without repair-business branding or local-service intent.
 
 ## Integrated
 
@@ -22,15 +22,15 @@ This upgrade adapts reusable engineering and SEO patterns from the KCROC project
 - Build validation now checks mega-menu links, cluster pillar paths, Organization schema, and FAQ schema.
 - Existing sitemap/robots/SSG/CI architecture is preserved rather than replaced.
 
-## Deliberately not copied
+## Deliberately not included
 
-- KCROC local Kuwait service-area pages and local-business schema.
+- Local service-area pages and local-business schema.
 - Repair-service pricing/booking CTAs.
-- KCROC Technical Noir branding.
+- Technical Noir branding.
 - Arabic/local commercial landing-page strategy.
 - Repair-specific ChatWidget/API integration.
 
-Those are business-specific to KCROC and would dilute TWW's editorial identity.
+Those are business-specific and would dilute TWW's editorial identity.
 
 ## Verification status
 

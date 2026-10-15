@@ -66,9 +66,9 @@ exact validation
 
 A failed validation exits the build with a non-zero status. GitHub Actions runs the same `npm run build` gate on pushes to `main` and pull requests targeting `main`.
 
-## Architecture upgrades carried from the KCROC engineering approach
+## Architecture upgrades
 
-The project now keeps the KCROC-style entity-first discipline while remaining editorial: grouped mega-navigation, pillar/cluster metadata, stronger internal linking, Organization/WebSite/FAQ structured data, richer article metadata, deterministic SSG SEO, accessibility motion preferences, and a reduced third-party font dependency. See `KCROC-PATTERNS-INTEGRATED.md` for the exact boundary between reusable engineering patterns and KCROC-specific business features.
+The project now keeps an entity-first discipline while remaining editorial: grouped mega-navigation, pillar/cluster metadata, stronger internal linking, Organization/WebSite/FAQ structured data, richer article metadata, deterministic SSG SEO, accessibility motion preferences, and a reduced third-party font dependency. See `ARCHITECTURE-PATTERNS-INTEGRATED.md` for the exact boundary between reusable engineering patterns and business-specific features that are not included.
 
 ## Article content model
 

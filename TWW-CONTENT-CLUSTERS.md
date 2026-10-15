@@ -1,6 +1,6 @@
 # Tech World Window — First Content Cluster Expansion
 
-This expansion adapts KCROC's pillar/cluster model to TWW without copying KCROC's repair-shop positioning.
+This expansion applies a pillar/cluster model to TWW without repair-shop positioning.
 
 ## Windows pillar
 - `/windows-troubleshooting-complete-guide` — **universal Windows troubleshooting pillar**

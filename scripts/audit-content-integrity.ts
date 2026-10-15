@@ -4,7 +4,7 @@ import { articles, categories, type Article } from '../src/data/articles';
 import { routeGraph, SITE_URL } from '../src/data/graph';
 
 /**
- * Editorial integrity audit inspired by KCROC's graph and asset validators.
+ * Editorial integrity audit built on the site's graph and asset validators.
  * It deliberately validates explicit Markdown links instead of guessing that
  * every slash-containing technical string is a URL.
  */
