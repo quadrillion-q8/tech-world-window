@@ -3,13 +3,11 @@ import { articles, categories } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
 import { SEOEngine } from '../seo/SEOEngine';
 
+// Each article appears once on the page: pillars first, then the latest
+// articles that are not already shown above.
 const pillarArticles = articles.filter(a => a.contentRole === 'pillar').slice(0, 4);
-const latestArticles = articles
-  .filter(a => !pillarArticles.some(p => p.id === a.id))
-  .slice(0, 8);
-const windows = articles.filter(a => a.category === 'Windows').slice(0, 3);
-const gaming = articles.filter(a => a.category === 'Gaming').slice(0, 3);
-const hardware = articles.filter(a => a.category === 'Hardware').slice(0, 3);
+const shownIds = new Set(pillarArticles.map(a => a.id));
+const latestArticles = articles.filter(a => !shownIds.has(a.id)).slice(0, 6);
 
 export function Home() {
   return (
@@ -19,71 +17,98 @@ export function Home() {
         description="Practical Windows troubleshooting, PC gaming performance guides, hardware analysis, buying advice and free PC tools — explained with evidence."
         path="/"
       />
+
+      {/* 1. Hero: one message, two actions, one line of proof */}
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <span className="eyebrow hero-eyebrow">WINDOWS · GAMING · HARDWARE</span>
             <h1>Technology problems, <em>explained and solved.</em></h1>
-            <p>Practical Windows troubleshooting, PC gaming performance guides, hardware analysis and useful tools — built around evidence, testing and real-world problems.</p>
-            <div className="hero-actions"><Link className="button button-primary" to="/guides">Explore practical guides <span>→</span></Link><Link className="button button-secondary" to="/tools/pc-bottleneck-calculator">Try a free tool</Link></div>
-            <div className="hero-proof"><span><b>Diagnostic</b> symptom-first guidance</span><span><b>Evidence-led</b> explanations</span><span><b>Transparent</b> testing & limits</span></div>
+            <p>Practical Windows troubleshooting, PC gaming performance guides and hardware analysis, built around evidence and real-world testing.</p>
+            <div className="hero-actions">
+              <Link className="button button-primary" to="/guides">Explore practical guides <span>→</span></Link>
+              <Link className="button button-secondary" to="/tools/pc-bottleneck-calculator">Try a free tool</Link>
+            </div>
+            <div className="hero-proof"><span><b>Symptom-first</b> guidance, evidence-led explanations, transparent testing limits</span></div>
           </div>
-          <div className="hero-art" aria-label="Tech World Window technology illustration" role="img"><div className="orb orb-one" /><div className="orb orb-two" /><div className="chip"><span>TECH</span><strong>WORLD</strong><small>WINDOW</small><i>↗</i></div><div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="art-label">TESTED · EXPLAINED · SOLVED</div></div>
+          <div className="hero-art" aria-label="Tech World Window technology illustration" role="img">
+            <div className="orb orb-one" />
+            <div className="chip"><span>TECH</span><strong>WORLD</strong><small>WINDOW</small><i>↗</i></div>
+            <div className="orbit orbit-one" />
+          </div>
         </div>
       </section>
 
+      {/* 2. Categories: the single entry point to Windows / Gaming / Hardware */}
       <section className="section section-featured">
-        <div className="section-heading"><div><span className="eyebrow">EXPLORE TWW</span><h2>Find the right technology topic.</h2></div><p>Browse practical fixes, complete guides, hardware analysis, reviews and technology updates by category.</p></div>
-        <div className="category-grid">{categories.map((category, index) => <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}>
-          <span className="category-tile-image-wrap" aria-hidden="true">
-            <img
-              className="category-tile-image"
-              src={`${category.imageBase}-960.webp`}
-              srcSet={`${category.imageBase}-480.webp 480w, ${category.imageBase}-960.webp 960w`}
-              sizes="(max-width: 520px) calc(100vw - 2.5rem), (max-width: 800px) calc(50vw - 1.75rem), (max-width: 1240px) calc((100vw - 4rem) / 3), 380px"
-              alt=""
-              width="960"
-              height="540"
-              loading="lazy"
-              decoding="async"
-            />
-          </span>
-          <div className="category-tile-content">
-            <div className="category-tile-top"><span className="category-number">0{index + 1}</span><span className="tile-arrow" aria-hidden="true">↗</span></div>
-            <h3 className="category-tile-title">{category.name}</h3>
-            <p className="category-tile-description">{category.description}</p>
-          </div>
-        </Link>)}</div>
+        <div className="section-heading">
+          <div><h2>Find the right technology topic.</h2></div>
+        </div>
+        <div className="category-grid">
+          {categories.map((category, index) => (
+            <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}>
+              <span className="category-tile-image-wrap" aria-hidden="true">
+                <img
+                  className="category-tile-image"
+                  src={`${category.imageBase}-960.webp`}
+                  srcSet={`${category.imageBase}-480.webp 480w, ${category.imageBase}-960.webp 960w`}
+                  sizes="(max-width: 520px) calc(100vw - 2.5rem), (max-width: 800px) calc(50vw - 1.75rem), (max-width: 1240px) calc((100vw - 4rem) / 3), 380px"
+                  alt=""
+                  width="960"
+                  height="540"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <div className="category-tile-content">
+                <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">↗</span></div>
+                <h3 className="category-tile-title">{category.name}</h3>
+                <p className="category-tile-description">{category.description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
 
+      {/* 3. Pillar guides: strongest topics, 4 cards */}
       <section className="section authority-section">
-        <div className="section-heading"><div><span className="eyebrow">TWW AUTHORITIES</span><h2>Deep guides for the problems people actually search.</h2></div><p>Our strongest topics are built as connected hubs rather than isolated articles.</p></div>
-        <div className="article-grid">{pillarArticles.map(article => <ArticleCard key={article.id} article={article} featured />)}</div>
+        <div className="section-heading">
+          <div><h2>Deep guides for the problems people actually search.</h2></div>
+          <Link className="text-link" to="/guides">Browse all guides →</Link>
+        </div>
+        <div className="article-grid">
+          {pillarArticles.map(article => <ArticleCard key={article.id} article={article} featured />)}
+        </div>
       </section>
 
-      <section className="section topic-section">
-        <div className="section-heading"><div><span className="eyebrow">WINDOWS</span><h2>Fix Windows systematically.</h2></div><Link className="text-link" to="/windows">Explore Windows →</Link></div>
-        <div className="article-grid">{windows.map(article => <ArticleCard key={article.id} article={article} />)}</div>
-      </section>
-
-      <section className="section topic-section">
-        <div className="section-heading"><div><span className="eyebrow">PC GAMING</span><h2>Frame time, FPS, thermals and crashes.</h2></div><Link className="text-link" to="/gaming">Explore Gaming →</Link></div>
-        <div className="article-grid">{gaming.map(article => <ArticleCard key={article.id} article={article} />)}</div>
-      </section>
-
-      <section className="section topic-section">
-        <div className="section-heading"><div><span className="eyebrow">HARDWARE</span><h2>Understand the hardware before you replace it.</h2></div><Link className="text-link" to="/hardware">Explore Hardware →</Link></div>
-        <div className="article-grid">{hardware.map(article => <ArticleCard key={article.id} article={article} />)}</div>
-      </section>
-
+      {/* 4. Latest: 6 cards, none repeated from above */}
       <section className="section latest-section">
-        <div className="section-heading"><div><span className="eyebrow">LATEST EXPLAINERS</span><h2>Fresh technical answers.</h2></div><Link className="text-link" to="/guides">Browse all guides →</Link></div>
-        <div className="article-grid">{latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}</div>
+        <div className="section-heading">
+          <div><h2>Fresh technical answers.</h2></div>
+          <Link className="text-link" to="/guides">View all →</Link>
+        </div>
+        <div className="article-grid">
+          {latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}
+        </div>
       </section>
 
-      <section className="tool-banner"><div><span className="eyebrow">FREE TECH TOOLS</span><h2>Measure before you upgrade.</h2><p>Narrow down a Windows problem, analyze a frame-time capture, look up a blue-screen stop code, or plan PSU, RAM and storage headroom — then read the guide that explains what the result actually means.</p></div><Link className="button button-light" to="/tools">Explore all tools →</Link></section>
+      {/* 5. Tools banner */}
+      <section className="tool-banner">
+        <div>
+          <h2>Measure before you upgrade.</h2>
+          <p>Analyze a frame-time capture, look up a blue-screen stop code, or plan PSU, RAM and storage headroom, then read the guide that explains what the result means.</p>
+        </div>
+        <Link className="button button-light" to="/tools">Explore all tools →</Link>
+      </section>
 
-      <section className="author-strip"><div className="author-avatar">IN</div><div><span className="eyebrow">FROM THE WORKBENCH</span><h2>Advice informed by real hardware work.</h2><p>Imran Natiq is a hardware repair engineer focused on practical PC and laptop troubleshooting. TWW separates documented facts, measured results and informed guidance instead of presenting every claim as a test.</p></div><Link className="text-link" to="/authors/imran-natiq">Meet the author →</Link></section>
+      {/* 6. Author strip */}
+      <section className="author-strip">
+        <div className="author-avatar">IN</div>
+        <div>
+          <h2>Advice informed by real hardware work.</h2>
+          <p>Imran Natiq is a hardware repair engineer focused on practical PC and laptop troubleshooting. TWW separates documented facts, measured results and informed guidance instead of presenting every claim as a test.</p>
+        </div>
+        <Link className="text-link" to="/authors/imran-natiq">Meet the author →</Link>
+      </section>
     </>
   );
 }
