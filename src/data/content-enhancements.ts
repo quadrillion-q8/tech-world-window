@@ -155,18 +155,119 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'gpu-frame-time-spikes-causes-fix': {
-    sections: [{
-      heading: 'TWW diagnosis: find the event behind the spike',
-      paragraphs: [
-        'A GPU frame-time spike is an observation, not a root cause. The useful evidence is what the GPU, CPU, VRAM, system RAM, clocks and temperatures were doing immediately before and during the spike.',
-        'If GPU utilization falls sharply during a hitch while CPU or storage activity rises, the GPU may simply be waiting. If GPU utilization remains high and the spike follows a heavier scene effect, the graphics workload itself may be responsible.'
-      ],
-      relatedLinks: [
-        { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture and locate the spikes that need investigation.' },
-        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Compare GPU-limited spikes with shader, CPU, storage and thermal causes.' },
-        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' }
-      ]
-    }]
+    updatedAt: '2026-10-15',
+    seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter and Fix the Cause',
+    metaDescription: 'Diagnose GPU frame-time spikes with repeatable tests for GPU load, CPU limits, VRAM, shaders, storage, drivers, temperatures and power.',
+    relatedArticles: ['gpu-frame-time-spikes', 'shader-compilation-stutter', 'gaming-stutter'],
+    sections: [
+      {
+        heading: 'Start with a repeatable frame-time capture',
+        paragraphs: [
+          'Frame-time spikes are symptoms, not proof that the graphics card is faulty. First reproduce the hitch in the same game, scene, camera movement and settings. Capture frame time alongside GPU utilization, GPU clock, temperature, dedicated video memory (VRAM), CPU load and system memory. The most useful evidence is what changes just before the spike, not a single average readout after the event.',
+          'Use one monitoring or capture tool at a time where possible, because multiple overlays can add overhead or conflict. Record the game version, graphics driver, resolution, graphics preset, upscaling or frame-generation setting, and whether this is the first run after a game or driver update.'
+        ],
+        image: {
+          src: '/images/gallery/gigabyte-gaming-laptop-internals-dual-fan-cooling-ssd-ram-upgrade.webp',
+          alt: 'Open gaming laptop with cooling fans and internal components visible',
+          caption: 'Cooling, power limits and component layout vary by system. Measure clocks and temperatures during the hitch rather than assuming heat is the cause.'
+        },
+        table: {
+          caption: 'What the capture can suggest—and what it cannot prove',
+          headers: ['Evidence during the hitch', 'Likely direction', 'Next check'],
+          rows: [
+            ['GPU usage stays high and frame time rises', 'GPU workload or a GPU-side limit', 'Repeat with one demanding setting reduced; compare the same scene.'],
+            ['GPU usage drops while one CPU thread is busy', 'CPU/game-thread limit or a blocked render pipeline', 'Compare CPU-thread load, background tasks and a lower resolution.'],
+            ['VRAM is near capacity and hitching occurs when turning or entering an area', 'Texture residency or asset streaming pressure', 'Reduce texture quality one step and retest the same route.'],
+            ['Clock speed falls as temperature rises', 'Possible thermal or power limiting', 'Log temperature, clock and power behavior across a repeat run.'],
+            ['Hitch occurs on the first appearance of an effect and fades on repeat', 'Shader compilation or first-time asset work', 'Repeat the scene after caches have been built; do not clear caches as a first fix.']
+          ]
+        }
+      },
+      {
+        heading: 'Separate GPU saturation from CPU and render-thread limits',
+        paragraphs: [
+          'High GPU utilization during a repeatable spike can indicate that the scene is simply too demanding for the current settings, but utilization alone is not a verdict. A game can also stall before work reaches the GPU. If GPU usage drops at the exact moment of a hitch, check the CPU render thread, asset streaming, shader compilation, memory pressure and background activity before replacing hardware.',
+          'A useful comparison is to lower resolution or render scale temporarily while keeping the scene and other settings unchanged. If frame time improves substantially, the GPU workload may be a major limit. If the hitch remains almost identical, investigate CPU-side work, shader compilation, storage or the game engine. This is a diagnostic comparison, not a permanent recommendation to play at lower quality.'
+        ],
+        bullets: [
+          'Change only one variable per test and record whether the spike becomes shorter, less frequent or unchanged.',
+          'Compare GPU usage with individual CPU-thread behavior; total CPU utilization can hide one saturated game thread.',
+          'Do not infer a CPU bottleneck from a low overall GPU percentage alone.'
+        ],
+        relatedLinks: [
+          { label: 'PC game stuttering: full diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow the wider sequence for shader, CPU, memory, storage and thermal stutter.' },
+          { label: 'GPU usage at 100% while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Understand when full GPU load is normal and when performance needs investigation.' }
+        ]
+      },
+      {
+        heading: 'Check VRAM, system RAM and asset streaming',
+        paragraphs: [
+          'VRAM pressure can produce abrupt frame-time spikes when the game needs textures or render targets that do not fit comfortably in dedicated memory. The pattern may be more obvious when turning quickly, entering a new area, changing texture settings or using high-resolution texture packs. Reduce texture quality by one step as a controlled test before lowering every graphics setting.',
+          'System RAM pressure can also trigger paging and make asset delivery uneven. Close unnecessary memory-heavy applications, watch available memory and disk activity, and repeat the same route. If the game is installed on a hard drive or a drive showing errors, loading assets may be inconsistent; an SSD does not eliminate shader compilation or CPU-side stalls, so confirm the evidence before changing hardware.'
+        ],
+        image: {
+          src: '/images/gallery/hp-laptop-motherboard-heatsink-m2-ssd-closeup.webp',
+          alt: 'Laptop motherboard close-up showing an M.2 SSD area and thermal hardware',
+          caption: 'Storage and thermal hardware can affect asset loading and sustained performance, but a photo alone cannot identify the cause of a frame-time spike.'
+        },
+        relatedLinks: [
+          { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Check storage health and sustained performance when asset streaming is suspicious.' },
+          { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD sensor readings and check for repeatable thermal throttling.' }
+        ]
+      },
+      {
+        heading: 'Shader compilation, game updates and driver changes',
+        paragraphs: [
+          'A hitch that appears the first time a new effect, material or area is encountered—and becomes less frequent on a repeat run—fits shader compilation or first-time asset preparation. Stutter may temporarily return after a game patch or graphics driver update because shader caches can be rebuilt. Allow any in-game shader-preparation step to finish and compare repeated runs before making broad changes.',
+          'If the same location continues to hitch on every run, treat shader compilation as one possibility rather than the default explanation. Compare the timing with CPU activity, VRAM, storage and frame-time captures. If the issue began immediately after a driver update, test the current driver against a known-stable version from the GPU or system manufacturer; avoid third-party driver-updater utilities.'
+        ],
+        relatedLinks: [
+          { label: 'Shader compilation stutter explained', href: '/shader-compilation-stutter-pc-games', description: 'Identify first-run hitches and distinguish them from persistent stutter.' }
+        ]
+      },
+      {
+        heading: 'Thermals, power limits and laptop behavior',
+        paragraphs: [
+          'Thermal throttling becomes more plausible when performance is smooth at first and degrades after the system warms up, while clock speeds fall alongside rising temperatures. Log GPU temperature, hotspot or memory temperature when available, clocks and power behavior during the same workload. Sensor names and vendor limits differ, so use the exact GPU or laptop manufacturer guidance instead of applying one universal temperature cutoff.',
+          'On laptops, connect the correct charger, select the normal performance profile intended for gaming, and keep intake and exhaust vents unobstructed. A laptop can share thermal headroom between CPU and GPU, so a CPU-heavy scene may affect GPU clocks too. On desktops, check fan operation, airflow, power connectors and whether the issue began after changing an overclock or undervolt. Restore stock settings for a controlled comparison before assuming a component has failed.'
+        ],
+        bullets: [
+          'Do not disable thermal protections or force unsafe voltage or power settings to chase a higher score.',
+          'If artifacts, driver resets, shutdowns or hardware errors accompany the spikes, stop stress testing and investigate stability.',
+          'Clean dust and inspect cooling only using a procedure appropriate for the exact device; internal laptop access can damage connectors or affect warranty coverage.'
+        ]
+      },
+      {
+        heading: 'Use a low-risk fix order and verify the result',
+        paragraphs: [
+          'Apply one change, repeat the same scene and compare the capture. Keep the change only if the evidence improves; undo it if the result is unchanged or worse. Avoid changing graphics settings, drivers, power plans and firmware all at once, because that makes the result impossible to interpret.'
+        ],
+        steps: [
+          'Capture the original hitch with frame time, GPU usage, clocks, temperature, VRAM and CPU-thread activity.',
+          'Repeat the same scene once to check whether it is a first-run shader or streaming event.',
+          'Close non-essential overlays, recorders and background tasks, then retest.',
+          'Change one relevant graphics setting—often texture quality for VRAM pressure or resolution/render scale for GPU saturation—and compare.',
+          'If the issue began after a driver or game update, test a controlled rollback or repair using official sources.',
+          'Check temperatures and power behavior under the same load; restore stock tuning if overclocking or undervolting is involved.',
+          'Verify with a second session and check whether the problem is limited to one game or affects several.'
+        ],
+        relatedLinks: [
+          { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture and identify which spikes deserve investigation.' },
+          { label: 'PC game stuttering: main guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Continue with the complete symptom-led troubleshooting workflow.' }
+        ]
+      }
+    ],
+    faq: [
+      { question: 'Do GPU frame-time spikes mean my graphics card is failing?', answer: 'No. Spikes can come from GPU workload, CPU limits, shaders, VRAM pressure, storage, drivers, thermals or background activity. Look for corroborating evidence such as artifacts, crashes or driver resets before suspecting hardware failure.' },
+      { question: 'Why does GPU usage drop when a game stutters?', answer: 'The GPU may be waiting for CPU-side work, shader compilation, assets, memory or another dependency. Compare the exact moment of the hitch with CPU-thread activity, storage and VRAM rather than treating low GPU usage as a diagnosis.' },
+      { question: 'Should I clear the shader cache to fix stutter?', answer: 'Not as a first step. Clearing it can force shaders to compile again and temporarily increase first-run stutter. First compare repeated runs and allow the game to rebuild its cache after updates.' },
+      { question: 'Will a new GPU fix frame-time spikes?', answer: 'Only if the GPU is the measured limit. If spikes remain when GPU load is reduced, investigate CPU-side work, memory, storage, drivers and game-specific behavior first.' }
+    ],
+    sources: [
+      { label: 'Microsoft DirectX graphics tools and PIX overview', url: 'https://learn.microsoft.com/en-us/windows/uwp/gaming/introducing-the-graphics-diagnostics-tools' },
+      { label: 'NVIDIA FrameView performance and power measurement', url: 'https://www.nvidia.com/en-us/geforce/technologies/frameview/' },
+      { label: 'AMD Software: Adrenalin Edition performance metrics', url: 'https://www.amd.com/en/products/software/adrenalin.html' }
+    ]
   },
   'shader-compilation-stutter-pc-games': {
     sections: [{
