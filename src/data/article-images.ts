@@ -48,6 +48,9 @@ export const articleImagePlacements: Record<string, Placement[]> = {
   'how-much-ram-do-you-need-gaming': [
     { after: 'Compatibility is part of the upgrade', id: 'dell-inspiron-n4030-laptop-ram-slot-and-ssd-upgrade', alt: 'Dell Inspiron laptop RAM slot and SSD upgrade area', caption: `${bench}: a laptop memory slot. Many laptops have one or two slots, and some have memory soldered to the board.` },
   ],
+  'gpu-100-percent-usage-gaming': [
+    { after: 'When high usage needs investigation', id: 'graphics-card-gpu-die-old-thermal-paste-and-green-thermal-pads', alt: 'Graphics card GPU die with old thermal paste and green thermal pads', caption: `${bench}: a GPU die with aged thermal paste. Rising temperature with falling clocks, not the utilization percentage, is what points to a cooling problem.` },
+  ],
   'ddr4-vs-ddr5-ram-difference': [
     { after: 'DDR4 and DDR5 are different generations', id: 'thermaltake-ddr4-3600-16gb-ram-kit-2x8gb', alt: 'Thermaltake DDR4-3600 16GB RAM kit of two 8GB modules', caption: `${bench}: a DDR4-3600 2x8GB kit. DDR4 and DDR5 modules are not interchangeable.` },
     { after: 'Upgrade path matters', id: 'asus-rog-strix-z790-a-i9-14900k-64gb-ddr5-bios', alt: 'ASUS ROG Strix Z790-A BIOS showing Core i9-14900K and 64GB DDR5', caption: `${bench}: a BIOS screen showing a DDR5 platform with 64GB installed. The motherboard decides which memory generation you can use.` },
