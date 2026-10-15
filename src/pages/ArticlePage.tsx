@@ -106,6 +106,10 @@ export function ArticlePage() {
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
+          {section.image && <figure style={{ margin: '1.5rem 0' }}>
+            <img src={section.image.src} alt={section.image.alt} loading="lazy" decoding="async" width={1400} height={1400} style={{ display: 'block', width: '100%', maxWidth: '760px', height: 'auto', borderRadius: '12px', margin: '0 auto' }} />
+            <figcaption style={{ marginTop: '0.5rem', textAlign: 'center', fontSize: '0.9rem', opacity: 0.82 }}>{section.image.caption}</figcaption>
+          </figure>}
           {section.table && <ArticleTableView table={section.table} />}
           {section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
           {section.steps && <ol className="article-steps">{section.steps.map(step => <li key={step}>{renderInline(step)}</li>)}</ol>}
