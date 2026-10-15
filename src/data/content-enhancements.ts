@@ -1342,35 +1342,6 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
       { question: 'What if the computer has important files and the drive may be failing?', answer: 'Stop repeated repair attempts and prioritize a verified backup or professional data recovery assessment. Continued writes and resets can make recovery harder.' }
     ]
   },
-  'windows-11-high-memory-usage-how-to-find-the-cause': {
-    updatedAt: '2026-10-13',
-    sections: [{
-      heading: 'Turn a high memory percentage into a useful diagnosis',
-      paragraphs: [
-        'Capture Task Manager readings while the slowdown is happening, not only after closing applications. Note total memory, Available memory, Committed memory, the process using the most memory, and whether disk activity rises as the system becomes sluggish. A single percentage cannot distinguish normal caching from pressure or a leak.',
-        'If one process grows steadily across repeated checks, investigate that application or its extensions. If no user process explains the use but system-wide memory keeps climbing, compare a clean boot, recent drivers and kernel-memory reporting before assuming the installed RAM is defective.'
-      ],
-      table: {
-        caption: 'Memory evidence and the next check',
-        headers: ['Evidence', 'What it may mean', 'Next check'],
-        rows: [
-          ['High use but PC remains responsive', 'Cache or active workload may be normal', 'Check Available and Committed memory over time'],
-          ['One app grows continuously', 'Possible application or extension leak', 'Restart/update the app and compare a repeat workload'],
-          ['Low Available memory plus paging and lag', 'Memory pressure is affecting responsiveness', 'Identify the workload and background processes'],
-          ['Crashes, blue screens or test errors', 'Instability may involve RAM, settings or another component', 'Return to stock memory settings and run a memory test']
-        ]
-      },
-      relatedLinks: [
-        { label: 'Windows freezes randomly', href: '/windows-11-freezing-randomly-causes-fix', description: 'Compare memory pressure with storage, driver and thermal clues when the whole PC stalls.' },
-        { label: 'Windows 100% disk usage', href: '/windows-11-disk-100-percent-usage', description: 'Check whether paging or storage latency is contributing to the slowdown.' },
-        { label: 'Windows blue-screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use crash evidence before deciding that memory is the failed part.' }
-      ]
-    }],
-    faq: [
-      { question: 'Is 80% RAM usage always bad in Windows 11?', answer: 'No. High use can be normal when the PC remains responsive and memory is available for applications. Investigate when it coincides with low available memory, sustained paging, slowdowns, or unexplained crashes.' },
-      { question: 'Should I buy more RAM because Task Manager shows high usage?', answer: 'Not from the percentage alone. Identify the workload, check available and committed memory, and confirm that memory pressure is causing the problem before upgrading.' }
-    ]
-  },
   'windows-11-slow-startup-fix': {
     updatedAt: '2026-10-13',
     sections: [{
