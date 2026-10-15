@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react';
-
 type TechBackgroundProps = {
   variant?: 'site' | 'hero';
 };
