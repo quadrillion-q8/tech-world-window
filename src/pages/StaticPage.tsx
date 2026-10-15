@@ -4,6 +4,7 @@ import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
 import { SITE_NAME, SITE_URL } from '../data/graph';
 import { articles } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
+import { staticPageFigures, galleryPhotoUrl } from '../data/article-images';
 
 // Public contact address shown on the Contact, Privacy and Editorial pages.
 const CONTACT_EMAIL = 'quadrillion1980@gmail.com';
@@ -131,6 +132,10 @@ export function StaticPage() {
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{page.title}</h1>
       {page.body.map((p, i) => <p key={i}>{p}</p>)}
+      {staticPageFigures[location.pathname]?.map(fig => <figure key={fig.id} style={{ margin: '1.5rem 0' }}>
+        <img src={galleryPhotoUrl(fig.id)} alt={fig.alt} loading="lazy" decoding="async" width={1400} height={1400} style={{ display: 'block', width: '100%', maxWidth: '560px', height: 'auto', borderRadius: '12px' }} />
+        <figcaption style={{ marginTop: '0.5rem', fontSize: '0.9rem', opacity: 0.82 }}>{fig.caption} <Link to="/gallery">See the full repair photo gallery →</Link></figcaption>
+      </figure>)}
       {location.pathname === '/research' && <div className="author-profile-links research-index">
         <h2>Research currently in the lab</h2>
         <p>These studies define the questions TWW is investigating. Pages distinguish test design from results; benchmark numbers are published only after the corresponding test has actually been run.</p>
