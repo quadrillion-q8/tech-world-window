@@ -859,33 +859,138 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     faq: [{ question: 'Is 100% GPU usage by itself a fault?', answer: 'No. High GPU utilization is common when a game is limited by graphics rendering. Investigate the associated temperature, clock, frame-time, stability, and performance behavior instead of treating the percentage alone as a fault.' }]
   },
   'pc-games-crashing-to-desktop-troubleshooting': {
-    updatedAt: '2026-10-10',
-    seoTitle: 'PC Games Crashing to Desktop: Diagnose It',
-    metaDescription: 'Diagnose PC games crashing to desktop by separating game-specific faults from driver, overlay, memory, thermal and system-wide problems.',
+    updatedAt: '2026-10-15',
+    seoTitle: 'PC Games Crashing to Desktop: Diagnose the Real Cause',
+    metaDescription: 'Fix PC games crashing to desktop with a repeatable diagnostic workflow for game files, mods, drivers, overlays, RAM, thermals, power and Windows errors.',
     sources: [
-      { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
-      { label: 'Microsoft: Bug check code reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' }
+      { label: 'Microsoft: Reliability Monitor and Windows reliability history', url: 'https://support.microsoft.com/en-us/windows' },
+      { label: 'Microsoft: Bug check code reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' },
+      { label: 'Microsoft: DirectX graphics tools', url: 'https://learn.microsoft.com/en-us/windows/uwp/gaming/introducing-the-graphics-diagnostics-tools' }
     ],
-    sections: [{
-      heading: 'Use the crash pattern to separate game faults from system instability',
-      paragraphs: [
-        'Start by determining whether one game crashes or several unrelated games fail. A single-game failure makes game files, mods, configuration, overlays, or a game-specific issue sensible first checks. Crashes across several demanding games raise the priority of shared components such as the graphics driver, memory stability, temperatures, power delivery, and Windows system events; they still do not identify a failed component by themselves.',
-        'Record the time of each crash and check Reliability Monitor or Event Viewer for a matching application fault, Windows error, or hardware event. A nearby event is a lead, not proof of cause. Note the faulting application or module and whether the failure is a return to desktop, a driver reset, a blue screen, or a complete power loss: those outcomes point to different investigations.'
-      ],
-      steps: [
-        'Reproduce the failure once with the same game, scene, and settings; note the exact outcome and time.',
-        'For one affected game, verify its files through the game launcher and temporarily test without mods or optional overlays.',
-        'If several games fail, return CPU/GPU/RAM tuning to known-stable defaults and check temperatures and clock behavior.',
-        'Review the matching Windows event and update or roll back only the driver or component that has a plausible connection to the failure.',
-        'If the PC loses power, shows artifacts, or produces repeated blue screens, stop repeated stress tests and prioritize hardware safety and data protection.'
-      ],
-      relatedLinks: [
-        { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a proper memory test when crashes occur across multiple applications or workloads.' },
-        { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the crash type and stop-code evidence if the system blue-screens instead of closing the game.' },
-        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' }
-      ]
-    }],
-    faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' }]
+    sections: [
+      {
+        heading: 'First classify the crash: one game, several games, or the whole PC',
+        paragraphs: [
+          'A game closing to the desktop is an outcome, not a diagnosis. Start by recording whether the game simply exits, freezes and must be closed, resets the graphics driver, blue-screens Windows, or causes a full system shutdown. These failure modes can share symptoms but need different evidence.',
+          'If only one game fails, prioritize its files, configuration, mods, overlays and recent game updates. If several unrelated games crash—especially under demanding workloads—investigate shared components such as the graphics driver, memory stability, temperatures, power delivery and Windows events. A pattern narrows the investigation; it does not prove a specific component has failed.'
+        ],
+        image: {
+          src: '/images/gallery/gigabyte-gaming-laptop-internals-dual-fan-cooling-ssd-ram-upgrade.webp',
+          alt: 'Gaming laptop opened to show internal fans, cooling assembly and components',
+          caption: 'Cooling and component layouts vary by model. Use crash timing and sensor evidence before treating temperature as the cause.'
+        },
+        table: {
+          caption: 'Use the failure pattern to choose the next test',
+          headers: ['Pattern', 'First investigation', 'Avoid concluding'],
+          rows: [
+            ['One game crashes; other games remain stable', 'Verify that game’s files, disable mods temporarily, reset its configuration and test without optional overlays.', 'That Windows or the GPU is faulty.'],
+            ['Several games crash under load', 'Return overclocks and undervolts to stock, check temperatures and clocks, and inspect matching system events.', 'The GPU is definitely defective.'],
+            ['Game closes after a driver or game update', 'Record the version and test a targeted update, rollback or game-file verification.', 'The newest driver is always best—or always the cause.'],
+            ['Artifacts, display-driver recovery or black screen', 'Capture the event and check driver, temperatures, power and hardware stability.', 'A clean driver install alone will prove the hardware is healthy.'],
+            ['Blue screen or complete power loss', 'Prioritize the stop code, system events, power/thermal safety and data protection.', 'Treat it as an ordinary game-file problem.']
+          ]
+        }
+      },
+      {
+        heading: 'Preserve evidence before changing settings',
+        paragraphs: [
+          'Write down the game, scene, time, Windows build, graphics driver version, recent updates, mods, overlays and tuning changes. Reproduce the issue only if doing so is safe. If the PC is losing power, producing artifacts, or repeatedly blue-screening, stop running stress tests and investigate stability first.',
+          'Open Reliability Monitor by searching Windows for “View reliability history” or running perfmon /rel. Find the failure at the recorded time, then inspect the technical details. Event Viewer can provide additional context in the Windows Logs > Application and System logs. A nearby event is a clue, not proof: correlate its timestamp and named module with the actual crash pattern.'
+        ],
+        bullets: [
+          'Record the exact crash type and time, not just “the game crashed.”',
+          'Note whether the issue began after a game patch, driver update, Windows update, hardware change or tuning change.',
+          'Change one variable per test so the result remains interpretable.',
+          'Do not download unofficial DLL files or use generic driver-updater utilities to replace a named module.'
+        ]
+      },
+      {
+        heading: 'Rule out game files, mods, settings and overlays',
+        paragraphs: [
+          'For a single affected title, use the game launcher’s built-in file verification or repair option. Temporarily remove mods and custom injectors using the game or mod manager’s documented method, then test a clean configuration. Back up saves and configuration files before resetting them; some games store saves locally, while others synchronize them through a cloud service.',
+          'Disable optional overlays, capture tools, performance monitoring overlays and third-party injectors for one test. These tools are not inherently bad, but hook into rendering or input paths and can expose compatibility issues after a game or driver update. If the crash disappears, re-enable tools one at a time to identify the conflict instead of leaving every feature disabled permanently.'
+        ],
+        steps: [
+          'Verify the game files through its official launcher.',
+          'Temporarily test without mods, custom DLLs, reshade-style injectors or unofficial patches.',
+          'Disable optional overlays and recording tools for one controlled run.',
+          'Reset only the game’s configuration after backing it up, then retest the same scene.',
+          'Check the game publisher’s current known-issues page if the crash began immediately after a patch.'
+        ]
+      },
+      {
+        heading: 'Graphics drivers, DirectX and Windows components',
+        paragraphs: [
+          'If the failure began directly after a graphics driver update, record the current version and test a known-stable driver supplied by the GPU or laptop manufacturer. If it started after a game update, verify game files and check for a published fix before changing multiple system components. Laptop owners should also consider whether the manufacturer provides a validated graphics or chipset package for the exact model.',
+          'Avoid assuming that every crash requires a “clean driver removal.” Begin with a targeted update or rollback and verify the result. Do not download replacement DLLs from third-party sites. If multiple applications show related failures, use the matching Windows error details to decide whether system-file repair is justified; generic repair commands will not fix unstable hardware or a game-specific bug.'
+        ],
+        relatedLinks: [
+          { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Use performance captures to investigate GPU workload, clocks, VRAM and thermal behavior before a crash.' },
+          { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Understand why high utilization can be normal and which accompanying symptoms matter.' },
+          { label: 'Windows troubleshooting guide', href: '/windows-troubleshooting-complete-guide', description: 'Use the wider Windows workflow when unrelated applications and system components also fail.' }
+        ]
+      },
+      {
+        heading: 'Check RAM, VRAM, CPU stability and tuning',
+        paragraphs: [
+          'Unstable memory settings can cause inconsistent game crashes, sometimes with different faulting modules or stop codes each time. If crashes began after enabling XMP or EXPO, changing memory timings, undervolting or overclocking the CPU/GPU, return to manufacturer-supported defaults for a controlled test. A system that boots and passes a short benchmark is not necessarily stable in every game workload.',
+          'If several unrelated games and applications fail, use Windows Memory Diagnostic or a reputable bootable memory test, following its instructions. Watch for artifacts, driver resets and repeatable errors. Do not raise voltages or change multiple firmware settings as a guess; preserve a record of original settings and consult the motherboard or system manufacturer’s guidance.'
+        ],
+        image: {
+          src: '/images/gallery/hp-laptop-motherboard-heatsink-m2-ssd-closeup.webp',
+          alt: 'Close-up of laptop motherboard and internal thermal hardware',
+          caption: 'Internal hardware faults need model-specific testing. The image is illustrative, not evidence that a particular component is faulty.'
+        },
+        bullets: [
+          'Multiple unrelated games crashing makes shared system stability more relevant than a single game’s files.',
+          'Different blue-screen codes on different runs can point toward broader instability, but need interpretation with the actual dump and event evidence.',
+          'If a memory test reports errors, stop treating the issue as game-only and investigate memory configuration and hardware.',
+          'Do not open a laptop or reseat components unless you are equipped to do so safely and understand the warranty implications.'
+        ],
+        relatedLinks: [
+          { label: 'How to check RAM for errors in Windows', href: '/how-to-check-ram-for-errors-windows', description: 'Investigate memory when several games or applications fail unpredictably.' },
+          { label: 'How to read a Windows blue-screen stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Follow the evidence if a game crash escalates into a Windows stop error.' }
+        ]
+      },
+      {
+        heading: 'Thermals, power and storage: test the actual failure pattern',
+        paragraphs: [
+          'If a game runs for several minutes before crashing, compare temperatures, clock speeds and power behavior from the start of the session through the failure. A temperature number by itself does not prove overheating; look for repeatable clock drops, thermal-limit indicators or a consistent relationship between warm-up and failure. Keep laptop vents clear and use the correct power adapter.',
+          'A complete shutdown under load is different from a game returning to the desktop. It may involve power delivery, thermal protection or system instability, so do not repeatedly reproduce it with stress tests. Storage errors, disappearing drives or repeated file corruption also deserve attention; back up important data before heavy repair attempts. Slow asset loading alone does not prove the SSD is responsible for a crash.'
+        ],
+        relatedLinks: [
+          { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret drive temperatures and identify evidence of sustained thermal throttling.' },
+          { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review storage health if there are I/O errors, missing files or drive dropouts.' }
+        ]
+      },
+      {
+        heading: 'A controlled troubleshooting order',
+        paragraphs: [
+          'After each step, repeat the same game and scene when safe, and record whether the crash recurs. If the test makes no difference, undo it where appropriate and move to the next evidence-based branch. Avoid reinstalling Windows, flashing firmware or replacing hardware before simpler tests have narrowed the cause.'
+        ],
+        steps: [
+          'Classify the failure and record its time, game, recent changes and exact error details.',
+          'For one game, verify files and test without mods, custom injectors or optional overlays.',
+          'If several games fail, return CPU, GPU and memory tuning to stable defaults.',
+          'Review Reliability Monitor and the matching Application/System events.',
+          'Test a targeted graphics-driver update or rollback only if the timeline supports it.',
+          'Compare temperatures, clocks, VRAM and power behavior during a safe, repeatable workload.',
+          'Test memory or storage if the evidence points there; back up first when drive health is in question.',
+          'Verify the result across another session and, where useful, a second game.'
+        ],
+        relatedLinks: [
+          { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Investigate hitches and frame-time spikes that precede or accompany crashes.' },
+          { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a supported frame-time capture when the problem begins as stutter.' }
+        ]
+      }
+    ],
+    faq: [
+      { question: 'Why do games crash to desktop with no error message?', answer: 'The game may exit without showing a dialog, but Reliability Monitor, Event Viewer or the game’s own logs may contain a timestamped clue. Check the matching event and faulting module, while remembering that an event alone does not prove the cause.' },
+      { question: 'Why do several games crash on the same PC?', answer: 'Shared causes become more likely, including graphics drivers, unstable CPU/GPU/RAM tuning, memory errors, thermals, power or Windows components. Return tuning to stable defaults and correlate crash times with system evidence before replacing hardware.' },
+      { question: 'Should I reinstall Windows to stop game crashes?', answer: 'Not as an early step. Verify game files, test without mods and overlays, inspect matching errors and investigate system stability first. A Windows reinstall will not repair failing hardware and can remove useful evidence.' },
+      { question: 'Can overheating cause a game to close without shutting down the PC?', answer: 'Heat or power behavior can contribute to instability, but a crash alone does not prove overheating. Compare temperatures, clocks and any limit indicators during the same workload and follow the device maker’s specifications.' },
+      { question: 'What if a game crash causes a blue screen or complete shutdown?', answer: 'Treat that as a system-level failure rather than an ordinary game exit. Record the stop code or event details, stop repeated stress testing if instability is severe, and investigate drivers, memory, thermals and power safely.' }
+    ]
   },
   'laptop-nvme-ssd-upgrade-compatibility': {
     updatedAt: '2026-10-10',
