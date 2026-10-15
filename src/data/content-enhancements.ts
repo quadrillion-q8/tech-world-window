@@ -726,9 +726,9 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     ]
   },
   'gpu-100-percent-usage-gaming': {
-    updatedAt: '2026-10-10',
-    seoTitle: 'GPU at 100% Usage While Gaming: Explained',
-    metaDescription: 'GPU usage at 100% is often normal. Check temperatures, clocks, frame times and game settings to distinguish expected load from a problem.',
+    updatedAt: '2026-10-15',
+    seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
+    metaDescription: 'Is 100% GPU usage normal while gaming? Usually yes. See when it is fine, when temperature or clocks signal a problem, and how to check it in minutes.',
     sources: [
       { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
       { label: 'AMD: Monitor Performance Metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' }
@@ -755,7 +755,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze a supported frame-time capture rather than relying only on average FPS.' }
       ]
     }],
-    faq: [{ question: 'Is 100% GPU usage by itself a fault?', answer: 'No. High GPU utilization is common when a game is limited by graphics rendering. Investigate the associated temperature, clock, frame-time, stability, and performance behavior instead of treating the percentage alone as a fault.' }]
+    faq: [{ question: 'Is it normal for my GPU to be at 100% while gaming?', answer: 'Yes, usually. If the game is limited by graphics rendering, the GPU runs near full load and that is what you want from it. Check that the temperature is steady, the clock speed is not dropping and the FPS matches your settings. Those, not the percentage, show whether something is wrong.' }, { question: 'What if my GPU is at 100% on the desktop with no game open?', answer: 'That is not ordinary gaming load. Open Task Manager, sort the processes by GPU and find what is using it. Browsers, video apps and other background software can use the GPU, and unexpected heavy use from an unknown process is worth a malware scan.' }, { question: 'Is 100% GPU usage by itself a fault?', answer: 'No. High GPU utilization is common when a game is limited by graphics rendering. Investigate the associated temperature, clock, frame-time, stability, and performance behavior instead of treating the percentage alone as a fault.' }]
   },
   'pc-games-crashing-to-desktop-troubleshooting': {
     updatedAt: '2026-10-10',
@@ -878,9 +878,9 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     }]
   },
   'pc-power-supply-problems-symptoms': {
-    updatedAt: '2026-10-10',
-    seoTitle: 'PC Power Supply Problems: Signs and Tests',
-    metaDescription: 'Learn which PC shutdown patterns can implicate a PSU, what to check safely, and why symptoms alone cannot confirm power-supply failure.',
+    updatedAt: '2026-10-15',
+    seoTitle: 'Bad PSU Symptoms: What a Failing PSU Causes',
+    metaDescription: 'What can a bad PSU cause? Learn the symptoms of a failing power supply, how to troubleshoot it step by step, and when to replace it safely.',
     sources: [
       { label: 'Seasonic: GPU and PSU failure symptoms', url: 'https://seasonic.com/pl/insights/gpu-and-psu-failure-symptoms/' },
       { label: 'Seasonic: Common mistakes when calculating PSU wattage', url: 'https://seasonic.com/insights/power-supply-calculator-errors/' }
@@ -906,7 +906,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'PC games crashing', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Separate application crashes from system-wide power loss or a blue screen.' }
       ]
     }],
-    faq: [{ question: 'Can I confirm a PSU fault from a shutdown symptom alone?', answer: 'No. Shutdown under load can implicate power delivery, but temperatures, cabling, GPU behavior, memory, and the motherboard can produce overlapping symptoms. Confirmation requires systematic testing or a qualified hardware check.' }]
+    faq: [{ question: 'What can a bad PSU cause?', answer: 'A failing power supply can be consistent with sudden shutdowns or restarts under load, a PC that sometimes will not start, and crashes or blue screens with no software cause. Overheating, the graphics card, memory and the motherboard can produce the same symptoms, so confirm with a swap test before replacing it.' }, { question: 'How do I know if my PSU is failing?', answer: 'There is no single sign. Look for a repeatable pattern, such as shutdowns only under heavy load, rule out the outlet, cables, connectors and temperatures, then try a known-good PSU of adequate wattage. Stop using the unit at once if you smell burning or hear popping or buzzing.' }, { question: 'Can I confirm a PSU fault from a shutdown symptom alone?', answer: 'No. Shutdown under load can implicate power delivery, but temperatures, cabling, GPU behavior, memory, and the motherboard can produce overlapping symptoms. Confirmation requires systematic testing or a qualified hardware check.' }]
   },
   'gaming-laptop-upgradeable-ram-ssd': {
     updatedAt: '2026-10-10',
