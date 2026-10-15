@@ -453,53 +453,137 @@ hr{border:0;border-top:1px solid rgba(148,180,208,.18)}
 }
 
 
-/* Signature animated circuit atmosphere — decorative SVG/CSS only. */
-.tech-background{position:absolute;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;contain:layout paint style;color:#67e8f9}
-.tech-background-site{position:fixed;inset:0;z-index:0;opacity:.9}
-.tech-background-hero{position:absolute;z-index:0;opacity:.9}
-.tech-bg-grid{position:absolute;inset:-2px;background-image:linear-gradient(rgba(103,232,249,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,rgba(0,0,0,.82),transparent 92%);opacity:.6}
-.tech-bg-glow{position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none;will-change:transform,opacity}
-.tech-bg-glow-a{width:min(52vw,690px);aspect-ratio:1;top:-34%;right:2%;background:radial-gradient(circle,rgba(14,165,233,.11),rgba(34,211,238,.045) 36%,transparent 69%);animation:tech-glow-drift-a 28s ease-in-out infinite alternate}
-.tech-bg-glow-b{width:min(42vw,560px);aspect-ratio:1;bottom:-38%;left:-12%;background:radial-gradient(circle,rgba(37,99,235,.11),rgba(34,211,238,.035) 42%,transparent 71%);animation:tech-glow-drift-b 34s ease-in-out infinite alternate}
-.tech-bg-svg{position:absolute;inset:0;width:100%;height:100%;opacity:.78;overflow:visible}
-.tech-circuit-base path{fill:none;stroke:rgba(103,232,249,.19);stroke-width:1;vector-effect:non-scaling-stroke}
-.tech-circuit-flow path{fill:none;stroke:rgba(103,232,249,.64);stroke-width:1.25;stroke-linecap:round;stroke-dasharray:2 27;stroke-dashoffset:0;vector-effect:non-scaling-stroke;animation:tech-circuit-travel 25s linear infinite}
-.tech-circuit-flow path:nth-child(2n){stroke:rgba(56,189,248,.44);stroke-dasharray:1 34;animation-duration:32s;animation-direction:reverse}
-.tech-circuit-flow path:nth-child(3n){animation-duration:38s}
-.tech-circuit-nodes circle{fill:#67e8f9;stroke:rgba(103,232,249,.3);stroke-width:5;stroke-opacity:.2;vector-effect:non-scaling-stroke;animation:tech-node-pulse 4.8s ease-in-out infinite}
-.tech-circuit-nodes circle:nth-child(3n){animation-delay:-1.7s}
-.tech-circuit-nodes circle:nth-child(4n){animation-delay:-3.1s}
-.tech-bg-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 36%,transparent 14%,rgba(3,9,18,.13) 72%,rgba(3,9,18,.28));}
-.tech-background-site .tech-bg-grid{opacity:.52;background-size:38px 38px;mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.65) 70%,transparent 100%)}
-.tech-background-site .tech-bg-svg{opacity:.9}
-.tech-background-site .tech-circuit-base path{stroke:rgba(103,232,249,.24)}
-.tech-background-site .tech-circuit-flow path{stroke:rgba(103,232,249,.78);stroke-width:1.25;stroke-dasharray:2 20}
-.tech-background-site .tech-circuit-nodes circle{opacity:1}
-.tech-background-hero .tech-bg-grid{opacity:.52;background-size:38px 38px;mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.65) 70%,transparent 100%)}
-.tech-background-hero .tech-bg-svg{opacity:.9}
-.tech-background-hero .tech-circuit-base path{stroke:rgba(103,232,249,.24)}
-.tech-background-hero .tech-circuit-flow path{stroke:rgba(103,232,249,.78);stroke-dasharray:2 20}
-.tech-background-hero .tech-bg-glow-a{width:min(60vw,800px);top:-26%;right:-3%;background:radial-gradient(circle,rgba(14,165,233,.17),rgba(34,211,238,.06) 38%,transparent 70%)}
-.tech-background-hero .tech-bg-glow-b{width:min(48vw,620px);bottom:-38%;left:13%;background:radial-gradient(circle,rgba(37,99,235,.16),rgba(34,211,238,.045) 42%,transparent 70%)}
+/* Premium ambient technology atmosphere: light, depth and restraint. */
+.tech-background{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  isolation:isolate;
+  contain:layout paint style;
+  color:#8be9f5;
+}
+.tech-bg-atmosphere{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 58% 42% at 12% 0%,rgba(10,132,176,.105),transparent 76%),
+    radial-gradient(ellipse 42% 38% at 92% 18%,rgba(61,92,174,.105),transparent 78%),
+    radial-gradient(ellipse 50% 48% at 58% 100%,rgba(6,96,129,.055),transparent 78%),
+    linear-gradient(180deg,rgba(7,16,29,.12),rgba(4,10,19,.18));
+}
+.tech-bg-grid{
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(rgba(157,206,231,.22) .65px,transparent .9px);
+  background-size:34px 34px;
+  opacity:.13;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.62),transparent 82%);
+}
+.tech-bg-glow{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(54px);
+  will-change:transform;
+  transform:translate3d(0,0,0);
+}
+.tech-bg-glow-a{
+  width:min(54vw,760px);
+  aspect-ratio:1;
+  top:-42%;
+  left:-20%;
+  background:radial-gradient(circle,rgba(12,150,190,.105) 0%,rgba(19,96,150,.055) 34%,transparent 70%);
+  animation:ambient-glow-a 42s ease-in-out infinite alternate;
+}
+.tech-bg-glow-b{
+  width:min(48vw,680px);
+  aspect-ratio:1;
+  top:3%;
+  right:-23%;
+  background:radial-gradient(circle,rgba(83,104,195,.09) 0%,rgba(33,113,157,.04) 41%,transparent 72%);
+  animation:ambient-glow-b 51s ease-in-out infinite alternate;
+}
+.tech-bg-glow-c{
+  width:min(42vw,580px);
+  aspect-ratio:1;
+  bottom:-54%;
+  left:32%;
+  background:radial-gradient(circle,rgba(9,115,143,.075) 0%,rgba(22,74,121,.035) 44%,transparent 72%);
+  animation:ambient-glow-c 57s ease-in-out infinite alternate;
+}
+.tech-bg-particles{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  opacity:.42;
+}
+.tech-bg-particles span{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:rgba(164,232,248,.8);
+  box-shadow:0 0 10px 1px rgba(80,201,231,.2);
+  opacity:.18;
+  animation:ambient-particle 18s ease-in-out infinite alternate;
+}
+.tech-bg-particles span:nth-child(1){left:8%;top:18%;animation-delay:-7s}
+.tech-bg-particles span:nth-child(2){left:19%;top:61%;animation-delay:-12s}
+.tech-bg-particles span:nth-child(3){left:29%;top:32%;animation-delay:-3s}
+.tech-bg-particles span:nth-child(4){left:38%;top:83%;animation-delay:-15s}
+.tech-bg-particles span:nth-child(5){left:49%;top:13%;animation-delay:-8s}
+.tech-bg-particles span:nth-child(6){left:57%;top:56%;animation-delay:-2s}
+.tech-bg-particles span:nth-child(7){left:64%;top:28%;animation-delay:-10s}
+.tech-bg-particles span:nth-child(8){left:73%;top:76%;animation-delay:-5s}
+.tech-bg-particles span:nth-child(9){left:82%;top:42%;animation-delay:-16s}
+.tech-bg-particles span:nth-child(10){left:91%;top:19%;animation-delay:-9s}
+.tech-bg-particles span:nth-child(11){left:14%;top:88%;animation-delay:-4s}
+.tech-bg-particles span:nth-child(12){left:34%;top:9%;animation-delay:-14s}
+.tech-bg-particles span:nth-child(13){left:45%;top:67%;animation-delay:-11s}
+.tech-bg-particles span:nth-child(14){left:68%;top:91%;animation-delay:-6s}
+.tech-bg-particles span:nth-child(15){left:88%;top:66%;animation-delay:-13s}
+.tech-bg-particles span:nth-child(16){left:96%;top:52%;animation-delay:-1s}
+.tech-bg-vignette{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 38%,transparent 26%,rgba(2,7,14,.12) 76%,rgba(2,7,14,.26) 100%);
+}
+main{position:relative;z-index:1;background:transparent}
+.site-footer{position:relative;z-index:1}
 .hero{isolation:isolate;background:transparent}
 .hero:before{z-index:0}
 .hero-inner{z-index:1}
-main{position:relative;z-index:1;background:transparent}
-.site-footer{position:relative;z-index:1}
-@keyframes tech-circuit-travel{to{stroke-dashoffset:-232}}
-@keyframes tech-node-pulse{0%,100%{opacity:.45;stroke-opacity:.12}50%{opacity:1;stroke-opacity:.48}}
-@keyframes tech-glow-drift-a{from{transform:translate3d(0,0,0) scale(1);opacity:.65}to{transform:translate3d(-5%,7%,0) scale(1.08);opacity:1}}
-@keyframes tech-glow-drift-b{from{transform:translate3d(0,0,0) scale(1.04);opacity:.6}to{transform:translate3d(8%,-6%,0) scale(.94);opacity:.95}}
-@media(max-width:700px){
-  .tech-background-site{opacity:.9}
-  .tech-background-site .tech-bg-grid{background-size:48px 48px;opacity:.36}
-  .tech-background-site .tech-bg-svg{opacity:.64}
-  .tech-background-hero .tech-bg-grid{background-size:48px 48px;opacity:.36}
-  .tech-background-hero .tech-bg-svg{opacity:.64}
-  .tech-bg-glow{filter:none}
+@keyframes ambient-glow-a{
+  from{transform:translate3d(0,0,0) scale(1);opacity:.72}
+  to{transform:translate3d(5%,8%,0) scale(1.1);opacity:1}
+}
+@keyframes ambient-glow-b{
+  from{transform:translate3d(0,0,0) scale(1.04);opacity:.7}
+  to{transform:translate3d(-6%,7%,0) scale(.94);opacity:1}
+}
+@keyframes ambient-glow-c{
+  from{transform:translate3d(-3%,0,0) scale(.96);opacity:.65}
+  to{transform:translate3d(4%,-5%,0) scale(1.08);opacity:.95}
+}
+@keyframes ambient-particle{
+  from{transform:translate3d(0,0,0);opacity:.1}
+  to{transform:translate3d(12px,-9px,0);opacity:.48}
+}
+@media(max-width:900px){
+  .tech-bg-grid{background-size:40px 40px;opacity:.10}
+  .tech-bg-glow{filter:blur(42px)}
+  .tech-bg-particles{opacity:.26}
+}
+@media(max-width:520px){
+  .tech-bg-glow-a{width:88vw;top:-28%;left:-44%}
+  .tech-bg-glow-b{width:84vw;top:12%;right:-48%}
+  .tech-bg-glow-c{width:76vw;bottom:-42%;left:12%}
+  .tech-bg-grid{background-size:44px 44px;opacity:.075}
+  .tech-bg-particles span:nth-child(n+9){display:none}
 }
 @media(prefers-reduced-motion:reduce){
-  .tech-background .tech-circuit-flow path,.tech-background .tech-circuit-nodes circle,.tech-background .tech-bg-glow{animation:none!important}
-  .tech-background .tech-circuit-flow path{stroke-dasharray:none}
-  .tech-bg-glow-a,.tech-bg-glow-b{transform:none!important}
+  .tech-bg-glow,.tech-bg-particles span{animation:none!important}
+  .tech-bg-glow{transform:none!important}
 }
