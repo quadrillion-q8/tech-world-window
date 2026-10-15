@@ -33,7 +33,7 @@ export function Home() {
           </div>
           <div className="hero-art" aria-label="Tech World Window technology illustration" role="img">
             <div className="orb orb-one" />
-            <div className="chip"><span>TECH</span><strong>WORLD</strong><small>WINDOW</small><i>↗</i></div>
+            <div className="chip"><img src="/tech-world-window-logo.webp" alt="Tech World Window logo" width="570" height="409" style={{ width: '82%', height: 'auto', objectFit: 'contain', borderRadius: '12px' }} /></div>
             <div className="orbit orbit-one" />
           </div>
         </div>
