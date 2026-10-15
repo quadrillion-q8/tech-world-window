@@ -805,3 +805,32 @@ main{position:relative;z-index:1;background:transparent}
     min-width: 0;
   }
 }
+
+
+/* Circuit-board layer: routed traces, travelling signal packets, pulsing vias. */
+.tech-bg-circuit{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
+.pcb-trace{fill:none;stroke:rgba(148,180,208,.1);stroke-width:1.5}
+.pcb-energy{
+  fill:none;
+  stroke:#67e8f9;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-dasharray:60 1940; /* one 6% packet on a path normalised to 1000 units */
+  stroke-dashoffset:60;     /* parked just before the start of the trace */
+  filter:drop-shadow(0 0 4px rgba(103,232,249,.55));
+  animation:pcb-flow 8s linear infinite;
+}
+.pcb-energy-2{animation-duration:12s;animation-delay:3s}
+.pcb-energy-3{animation-duration:10s;animation-delay:1.5s}
+.pcb-energy-4{animation-duration:14s;animation-delay:5s}
+.pcb-via{fill:#67e8f9;opacity:.2;transform-box:fill-box;transform-origin:center}
+.pcb-via-accent{fill:#f59e0b}
+.pcb-via-slow{animation:pcb-pulse 4s ease-in-out infinite}
+.pcb-via-fast{animation:pcb-pulse 2.5s ease-in-out 1s infinite}
+@keyframes pcb-flow{from{stroke-dashoffset:60}to{stroke-dashoffset:-1000}}
+@keyframes pcb-pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.5)}}
+@media(max-width:520px){.tech-bg-circuit{opacity:.55}}
+@media(prefers-reduced-motion:reduce){
+  .pcb-energy{display:none}
+  .pcb-via{animation:none!important;opacity:.35}
+}
