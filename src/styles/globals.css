@@ -451,3 +451,55 @@ hr{border:0;border-top:1px solid rgba(148,180,208,.18)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Signature animated circuit atmosphere — decorative SVG/CSS only. */
+.tech-background{position:absolute;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;contain:layout paint style;color:#67e8f9}
+.tech-background-site{position:fixed;inset:0;z-index:0;opacity:.72}
+.tech-background-hero{position:absolute;z-index:0;opacity:.9}
+.tech-bg-grid{position:absolute;inset:-2px;background-image:linear-gradient(rgba(103,232,249,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,rgba(0,0,0,.82),transparent 92%);opacity:.6}
+.tech-bg-glow{position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none;will-change:transform,opacity}
+.tech-bg-glow-a{width:min(52vw,690px);aspect-ratio:1;top:-34%;right:2%;background:radial-gradient(circle,rgba(14,165,233,.11),rgba(34,211,238,.045) 36%,transparent 69%);animation:tech-glow-drift-a 28s ease-in-out infinite alternate}
+.tech-bg-glow-b{width:min(42vw,560px);aspect-ratio:1;bottom:-38%;left:-12%;background:radial-gradient(circle,rgba(37,99,235,.11),rgba(34,211,238,.035) 42%,transparent 71%);animation:tech-glow-drift-b 34s ease-in-out infinite alternate}
+.tech-bg-svg{position:absolute;inset:0;width:100%;height:100%;opacity:.78;overflow:visible}
+.tech-circuit-base path{fill:none;stroke:rgba(103,232,249,.19);stroke-width:1;vector-effect:non-scaling-stroke}
+.tech-circuit-flow path{fill:none;stroke:rgba(103,232,249,.64);stroke-width:1.25;stroke-linecap:round;stroke-dasharray:2 27;stroke-dashoffset:0;vector-effect:non-scaling-stroke;animation:tech-circuit-travel 25s linear infinite}
+.tech-circuit-flow path:nth-child(2n){stroke:rgba(56,189,248,.44);stroke-dasharray:1 34;animation-duration:32s;animation-direction:reverse}
+.tech-circuit-flow path:nth-child(3n){animation-duration:38s}
+.tech-circuit-nodes circle{fill:#67e8f9;stroke:rgba(103,232,249,.3);stroke-width:5;stroke-opacity:.2;vector-effect:non-scaling-stroke;animation:tech-node-pulse 4.8s ease-in-out infinite}
+.tech-circuit-nodes circle:nth-child(3n){animation-delay:-1.7s}
+.tech-circuit-nodes circle:nth-child(4n){animation-delay:-3.1s}
+.tech-bg-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 36%,transparent 14%,rgba(3,9,18,.13) 72%,rgba(3,9,18,.28));}
+.tech-background-site .tech-bg-grid{opacity:.24;background-size:56px 56px}
+.tech-background-site .tech-bg-svg{opacity:.42}
+.tech-background-site .tech-circuit-base path{stroke:rgba(103,232,249,.12)}
+.tech-background-site .tech-circuit-flow path{stroke:rgba(103,232,249,.36);stroke-width:1}
+.tech-background-site .tech-circuit-nodes circle{opacity:.58}
+.tech-background-hero .tech-bg-grid{opacity:.52;background-size:38px 38px;mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.65) 70%,transparent 100%)}
+.tech-background-hero .tech-bg-svg{opacity:.9}
+.tech-background-hero .tech-circuit-base path{stroke:rgba(103,232,249,.24)}
+.tech-background-hero .tech-circuit-flow path{stroke:rgba(103,232,249,.78);stroke-dasharray:2 20}
+.tech-background-hero .tech-bg-glow-a{width:min(60vw,800px);top:-26%;right:-3%;background:radial-gradient(circle,rgba(14,165,233,.17),rgba(34,211,238,.06) 38%,transparent 70%)}
+.tech-background-hero .tech-bg-glow-b{width:min(48vw,620px);bottom:-38%;left:13%;background:radial-gradient(circle,rgba(37,99,235,.16),rgba(34,211,238,.045) 42%,transparent 70%)}
+.hero{isolation:isolate}
+.hero:before{z-index:0}
+.hero-inner{z-index:1}
+main{position:relative;z-index:1;background:transparent}
+.site-footer{position:relative;z-index:1}
+@keyframes tech-circuit-travel{to{stroke-dashoffset:-232}}
+@keyframes tech-node-pulse{0%,100%{opacity:.45;stroke-opacity:.12}50%{opacity:1;stroke-opacity:.48}}
+@keyframes tech-glow-drift-a{from{transform:translate3d(0,0,0) scale(1);opacity:.65}to{transform:translate3d(-5%,7%,0) scale(1.08);opacity:1}}
+@keyframes tech-glow-drift-b{from{transform:translate3d(0,0,0) scale(1.04);opacity:.6}to{transform:translate3d(8%,-6%,0) scale(.94);opacity:.95}}
+@media(max-width:700px){
+  .tech-background-site{opacity:.48}
+  .tech-background-site .tech-bg-grid{background-size:64px 64px;opacity:.18}
+  .tech-background-site .tech-bg-svg{opacity:.27}
+  .tech-background-hero .tech-bg-grid{background-size:48px 48px;opacity:.36}
+  .tech-background-hero .tech-bg-svg{opacity:.64}
+  .tech-bg-glow{filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tech-background .tech-circuit-flow path,.tech-background .tech-circuit-nodes circle,.tech-background .tech-bg-glow{animation:none!important}
+  .tech-background .tech-circuit-flow path{stroke-dasharray:none}
+  .tech-bg-glow-a,.tech-bg-glow-b{transform:none!important}
+}

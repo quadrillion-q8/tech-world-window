@@ -4,6 +4,7 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { SiteStructuredData } from '../components/SiteStructuredData';
 import { ConsentBanner } from '../components/ConsentBanner';
+import { TechBackground } from '../components/TechBackground';
 import { loadAnalytics, readConsent, revokeAnalytics, type ConsentChoice } from '../lib/consent';
 
 // GA4 Measurement ID for techworldwindow.com.
@@ -46,6 +47,7 @@ export function RootLayout() {
   return (
     <>
       <SiteStructuredData />
+      <TechBackground />
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <main id="main-content"><Outlet /></main>
