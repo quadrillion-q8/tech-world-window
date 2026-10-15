@@ -4,6 +4,7 @@ import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { october2026Articles } from './october-2026-articles';
+import { placeGalleryImages } from './article-images';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
@@ -1442,7 +1443,7 @@ function withResearchBacklinks(list: Article[]): Article[] {
   });
 }
 
-export const articles: Article[] = enhanceArticles(withResearchBacklinks(baseArticles));
+export const articles: Article[] = placeGalleryImages(enhanceArticles(withResearchBacklinks(baseArticles)));
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
