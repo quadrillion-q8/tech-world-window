@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { articles, categories } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
 import { SEOEngine } from '../seo/SEOEngine';
-import { TechBackground } from '../components/TechBackground';
 
 // Each article appears once on the page: pillars first, then the latest
 // articles that are not already shown above.
@@ -21,7 +20,6 @@ export function Home() {
 
       {/* 1. Hero: one message, two actions, one line of proof */}
       <section className="hero">
-        <TechBackground variant="hero" />
         <div className="hero-inner">
           <div className="hero-copy">
             <p className="home-eyebrow"><span className="home-eyebrow-dot" aria-hidden="true" /> WINDOWS <span aria-hidden="true">/</span> GAMING <span aria-hidden="true">/</span> HARDWARE</p>
