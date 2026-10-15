@@ -3,21 +3,16 @@ import type { Article } from '../data/articles';
 import { ArticleThumbnail } from './ArticleThumbnail';
 
 export function ArticleCard({ article, featured = false }: { article: Article; featured?: boolean }) {
+  const date = new Date(`${article.publishedAt}T12:00:00`).toLocaleDateString('en', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <article className={featured ? 'article-card article-card-featured' : 'article-card'}>
-      <Link
-        to={`/${article.slug}`}
-        className="card-thumbnail-link"
-        aria-label={article.title}
-        style={{
-          display: 'block',
-          marginBottom: '1rem',
-          borderRadius: '10px',
-          overflow: 'hidden',
-          border: '1px solid rgba(148, 163, 184, 0.16)',
-          backgroundColor: '#0f172a',
-        }}
-      >
+      {/* The title link below is the accessible link; this one is a duplicate click target for the image. */}
+      <Link to={`/${article.slug}`} className="card-thumbnail-link" tabIndex={-1} aria-hidden="true">
         <ArticleThumbnail
           title={article.title}
           slug={article.slug}
@@ -26,24 +21,14 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
         />
       </Link>
       <div className="card-topline">
-        <span className="eyebrow">{article.category}</span>
+        <span className="card-category">{article.category}</span>
         <span className="reading-time">{article.readingTime} min read</span>
       </div>
       <h3>
         <Link to={`/${article.slug}`}>{article.title}</Link>
       </h3>
-      <p>{article.dek}</p>
-      <div className="card-meta">
-        {new Date(`${article.publishedAt}T12:00:00`).toLocaleDateString('en', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        })}{' '}
-        · By Imran Natiq
-      </div>
-      <Link className="text-link" to={`/${article.slug}`}>
-        Read the story <span aria-hidden="true">→</span>
-      </Link>
+      <p className="card-dek">{article.dek}</p>
+      <div className="card-meta">{date}</div>
     </article>
   );
 }
