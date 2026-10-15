@@ -160,6 +160,11 @@ const enhancements: Record<string, Enhancement> = {
       paragraphs: [
         'A GPU frame-time spike is an observation, not a root cause. The useful evidence is what the GPU, CPU, VRAM, system RAM, clocks and temperatures were doing immediately before and during the spike.',
         'If GPU utilization falls sharply during a hitch while CPU or storage activity rises, the GPU may simply be waiting. If GPU utilization remains high and the spike follows a heavier scene effect, the graphics workload itself may be responsible.'
+      ],
+      relatedLinks: [
+        { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture and locate the spikes that need investigation.' },
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Compare GPU-limited spikes with shader, CPU, storage and thermal causes.' },
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' }
       ]
     }]
   },
@@ -169,6 +174,10 @@ const enhancements: Record<string, Enhancement> = {
       paragraphs: [
         'Shader compilation stutter usually has a recognizable pattern: the hitch occurs when a game first encounters a new effect, location, material or rendering path, and the behavior may become less frequent after the relevant shaders have been built or cached.',
         'If the same game continues to stutter randomly in already-visited areas, do not assume every hitch is shader compilation. Compare the timing with asset streaming, CPU load, storage activity and frame-time behavior.'
+      ],
+      relatedLinks: [
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the wider troubleshooting sequence when hitches continue beyond first-run shader compilation.' },
+        { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect frame-time samples to see whether the hitch is isolated or part of a broader pacing problem.' }
       ],
       bullets: [
         'First encounter with a new effect → shader compilation is plausible.',
@@ -199,6 +208,11 @@ const enhancements: Record<string, Enhancement> = {
       paragraphs: [
         'A high NVMe temperature is not automatically a failure. The important questions are how high it becomes under a repeatable workload, whether performance drops as temperature rises, and whether the drive or system reports thermal throttling.',
         'Compare idle temperature, sustained transfer temperature and the temperature at which performance changes. Short bursts and long writes can produce very different results.'
+      ],
+      relatedLinks: [
+        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review health indicators and reliability data if high temperatures coincide with errors or drive disconnects.' },
+        { label: 'Why an SSD can slow down', href: '/why-ssd-is-slowing-down-windows', description: 'Compare thermal throttling with low free space, sustained writes and other causes of slow storage.' },
+        { label: 'SSD temperature research', href: '/research/how-ssd-temperature-affects-performance', description: 'Explore how temperature and workload can affect storage performance.' }
       ],
       bullets: [
         'High temperature with stable performance → monitor airflow and heatsink contact.',
