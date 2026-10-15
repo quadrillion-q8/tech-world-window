@@ -809,7 +809,7 @@ main{position:relative;z-index:1;background:transparent}
 
 /* Circuit-board layer: routed traces, travelling signal packets, pulsing vias. */
 .tech-bg-circuit{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
-.pcb-trace{fill:none;stroke:rgba(148,180,208,.1);stroke-width:1.5}
+.pcb-trace{fill:none;stroke:rgba(148,180,208,.17);stroke-width:1.5}
 .pcb-energy{
   fill:none;
   stroke:#67e8f9;
@@ -834,3 +834,10 @@ main{position:relative;z-index:1;background:transparent}
   .pcb-energy{display:none}
   .pcb-via{animation:none!important;opacity:.35}
 }
+
+/* Let the fixed circuit background show through the home page.
+   The home page used to paint opaque surfaces over it; keep the same colours
+   but make them translucent so the traces stay visible and text stays readable. */
+.home-page{background:transparent}
+.home-page .hero{background:radial-gradient(ellipse at 78% 44%,rgba(15,185,220,.13),transparent 35%),linear-gradient(125deg,rgba(8,17,31,.35) 0%,rgba(11,25,43,.18) 52%,rgba(12,32,51,.3) 100%)}
+.home-page .section-featured{background:linear-gradient(180deg,rgba(10,22,38,.55),rgba(9,19,33,.55))}
