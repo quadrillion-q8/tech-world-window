@@ -2131,9 +2131,9 @@ export const phase4Articles: Article[] = [
     "slug": "gpu-100-percent-usage-gaming",
     "title": "GPU at 100% Usage While Gaming: Is That a Problem?",
     "seoTitle": "GPU 100% Usage While Gaming: What It Means",
-    "dek": "A GPU running near 100% during a game is often normal and can mean the graphics card is being used efficiently. The surrounding temperature, clock, FPS, and symptoms matter.",
+    "dek": "Yes, a GPU running near 100% while gaming is usually normal: it means the graphics card is the performance limit. Temperature, clock speed, FPS and symptoms show whether it is a problem.",
     "metaDescription": "GPU at 100% while gaming? Learn when full GPU utilization is normal, when temperatures or clocks are concerning, and how to diagnose performance limits.",
-    "excerpt": "High GPU utilization is usually expected when the GPU is the performance limit. It becomes a problem when it is paired with abnormal temperatures, throttling, artifacts, crashes, or unwanted power behavior.",
+    "excerpt": "Yes, 100% GPU usage while gaming is usually normal, because it means the GPU is the performance limit. It becomes a problem only when paired with high temperatures, falling clock speeds, artifacts, crashes or unexpectedly low FPS.",
     "category": "Gaming",
     "subcategory": "GPU",
     "authorId": "imranNatiq",
@@ -2160,6 +2160,19 @@ export const phase4Articles: Article[] = [
         "paragraphs": [
           "If a game is rendering as many frames as the graphics settings allow, the GPU can remain near full utilization. That is normally evidence that the GPU is the limiting resource, not that it is failing.",
           "The more useful measurements are GPU temperature, clock speed, power behavior, FPS, and whether the result matches the settings you selected."
+        ]
+      },
+      {
+        "heading": "Check it in two minutes",
+        "paragraphs": [
+          "You do not need extra software to tell normal load from a problem. The goal is to see utilization, temperature and FPS together."
+        ],
+        "steps": [
+          "Start the game at your normal settings and play the same scene for a few minutes.",
+          "Open Task Manager (Ctrl+Shift+Esc), go to Performance and select the GPU. On supported systems it shows utilization, dedicated memory and temperature.",
+          "Check that the temperature is steady and that the FPS matches what you expect for those settings. A graphics-card maker's overlay can also show clock speed.",
+          "Lower the resolution or render scale. If utilization drops and FPS rises, the GPU was the limit, which is normal.",
+          "Close the game and look at GPU usage again. If it is still high with no game open, find the process responsible in Task Manager."
         ]
       },
       {
@@ -2363,6 +2376,19 @@ export const phase4Articles: Article[] = [
         ]
       },
       {
+        "heading": "What can a failing PSU cause?",
+        "paragraphs": [
+          "People searching for bad power supply symptoms usually want a quick list. These are the patterns that can be consistent with a PSU problem, though none of them proves it on its own:"
+        ],
+        "bullets": [
+          "Sudden shutdowns or restarts, especially when the GPU or CPU is working hard.",
+          "A PC that sometimes fails to start, or needs several attempts.",
+          "Crashes, freezes or blue screens that no software change explains.",
+          "New instability after adding a more powerful graphics card or other hardware.",
+          "A burning smell, smoke, popping or buzzing from the PSU, which means stop using it immediately."
+        ]
+      },
+      {
         "heading": "Look for a repeatable load pattern",
         "paragraphs": [
           "If shutdowns happen when a demanding game or stress workload starts, compare the timing with GPU and CPU temperatures and power behavior. If the system fails only under load, power delivery becomes more interesting, but it still needs confirmation.",
@@ -2374,6 +2400,21 @@ export const phase4Articles: Article[] = [
         "paragraphs": [
           "Confirm the AC cable is secure, the power switch and outlet are reliable, and the internal CPU and GPU power connectors are seated correctly. For modular PSUs, use only the cables designed for that exact PSU model.",
           "Do not mix modular cables from different power supplies even if the connectors fit."
+        ]
+      },
+      {
+        "heading": "How to troubleshoot a PSU step by step",
+        "paragraphs": [
+          "Work from the cheapest, safest check to the most conclusive one, and change one thing at a time."
+        ],
+        "steps": [
+          "Switch the PC off, unplug it, and write down the pattern: when it shuts down, how long after starting, and what you were doing.",
+          "Plug the PC straight into a wall outlet instead of a power strip, and try a different power cable.",
+          "With the PC unplugged, reseat the motherboard, CPU and graphics-card power connectors if you are comfortable opening the case.",
+          "Watch CPU and GPU temperatures during the same workload, because a thermal shutdown can look like a power failure.",
+          "Strip the system down to the essentials, for example one memory module and no extra drives, and see whether the pattern changes.",
+          "If you can, try a known-good PSU of adequate wattage with the right connectors. This is the most conclusive test. A cheap PSU tester only shows that the unit powers up with no load, not that it holds up under gaming load.",
+          "Never open the PSU case. Its capacitors can hold a dangerous charge even when it is unplugged."
         ]
       },
       {
