@@ -42,9 +42,6 @@ export const articleImagePlacements: Record<string, Placement[]> = {
     { after: 'Improve airflow safely', id: 'graphics-card-disassembled-heatsink-gpu-old-thermal-paste-and-dusty-fans', alt: 'Disassembled graphics card with a dusty heatsink and fans', caption: `${bench}: dust on the fans and heatsink of a graphics card.` },
     { after: 'When the GPU itself may need service', id: 'zotac-gaming-geforce-rtx-triple-fan-graphics-card-repair', alt: 'Zotac GeForce RTX triple-fan graphics card on the repair bench', caption: `${bench}: a triple-fan graphics card during service.` },
   ],
-  'pc-power-supply-problems-symptoms': [
-    { after: 'Check the basics before replacing the PSU', id: 'pc-parts-shop-liquid-coolers-power-supplies-motherboards', alt: 'Shelves of power supplies, liquid coolers and motherboards in a PC parts shop', caption: 'Power supplies are sold by wattage, connectors and efficiency rating, so match the replacement to the load and the cables.' },
-  ],
   'how-much-ram-do-you-need-gaming': [
     { after: 'Compatibility is part of the upgrade', id: 'dell-inspiron-n4030-laptop-ram-slot-and-ssd-upgrade', alt: 'Dell Inspiron laptop RAM slot and SSD upgrade area', caption: `${bench}: a laptop memory slot. Many laptops have one or two slots, and some have memory soldered to the board.` },
   ],
