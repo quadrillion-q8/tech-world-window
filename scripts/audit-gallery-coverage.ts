@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { articles } from '../src/data/articles';
 import { articleThumbnailImageBySlug, galleryPhotoIdFromUrl } from '../src/data/article-thumbnail-map';
