@@ -28,6 +28,8 @@ export type ArticleSection = {
   table?: ArticleTable;
   /** Curated in-body links that help readers choose the next diagnostic step. */
   relatedLinks?: { label: string; href: string; description: string }[];
+  /** Optional real gallery photo placed within the article body. */
+  image?: { src: string; alt: string; caption: string };
 };
 
 export type Article = {
@@ -83,6 +85,7 @@ export function articleWordCount(article: Article): number {
       ...(section.codeBlocks ?? []),
       ...(section.table ? [section.table.caption, ...section.table.headers, ...section.table.rows.flat().map(cellText)] : []),
       ...(section.relatedLinks ?? []).flatMap(link => [link.label, link.description]),
+      ...(section.image ? [section.image.alt, section.image.caption] : []),
     ]),
     ...(article.faq ?? []).flatMap(item => [item.question, item.answer]),
   ].join(' ');
@@ -755,9 +758,10 @@ const baseArticles: Article[] = [
     subcategory: 'Storage',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    updatedAt: '2026-10-08',
-    readingTime: 7,
-    tags: ['NVMe', 'SSD', 'Temperature', 'Cooling'],
+    updatedAt: '2026-10-15',
+    heroImage: '/images/gallery/hp-laptop-motherboard-heatsink-m2-ssd-closeup.webp',
+    readingTime: 10,
+    tags: ['NVMe', 'SSD', 'Temperature', 'Thermal Throttling', 'Cooling', 'Windows', 'Linux'],
     relatedArticles: ['ssd-health', 'ssd-slowdown'],
     contentRole: 'cluster',
     pillarPath: '/how-to-check-ssd-health-windows',
