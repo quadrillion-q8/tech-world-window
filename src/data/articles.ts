@@ -505,7 +505,7 @@ const baseArticles: Article[] = [
     slug: 'windows-11-network-adapter-reset-guide',
     title: 'Windows 11 Network Adapter Reset: When to Use It and What It Changes',
     dek: 'What a Windows 11 network reset actually does, what you lose when you run it, and which checks should come first.',
-    excerpt: 'Network reset is a useful last software step, but it removes saved networks and adapter settings, so use it after targeted tests.',
+    excerpt: 'Network Reset does not delete your files, but it removes saved networks and adapter settings and may need VPN software set up again, so use it as a last software step after targeted tests.',
     category: 'Windows',
     subcategory: 'Networking',
     authorId: 'imranNatiq',
