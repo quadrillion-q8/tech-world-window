@@ -74,15 +74,21 @@ export function ArticleStructuredData({
 }
 
 
+/**
+ * Spec-profile pages have no price, rating or hands-on review, so they are NOT
+ * eligible for Google "Product snippets" (which require offers, review or
+ * aggregateRating). Marking them up as Product caused a critical GSC error.
+ * Emit WebPage + about:Thing instead. Switch back to @type Product only once a
+ * real, visible offer (price + availability) or genuine review is on the page.
+ */
 export function ProductStructuredData({ product, path }: { product: { name: string; brand: string; description: string; sku?: string }; path: string }) {
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
+    '@type': 'WebPage',
+    url: absoluteUrl(path),
+    name: `${product.name} specifications and buying notes`,
     description: product.description,
-    brand: { '@type': 'Brand', name: product.brand },
-    mainEntityOfPage: absoluteUrl(path),
-    ...(product.sku ? { sku: product.sku } : {}),
+    about: { '@type': 'Thing', name: product.name, description: product.description },
   };
   return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
 }
