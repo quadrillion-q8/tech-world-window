@@ -201,8 +201,6 @@ const enhancements: Record<string, Enhancement> = {
     sources: [
       { label: 'NVM Express: NVMe specifications (composite temperature and warning/critical thresholds)', url: 'https://nvmexpress.org/specifications/' },
       { label: 'smartmontools: reading NVMe SMART and temperature data', url: 'https://www.smartmontools.org/' },
-      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
-      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' },
       { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' }
     ],
     sections: [{
