@@ -1148,7 +1148,12 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
         { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Measure frame-time variation and detected spikes from a supported CSV capture in your browser.' },
         { label: 'What actually causes PC game stuttering?', href: '/research/what-actually-causes-pc-game-stuttering', description: 'Read the companion investigation into competing causes and the limits of symptom-based diagnosis.' }
       ]
-    }]
+    }],
+    faq: [
+      { question: 'Why is my game stuttering on PC?', answer: 'Stutter is usually uneven frame delivery rather than low FPS. Common causes are shader compilation or asset streaming, a CPU, GPU or memory limit, storage or background activity, drivers, and heat or power limits. Capture frame times in the same scene and look at when the hitch happens to narrow it down before changing anything.' },
+      { question: 'How do I fix stuttering in games?', answer: 'Work in order and change one thing at a time. Capture the hitch, check whether it repeats in the same place, then test shader caching, background software, drivers, storage activity and temperatures. Keep a change only if the improvement repeats.' },
+      { question: 'Is game stutter the same as lag?', answer: 'No. Stutter is uneven frame delivery on your own PC, so the picture hitches. Lag in online games is a delay between your input and the server, and it shows up as rubber-banding or a high ping, not as hitching in offline games.' }
+    ]
   },
   'gpu-frame-time-spikes-causes-fix': {
     updatedAt: '2026-10-13',
@@ -1338,7 +1343,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     metaDescription: 'Windows 11 RAM usage high? Learn which Task Manager numbers matter, spot leaks and runaway apps, and know when to test or upgrade RAM.'
   },
   'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
-  'windows-11-network-adapter-reset-guide': { seoTitle: 'Windows 11 Network Reset: When to Use It' },
+  'windows-11-network-adapter-reset-guide': {
+    seoTitle: 'Is Network Reset Safe on Windows 11?',
+    metaDescription: 'Is Network Reset safe on Windows 11? It keeps your files but removes saved networks and adapter settings. See what it changes and what to try first.'
+  },
   'pc-game-stuttering-fix-frame-time': {
     seoTitle: 'PC Game Stuttering: Diagnose the Cause',
     metaDescription: 'PC games stuttering despite high FPS? Compare frame-time spikes, shader compilation, CPU/GPU limits, memory, storage, drivers, and temperatures.'
