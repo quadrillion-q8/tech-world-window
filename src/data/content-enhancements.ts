@@ -1147,6 +1147,31 @@ for (const [slug, authority] of [...Object.entries(authorityEnrichments), ...Obj
  * not generic keyword blocks, and retain the site's existing article graph.
  */
 const internationalGrowthEnhancements: Record<string, Enhancement> = {
+  'windows-11-high-memory-usage-how-to-find-the-cause': {
+    updatedAt: '2026-10-15',
+    sections: [{
+      heading: 'When Windows Search or the indexer uses memory',
+      paragraphs: [
+        'SearchHost.exe and Windows Search indexing can use CPU, memory, and disk activity while Windows builds or refreshes its search index. A temporary increase after a Windows update, adding many files, or changing indexed locations is not automatically a memory leak. First note whether the activity settles and whether the PC remains responsive.',
+        'Open Task Manager and identify the exact process name and memory trend. If SearchHost.exe or the Windows Search service remains unusually active for a long time, check whether indexing is still in progress and review Settings > Privacy & security > Searching Windows for the indexed locations. Narrow the index only when specific folders do not need to appear in search; avoid disabling the service as a first step because it can make searches slower or less complete.',
+        'Compare memory use before and after the indexing activity settles. If total memory remains high but SearchHost.exe is not the main consumer, continue with the process-by-process and Available/Committed memory checks above instead of assuming Search is the cause.'
+      ],
+      bullets: [
+        'Short-lived activity after updates or adding many files → allow indexing to finish and recheck later.',
+        'Search activity stays high and the PC slows down → review indexed locations and the process memory trend.',
+        'Another process accounts for most memory → diagnose that application rather than changing Windows Search.',
+        'Repeated crashes or blue screens → investigate stability and drivers separately; high search activity alone does not prove faulty RAM.'
+      ],
+      relatedLinks: [
+        { label: 'RAM Calculator', href: '/tools/ram-calculator', description: 'Estimate a workload capacity target, then verify it against real memory pressure.' },
+        { label: 'Does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Decide whether capacity, speed, or another bottleneck better explains the slowdown.' }
+      ]
+    }],
+    faq: [{
+      question: 'Can Windows Search use RAM in Windows 11?',
+      answer: 'Yes. SearchHost.exe and indexing activity can use memory temporarily while Windows builds or updates its index. Check whether the use settles and whether Search is actually the largest memory consumer before changing indexing settings.'
+    }]
+  },
   'nvme-ssd-temperature-too-high': {
     updatedAt: '2026-10-13',
     sections: [{
