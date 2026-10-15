@@ -8,7 +8,7 @@ type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
 const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
   bottleneck: { title: 'PC Bottleneck Calculator', description: 'Estimate CPU/GPU balance at common gaming resolutions.', path: '/tools/pc-bottleneck-calculator' },
   psu: { title: 'PSU Wattage Calculator', description: 'Estimate a sensible power-supply range from your CPU, GPU and system configuration.', path: '/tools/psu-wattage-calculator' },
-  ram: { title: 'RAM Calculator', description: 'Estimate practical memory capacity for gaming, Windows and multitasking.', path: '/tools/ram-calculator' },
+  ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
 };
 
@@ -39,6 +39,9 @@ export function ToolPage() {
   const [ramUse, setRamUse] = useState(12);
   const [ramApps, setRamApps] = useState(4);
   const [headroom, setHeadroom] = useState(4);
+  const [ramSpeed, setRamSpeed] = useState(3200);
+  const [ramCas, setRamCas] = useState(16);
+  const [ramChannels, setRamChannels] = useState(2);
   const [games, setGames] = useState(8);
   const [gameSize, setGameSize] = useState(100);
   const [otherStorage, setOtherStorage] = useState(200);
@@ -64,6 +67,11 @@ export function ToolPage() {
     const total = ramUse + ramApps + headroom;
     return Math.ceil(total / 4) * 4;
   }, [ramUse, ramApps, headroom]);
+
+  const ramSpeedMetrics = useMemo(() => ({
+    latencyNs: (ramCas * 2000) / ramSpeed,
+    bandwidthGbps: (ramSpeed * 8 * ramChannels) / 1000,
+  }), [ramCas, ramSpeed, ramChannels]);
 
   const storage = useMemo(() => {
     const total = games * gameSize + otherStorage;
@@ -103,7 +111,13 @@ export function ToolPage() {
         <label>Gaming / application use (GB)<input type="number" min="2" max="64" value={ramApps} onChange={e=>setRamApps(boundedNumber(e.target.value, 2, 64, 4))}/></label>
         <label>Extra headroom (GB)<input type="number" min="2" max="32" value={headroom} onChange={e=>setHeadroom(boundedNumber(e.target.value, 2, 32, 4))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">PRACTICAL TARGET</span><h2>{ram} GB RAM target</h2><p>This rounds your estimated working set up to a 4 GB step, not a guarantee that every workload needs this amount. For a real upgrade, check current memory use during your heaviest workload, channel configuration, supported capacity and laptop upgradeability.</p></div>
+      <div className="tool-result"><span className="eyebrow">PRACTICAL CAPACITY TARGET</span><h2>{ram} GB RAM target</h2><p>This rounds your estimated working set up to a 4 GB step, not a guarantee that every workload needs this amount. For a real upgrade, check current memory use during your heaviest workload, channel configuration, supported capacity and laptop upgradeability.</p></div>
+      <div className="tool-controls">
+        <label>Memory data rate (MT/s)<select value={ramSpeed} onChange={e=>setRamSpeed(Number(e.target.value))}><option value={2133}>2133 MT/s</option><option value={2400}>2400 MT/s</option><option value={2666}>2666 MT/s</option><option value={2933}>2933 MT/s</option><option value={3200}>3200 MT/s</option><option value={3600}>3600 MT/s</option><option value={4800}>4800 MT/s</option><option value={5200}>5200 MT/s</option><option value={5600}>5600 MT/s</option><option value={6000}>6000 MT/s</option><option value={6400}>6400 MT/s</option><option value={7200}>7200 MT/s</option><option value={8000}>8000 MT/s</option></select></label>
+        <label>CAS latency (CL)<input type="number" min="6" max="60" value={ramCas} onChange={e=>setRamCas(Math.round(boundedNumber(e.target.value, 6, 60, 16)))}/></label>
+        <label>Memory channels<select value={ramChannels} onChange={e=>setRamChannels(Number(e.target.value))}><option value={1}>1 channel</option><option value={2}>2 channels</option><option value={4}>4 channels</option></select></label>
+      </div>
+      <div className="tool-result"><span className="eyebrow">SPEED ESTIMATE</span><h2>About {ramSpeedMetrics.latencyNs.toFixed(1)} ns CAS latency</h2><p>Theoretical peak bandwidth: about {ramSpeedMetrics.bandwidthGbps.toFixed(1)} GB/s across {ramChannels} {ramChannels === 1 ? 'channel' : 'channels'}. This estimate assumes 64-bit channels and uses the selected transfer rate and CAS timing; it is not a benchmark or a prediction of application performance.</p><small>Compare kits only within the same platform and configuration. DDR generation, motherboard/CPU support, rank layout, timings beyond CL, and actual memory-controller settings matter. Advertised MT/s is a transfer rate, not the physical clock in MHz. Confirm the system's supported settings before buying.</small></div>
     </div>}
 
     {kind === 'storage' && <div className="tool-panel">
