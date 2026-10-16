@@ -936,7 +936,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   },
   'pc-power-supply-problems-symptoms': {
     updatedAt: '2026-10-16',
-    seoTitle: 'Bad PSU Symptoms: Safe Tests and Troubleshooting',
+    seoTitle: 'Bad PSU Symptoms: Safe Checks & Fixes',
     metaDescription: 'Learn which PC shutdowns, restarts and crashes may point to a bad PSU, how to distinguish GPU or thermal faults, and which checks are safe.',
     sources: [
       { label: 'Microsoft: Troubleshoot unexpected shutdowns (Event ID 41)', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart' },
