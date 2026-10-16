@@ -75,7 +75,7 @@ export const tools: ToolDef[] = [
     hubDescription: 'Read a Windows battery-report HTML file locally to compare design capacity with full-charge capacity, estimate capacity loss, and show cycle count when reported.',
     menuDescription: 'Check reported laptop battery capacity without uploading the report.',
     seoTitle: 'Windows Battery Health Analyzer: Capacity & Wear',
-    metaDescription: 'Analyze a Windows battery-report HTML file locally to compare full-charge and design capacity, estimate capacity loss, and inspect cycle-count data when reported.',
+    metaDescription: 'Analyze a Windows battery-report HTML file locally. Compare design and full-charge capacity, estimate capacity loss, and view cycle count when reported.',
     faq: [
       { question: 'How do I create a battery report in Windows?', answer: 'Open Windows Terminal or Command Prompt and run powercfg /batteryreport. Open the HTML file path printed by Windows, then select that saved report in this tool. You run the command yourself; this tool does not run commands on your PC.' },
       { question: 'Is my battery report uploaded?', answer: 'No. The HTML report is read and parsed in your browser. Tech World Window does not receive the file or the battery values extracted from it.' },
