@@ -935,35 +935,109 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     }]
   },
   'pc-power-supply-problems-symptoms': {
-    updatedAt: '2026-10-15',
-    seoTitle: 'Bad PSU Symptoms: What a Failing PSU Causes',
-    metaDescription: 'What can a bad PSU cause? Learn the symptoms of a failing power supply, how to troubleshoot it step by step, and when to replace it safely.',
+    updatedAt: '2026-10-16',
+    seoTitle: 'Bad PSU Symptoms: Safe Tests and Troubleshooting',
+    metaDescription: 'Learn which PC shutdowns, restarts and crashes may point to a bad PSU, how to distinguish GPU or thermal faults, and which checks are safe.',
     sources: [
+      { label: 'Microsoft: Troubleshoot unexpected shutdowns (Event ID 41)', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart' },
+      { label: 'Corsair: How to test a PSU safely', url: 'https://help.corsair.com/hc/en-us/articles/360025085372-PSU-How-to-test-a-PSU-Power-Supply-Unit' },
+      { label: 'Corsair: What are zero-RPM PSUs?', url: 'https://help.corsair.com/hc/en-us/articles/4415184478477-PSU-What-are-zero-RPM-PSUs' },
       { label: 'Seasonic: GPU and PSU failure symptoms', url: 'https://seasonic.com/pl/insights/gpu-and-psu-failure-symptoms/' },
       { label: 'Seasonic: Common mistakes when calculating PSU wattage', url: 'https://seasonic.com/insights/power-supply-calculator-errors/' }
     ],
     sections: [{
       heading: 'PSU symptoms are clues; do not open the power supply',
       paragraphs: [
-        'A sudden shutdown under load can be consistent with a power-delivery problem, but temperature, GPU/CPU instability, faulty cabling, motherboard issues, memory errors and software crashes can overlap. Build a timeline: did the system lose power instantly, restart, blue-screen, or return to the desktop? Does the fault happen only when the GPU load rises, or also at idle and during startup?',
-        'Check the external power path first: outlet, power strip, AC lead, PSU switch, and securely seated component power connectors if you are comfortable working inside a PC and the system is fully unplugged. If the power supply is modular, use only cables specified for that exact PSU; cables from another unit may have incompatible pinouts even when they fit. Never open a PSU enclosure because hazardous charge can remain after it is unplugged.'
+        'A sudden shutdown under load can be consistent with a power-delivery problem, but temperature, GPU or CPU instability, faulty cabling, motherboard issues, memory errors and software crashes can overlap. Build a timeline: did the system lose power instantly, restart, blue-screen, or return to the desktop? Does the fault happen only when the GPU load rises, or also at idle and during startup?',
+        'Check the external power path first: outlet, power strip, AC lead and PSU switch. If you are comfortable inspecting internal connectors, shut down, disconnect AC power and follow the system and PSU manuals. If the power supply is modular, use only cables specified for that exact model; cables from another unit may have incompatible pinouts even when they fit. Never open a PSU enclosure because hazardous charge can remain after it is unplugged.'
       ],
       table: {
         caption: 'Separate a PSU lead from similar symptoms',
         headers: ['Symptom', 'Other causes to consider', 'Safe next evidence'],
         rows: [
-          ['Instant power loss during demanding games', 'PSU, GPU power, thermal protection, outlet/cabling', 'Record load and temperature; inspect external cabling and system logs'],
-          ['Game closes but Windows stays running', 'Game files, driver, unstable tuning, RAM', 'Validate game files and inspect matching application errors'],
-          ['Blue screen under mixed workloads', 'Driver, RAM, CPU/GPU, storage, firmware', 'Record stop code and test components systematically'],
-          ['Restart after a hardware upgrade', 'Connector seating, load headroom, BIOS/settings, component fit', 'Verify model-specific power and connector requirements']
+          ['Instant power loss during a demanding game', 'PSU, GPU power connector, thermal protection, outlet or AC cable', 'Record the workload and temperatures; inspect external cabling and system logs'],
+          ['Game closes but Windows stays running', 'Game files, driver, unstable tuning or memory', 'Check application errors and test the game without overclocks'],
+          ['Blue screen followed by restart', 'Driver, RAM, CPU/GPU, storage or firmware', 'Record the stop code and inspect the matching bug-check details'],
+          ['Restart began after a hardware upgrade', 'Connector seating, PSU capacity, BIOS settings or component fit', 'Verify the exact GPU and PSU model requirements']
         ]
       },
       relatedLinks: [
-        { label: 'GPU overheating', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check whether temperature and clock behavior align with the shutdown.' },
-        { label: 'PC games crashing', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Separate application crashes from system-wide power loss or a blue screen.' }
+        { label: 'GPU overheating while gaming', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Compare temperature and clock behavior with the moment of shutdown.' },
+        { label: 'PC games crashing to desktop', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Separate an application exit from a full-system power loss or blue screen.' }
+      ]
+    }, {
+      heading: 'Stop immediately if there are electrical warning signs',
+      paragraphs: [
+        'Do not keep restarting a PC to reproduce a fault if the PSU or system shows smoke, sparks, a burning electrical smell, crackling or popping, visible scorching, liquid exposure or damaged mains wiring. A repeated attempt can turn a diagnosis into a safety hazard or cause further damage.',
+        'If you can safely turn the equipment off at the wall without touching damaged parts, do so. Do not open the PSU, reach inside it, or continue testing it. Have the system checked by a qualified technician and replace or service the affected hardware as advised.'
+      ],
+      bullets: [
+        'Smoke, sparks or an electrical burning smell → stop using the PC immediately.',
+        'Crackling, popping or visible scorching around the PSU or a power connector → do not power it on again.',
+        'Liquid exposure or damaged mains cable/outlet → do not touch exposed or wet electrical parts; arrange safe isolation and service.',
+        'A warm case or fan noise alone is not the same as an electrical emergency; evaluate it in context and follow the exact device manual.'
+      ]
+    }, {
+      heading: 'Use the failure pattern to choose the next test',
+      paragraphs: [
+        'The pattern is more useful than a symptom label. A complete, instant loss of power during a repeatable high-load event makes power delivery one possibility; a game that exits to the desktop while Windows remains responsive points toward a different diagnostic path. A blue screen is evidence of a stop error, not proof that the PSU is bad.',
+        'Change one variable at a time and record what changes. If the failure follows one game only, start with that game, its driver path and tuning. If several unrelated workloads trigger an abrupt power-off, inspect the power path, thermals and hardware stability together rather than assuming the PSU is guilty.'
+      ],
+      table: {
+        caption: 'Symptom-led diagnostic path',
+        headers: ['What happens', 'What it means so far', 'Best next step'],
+        rows: [
+          ['No lights or response', 'The failure may be before Windows starts', 'Check the outlet, undamaged AC lead, PSU switch and external connections'],
+          ['PC powers off instantly under load', 'Power delivery or thermal protection may be involved', 'Stop repeated stress tests; compare temperature, load and connector evidence'],
+          ['PC freezes, then restarts', 'Could be system hang, crash, memory or power', 'Check Event Viewer and any bug-check or dump-file evidence'],
+          ['Blue screen appears', 'Windows recorded a stop error', 'Write down the stop code and investigate it before replacing hardware'],
+          ['Only one game closes', 'Not the same as a full system power loss', 'Check game files, driver version, overlays and overclock/undervolt stability']
+        ]
+      }
+    }, {
+      heading: 'Read Kernel-Power Event ID 41 correctly',
+      paragraphs: [
+        'In Windows, open Event Viewer, choose Windows Logs, then System, and inspect entries at the time the PC restarted. Kernel-Power Event ID 41 means Windows detected that the previous shutdown was not clean. It does not identify the PSU as the cause: a system crash, hang, forced power-off or unexpected loss of power can leave this event.',
+        'Look for surrounding evidence, including whether a matching BugCheck/Event ID 1001 entry and a stop code were recorded. If a bug-check is present, follow that evidence. If the machine lost power without a usable stop code, power delivery remains one hypothesis among others—not a confirmed diagnosis.'
+      ],
+      bullets: [
+        'Record the timestamp and the exact event details rather than searching only for the words “Kernel-Power.”',
+        'A matching bug-check entry or dump file can indicate a blue-screen path that needs its own diagnosis.',
+        'An Event ID 41 by itself is not a reason to buy a new PSU.'
+      ],
+      relatedLinks: [
+        { label: 'PC games crashing to desktop', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Follow an application-level diagnostic path when Windows stays running.' }
+      ]
+    }, {
+      heading: 'PSU fan, paper-clip and tester checks have limits',
+      paragraphs: [
+        'A PSU fan that is not spinning at idle does not automatically mean the unit has failed. Some models deliberately stop the fan at low temperatures or loads, a feature commonly described as zero-RPM or hybrid fan mode. Check the exact PSU manual before interpreting fan behavior.',
+        'An isolated power-on test or basic PSU tester can reveal some faults, but it does not reproduce the real electrical load of a full PC and cannot reliably rule out intermittent or load-related problems. Paper-clip procedures also require exact pin identification; an incorrect connection can cause damage or injury. Do not improvise a jumper test. Use the exact manufacturer's instructions only if you understand the procedure, or use a qualified technician.'
+      ],
+      bullets: [
+        'Fan stopped at low load → check whether the model supports zero-RPM operation.',
+        'PSU starts with no load → this does not prove stable operation under gaming or rendering load.',
+        'Repeated shutdowns, abnormal noise or electrical warning signs → stop testing and seek a qualified hardware check.'
+      ]
+    }, {
+      heading: 'Choose a replacement based on the complete system',
+      paragraphs: [
+        'Do not replace a PSU just because one shutdown occurred, and do not choose by wattage alone. Start with the exact CPU and GPU models, the graphics-card manufacturer’s PSU recommendation, required power connectors, the unit’s condition and the type of workload. Headroom matters, but a bigger wattage label cannot compensate for poor quality, incompatible cables or a fault elsewhere in the system.',
+        'Use the TWW calculator to estimate a sensible capacity range, then verify the recommendation and connector requirements against the GPU and PSU manufacturers. A calculator is a planning aid, not a diagnostic test. When replacing a modular PSU, remove its old modular cables and use only the cables supplied or explicitly approved for the replacement model.'
+      ],
+      relatedLinks: [
+        { label: 'PSU Wattage Calculator', href: '/tools/psu-wattage-calculator', description: 'Estimate a sensible power-supply range from your CPU, GPU and other system load.' },
+        { label: 'GPU overheating while gaming', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check thermal causes before spending money on replacement hardware.' }
       ]
     }],
-    faq: [{ question: 'What can a bad PSU cause?', answer: 'A failing power supply can be consistent with sudden shutdowns or restarts under load, a PC that sometimes will not start, and crashes or blue screens with no software cause. Overheating, the graphics card, memory and the motherboard can produce the same symptoms, so confirm with a swap test before replacing it.' }, { question: 'How do I know if my PSU is failing?', answer: 'There is no single sign. Look for a repeatable pattern, such as shutdowns only under heavy load, rule out the outlet, cables, connectors and temperatures, then try a known-good PSU of adequate wattage. Stop using the unit at once if you smell burning or hear popping or buzzing.' }, { question: 'Can I confirm a PSU fault from a shutdown symptom alone?', answer: 'No. Shutdown under load can implicate power delivery, but temperatures, cabling, GPU behavior, memory, and the motherboard can produce overlapping symptoms. Confirmation requires systematic testing or a qualified hardware check.' }]
+    faq: [
+      { question: 'What can a bad PSU cause?', answer: 'A failing power supply can be associated with sudden shutdowns or restarts under load, inconsistent startup, or instability after a hardware upgrade. These symptoms overlap with GPU, thermal, memory, motherboard and cabling faults, so confirm the cause before replacing parts.' },
+      { question: 'How do I know if my PSU is failing?', answer: 'There is no single symptom that proves it. Check the external power path, document whether the whole PC loses power or only an app closes, compare temperatures and logs, and confirm with a compatible known-good PSU or a qualified loaded test.' },
+      { question: 'Does Kernel-Power Event ID 41 mean my PSU is bad?', answer: 'No. Event ID 41 records that Windows detected an unexpected shutdown. A crash, system hang, forced power-off or power interruption can cause it. Check for a matching bug-check and other evidence; do not treat Event ID 41 alone as a PSU diagnosis.' },
+      { question: 'Is a PSU fan that does not spin a sign of failure?', answer: 'Not necessarily. Some PSUs use zero-RPM or hybrid fan mode and keep the fan stopped at low load or temperature. Check the exact model documentation and stop using the unit if there are electrical warning signs.' },
+      { question: 'Is a paper-clip test or basic PSU tester enough to prove a PSU is healthy?', answer: 'No. An isolated power-on test can show that a PSU starts, but it does not recreate a full PC load or reliably expose every intermittent fault. Avoid improvised pin-bridging; use the model-specific manufacturer procedure or have the unit tested by a qualified technician.' },
+      { question: 'Should I buy a higher-wattage PSU to stop random restarts?', answer: 'Only if evidence points to insufficient capacity or a PSU fault. Confirm the exact CPU/GPU requirements, power connectors and system load, and rule out overheating, driver, memory and cabling problems first. Use a wattage calculator as an estimate, not proof of failure.' }
+    ]
   },
   'gaming-laptop-upgradeable-ram-ssd': {
     updatedAt: '2026-10-10',
