@@ -459,10 +459,10 @@ const enhancements: Record<string, Enhancement> = {
     }, {
       heading: 'A practical 10-minute pre-purchase check',
       paragraphs: [
-        'Use the following sequence for every finalist. It is designed to catch specification mismatches and ownership costs before you are committed to a purchase; it does not replace an independent review or the local seller's return and warranty terms.'
+        'Use the following sequence for every finalist. It is designed to catch specification mismatches and ownership costs before you are committed to a purchase; it does not replace an independent review or the local seller’s return and warranty terms.'
       ],
       steps: [
-        'Open the manufacturer's page or service document using the full model number, then check that the CPU, GPU, graphics power, display and memory configuration match the listing.',
+        'Open the manufacturer’s page or service document using the full model number, then check that the CPU, GPU, graphics power, display and memory configuration match the listing.',
         'Find at least one credible review of the exact configuration. Check sustained gaming results, noise, temperatures and the test conditions rather than relying only on short synthetic benchmarks.',
         'Confirm whether RAM is soldered, socketed or mixed; check the number of SSD slots, supported drive length, and whether an upgrade would replace the existing drive.',
         'Weigh the laptop and its charger together, check the ports you will actually use, and look for battery results from light work as well as gaming while unplugged.',
@@ -491,7 +491,7 @@ const enhancements: Record<string, Enhancement> = {
     }],
     faq: [
       { question: 'What matters most when buying a gaming laptop?', answer: 'Start with the exact GPU and its configured power, then compare sustained game performance, cooling, display, CPU, memory, storage and the way you will use the laptop. The best combination depends on your games, resolution, budget and portability needs.' },
-      { question: 'Can two gaming laptops with the same GPU perform differently?', answer: 'Yes. Power limits, cooling, CPU and memory configuration, firmware and performance modes can change results. Check the manufacturer's specifications and independent tests for the exact laptop configuration.' },
+      { question: 'Can two gaming laptops with the same GPU perform differently?', answer: 'Yes. Power limits, cooling, CPU and memory configuration, firmware and performance modes can change results. Check the manufacturer’s specifications and independent tests for the exact laptop configuration.' },
       { question: 'What does GPU power or TGP mean on a gaming laptop?', answer: 'It describes the configured power budget for the laptop GPU system, but manufacturers and specification pages may present details differently. Compare the exact model's published graphics power and review results rather than assuming the GPU name tells the full story.' },
       { question: 'Is a 240Hz gaming laptop screen always better than 165Hz?', answer: 'Not automatically. A higher refresh rate can help in games where the system sustains high frame rates, but response behavior, brightness, resolution, color quality and your actual game types also matter.' },
       { question: 'Can I upgrade RAM and SSD after buying?', answer: 'Only if the exact model supports it. RAM can be soldered or partly soldered, and SSD slot count and drive length vary. Verify the service manual and full SKU before purchase.' },
