@@ -52,10 +52,10 @@ export const tools: ToolDef[] = [
     group: 'diagnose',
     kindLabel: 'Analyzer',
     status: 'New',
-    hubDescription: 'Upload a PresentMon, CapFrameX or FrameView capture to inspect 1% and 0.1% lows, stutter spikes and a graph, then download a local text report.',
+    hubDescription: 'Analyze PresentMon, CapFrameX or FrameView captures, compare before/after changes, inspect 1% and 0.1% lows, and download a local report.',
     menuDescription: 'Find stutter that average FPS hides.',
     seoTitle: 'Frame-Time Analyzer: 1% Lows, Stutter and FPS Graph',
-    metaDescription: 'Free frame-time analyzer for PresentMon, CapFrameX or FrameView CSVs. Inspect 1% lows, stutter spikes and graphs, then download a report locally in-browser.',
+    metaDescription: 'Analyze PresentMon, CapFrameX or FrameView CSVs for 1% lows and stutter spikes. Compare two captures and download a local report in your browser.',
     faq: [
       { question: 'What is a frame-time analyzer?', answer: 'It reads a capture of how long each frame took to render and reports average FPS, 1% and 0.1% lows, stutter events and a frame-time graph. Frame times reveal stutter that a single average FPS number hides.' },
       { question: 'Is my capture uploaded anywhere?', answer: 'No. The file is read and analyzed in your browser. Nothing is sent to Tech World Window or to any other server.' },
