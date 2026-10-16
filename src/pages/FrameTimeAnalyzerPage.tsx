@@ -104,18 +104,31 @@ export function FrameTimeAnalyzerPage() {
   const [targetHz, setTargetHz] = useState(144);
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [comparison, setComparison] = useState<Loaded | null>(null);
+  const [comparisonError, setComparisonError] = useState('');
+  const [comparisonBusy, setComparisonBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const comparisonFileRef = useRef<HTMLInputElement>(null);
 
   const analysis = useMemo(() => (loaded ? analyzeFrames(loaded.data.frames, targetHz) : null), [loaded, targetHz]);
+  const comparisonAnalysis = useMemo(() => (comparison ? analyzeFrames(comparison.data.frames, targetHz) : null), [comparison, targetHz]);
   const findings = useMemo(() => (analysis ? buildFindings(analysis) : []), [analysis]);
   const worstSpikes = useMemo(() => (analysis ? [...analysis.spikes].sort((a, b) => b.worstMs - a.worstMs).slice(0, 5) : []), [analysis]);
 
   const ingest = (text: string, isSample: boolean) => {
     const result = parseFrameData(text);
     setCopied(false);
-    if (!result.ok) { setError(result.error); setLoaded(null); return; }
+    if (!result.ok) {
+      setError(result.error);
+      setLoaded(null);
+      setComparison(null);
+      setComparisonError('');
+      return;
+    }
     setError('');
     setLoaded({ data: result.data, isSample });
+    setComparison(null);
+    setComparisonError('');
     trackMonetization('tool_completed', { tool: 'frame_time_analyzer', size: sizeBucket(result.data.frames.length), sample: isSample });
   };
 
@@ -130,6 +143,35 @@ export function FrameTimeAnalyzerPage() {
     finally { setBusy(false); event.target.value = ''; }
   };
 
+  const onComparisonFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setComparison(null);
+    setComparisonError('');
+    if (file.size > MAX_FILE_BYTES) {
+      setComparisonError('That file is larger than 250 MB. Trim the capture to the section you want to compare and try again.');
+      event.target.value = '';
+      return;
+    }
+    setComparisonBusy(true);
+    try {
+      const parsed = parseFrameData(await file.text());
+      if (!parsed.ok) setComparisonError(parsed.error);
+      else setComparison({ data: parsed.data, isSample: false });
+    } catch {
+      setComparisonError('The file could not be read. Choose a CSV or text file containing per-frame time data.');
+    } finally {
+      setComparisonBusy(false);
+      event.target.value = '';
+    }
+  };
+
+  const onClearComparison = () => {
+    setComparison(null);
+    setComparisonError('');
+    if (comparisonFileRef.current) comparisonFileRef.current.value = '';
+  };
+
   const onPaste = () => {
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'paste' });
     ingest(pasteText, false);
@@ -140,7 +182,16 @@ export function FrameTimeAnalyzerPage() {
     ingest(buildSampleCsv(), true);
   };
 
-  const onClear = () => { setLoaded(null); setError(''); setPasteText(''); setCopied(false); if (fileRef.current) fileRef.current.value = ''; };
+  const onClear = () => {
+    setLoaded(null);
+    setComparison(null);
+    setComparisonError('');
+    setError('');
+    setPasteText('');
+    setCopied(false);
+    if (fileRef.current) fileRef.current.value = '';
+    if (comparisonFileRef.current) comparisonFileRef.current.value = '';
+  };
 
   const onCopy = async () => {
     if (!analysis || !loaded) return;
@@ -148,6 +199,41 @@ export function FrameTimeAnalyzerPage() {
       await navigator.clipboard.writeText(summaryText(analysis, loaded.isSample ? 'sample data' : loaded.data.application || 'capture'));
       setCopied(true);
     } catch { setError('Copying was blocked by the browser. Select the numbers and copy them manually.'); }
+  };
+
+  const onDownloadComparisonReport = () => {
+    if (!analysis || !loaded || !comparisonAnalysis || !comparison) return;
+    const rows: [string, number, number, string][] = [
+      ['Average FPS', analysis.avgFps, comparisonAnalysis.avgFps, 'FPS'],
+      ['1% low', analysis.low1Fps, comparisonAnalysis.low1Fps, 'FPS'],
+      ['0.1% low', analysis.low01Fps, comparisonAnalysis.low01Fps, 'FPS'],
+      ['99th percentile frame time', analysis.p99Ms, comparisonAnalysis.p99Ms, 'ms'],
+      ['Detected stutter events per minute', analysis.spikesPerMinute, comparisonAnalysis.spikesPerMinute, '/min'],
+      ['Frames over selected frame-time budget', analysis.overBudgetPct, comparisonAnalysis.overBudgetPct, '%'],
+    ];
+    const report = [
+      'TECH WORLD WINDOW — BEFORE/AFTER FRAME-TIME COMPARISON',
+      '======================================================',
+      `Target refresh rate: ${targetHz} Hz`,
+      `Baseline: ${loaded.isSample ? 'synthetic sample (not a real benchmark)' : loaded.data.application || 'first capture'}`,
+      `Comparison: ${comparison.isSample ? 'synthetic sample (not a real benchmark)' : comparison.data.application || 'second capture'}`,
+      '',
+      ...rows.map(([label, before, after, unit]) => `${label}: baseline ${before.toFixed(2)} ${unit}; comparison ${after.toFixed(2)} ${unit}; change ${after - before >= 0 ? '+' : ''}${(after - before).toFixed(2)} ${unit}`),
+      '',
+      'Use the same game scene, settings, capture tool and similar capture duration for a fair comparison.',
+      'FPS and low-FPS values are usually better when higher; frame time, stutter rate and over-budget share are usually better when lower.',
+      'A difference does not prove that a driver, setting or component caused the change. Both captures are analyzed locally; no file is uploaded.',
+    ].join('\n');
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = `frame-time-comparison-${new Date().toISOString().slice(0, 10)}.txt`;
+    anchor.style.display = 'none';
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
   };
 
   const onDownloadReport = () => {
@@ -233,6 +319,43 @@ export function FrameTimeAnalyzerPage() {
     {loaded && analysis && <div className="ft-results">
       {loaded.isSample && <div className="editorial-note"><strong>Synthetic sample</strong><p>This is generated demonstration data, not a real benchmark. Upload your own capture to analyze your PC.</p></div>}
       {loaded.data.warnings.map(warning => <p className="ft-warning" key={warning}>{warning}</p>)}
+
+      <section className="ft-comparison-panel" aria-labelledby="ft-comparison-heading">
+        <div className="ft-comparison-copy">
+          <span className="eyebrow">BEFORE / AFTER</span>
+          <h2 id="ft-comparison-heading">Compare a second capture</h2>
+          <p>The capture already loaded above is the baseline. Choose a second capture to compare averages, low FPS, slow-frame timing, stutter rate, and frames over the selected refresh-rate budget.</p>
+        </div>
+        <div className="ft-input-actions">
+          <label className="button button-primary ft-file-button">
+            {comparisonBusy ? 'Reading comparison…' : 'Choose comparison capture (CSV)'}
+            <input ref={comparisonFileRef} type="file" accept=".csv,.txt,text/csv,text/plain" onChange={onComparisonFile} disabled={comparisonBusy} />
+          </label>
+          {comparison && <button type="button" className="ft-secondary" onClick={onClearComparison}>Clear comparison</button>}
+        </div>
+        {comparisonError && <div className="ft-error" role="alert"><strong>Could not compare that capture.</strong> {comparisonError}</div>}
+        {comparison?.data.warnings.map(warning => <p className="ft-warning" key={warning}>{warning}</p>)}
+        {comparison && comparisonAnalysis && <div className="ft-comparison-results">
+          {loaded.isSample && <p className="ft-warning">The baseline is synthetic sample data. This comparison demonstrates the calculation and must not be treated as a real benchmark result.</p>}
+          <p className="ft-note">Compare like with like: use the same game scene, settings, capture tool, hardware, driver, and target refresh rate, with similar capture lengths. Different runs naturally vary.</p>
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Before and after frame-time metrics">
+            <table className="article-table">
+              <caption>Baseline versus comparison capture</caption>
+              <thead><tr><th scope="col">Metric</th><th scope="col">Baseline</th><th scope="col">Comparison</th><th scope="col">Change</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Average FPS</th><td>{analysis.avgFps.toFixed(1)}</td><td>{comparisonAnalysis.avgFps.toFixed(1)}</td><td>{comparisonAnalysis.avgFps - analysis.avgFps >= 0 ? '+' : ''}{(comparisonAnalysis.avgFps - analysis.avgFps).toFixed(1)} FPS</td></tr>
+                <tr><th scope="row">1% low FPS</th><td>{analysis.low1Fps.toFixed(1)}</td><td>{comparisonAnalysis.low1Fps.toFixed(1)}</td><td>{comparisonAnalysis.low1Fps - analysis.low1Fps >= 0 ? '+' : ''}{(comparisonAnalysis.low1Fps - analysis.low1Fps).toFixed(1)} FPS</td></tr>
+                <tr><th scope="row">0.1% low FPS</th><td>{analysis.low01Fps.toFixed(1)}</td><td>{comparisonAnalysis.low01Fps.toFixed(1)}</td><td>{comparisonAnalysis.low01Fps - analysis.low01Fps >= 0 ? '+' : ''}{(comparisonAnalysis.low01Fps - analysis.low01Fps).toFixed(1)} FPS</td></tr>
+                <tr><th scope="row">99th percentile frame time</th><td>{analysis.p99Ms.toFixed(2)} ms</td><td>{comparisonAnalysis.p99Ms.toFixed(2)} ms</td><td>{comparisonAnalysis.p99Ms - analysis.p99Ms >= 0 ? '+' : ''}{(comparisonAnalysis.p99Ms - analysis.p99Ms).toFixed(2)} ms</td></tr>
+                <tr><th scope="row">Stutter events per minute</th><td>{analysis.spikesPerMinute.toFixed(1)}</td><td>{comparisonAnalysis.spikesPerMinute.toFixed(1)}</td><td>{comparisonAnalysis.spikesPerMinute - analysis.spikesPerMinute >= 0 ? '+' : ''}{(comparisonAnalysis.spikesPerMinute - analysis.spikesPerMinute).toFixed(1)}</td></tr>
+                <tr><th scope="row">Frames over budget</th><td>{analysis.overBudgetPct.toFixed(1)}%</td><td>{comparisonAnalysis.overBudgetPct.toFixed(1)}%</td><td>{comparisonAnalysis.overBudgetPct - analysis.overBudgetPct >= 0 ? '+' : ''}{(comparisonAnalysis.overBudgetPct - analysis.overBudgetPct).toFixed(1)} percentage points</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="ft-note">Higher FPS and low-FPS values are usually favorable; lower frame time, stutter rate, and over-budget share are usually favorable. These changes do not prove what caused the difference.</p>
+          <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onDownloadComparisonReport}>Download comparison report (.txt)</button></p>
+        </div>}
+      </section>
 
       <div className="ft-stats" role="list">
         <div role="listitem"><span>Average</span><strong>{analysis.avgFps.toFixed(1)} FPS</strong><small>{analysis.frameCount.toLocaleString('en-US')} frames over {analysis.durationSec.toFixed(1)} s</small></div>
