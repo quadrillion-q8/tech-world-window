@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { getProductByPath, productCategorySlug, productPageTitle, type Product, type ProductCategory } from '../data/products';
+import { getProductByPath, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
 import { SEOEngine, BreadcrumbStructuredData, ProductStructuredData } from '../seo/SEOEngine';
 import { AffiliateLink } from '../components/AffiliateLink';
 
@@ -30,7 +30,7 @@ export function ProductReviewPage() {
   const groups = sourceGroups(product);
   const hasIndependentReview = groups.independent.length > 0;
   const pageTitle = productPageTitle(product);
-  const description = `${product.summary} TWW testing status: ${product.status === 'hands-on-tested' ? 'hands-on testing is documented on this page.' : 'this is a specification profile, not a TWW hands-on review.'}`;
+  const description = productMetaDescription(product);
 
   return <article className="article-page product-review-page">
     <SEOEngine title={pageTitle} description={description} path={location.pathname} type="website" />
