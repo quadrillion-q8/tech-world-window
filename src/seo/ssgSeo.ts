@@ -3,6 +3,7 @@ import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
 import { getToolPageData } from '../data/tools';
+import { getProductByPath, productCategorySlug, productMetaDescription, productPageTitle } from '../data/products';
 import { fitTitle } from './title';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
@@ -101,6 +102,16 @@ function buildSeoData(path: string): SeoData {
     };
   }
 
+  const product = getProductByPath(normalizedPath);
+  if (product) {
+    return {
+      title: `${productPageTitle(product)} | Tech World Window`,
+      description: productMetaDescription(product),
+      canonical: absoluteUrl(normalizedPath),
+      type: 'website',
+    };
+  }
+
   const toolPage = getToolPageData(normalizedPath);
   if (toolPage) {
     return {
@@ -187,10 +198,15 @@ function breadcrumbSchema(path: string, seo: SeoData) {
   const items = [{ name: 'Home', path: '/' }];
   const article = articles.find(item => `/${item.slug}` === path);
   const category = getCategory(path);
+  const product = getProductByPath(path);
 
   if (article) {
     items.push({ name: article.category, path: `/${article.category.toLowerCase()}` });
     items.push({ name: article.title, path });
+  } else if (product) {
+    items.push({ name: 'Reviews & Product Research', path: '/reviews' });
+    items.push({ name: product.category + ' Profiles', path: `/reviews/${productCategorySlug(product.category)}` });
+    items.push({ name: product.brand + ' ' + product.model, path });
   } else if (category) {
     items.push({ name: category.name, path });
   } else if (path.startsWith('/tools/')) {
