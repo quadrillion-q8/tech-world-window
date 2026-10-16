@@ -496,3 +496,111 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
   .product-testing-status,
   .product-buying-note { padding: 1rem; }
 }
+
+
+/* Tools Lab: search-first discovery, local battery analysis, and capture comparison. */
+.tools-discovery {
+  margin: 1.75rem 0 2.25rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(155deg, rgba(17, 36, 58, .94), rgba(10, 25, 40, .94));
+}
+.tools-search-label { display: block; margin-bottom: .45rem; color: var(--ink); font-weight: 750; }
+.tools-search-input { width: 100%; min-height: 3.1rem; padding: .8rem 1rem; }
+.tools-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; margin-top: .85rem; }
+.tools-filter {
+  min-height: 2.5rem;
+  padding: .55rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .035);
+  color: var(--ink);
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tools-filter:hover, .tools-filter:focus-visible { border-color: rgba(103, 232, 249, .65); }
+.tools-filter.is-active { color: #e8fcff; border-color: rgba(103, 232, 249, .55); background: var(--accent-wash); }
+.tools-count { margin-left: auto; color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
+.tools-empty { margin: 1.5rem 0; }
+.tools-empty .tools-filter { margin-top: .3rem; }
+
+.battery-privacy {
+  margin: 1rem 0 1.35rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(103, 232, 249, .22);
+  border-left: 4px solid var(--cyan);
+  border-radius: 0 12px 12px 0;
+  background: rgba(13, 44, 56, .34);
+}
+.battery-privacy strong { color: #dffbff; }
+.battery-privacy p { margin: .3rem 0 0; }
+.battery-tool-panel {
+  display: grid;
+  gap: 1.15rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(155deg, rgba(17, 36, 58, .96), rgba(10, 25, 40, .96));
+}
+.battery-tool-actions { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; }
+.battery-file-button { position: relative; display: inline-flex; align-items: center; overflow: hidden; cursor: pointer; }
+.battery-file-button input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.battery-file-button:focus-within { outline: 3px solid var(--accent); outline-offset: 3px; }
+.battery-help { margin: 0; font-size: .92rem; }
+.battery-command { padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 12px; background: rgba(0, 0, 0, .12); }
+.battery-command strong { color: var(--ink); }
+.battery-command ol { margin: .5rem 0 0; padding-left: 1.3rem; }
+.battery-command code { overflow-wrap: anywhere; padding: .12rem .35rem; border-radius: 5px; background: rgba(255, 255, 255, .07); color: #dffbff; }
+.battery-results { margin: 1.5rem 0 2rem; }
+.battery-result-card {
+  margin: 1rem 0;
+  padding: clamp(1rem, 2.4vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(155deg, rgba(17, 36, 58, .96), rgba(10, 25, 40, .96));
+}
+.battery-result-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.battery-result-heading h2 { margin: .2rem 0; font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+.battery-ratio { display: grid; gap: .1rem; text-align: right; }
+.battery-ratio strong { font-size: clamp(1.7rem, 4vw, 2.5rem); color: var(--cyan); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.battery-ratio span { color: var(--muted); font-size: .8rem; }
+.battery-capacity-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; margin: 1.2rem 0; }
+.battery-capacity-grid > div { min-width: 0; padding: .8rem; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, .025); }
+.battery-capacity-grid span { display: block; color: var(--muted); font-size: .78rem; line-height: 1.4; }
+.battery-capacity-grid strong { display: block; margin-top: .45rem; color: var(--ink); font-size: 1rem; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.battery-interpretation { margin: 0; padding-top: .9rem; border-top: 1px solid var(--line); }
+.battery-disclaimer { margin: .8rem 0; font-size: .87rem; color: var(--muted); }
+.battery-safety-note { padding: 1rem; border-left: 4px solid var(--amber); border-radius: 0 12px 12px 0; background: rgba(101, 64, 18, .18); }
+.battery-safety-note h2 { margin-top: 0; }
+.battery-explain section { margin: 2rem 0; }
+
+.ft-comparison-panel {
+  margin: 1.5rem 0 2rem;
+  padding: clamp(1rem, 2.4vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(17, 36, 58, .86), rgba(10, 25, 40, .86));
+}
+.ft-comparison-copy h2 { margin: .25rem 0 .5rem; font-size: clamp(1.35rem, 2.3vw, 1.8rem); }
+.ft-comparison-copy p { margin: 0 0 1rem; }
+.ft-comparison-results { margin-top: 1rem; }
+.ft-comparison-results .table-wrap { margin: 1rem 0; }
+.ft-comparison-results .article-table { min-width: 620px; }
+.ft-comparison-results .ft-note { font-size: .9rem; }
+
+@media (max-width: 760px) {
+  .tools-count { flex-basis: 100%; margin: .1rem 0 0; }
+  .battery-capacity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .battery-result-heading { align-items: flex-start; }
+}
+@media (max-width: 430px) {
+  .battery-capacity-grid { grid-template-columns: minmax(0, 1fr); }
+  .battery-result-heading { flex-direction: column; }
+  .battery-ratio { text-align: left; }
+  .tools-filter-row { align-items: stretch; }
+  .tools-filter { flex: 1 1 auto; }
+}
