@@ -4,6 +4,7 @@
  */
 import { bsodEntries, bsodPath, shortHex } from './bsod';
 import { tools } from './tools';
+import { productPageTitle, productPath, products } from './products';
 
 export type RouteNode = {
   path: string;
@@ -38,8 +39,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/testing', kind: 'static', title: 'TWW Testing Methodology', indexable: true },
   { path: '/research', kind: 'static', title: 'TWW Technology Research', indexable: true },
   { path: '/reviews/ssds', kind: 'category', title: 'SSD Reviews', indexable: true },
-  { path: '/reviews/ssds/samsung-990-pro-4tb', kind: 'product-review', title: 'Samsung 990 PRO 4TB Review', indexable: true },
-  { path: '/reviews/ssds/crucial-t500-2tb', kind: 'product-review', title: 'Crucial T500 2TB Review', indexable: true },
+  ...products.map(product => ({ path: productPath(product), kind: 'product-review' as const, title: productPageTitle(product), indexable: true })),
   { path: '/compare/samsung-990-pro-vs-crucial-t500', kind: 'comparison', title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB', indexable: true },
   { path: '/reviews/gpus', kind: 'category', title: 'GPU Reviews', indexable: true },
   { path: '/reviews/laptops', kind: 'category', title: 'Laptop Reviews', indexable: true },
