@@ -392,26 +392,30 @@ if (!existsSync(dist)) {
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
     if (route.path === '/' && !html.includes('"@type":"Organization"')) errors.push('Homepage is missing Organization JSON-LD.');
 
+    if (route.kind === 'product-review') {
+      const product = products.find(item => productPath(item) === route.path);
+      if (!product) {
+        errors.push(`Product route has no product data: ${route.path}`);
+      } else {
+        if (!html.includes(product.brand) || !html.includes(product.model)) {
+          errors.push(`Prerendered product page is missing its brand/model: ${route.path}`);
+        }
+        if (product.status === 'spec-profile' && !html.includes('This is not a TWW hands-on review.')) {
+          errors.push(`Prerendered specification profile is missing the TWW testing-status disclosure: ${route.path}`);
+        }
+        for (const source of product.sources) {
+          const escapedUrl = source.url.replace(/&/g, '&amp;');
+          if (!html.includes(source.url) && !html.includes(escapedUrl)) {
+            errors.push(`Prerendered product page is missing a cited source URL: ${route.path} → ${source.url}`);
+          }
+        }
+      }
+    }
+
     if (route.kind === 'tool' || route.kind === 'bsod-code') {
       const toolPage = getToolPageData(route.path);
       if (toolPage?.faq.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
       if (toolPage?.webApp && !html.includes('"@type":"WebApplication"')) errors.push(`Missing WebApplication JSON-LD in ${route.path}`);
-      if (route.kind === 'product-review') {
-        const product = products.find(item => productPath(item) === route.path);
-        if (!product) {
-          errors.push(`Product route has no product data: ${route.path}`);
-        } else {
-          if (!html.includes(product.brand) || !html.includes(product.model)) {
-            errors.push(`Prerendered product page is missing its brand/model: ${route.path}`);
-          }
-          if (product.status === 'spec-profile' && !html.includes('This is not a TWW hands-on review.')) {
-            errors.push(`Prerendered specification profile is missing the TWW testing-status disclosure: ${route.path}`);
-          }
-          for (const source of product.sources) {
-            if (!html.includes(source.url)) errors.push(`Prerendered product page is missing a cited source URL: ${route.path} → ${source.url}`);
-          }
-        }
-      }
       if (route.kind === 'bsod-code') {
         const entry = bsodEntries.find(item => bsodPath(item.slug) === route.path);
         if (entry && !html.includes(entry.name)) errors.push(`Prerendered HTML is missing the stop code name in ${route.path}`);
