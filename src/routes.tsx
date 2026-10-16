@@ -42,6 +42,9 @@ function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/gamebar-presence-writer-fix') {
     return async () => ({ Component: (await import('./pages/GameBarPresenceWriterPage')).GameBarPresenceWriterPage });
   }
+  if (route.path === '/tools/windows-battery-health-analyzer') {
+    return async () => ({ Component: (await import('./pages/WindowsBatteryHealthAnalyzerPage')).WindowsBatteryHealthAnalyzerPage });
+  }
   if (route.path === '/tools/frame-time-analyzer') {
     return async () => ({ Component: (await import('./pages/FrameTimeAnalyzerPage')).FrameTimeAnalyzerPage });
   }

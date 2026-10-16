@@ -24,7 +24,7 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free Windows troubleshooting assistant, frame-time analyzer, blue-screen lookup and PC hardware calculators to diagnose problems and plan upgrades.';
+export const HUB_SEO_DESCRIPTION = 'Free Windows troubleshooting, frame-time analysis, blue-screen lookup, laptop battery health analysis and PC hardware calculators.';
 
 export const tools: ToolDef[] = [
   {
@@ -52,10 +52,10 @@ export const tools: ToolDef[] = [
     group: 'diagnose',
     kindLabel: 'Analyzer',
     status: 'New',
-    hubDescription: 'Upload a PresentMon, CapFrameX or FrameView capture to inspect 1% and 0.1% lows, stutter spikes and a graph, then download a local text report.',
+    hubDescription: 'Analyze PresentMon, CapFrameX or FrameView captures, compare before/after changes, inspect 1% and 0.1% lows, and download a local report.',
     menuDescription: 'Find stutter that average FPS hides.',
     seoTitle: 'Frame-Time Analyzer: 1% Lows, Stutter and FPS Graph',
-    metaDescription: 'Free frame-time analyzer for PresentMon, CapFrameX or FrameView CSVs. Inspect 1% lows, stutter spikes and graphs, then download a report locally in-browser.',
+    metaDescription: 'Analyze PresentMon, CapFrameX or FrameView CSVs for 1% lows and stutter spikes. Compare two captures and download a local report in your browser.',
     faq: [
       { question: 'What is a frame-time analyzer?', answer: 'It reads a capture of how long each frame took to render and reports average FPS, 1% and 0.1% lows, stutter events and a frame-time graph. Frame times reveal stutter that a single average FPS number hides.' },
       { question: 'Is my capture uploaded anywhere?', answer: 'No. The file is read and analyzed in your browser. Nothing is sent to Tech World Window or to any other server.' },
@@ -63,6 +63,25 @@ export const tools: ToolDef[] = [
       { question: 'What are 1% lows and 0.1% lows?', answer: 'They describe the slowest frames in a capture. Here the 1% low is the average FPS of the slowest 1% of frames, and the 0.1% low is the same for the slowest 0.1%. Tools define lows in different ways, so compare numbers only when they come from the same method.' },
       { question: 'How long should a capture be?', answer: 'Capture at least 60 seconds of the same gameplay scene. Shorter captures contain few slow frames, which makes 1% and 0.1% lows unreliable.' },
       { question: 'Can I save or share the analysis results?', answer: 'Yes. After analysis, copy the summary or download a plain-text report containing the metrics, findings, warnings and up to five of the slowest detected events. The export is generated locally and is not uploaded.' },
+    ],
+  },
+  {
+    id: 'windows-battery-health-analyzer',
+    path: '/tools/windows-battery-health-analyzer',
+    title: 'Windows Battery Health Analyzer',
+    group: 'diagnose',
+    kindLabel: 'Analyzer',
+    status: 'New',
+    hubDescription: 'Read a Windows battery-report HTML file locally to compare design capacity with full-charge capacity, estimate capacity loss, and show cycle count when reported.',
+    menuDescription: 'Check reported laptop battery capacity without uploading the report.',
+    seoTitle: 'Windows Battery Health Analyzer: Capacity & Wear',
+    metaDescription: 'Analyze a Windows battery-report HTML file locally to compare full-charge and design capacity, estimate capacity loss, and inspect cycle-count data when reported.',
+    faq: [
+      { question: 'How do I create a battery report in Windows?', answer: 'Open Windows Terminal or Command Prompt and run powercfg /batteryreport. Open the HTML file path printed by Windows, then select that saved report in this tool. You run the command yourself; this tool does not run commands on your PC.' },
+      { question: 'Is my battery report uploaded?', answer: 'No. The HTML report is read and parsed in your browser. Tech World Window does not receive the file or the battery values extracted from it.' },
+      { question: 'How is capacity loss estimated?', answer: 'The capacity ratio is Full Charge Capacity divided by Design Capacity, multiplied by 100. A result below 100% means the reported full-charge capacity is below the design figure. It does not predict exact runtime, cell condition, or the date a battery will fail.' },
+      { question: 'What if Windows does not report a cycle count?', answer: 'Some manufacturers do not expose every battery field in the report. The analyzer shows cycle count only when it is present and does not fill missing data with guesses.' },
+      { question: 'Does low reported capacity mean the battery is unsafe?', answer: 'Not by itself. Capacity loss can mean shorter runtime. Swelling, unusual heat, odor, leakage, or physical damage are separate safety warnings. Stop using a swollen or damaged battery and arrange qualified service; do not puncture or open a battery pack.' },
     ],
   },
   {
@@ -138,6 +157,7 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 /** Articles that should point readers at a tool (slug without leading slash -> tool paths). */
 export const articleToolLinks: Record<string, string[]> = {
   'research/does-more-ram-make-windows-faster': ['/tools/ram-calculator'],
+  'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
   'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant'],
