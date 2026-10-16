@@ -45,6 +45,14 @@ export function productPath(product: Product): string {
   return `/reviews/${productCategorySlug(product.category)}/${product.slug}`;
 }
 
+export function productMetaDescription(product: Product): string {
+  const hasIndependentReview = product.sources.some(source => source.kind === 'independent-review');
+  const coverage = hasIndependentReview
+    ? 'specs, buying cautions and linked independent reviews'
+    : 'manufacturer specifications and buying cautions';
+  return (product.brand + ' ' + product.model + ': ' + coverage + '. Not a TWW hands-on review.').slice(0, 160);
+}
+
 export function productPageTitle(product: Product): string {
   if (product.status === 'hands-on-tested') return `${product.brand} ${product.model} Review`;
   const hasIndependentReview = product.sources.some(source => source.kind === 'independent-review');
