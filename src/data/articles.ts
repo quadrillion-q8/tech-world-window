@@ -1244,7 +1244,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-16',
     readingTime: 12,
     tags: ['Gaming Laptops', 'GPU', 'CPU', 'Cooling', 'Displays', 'Buying Guide'],
-    relatedArticles: ['best-ssds', 'best-ram', 'best-gaming-monitors', 'gaming-laptop-upgradeable-ram-ssd'],
+    relatedArticles: ['best-ssds', 'best-ram', 'best-gaming-monitors'],
     contentRole: 'pillar',
     pillarPath: '/gaming',
     searchIntent: 'commercial',
