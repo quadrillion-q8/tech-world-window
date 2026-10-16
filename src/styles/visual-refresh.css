@@ -394,3 +394,105 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
     animation-iteration-count: 1 !important; transition-duration: .01ms !important;
   }
 }
+
+
+/* Product-review library: source-aware profiles, not fake review-score templates. */
+.product-library-section {
+  margin-top: clamp(2.5rem, 4vw, 4rem);
+}
+.product-library-section .section-heading {
+  align-items: end;
+  margin-bottom: 1.35rem;
+}
+.product-library-section .section-heading h2 {
+  max-width: 850px;
+}
+.product-profile-card {
+  padding: 1.25rem;
+  min-width: 0;
+}
+.product-profile-card h3 {
+  font-size: 1.12rem;
+  line-height: 1.35;
+  margin: .8rem 0 .55rem;
+  overflow-wrap: anywhere;
+}
+.product-profile-card h3 a {
+  color: #edf4fb;
+  text-decoration: none;
+}
+.product-profile-card h3 a:hover {
+  color: var(--accent-strong);
+}
+.product-profile-card .card-meta {
+  margin-top: auto;
+  padding-top: .9rem;
+  color: #91a7bb;
+  line-height: 1.5;
+}
+.product-profile-card .text-link {
+  align-self: flex-start;
+  line-height: 1.5;
+}
+.review-integrity-notice {
+  border-left: 3px solid var(--accent) !important;
+}
+.product-testing-status,
+.product-buying-note {
+  margin: 1.35rem 0 2rem;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid rgba(157, 181, 202, .18);
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(15, 39, 58, .96), rgba(10, 26, 42, .96));
+}
+.product-testing-status {
+  border-left: 3px solid var(--accent);
+}
+.product-testing-status h2 {
+  margin-bottom: .6rem;
+}
+.product-testing-status p,
+.product-buying-note p {
+  margin: .4rem 0 0;
+  color: #b4c3d2;
+}
+.product-testing-status strong,
+.product-buying-note strong {
+  color: #eef6fc;
+}
+.product-independent-review .editorial-note {
+  background: linear-gradient(135deg, rgba(12, 46, 58, .72), rgba(13, 29, 46, .96));
+  border-left-color: var(--accent);
+}
+.product-independent-review .editorial-note p {
+  color: #c0cfdd;
+}
+.product-source-links {
+  display: grid;
+  gap: .55rem;
+  padding-left: 1.2rem;
+}
+.product-source-links li {
+  color: #aebfd0;
+  line-height: 1.65;
+}
+.product-source-note {
+  font-size: .82rem;
+  line-height: 1.6 !important;
+  color: #91a7bb !important;
+}
+.product-review-page .sources-section h3 {
+  margin-top: 1.5rem;
+  font-size: 1.05rem;
+}
+.product-review-page .sources-section a {
+  overflow-wrap: anywhere;
+}
+.related-review-guides {
+  margin-top: clamp(2.5rem, 4vw, 4rem);
+}
+@media (max-width: 620px) {
+  .product-profile-card { padding: 1.05rem; }
+  .product-testing-status,
+  .product-buying-note { padding: 1rem; }
+}

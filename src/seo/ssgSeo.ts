@@ -3,6 +3,7 @@ import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
 import { getToolPageData } from '../data/tools';
+import { getProductByPath, productCategorySlug, productMetaDescription, productPageTitle } from '../data/products';
 import { fitTitle } from './title';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
@@ -27,14 +28,6 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   '/affiliate-disclosure': {
     title: 'Affiliate Disclosure | Tech World Window',
     description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
-  },
-  '/reviews/ssds/samsung-990-pro-4tb': {
-    title: 'Samsung 990 PRO 4TB Review | Tech World Window',
-    description: 'Samsung 990 PRO 4TB specification profile: PCIe 4.0 interface, 4TB capacity and a 2,400 TBW endurance rating.',
-  },
-  '/reviews/ssds/crucial-t500-2tb': {
-    title: 'Crucial T500 2TB Review | Tech World Window',
-    description: 'Crucial T500 2TB specification profile: PCIe 4.0 interface with up to 7,400/7,000 MB/s rated sequential speeds.',
   },
   '/compare/samsung-990-pro-vs-crucial-t500': {
     title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB | Tech World Window',
@@ -98,6 +91,16 @@ function buildSeoData(path: string): SeoData {
       updatedAt: article.updatedAt,
       authorName: authors[article.authorId]?.name || 'Tech World Window Editorial Team',
       image: article.heroImage || DEFAULT_OG_IMAGE,
+    };
+  }
+
+  const product = getProductByPath(normalizedPath);
+  if (product) {
+    return {
+      title: `${productPageTitle(product)} | Tech World Window`,
+      description: productMetaDescription(product),
+      canonical: absoluteUrl(normalizedPath),
+      type: 'website',
     };
   }
 
@@ -187,10 +190,15 @@ function breadcrumbSchema(path: string, seo: SeoData) {
   const items = [{ name: 'Home', path: '/' }];
   const article = articles.find(item => `/${item.slug}` === path);
   const category = getCategory(path);
+  const product = getProductByPath(path);
 
   if (article) {
     items.push({ name: article.category, path: `/${article.category.toLowerCase()}` });
     items.push({ name: article.title, path });
+  } else if (product) {
+    items.push({ name: 'Reviews & Product Research', path: '/reviews' });
+    items.push({ name: product.category + ' Profiles', path: `/reviews/${productCategorySlug(product.category)}` });
+    items.push({ name: product.brand + ' ' + product.model, path });
   } else if (category) {
     items.push({ name: category.name, path });
   } else if (path.startsWith('/tools/')) {
