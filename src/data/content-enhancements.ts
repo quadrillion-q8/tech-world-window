@@ -409,13 +409,95 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'best-gaming-laptops': {
+    updatedAt: '2026-10-16',
+    seoTitle: 'Best Gaming Laptops: Buying Guide',
+    metaDescription: 'Choose a gaming laptop by real-world GPU performance, power limits, cooling, display, upgradeability and the exact model configuration.',
+    sources: [
+      { label: 'NVIDIA: GeForce RTX 50 Series laptop GPU specifications and power ranges', url: 'https://www.nvidia.com/en-us/geforce/laptops/50-series/' },
+      { label: 'NVIDIA: Understanding laptop GPU power and efficiency', url: 'https://www.nvidia.com/en-my/geforce/news/geforce-rtx-40-series-laptop-power-and-efficiency/' },
+      { label: 'Intel: How to pick the best gaming laptop', url: 'https://www.intel.com/content/www/us/en/gaming/resources/how-to-pick-the-best-gaming-laptop.html' },
+      { label: 'Lenovo: Product Specifications Reference (PSREF)', url: 'https://psref.lenovo.com/' },
+      { label: 'Microsoft: powercfg and battery report documentation', url: 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options' },
+      { label: 'FTC: Affiliate and endorsement disclosure guidance', url: 'https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking' }
+    ],
     sections: [{
-      heading: 'TWW buying principle: evaluate the whole laptop, not the GPU name',
+      heading: 'Compare like with like: exact SKU before price',
       paragraphs: [
-        'Two laptops with the same GPU model can deliver different results because power limits, cooling, CPU configuration, memory, display resolution and firmware differ. The GPU label is only the beginning of the comparison.',
-        'For a gaming laptop, evaluate sustained performance and usability together: cooling behavior, fan noise, display quality, upgradeability, charger size, battery behavior away from the wall and the manufacturer’s support path.'
+        'Before you compare prices, make a shortlist of two or three exact configurations and record the full model number or SKU. Confirm GPU and graphics power, VRAM, CPU, RAM layout, SSD capacity, display panel, operating system and the included charger. Retail listings often use the same family name for materially different configurations, so a headline price or broad series name is not enough.',
+        'A useful comparison requires evidence that belongs to the exact machine: manufacturer specifications for the hardware configuration and independent tests for performance, temperature, fan noise and battery behavior. If a test does not state its exact model or configuration, treat it as indicative rather than conclusive.'
+      ],
+      table: {
+        caption: 'Minimum information to capture for each candidate',
+        headers: ['Field', 'What to verify', 'Why it changes the decision'],
+        rows: [
+          ['GPU', 'Exact laptop GPU, VRAM and specified power range/TGP', 'GPU names alone do not guarantee equal sustained performance'],
+          ['CPU and memory', 'Exact CPU, RAM capacity, slot/soldered arrangement and supported maximum', 'Affects high-FPS workloads, multitasking and whether upgrades are possible'],
+          ['Display', 'Resolution, refresh rate, panel type, brightness and response behavior', 'The screen changes both image quality and how much GPU performance is useful'],
+          ['Cooling', 'Sustained game results, temperatures and noise after warm-up', 'Short bursts may hide throttling or an unpleasant fan profile'],
+          ['Storage', 'Installed SSD capacity and spare M.2 slots/compatible lengths', 'Determines the real out-of-box capacity and upgrade cost'],
+          ['Ownership', 'Laptop plus charger weight, ports, battery use, warranty and local service', 'Affects day-to-day portability, compatibility and repair cost'],
+          ['Price', 'Current price for that exact configuration, seller and region', 'Prevents comparing a lower-spec listing against a more expensive review unit']
+        ]
+      }
+    }, {
+      heading: 'Treat performance numbers as conditional evidence',
+      paragraphs: [
+        'Laptop performance depends on more than the GPU label. Power limits, chassis cooling, CPU and memory choice, firmware and performance mode can change the result. NVIDIA publishes power ranges for laptop GPU families and explicitly notes that performance varies by laptop model; manufacturer documentation and independent tests should be read together.',
+        'When reading a benchmark, note the game, resolution, graphics preset, ray tracing, upscaling or frame generation, power mode, AC/battery state and test duration. A frame-generation result may be useful for the experience it creates, but do not compare it as if it were the same measurement as native rendering. Prefer sustained and repeatable testing over one peak score.'
+      ],
+      bullets: [
+        'Use game tests at the resolution and settings you actually plan to use.',
+        'Check average FPS and frame-time or 1% low behavior where the reviewer reports it.',
+        'Look for temperatures and fan noise after the laptop has warmed up.',
+        'Compare systems tested under similar conditions; keep different review methods separate.',
+        'Treat a benchmark of one configuration as evidence about that configuration, not every machine with a matching GPU family name.'
+      ],
+      relatedLinks: [
+        { label: 'PC Bottleneck Calculator', href: '/tools/pc-bottleneck-calculator', description: 'Use as a rough planning aid for CPU/GPU balance, then verify with game-specific tests.' },
+        { label: 'Best gaming monitors', href: '/best-gaming-monitors', description: 'Match resolution and refresh rate to the laptop GPU and the games you play.' }
       ]
-    }]
+    }, {
+      heading: 'A practical 10-minute pre-purchase check',
+      paragraphs: [
+        'Use the following sequence for every finalist. It is designed to catch specification mismatches and ownership costs before you are committed to a purchase; it does not replace an independent review or the local seller's return and warranty terms.'
+      ],
+      steps: [
+        'Open the manufacturer's page or service document using the full model number, then check that the CPU, GPU, graphics power, display and memory configuration match the listing.',
+        'Find at least one credible review of the exact configuration. Check sustained gaming results, noise, temperatures and the test conditions rather than relying only on short synthetic benchmarks.',
+        'Confirm whether RAM is soldered, socketed or mixed; check the number of SSD slots, supported drive length, and whether an upgrade would replace the existing drive.',
+        'Weigh the laptop and its charger together, check the ports you will actually use, and look for battery results from light work as well as gaming while unplugged.',
+        'Compare the full local price, return window, warranty coverage and service availability. Include the cost of extra RAM, SSD storage or an external monitor if you will need them.',
+        'Save the product URL and SKU. Recheck them at checkout so the selected configuration has not changed to a lower-memory, smaller-SSD or different-display variant.'
+      ]
+    }, {
+      heading: 'Be careful with portability and battery claims',
+      paragraphs: [
+        'Battery life for browsing or video playback should not be interpreted as gaming runtime. High-performance gaming increases power draw, and many laptops reduce performance when unplugged. Compare battery tests under similar brightness, refresh-rate, wireless and workload conditions, and separate office-use results from gaming results.',
+        'For an existing Windows laptop, Microsoft documents the built-in powercfg battery-report command. That report helps inspect battery history and capacity characteristics, but it is not a predictor of gaming performance or a replacement for a controlled runtime test of a new model.'
+      ],
+      relatedLinks: [
+        { label: 'Can you upgrade a gaming laptop?', href: '/gaming-laptop-upgradeable-ram-ssd', description: 'Verify memory and storage upgrade options by exact model.' }
+      ]
+    }, {
+      heading: 'How to interpret this guide and its recommendations',
+      paragraphs: [
+        'This guide is a buying framework, not a claim that every model on the market has been hands-on tested. A laptop should only be described as tested or ranked from direct testing when that evidence exists for the exact configuration. Where local price, stock or a panel specification cannot be verified, treat it as an open question and check the seller and manufacturer before buying.',
+        'If product links are used, the commercial relationship should be disclosed clearly near the recommendation. Affiliate availability or commission should not substitute for evidence about performance, reliability, warranty, price or suitability.'
+      ],
+      relatedLinks: [
+        { label: 'Editorial policy', href: '/editorial-policy', description: 'Read how sourcing, testing claims, corrections and commercial relationships are handled.' },
+        { label: 'Laptop upgradeability guide', href: '/gaming-laptop-upgradeable-ram-ssd', description: 'Check RAM and SSD upgrade limits before committing to a fixed configuration.' }
+      ]
+    }],
+    faq: [
+      { question: 'What matters most when buying a gaming laptop?', answer: 'Start with the exact GPU and its configured power, then compare sustained game performance, cooling, display, CPU, memory, storage and the way you will use the laptop. The best combination depends on your games, resolution, budget and portability needs.' },
+      { question: 'Can two gaming laptops with the same GPU perform differently?', answer: 'Yes. Power limits, cooling, CPU and memory configuration, firmware and performance modes can change results. Check the manufacturer's specifications and independent tests for the exact laptop configuration.' },
+      { question: 'What does GPU power or TGP mean on a gaming laptop?', answer: 'It describes the configured power budget for the laptop GPU system, but manufacturers and specification pages may present details differently. Compare the exact model's published graphics power and review results rather than assuming the GPU name tells the full story.' },
+      { question: 'Is a 240Hz gaming laptop screen always better than 165Hz?', answer: 'Not automatically. A higher refresh rate can help in games where the system sustains high frame rates, but response behavior, brightness, resolution, color quality and your actual game types also matter.' },
+      { question: 'Can I upgrade RAM and SSD after buying?', answer: 'Only if the exact model supports it. RAM can be soldered or partly soldered, and SSD slot count and drive length vary. Verify the service manual and full SKU before purchase.' },
+      { question: 'Should I expect long battery life while gaming?', answer: 'Do not infer gaming runtime from office or video-playback battery tests. Gaming creates a much heavier load, and performance may be reduced on battery. Seek workload-specific independent tests of the exact model.' },
+      { question: 'Does this article claim to have tested every recommended laptop?', answer: 'No. It provides an evidence-led buying framework. A model should be described as hands-on tested only when direct testing exists for that exact configuration; confirm current price, stock and regional warranty before buying.' }
+    ]
   },
   'best-gaming-monitors': {
     sections: [{
