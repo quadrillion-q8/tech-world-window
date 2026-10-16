@@ -62,13 +62,68 @@ const enhancements: Record<string, Enhancement> = {
     }],
   },
   'gaming-laptop-upgradeable-ram-ssd': {
-    sections: [{
-      heading: 'Battery safety before opening the chassis',
-      paragraphs: [
-        'Before opening any laptop to inspect memory or storage, check for case deformation or other signs of a swollen battery. If the case or trackpad is lifting, stop using and charging the device; do not press the case closed to reach the screws.'
-      ],
-      // Battery safety guidance remains in this section; avoid a cross-category cluster edge.
-    }],
+    updatedAt: '2026-10-16',
+    seoTitle: 'Can You Upgrade a Gaming Laptop? RAM & SSD',
+    metaDescription: 'Check a gaming laptop’s RAM slots, soldered memory, SSD interface and M.2 size. Use the exact model manual, protect data and upgrade safely.',
+    sources: [
+      { label: 'Microsoft: Caring for your battery in Windows', url: 'https://support.microsoft.com/en-us/windows/experience/power-battery/caring-for-your-battery-in-windows' },
+      { label: 'SanDisk: M.2 form factor and SSD interfaces', url: 'https://support-en.sandisk.com/app/answers/detailweb/a_id/15539/related/1' },
+      { label: 'Crucial: RAM and SSD compatibility selector', url: 'https://www.crucial.com/upgrades' },
+      { label: 'Lenovo PSREF product specifications', url: 'https://psref.lenovo.com/' }
+    ],
+    sections: [
+      {
+        heading: 'Cross-check compatibility before ordering',
+        paragraphs: [
+          'Use the manufacturer’s exact-model manual and specification sheet as the primary reference. A memory or SSD compatibility selector is a helpful second check, but it cannot override a model-specific service limit or prove that a particular slot is installed in every regional variant.',
+          'Record the full laptop identifier and the exact proposed part number. Compare memory generation and maximum capacity, or SSD protocol and physical length, against the OEM documentation. If the specifications conflict or leave the slot layout unclear, ask the manufacturer or a qualified service provider before buying.'
+        ],
+        bullets: [
+          'Confirm the exact machine type or SKU, not just the retail family name.',
+          'Match the part to the documented interface, capacity, dimensions and supported configuration.',
+          'Check whether a required drive screw, bracket, cable or caddy is included or must be ordered separately.',
+          'Keep receipts and the original part until the new component has been verified.'
+        ],
+        relatedLinks: [
+          { label: 'Laptop NVMe SSD compatibility guide', href: '/laptop-nvme-ssd-upgrade-compatibility', description: 'Use the model-specific storage checklist when selecting an M.2 replacement.' },
+          { label: 'Best RAM: capacity and compatibility', href: '/best-ram', description: 'Review memory generation and supported configurations before purchasing a kit.' }
+        ]
+      },
+      {
+        heading: 'Plan the Windows-drive migration before replacing an SSD',
+        paragraphs: [
+          'Replacing a drive that contains Windows is different from adding an empty secondary drive. Decide in advance whether the old disk will be cloned or Windows and applications will be installed fresh. Create and verify a backup, and keep the device-encryption or BitLocker recovery key somewhere accessible before you change storage.',
+          'If a new secondary SSD is not visible in File Explorer, it may simply not have a volume yet. Check the model manual and Windows Disk Management first. Initialization and formatting are destructive choices for a drive with existing data, so perform them only when you have confirmed that the disk is genuinely new and contains nothing you need.'
+        ],
+        steps: [
+          'Back up important files to another physical drive or a trusted backup destination and verify that the backup can be opened.',
+          'Save the BitLocker or device-encryption recovery key and confirm you know how to restore the laptop if the boot drive fails.',
+          'Record the old drive’s layout and decide on cloning or a clean Windows installation before removing it.',
+          'After installing the replacement, verify detection and boot behavior before erasing or repurposing the original drive.'
+        ]
+      },
+      {
+        heading: 'Final checks before spending money',
+        paragraphs: [
+          'A short compatibility record reduces the risk of buying a part that fits the marketing description but not the actual laptop. Save the relevant lines from the official manual or specification sheet along with the supplier listing.'
+        ],
+        bullets: [
+          'Laptop make, full model number and service-manual revision recorded.',
+          'RAM layout confirmed: soldered, socketed or mixed; maximum supported capacity and memory type noted.',
+          'SSD protocol, length, slot occupancy, clearance and any mounting hardware confirmed.',
+          'Upgrade chosen to address a measured capacity or workload limit rather than an assumed gaming bottleneck.',
+          'Backup, recovery key, warranty implications and safe service procedure handled before opening the device.',
+          'A plan exists to verify the new capacity and function before the original parts are discarded.'
+        ]
+      }
+    ],
+    faq: [
+      { question: 'Does Task Manager prove that my laptop RAM is replaceable?', answer: 'No. Task Manager can report memory speed and slots in use, but firmware data can be incomplete and does not establish whether memory is soldered. Confirm the physical layout in the exact-model service manual.' },
+      { question: 'Can I use faster RAM than the laptop currently has?', answer: 'Only choose a memory type and configuration supported by the laptop. A faster-rated module may operate at a lower supported speed, and module generation, capacity and density matter as well as its advertised data rate.' },
+      { question: 'Can I install any capacity SSD if the connector fits?', answer: 'No. Confirm the interface, physical length, clearance and any model-specific limits in the manufacturer’s documentation. Fit alone does not establish compatibility.' },
+      { question: 'What should I do if a newly installed SSD is not detected?', answer: 'Power down and check the exact service procedure and model support before reseating anything. Check firmware and Windows detection, and do not initialize or format a drive that may contain existing data.' },
+      { question: 'Should I erase my old drive as soon as Windows boots from the new SSD?', answer: 'No. Verify that the new system boots, needed applications and files work, and your backup is sound before erasing or repurposing the original drive.' }
+    ]
   },
   'windows/windows-update-stuck': {
     sections: [{
