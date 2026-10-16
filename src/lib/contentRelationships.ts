@@ -58,7 +58,9 @@ export function getResearchForArticle(article: Article, articles: Article[], lim
   );
   const researchIds = new Set<string>(direct.map(candidate => candidate.id));
   for (const tag of article.tags) {
-    for (const id of RESEARCH_BY_TOPIC[tag] ?? []) researchIds.add(id);
+    for (const id of RESEARCH_BY_TOPIC[tag] ?? []) {
+      if (id !== article.id) researchIds.add(id);
+    }
   }
   const byId = new Map(articles.map(candidate => [candidate.id, candidate]));
   const curatedFirst = [
