@@ -1,7 +1,18 @@
 {
   "redirects": [
     {
-      "source": "/windows-11-update-stuck-troubleshooting",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "techworldwindow.com"
+        }
+      ],
+      "destination": "https://www.techworldwindow.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/windows-11-update-troubleshooting",
       "destination": "/windows/windows-update-stuck",
       "permanent": true
     }
