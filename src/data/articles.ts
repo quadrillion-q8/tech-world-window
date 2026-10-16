@@ -1284,8 +1284,8 @@ const baseArticles: Article[] = [
         ]
       } },
       { heading: 'GPU power and exact model number matter', paragraphs: [
-        'A GPU name alone is not a performance guarantee. Laptop manufacturers can configure the same GPU family at different power levels, and the CPU, cooling system, firmware and performance profile affect what the machine sustains. NVIDIA publishes power ranges for laptop GPU families and notes that performance varies by laptop model; check the exact manufacturer's specification and independent review before buying.',
-        'Compare the complete SKU—not just a retailer headline. Two products sold under the same family name may differ in GPU power, VRAM, display panel, RAM arrangement, SSD capacity, Wi-Fi, operating system or charger. Save the manufacturer's product number and confirm it matches the configuration listed by the seller.'
+        'A GPU name alone is not a performance guarantee. Laptop manufacturers can configure the same GPU family at different power levels, and the CPU, cooling system, firmware and performance profile affect what the machine sustains. NVIDIA publishes power ranges for laptop GPU families and notes that performance varies by laptop model; check the exact manufacturer’s specification and independent review before buying.',
+        'Compare the complete SKU—not just a retailer headline. Two products sold under the same family name may differ in GPU power, VRAM, display panel, RAM arrangement, SSD capacity, Wi-Fi, operating system or charger. Save the manufacturer’s product number and confirm it matches the configuration listed by the seller.'
       ] },
       { heading: 'Read benchmarks like evidence, not a single score', paragraphs: [
         'A useful review shows the game, resolution, graphics preset, upscaling and frame generation settings, power mode, and whether the laptop was plugged in. Compare laptops tested in the same conditions where possible. Frame-time consistency, temperatures and fan noise can matter as much as the headline average FPS.',
@@ -1293,7 +1293,7 @@ const baseArticles: Article[] = [
       ], bullets: [
         'Check more than one game and include both a demanding AAA title and the type of game you play most.',
         'Look for a sustained run, not only a brief peak benchmark.',
-        'Check the laptop's performance mode and whether the review used the supplied charger.',
+        'Check the laptop’s performance mode and whether the review used the supplied charger.',
         'Treat one review sample as evidence for that configuration, not proof that every laptop with the same GPU will behave the same.'
       ] },
       { heading: 'Display quality is more than refresh rate', paragraphs: [
@@ -1330,7 +1330,7 @@ const baseArticles: Article[] = [
       { question: 'What matters most when choosing a gaming laptop?', answer: 'Match the GPU and its configured power to your target resolution and games, then check sustained performance, cooling, screen quality, CPU behavior and the exact configuration. No single specification identifies the best laptop for everyone.' },
       { question: 'Can two laptops with the same GPU perform differently?', answer: 'Yes. GPU power limits, cooling, CPU choice, memory, firmware and performance modes can change real-world performance. Compare independent tests of the exact laptop configuration rather than the GPU name alone.' },
       { question: 'Is a higher refresh-rate screen always better?', answer: 'Not necessarily. Refresh rate should match the frame rates your games and hardware can sustain. Also check response behavior, brightness, color, resolution and variable-refresh support.' },
-      { question: 'Can I upgrade RAM and SSD in a gaming laptop?', answer: 'It depends on the exact model. RAM may be soldered, socketed or mixed, and SSD slot count, length and availability vary. Verify the manufacturer's service manual and specification sheet for the exact SKU before buying.' },
+      { question: 'Can I upgrade RAM and SSD in a gaming laptop?', answer: 'It depends on the exact model. RAM may be soldered, socketed or mixed, and SSD slot count, length and availability vary. Verify the manufacturer’s service manual and specification sheet for the exact SKU before buying.' },
       { question: 'Do gaming laptops perform as well on battery?', answer: 'Often not. High-performance gaming can draw more power than a laptop is designed to sustain from its battery, so performance may be reduced when unplugged. Check independent tests and manufacturer guidance for the specific model.' },
       { question: 'How should I compare gaming-laptop benchmarks?', answer: 'Use the same games, resolution, graphics settings and power mode where possible. Check sustained runs, frame-time behavior, temperature and fan noise, and note whether upscaling or frame generation is enabled.' },
       { question: 'Does this guide rank laptops from hands-on testing?', answer: 'This page provides a comparison framework. A model should be described as tested or ranked only when there is evidence from that exact configuration. Verify current local prices, stock and specifications with the seller and manufacturer before purchasing.' }
