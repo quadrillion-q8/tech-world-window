@@ -897,3 +897,69 @@ main{position:relative;z-index:1;background:transparent}
  .tools-hub-proof li+li{border-left:0;border-top:1px solid rgba(148,180,208,.15)}
 }
 @media(prefers-reduced-motion:reduce){.windows-symptom-card,.symptom-arrow,.category-topic-links a{transition:none}}
+
+
+/* Dark, high-contrast surface correction for the hub cards. Keep these scoped
+   to the five requested hubs so unrelated light surfaces elsewhere are untouched. */
+.category-page .windows-symptom-hub{
+  background:radial-gradient(ellipse at 0% 0%,rgba(8,145,178,.16),transparent 42%),linear-gradient(145deg,#0d1e31 0%,#091525 100%)!important;
+  border:1px solid rgba(103,232,249,.28)!important;
+}
+.category-page .windows-symptom-grid .windows-symptom-card{
+  background:linear-gradient(135deg,rgba(24,48,72,.98),rgba(14,31,49,.98))!important;
+  border:1px solid rgba(125,166,197,.25)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 8px 20px rgba(0,0,0,.12);
+}
+.category-page .windows-symptom-grid .windows-symptom-card:hover,
+.category-page .windows-symptom-grid .windows-symptom-card:focus-visible{
+  background:linear-gradient(135deg,#173d56,#102b43)!important;
+  border-color:rgba(103,232,249,.68)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.22),0 0 0 1px rgba(103,232,249,.08);
+}
+.category-page .windows-hub-note{background:rgba(4,13,24,.38);border:1px solid rgba(125,166,197,.17);border-radius:12px}
+.category-page .category-topic-links a{
+  background:linear-gradient(145deg,#142b43,#0d1d30)!important;
+  border-color:rgba(125,166,197,.24)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.category-page .category-topic-links a:hover,
+.category-page .category-topic-links a:focus-visible{
+  background:linear-gradient(145deg,#183c54,#10283f)!important;
+  border-color:rgba(103,232,249,.62)!important;
+}
+.commercial-hub .commercial-intro.commercial-standards{
+  background:radial-gradient(ellipse at 0% 50%,rgba(8,145,178,.15),transparent 48%),linear-gradient(110deg,#122940 0%,#0b1a2c 100%)!important;
+  border:1px solid rgba(103,232,249,.25)!important;
+  border-left:3px solid #22d3ee!important;
+  border-radius:16px!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.commercial-hub .commercial-intro.commercial-standards .standards-copy>strong{color:#f0f8ff!important}
+.commercial-hub .commercial-intro.commercial-standards .standards-copy p{color:#b7c9da!important}
+.commercial-hub .commercial-intro.commercial-standards .standards-link{
+  color:#8beafa!important;background:rgba(6,18,31,.45);border-color:rgba(103,232,249,.32)!important;
+}
+.commercial-hub .commercial-intro.commercial-standards .standards-link:hover{background:rgba(34,211,238,.1)!important}
+.tools-hub-page .category-hero .tools-hub-proof{
+  padding:0!important;
+  background:linear-gradient(145deg,rgba(16,37,58,.98),rgba(9,22,37,.98))!important;
+  border:1px solid rgba(103,232,249,.24)!important;
+  border-radius:16px!important;
+  overflow:hidden;
+  box-shadow:0 14px 36px rgba(0,0,0,.16);
+}
+.tools-hub-page .category-hero .tools-hub-proof li{padding:1.2rem 1.1rem!important}
+.tools-hub-page .category-hero .tools-hub-proof li+li{border-top:0!important;border-left:1px solid rgba(125,166,197,.2)!important}
+.tools-hub-page .category-hero .tools-hub-proof li>span:first-child{
+  background:linear-gradient(145deg,rgba(8,145,178,.2),rgba(8,145,178,.06))!important;
+  border:1px solid rgba(103,232,249,.3)!important;color:#8beafa!important;
+}
+.tools-hub-page .category-hero .tools-hub-proof li>span:last-child{
+  display:flex!important;flex-direction:column;gap:.25rem;min-width:0;
+  padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;
+}
+.tools-hub-page .category-hero .tools-hub-proof strong{color:#f0f8ff!important}
+.tools-hub-page .category-hero .tools-hub-proof small{color:#b7c9da!important}
+@media(max-width:760px){
+  .tools-hub-page .category-hero .tools-hub-proof li+li{border-left:0!important;border-top:1px solid rgba(125,166,197,.2)!important}
+}
