@@ -392,10 +392,6 @@ if (!existsSync(dist)) {
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
     if (route.path === '/' && !html.includes('"@type":"Organization"')) errors.push('Homepage is missing Organization JSON-LD.');
 
-    if (route.kind === 'tool' || route.kind === 'bsod-code') {
-      const toolPage = getToolPageData(route.path);
-      if (toolPage?.faq.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
-      if (toolPage?.webApp && !html.includes('"@type":"WebApplication"')) errors.push(`Missing WebApplication JSON-LD in ${route.path}`);
       if (route.kind === 'product-review') {
         const product = products.find(item => productPath(item) === route.path);
         if (!product) {
@@ -412,6 +408,10 @@ if (!existsSync(dist)) {
           }
         }
       }
+    if (route.kind === 'tool' || route.kind === 'bsod-code') {
+      const toolPage = getToolPageData(route.path);
+      if (toolPage?.faq.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
+      if (toolPage?.webApp && !html.includes('"@type":"WebApplication"')) errors.push(`Missing WebApplication JSON-LD in ${route.path}`);
       if (route.kind === 'bsod-code') {
         const entry = bsodEntries.find(item => bsodPath(item.slug) === route.path);
         if (entry && !html.includes(entry.name)) errors.push(`Prerendered HTML is missing the stop code name in ${route.path}`);
