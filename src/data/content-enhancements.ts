@@ -1012,7 +1012,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       heading: 'PSU fan, paper-clip and tester checks have limits',
       paragraphs: [
         'A PSU fan that is not spinning at idle does not automatically mean the unit has failed. Some models deliberately stop the fan at low temperatures or loads, a feature commonly described as zero-RPM or hybrid fan mode. Check the exact PSU manual before interpreting fan behavior.',
-        'An isolated power-on test or basic PSU tester can reveal some faults, but it does not reproduce the real electrical load of a full PC and cannot reliably rule out intermittent or load-related problems. Paper-clip procedures also require exact pin identification; an incorrect connection can cause damage or injury. Do not improvise a jumper test. Use the exact manufacturer's instructions only if you understand the procedure, or use a qualified technician.'
+        'An isolated power-on test or basic PSU tester can reveal some faults, but it does not reproduce the real electrical load of a full PC and cannot reliably rule out intermittent or load-related problems. Paper-clip procedures also require exact pin identification; an incorrect connection can cause damage or injury. Do not improvise a jumper test. Use the exact manufacturer’s instructions only if you understand the procedure, or use a qualified technician.'
       ],
       bullets: [
         'Fan stopped at low load → check whether the model supports zero-RPM operation.',
