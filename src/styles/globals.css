@@ -963,3 +963,81 @@ main{position:relative;z-index:1;background:transparent}
 @media(max-width:760px){
   .tools-hub-page .category-hero .tools-hub-proof li+li{border-left:0!important;border-top:1px solid rgba(125,166,197,.2)!important}
 }
+
+
+/* Windows Troubleshooting Assistant: keep interactive choice cards on the same
+   dark navy/cyan visual system as the updated TWW hubs. Scoped to this tool. */
+.wta-page .wta-privacy,
+.wta-page .wta-step,
+.wta-page .wta-result,
+.wta-page .wta-editorial-note{
+  color:#e6f0fb!important;
+  background:linear-gradient(145deg,rgba(17,39,61,.98),rgba(9,22,37,.98))!important;
+  border:1px solid rgba(103,232,249,.22)!important;
+  border-radius:16px!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.wta-page .wta-privacy p,
+.wta-page .wta-step p,
+.wta-page .wta-result p,
+.wta-page .wta-result li,
+.wta-page .wta-editorial-note p{
+  color:#b7c9da!important;
+}
+.wta-page .wta-step-heading h2,
+.wta-page .wta-result h2,
+.wta-page .wta-result h3,
+.wta-page .wta-privacy strong,
+.wta-page .wta-editorial-note strong{
+  color:#f0f8ff!important;
+}
+.wta-page .wta-choice,
+.wta-page .wta-detail-choice{
+  color:#edf6ff!important;
+  background:linear-gradient(135deg,#183048 0%,#102237 100%)!important;
+  border:1px solid rgba(125,166,197,.27)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 8px 20px rgba(0,0,0,.12);
+  transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;
+}
+.wta-page .wta-choice:hover,
+.wta-page .wta-detail-choice:hover,
+.wta-page .wta-choice:focus-visible,
+.wta-page .wta-detail-choice:focus-visible{
+  color:#fff!important;
+  background:linear-gradient(135deg,#19415a 0%,#123047 100%)!important;
+  border-color:rgba(103,232,249,.68)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.22),0 0 0 1px rgba(103,232,249,.08);
+}
+.wta-page .wta-choice.is-selected,
+.wta-page .wta-detail-choice.is-selected{
+  color:#fff!important;
+  background:linear-gradient(135deg,rgba(8,145,178,.28),rgba(15,42,62,.98))!important;
+  border-color:#67e8f9!important;
+  box-shadow:0 0 0 1px rgba(103,232,249,.16),0 10px 26px rgba(0,0,0,.2);
+}
+.wta-page .wta-choice-number,
+.wta-page .wta-radio{
+  color:#8beafa!important;
+  background:rgba(8,145,178,.15)!important;
+  border-color:rgba(103,232,249,.34)!important;
+}
+.wta-page .wta-choice-arrow,
+.wta-page .wta-detail-choice.is-selected .wta-radio{
+  color:#67e8f9!important;
+}
+.wta-page .wta-caution{
+  background:rgba(120,53,15,.22)!important;
+  border-color:rgba(251,191,36,.42)!important;
+}
+.wta-page .wta-caution strong{color:#fde68a!important}
+.wta-page .wta-caution p{color:#f5d9a4!important}
+.wta-page .wta-result-links a,
+.wta-page .wta-editorial-note .text-link{color:#67e8f9!important}
+.wta-page .wta-reset{
+  color:#e6f0fb!important;
+  border-color:rgba(148,180,208,.38)!important;
+}
+.wta-page .wta-reset:hover{background:rgba(103,232,249,.08)!important}
+@media(prefers-reduced-motion:reduce){
+  .wta-page .wta-choice,.wta-page .wta-detail-choice{transition:none!important}
+}
