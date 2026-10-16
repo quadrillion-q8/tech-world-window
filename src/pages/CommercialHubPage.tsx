@@ -87,7 +87,11 @@ export function CommercialHubPage() {
       <h1>{hub.title}</h1>
       <p>{hub.description}</p>
     </div>
-    <div className="commercial-intro"><strong>How we handle commercial content</strong><p>{hub.intro}</p><Link className="text-link" to="/affiliate-disclosure">Read our affiliate disclosure →</Link></div>
+    <aside className={`commercial-intro commercial-standards ${location.pathname === '/best' ? 'commercial-standards-buying' : 'commercial-standards-reviews'}`} aria-label="Editorial standards">
+      <span className="standards-mark" aria-hidden="true">✓</span>
+      <div className="standards-copy"><span className="eyebrow">{location.pathname === '/best' ? 'OUR BUYING PRINCIPLES' : 'OUR EDITORIAL STANDARD'}</span><strong>{location.pathname === '/best' ? 'Recommendations built around your needs.' : 'Evidence first. Clear about what we tested.'}</strong><p>{hub.intro}</p></div>
+      <Link className="standards-link" to="/affiliate-disclosure">Affiliate policy <span aria-hidden="true">↗</span></Link>
+    </aside>
     {hub.cards.length > 0 && <div className="article-grid">{hub.cards.map(card => <article className="article-card" key={card.href}>
       <div className="card-topline"><span className="eyebrow">{card.label}</span></div>
       <h3>{card.title}</h3><p>{card.description}</p><Link className="text-link" to={card.href}>Explore →</Link>
