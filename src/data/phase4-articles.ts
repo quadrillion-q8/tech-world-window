@@ -2342,17 +2342,17 @@ export const phase4Articles: Article[] = [
   {
     "id": "psu-failure-symptoms",
     "slug": "pc-power-supply-problems-symptoms",
-    "title": "PC Power Supply Problems: Symptoms That Point to the PSU",
-    "seoTitle": "PC Power Supply Problems: Signs and Tests",
-    "dek": "Random restarts, shutdowns, failed startups, and instability can involve the power supply, but software and other hardware can look similar. Use symptoms and controlled tests to narrow it down.",
-    "metaDescription": "Suspect your PC power supply? Learn which symptoms can point to a PSU, which tests are useful, and when to stop troubleshooting and replace or service it.",
-    "excerpt": "A PSU is one possible cause of instability, not a default explanation. Look for load-related failures, power loss patterns, and evidence from other components before replacing it.",
+    "title": "PC Power Supply Problems: Symptoms, Safe Tests, and Diagnosis",
+    "seoTitle": "Bad PSU Symptoms: Safe Tests and Troubleshooting",
+    "dek": "A failing PSU can cause sudden shutdowns, restarts, or startup failures—but GPU faults, overheating, cabling, and memory instability can look similar. Use a symptom-led process to narrow the cause without opening the power supply.",
+    "metaDescription": "Learn which PC shutdowns, restarts and crashes may point to a bad PSU, how to distinguish GPU or thermal faults, and which checks are safe.",
+    "excerpt": "A PSU is one possibility, not a default diagnosis. Match the failure pattern to other evidence, start with safe external checks, and confirm with a compatible known-good unit or qualified test.",
     "category": "Hardware",
     "subcategory": "Power",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 8,
+    "updatedAt": "2026-10-16",
+    "readingTime": 10,
     "tags": [
       "PSU",
       "Power Supply",
@@ -2408,13 +2408,14 @@ export const phase4Articles: Article[] = [
           "Work from the cheapest, safest check to the most conclusive one, and change one thing at a time."
         ],
         "steps": [
-          "Switch the PC off, unplug it, and write down the pattern: when it shuts down, how long after starting, and what you were doing.",
-          "Plug the PC straight into a wall outlet instead of a power strip, and try a different power cable.",
-          "With the PC unplugged, reseat the motherboard, CPU and graphics-card power connectors if you are comfortable opening the case.",
-          "Watch CPU and GPU temperatures during the same workload, because a thermal shutdown can look like a power failure.",
-          "Strip the system down to the essentials, for example one memory module and no extra drives, and see whether the pattern changes.",
-          "If you can, try a known-good PSU of adequate wattage with the right connectors. This is the most conclusive test. A cheap PSU tester only shows that the unit powers up with no load, not that it holds up under gaming load.",
-          "Never open the PSU case. Its capacitors can hold a dangerous charge even when it is unplugged."
+          "Stop immediately if there is smoke, sparking, a burning electrical smell, crackling or popping from the PSU, liquid exposure, or visible scorching. Do not keep switching the PC on to reproduce the fault; disconnect power only if you can do so safely and arrange qualified service or replacement.",
+          "If there are no electrical warning signs, shut the computer down, switch the PSU off, disconnect the AC lead, and note exactly what happened: sudden loss of all power, an automatic restart, a blue screen, or just a game closing.",
+          "Check the external path first: a known-good wall outlet, an undamaged AC lead, the PSU rear switch, and any power strip or UPS. Do not use a damaged cable or outlet.",
+          "If you are comfortable opening the PC case, inspect and reseat the motherboard 24-pin, CPU power, and GPU power connectors only while AC power is disconnected. Follow the component manuals, never force a connector, and use only modular cables specified for that exact PSU model.",
+          "Compare the failure with CPU and GPU temperature and load information from normal use. Do not run repeated stress tests if the computer is shutting off abruptly or shows any electrical warning signs.",
+          "Check Windows Event Viewer at the time of the incident. Kernel-Power Event ID 41 records an unexpected shutdown; it does not identify the PSU as the cause. Look for a related bug-check entry, stop code, or other evidence before deciding which component to test.",
+          "For confirmation, use a compatible known-good PSU with sufficient capacity and the correct connectors, or have a qualified technician perform a loaded test. A basic power-on or no-load tester cannot prove that a PSU behaves correctly under the demands of the full system.",
+          "Never open the PSU enclosure. Hazardous voltage can remain inside after it is unplugged. Do not improvise a paper-clip or pin-bridging test; use the exact manufacturer's procedure or professional help if an isolated PSU test is necessary."
         ]
       },
       {
