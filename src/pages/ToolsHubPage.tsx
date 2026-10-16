@@ -19,7 +19,11 @@ export function ToolsHubPage() {
         <span className="eyebrow">FREE TECH TOOLS</span>
         <h1>Useful tools, not mystery numbers.</h1>
         <p>Narrow down common Windows problems, investigate frame-time stutter, decode blue-screen stop codes, and plan a PC upgrade with transparent estimates. Each tool explains what its result can—and cannot—tell you.</p>
-        <div className="tools-hub-proof" aria-label="Tool principles"><span><strong>Browser-first</strong><small>Analyzer runs locally</small></span><span><strong>Transparent</strong><small>Assumptions explained</small></span><span><strong>Practical</strong><small>Next steps included</small></span></div>
+        <ul className="tools-hub-proof" aria-label="What to expect from our tools">
+          <li><span className="proof-icon" aria-hidden="true">01</span><span><strong>Privacy-aware</strong><small>Compatible analysis stays in your browser</small></span></li>
+          <li><span className="proof-icon" aria-hidden="true">02</span><span><strong>Explainable results</strong><small>Limits and assumptions are made clear</small></span></li>
+          <li><span className="proof-icon" aria-hidden="true">03</span><span><strong>Useful next steps</strong><small>Know what to check after the result</small></span></li>
+        </ul>
       </div>
 
       {groups.map(group => (
