@@ -200,7 +200,7 @@ export const products: Product[] = [
       { label: 'Configuration reference', value: 'Legion Pro 7 16IAX10H; review configuration uses Core Ultra 9 275HX and RTX 5080 Laptop GPU' },
       { label: 'CPU', value: 'Intel Core Ultra 9 275HX, 24 cores / 24 threads' },
       { label: 'GPU', value: 'NVIDIA GeForce RTX 5080 Laptop GPU, 16GB GDDR7, up to 175W TGP in this configuration' },
-      { label: 'Memory / storage', value: '64GB DDR5-6400; 2TB NVMe SSD in the reviewed configuration' },
+      { label: 'Memory / storage', value: 'Notebookcheck test unit: 32GB DDR5-6400 and 1TB NVMe SSD; retail SKUs vary' },
       { label: 'Display', value: '16-inch 2560 × 1600 OLED, 240Hz' },
       { label: 'Battery / adapter', value: '99.9Wh battery; 400W AC adapter in the reviewed configuration' },
       { label: 'Upgradeability', value: 'Two CSODIMM memory slots and two M.2 storage positions (supported sizes vary)' },
@@ -213,7 +213,8 @@ export const products: Product[] = [
       { label: 'Notebookcheck: Legion Pro 7i Gen 10 RTX 5080 review, thermals and benchmarks', url: 'https://www.notebookcheck.net/Lenovo-Legion-Pro-7i-16-Gen-10-laptop-review-400-W-power-supply-with-almost-no-compromises.999828.0.html', kind: 'independent-review' },
       { label: 'Tom’s Hardware: Lenovo Legion Pro 7i Gen 10 review', url: 'https://www.tomshardware.com/laptops/gaming-laptops/lenovo-legion-pro-7i-gen-10-review-pricey-and-luxurious-gaming-laptop', kind: 'independent-review' },
     ],
-    independentReviewSummary: 'Notebookcheck’s RTX 5080 configuration review reports strong performance and a standout 240Hz OLED, balanced against higher power draw, very high CPU temperatures under gaming load, fan noise in Performance mode and a heavy adapter. These observations apply to its tested configuration and settings, not every regional SKU.',
+    independentReviewSummary: 'Notebookcheck’s test unit delivered strong performance and a standout 240Hz OLED, balanced against higher power draw, very high CPU temperatures under gaming load, fan noise in Performance mode and a heavy adapter. Its listed sample used 32GB DDR5-6400 and a 1TB SSD; the separate Lenovo PSREF/SKU reference and retail configurations may differ.',
+    configurationNote: 'Configuration caution: Notebookcheck’s tested sample is listed as 32GB DDR5-6400 / 1TB NVMe, while retailer and PSREF configurations can bundle different memory and storage. Confirm the exact machine type/model (MTM), GPU TGP, RAM and SSD before comparing results or purchasing.',
     lastVerified: '2026-10-17',
   },
   {
