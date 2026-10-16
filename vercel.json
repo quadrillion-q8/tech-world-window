@@ -12,7 +12,7 @@
       "permanent": true
     },
     {
-      "source": "/windows-11-update-troubleshooting",
+      "source": "/windows-11-update-stuck-troubleshooting",
       "destination": "/windows/windows-update-stuck",
       "permanent": true
     }
