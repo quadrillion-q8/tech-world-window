@@ -5,6 +5,7 @@ import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph'
 import { getSeoData } from '../src/seo/ssgSeo';
 import { BSOD_BASE_PATH, bsodEntries, bsodPath } from '../src/data/bsod';
 import { articleToolLinks, getToolPageData, toolByPath, tools } from '../src/data/tools';
+import { products, productMetaDescription, productPageTitle, productPath } from '../src/data/products';
 
 const errors: string[] = [];
 const root = resolve('.');
@@ -43,6 +44,54 @@ for (const route of routeGraph) {
   if (!route.path.startsWith('/')) errors.push(`Route path must start with '/': ${route.path}`);
   if (route.path !== '/' && route.path.endsWith('/')) errors.push(`Route path must not have a trailing slash: ${route.path}`);
   if (!route.title.trim()) errors.push(`Route has an empty title: ${route.path}`);
+}
+
+// ---------------------------------------------------------------------------
+// Product profile/review integrity
+// ---------------------------------------------------------------------------
+const productIds = new Set<string>();
+const productPaths = new Set<string>();
+for (const product of products) {
+  if (productIds.has(product.id)) errors.push(`Duplicate product ID: ${product.id}`);
+  productIds.add(product.id);
+
+  const productRoute = productPath(product);
+  if (productPaths.has(productRoute)) errors.push(`Duplicate product route: ${productRoute}`);
+  productPaths.add(productRoute);
+  if (!indexablePaths.has(productRoute)) errors.push(`Product is missing an indexable route: ${productRoute}`);
+
+  if (!product.brand.trim() || !product.model.trim()) errors.push(`Product has a missing brand/model: ${product.id}`);
+  if (!product.lastVerified.trim()) errors.push(`Product is missing its verification date: ${product.id}`);
+  if (!product.sources.length) errors.push(`Product has no primary sources: ${productRoute}`);
+
+  for (const source of product.sources) {
+    if (!source.label.trim()) errors.push(`Product source has an empty label: ${productRoute}`);
+    if (!source.url.startsWith('https://')) errors.push(`Product source must use HTTPS: ${productRoute} → ${source.url}`);
+  }
+
+  if (product.status === 'spec-profile') {
+    if (!product.sources.some(source => source.kind === 'manufacturer')) {
+      errors.push(`Specification profile needs a manufacturer source: ${productRoute}`);
+    }
+    if (!productPageTitle(product).toLowerCase().includes('specifications')) {
+      errors.push(`Specification profile must not be titled as a TWW hands-on review: ${productRoute}`);
+    }
+    if (!productMetaDescription(product).toLowerCase().includes('not a tww hands-on review')) {
+      errors.push(`Specification profile meta description must disclose testing status: ${productRoute}`);
+    }
+  }
+
+  if (product.independentReviewSummary && !product.sources.some(source => source.kind === 'independent-review')) {
+    errors.push(`Product has an independent review summary without a linked independent-review source: ${productRoute}`);
+  }
+  if (product.category !== 'SSD' && !product.sources.some(source => source.kind === 'independent-review')) {
+    errors.push(`Non-SSD product profile needs an attributed independent review source: ${productRoute}`);
+  }
+}
+for (const category of ['GPU', 'Laptop', 'CPU'] as const) {
+  if (!products.some(product => product.category === category)) {
+    errors.push(`Reviews library has no product profile for category ${category}.`);
+  }
 }
 
 const seoTitles = new Map<string, string>();
@@ -347,6 +396,22 @@ if (!existsSync(dist)) {
       const toolPage = getToolPageData(route.path);
       if (toolPage?.faq.length && !html.includes('"@type":"FAQPage"')) errors.push(`Missing FAQPage JSON-LD in ${route.path}`);
       if (toolPage?.webApp && !html.includes('"@type":"WebApplication"')) errors.push(`Missing WebApplication JSON-LD in ${route.path}`);
+      if (route.kind === 'product-review') {
+        const product = products.find(item => productPath(item) === route.path);
+        if (!product) {
+          errors.push(`Product route has no product data: ${route.path}`);
+        } else {
+          if (!html.includes(product.brand) || !html.includes(product.model)) {
+            errors.push(`Prerendered product page is missing its brand/model: ${route.path}`);
+          }
+          if (product.status === 'spec-profile' && !html.includes('This is not a TWW hands-on review.')) {
+            errors.push(`Prerendered specification profile is missing the TWW testing-status disclosure: ${route.path}`);
+          }
+          for (const source of product.sources) {
+            if (!html.includes(source.url)) errors.push(`Prerendered product page is missing a cited source URL: ${route.path} → ${source.url}`);
+          }
+        }
+      }
       if (route.kind === 'bsod-code') {
         const entry = bsodEntries.find(item => bsodPath(item.slug) === route.path);
         if (entry && !html.includes(entry.name)) errors.push(`Prerendered HTML is missing the stop code name in ${route.path}`);
