@@ -90,7 +90,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/gpu-100-percent-usage-gaming', kind: 'article', title: "GPU at 100% Usage While Gaming: Is That a Problem?", indexable: true },
   { path: '/how-much-ram-do-you-need-gaming', kind: 'article', title: "How Much RAM Do You Need for Gaming and Windows?", indexable: true },
   { path: '/gpu-overheating-gaming-pc-causes-fix', kind: 'article', title: "GPU Overheating While Gaming: What to Check Before Replacing It", indexable: true },
-  { path: '/pc-power-supply-problems-symptoms', kind: 'article', title: "PC Power Supply Problems: Symptoms That Point to the PSU", indexable: true },
+  { path: '/pc-power-supply-problems-symptoms', kind: 'article', title: "PC Power Supply Problems: Symptoms, Safe Tests, and Diagnosis", indexable: true },
   { path: '/ssd-nearly-full-windows-performance', kind: 'article', title: "SSD Nearly Full: How Much Free Space Does Windows Need?", indexable: true },
   { path: '/ddr4-vs-ddr5-ram-difference', kind: 'article', title: "DDR4 vs DDR5 RAM: What Actually Changes?", indexable: true },
   { path: '/laptop-nvme-ssd-upgrade-compatibility', kind: 'article', title: "Laptop NVMe SSD Upgrade: Check Compatibility Before You Buy", indexable: true },
