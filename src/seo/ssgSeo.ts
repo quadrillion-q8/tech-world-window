@@ -29,14 +29,6 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
     title: 'Affiliate Disclosure | Tech World Window',
     description: 'How Tech World Window may earn commissions from product links and how commercial relationships are handled.',
   },
-  '/reviews/ssds/samsung-990-pro-4tb': {
-    title: 'Samsung 990 PRO 4TB Review | Tech World Window',
-    description: 'Samsung 990 PRO 4TB specification profile: PCIe 4.0 interface, 4TB capacity and a 2,400 TBW endurance rating.',
-  },
-  '/reviews/ssds/crucial-t500-2tb': {
-    title: 'Crucial T500 2TB Review | Tech World Window',
-    description: 'Crucial T500 2TB specification profile: PCIe 4.0 interface with up to 7,400/7,000 MB/s rated sequential speeds.',
-  },
   '/compare/samsung-990-pro-vs-crucial-t500': {
     title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB | Tech World Window',
     description: 'Compare the Samsung 990 PRO 4TB and Crucial T500 2TB by capacity, rated performance, endurance and best use case.',
