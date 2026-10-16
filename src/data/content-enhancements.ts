@@ -1641,7 +1641,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   'gpu-overheating-gaming-pc-causes-fix': { seoTitle: 'GPU Overheating: Causes and Fixes' },
   'ssd-nearly-full-windows-performance': { seoTitle: 'How Much Free Space Does an SSD Need?' },
   'laptop-nvme-ssd-upgrade-compatibility': { seoTitle: 'Laptop NVMe SSD: Compatibility Checklist' },
-  'gaming-laptop-upgradeable-ram-ssd': { seoTitle: 'Can You Upgrade a Gaming Laptop?' },
+  'gaming-laptop-upgradeable-ram-ssd': {
+    seoTitle: 'Can You Upgrade a Gaming Laptop? RAM & SSD',
+    metaDescription: 'Check a gaming laptop’s RAM slots, soldered memory, SSD interface and M.2 size. Use the exact model manual, protect data and upgrade safely.'
+  },
   'research/ssd-nearly-full-what-really-changes': { seoTitle: 'SSD Nearly Full: Research Findings' },
   'research/windows-100-percent-disk-usage-low-mbps': { seoTitle: 'Windows 100% Disk Usage: Research' },
   'research/what-actually-causes-pc-game-stuttering': { seoTitle: 'Causes of PC Game Stuttering: Research' },
