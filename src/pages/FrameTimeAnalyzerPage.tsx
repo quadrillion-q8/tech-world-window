@@ -287,7 +287,7 @@ export function FrameTimeAnalyzerPage() {
     <SEOEngine title={tool.seoTitle} description={tool.metaDescription} path={TOOL_PATH} />
     <span className="eyebrow">FREE ANALYSIS TOOL</span>
     <h1>Frame-Time Analyzer</h1>
-    <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, inspect detected spikes, read the graph, and download a plain-text report—all in your browser.</p>
+    <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, inspect detected spikes, read the graph, and download a plain-text report—all in your browser. After the first run, compare a second capture to see whether frame pacing improved or worsened.</p>
     <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are never uploaded.</p>
 
     <div className="ft-input">
