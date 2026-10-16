@@ -878,31 +878,6 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       { question: 'Which command should I try first?', answer: 'Start with diagnosis, such as ipconfig /all, and choose a targeted repair based on the symptom. ipconfig /flushdns only clears the DNS cache; it is not a general network reset.' }
     ]
   },
-  'research/does-more-ram-make-windows-faster': {
-    updatedAt: '2026-10-15',
-    sections: [{
-      heading: 'More RAM or faster RAM: which upgrade matters?',
-      paragraphs: [
-        'Capacity and memory speed solve different problems. More RAM can improve responsiveness when the current workload is running short of available memory and Windows is paging data to storage. Faster RAM may help some memory-sensitive workloads, but it often makes little practical difference when capacity is sufficient and the CPU, GPU, storage, or software is the real limit.',
-        'Before buying either upgrade, record memory use during the workload that feels slow, note Available memory and whether disk activity rises during pauses, and confirm the motherboard or laptop supports the proposed capacity and memory type. Compare performance in the same task before and after a change; do not infer a bottleneck from the advertised RAM speed or a single utilization percentage.'
-      ],
-      table: {
-        caption: 'Choose the RAM upgrade from the observed bottleneck',
-        headers: ['Evidence', 'Likely priority', 'Why'],
-        rows: [
-          ['Available memory stays low and paging coincides with slowdowns', 'Consider more capacity first', 'The workload may be competing for physical memory'],
-          ['Plenty of available memory and no paging-related slowdown', 'Do not assume more capacity will help', 'Another component or software path may be limiting performance'],
-          ['Capacity is sufficient but a supported workload is demonstrably memory-bandwidth-sensitive', 'Investigate speed, timings, and channel configuration', 'Performance depends on platform and workload; gains are not universal'],
-          ['Laptop memory is soldered or the platform has strict compatibility limits', 'Verify upgradeability before shopping', 'Not every system accepts replaceable or faster memory']
-        ]
-      },
-      relatedLinks: [
-        { label: 'How much RAM do you need for gaming?', href: '/how-much-ram-do-you-need-gaming', description: 'Match memory capacity to the game and other applications running at the same time.' },
-        { label: 'DDR4 vs DDR5 RAM', href: '/ddr4-vs-ddr5-ram-difference', description: 'Understand platform compatibility and what changes between memory generations.' },
-        { label: 'Windows 11 high memory usage', href: '/windows-11-high-memory-usage-how-to-find-the-cause', description: 'Diagnose memory pressure before deciding that an upgrade is needed.' }
-      ]
-    }]
-  },
   'gpu-100-percent-usage-gaming': {
     updatedAt: '2026-10-15',
     seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
