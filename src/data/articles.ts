@@ -1250,7 +1250,7 @@ const baseArticles: Article[] = [
     searchIntent: 'commercial',
     content: [
       { heading: 'Start with the GPU, then check the laptop around it', paragraphs: [
-        'For gaming, the discrete GPU is usually the first specification to compare, but the same GPU family can behave differently across laptops because manufacturers set different power and thermal limits. Confirm the GPU power range or TGP for the exact SKU and compare independent tests of that complete laptop, not just the chip name.'
+        'For gaming, the discrete GPU is usually the first specification to compare, but the same GPU family can behave differently across laptops because manufacturers set different power and thermal limits. Confirm the GPU power range or TGP for the exact SKU and compare independent tests of that complete laptop, not just the chip name.',
         'Look for independent tests of the exact laptop configuration rather than assuming two machines with the same GPU name will deliver identical performance. Prefer repeatable game tests at the resolution you plan to use, with performance mode, charger state and graphics settings stated clearly.'
       ] },
       { heading: 'Resolution and refresh rate must match the GPU', paragraphs: [
