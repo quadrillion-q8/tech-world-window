@@ -118,7 +118,7 @@ export const articleImagePlacements: Record<string, Placement[]> = {
     { after: 'How to separate thermal behavior from a failing SSD', id: 'hp-laptop-motherboard-heatsink-m2-ssd-closeup', alt: 'Close-up of a laptop motherboard with the M.2 SSD and nearby heatsink', caption: `${bench}: the M.2 SSD slot and nearby heatsink on a laptop motherboard.` },
   ],
   'research/does-more-ram-make-windows-faster': [
-    { after: 'Capacity and memory stability are different questions', id: 'samsung-16gb-ddr4-3200-laptop-ram-sodimm-upgrade', alt: 'Samsung 16GB DDR4-3200 laptop SODIMM memory module', caption: `${bench}: a laptop SODIMM. Capacity is only one part of memory behavior.` },
+    { after: 'More RAM or faster RAM: which upgrade matters?', id: 'samsung-16gb-ddr4-3200-laptop-ram-sodimm-upgrade', alt: 'Samsung 16GB DDR4-3200 laptop SODIMM memory module', caption: `${bench}: a laptop SODIMM. Capacity is only one part of memory behavior.` },
   ],
 };
 
