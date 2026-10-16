@@ -2653,23 +2653,24 @@ export const phase4Articles: Article[] = [
   {
     "id": "gaming-laptop-upgrade-check",
     "slug": "gaming-laptop-upgradeable-ram-ssd",
-    "title": "Can You Upgrade a Gaming Laptop? Check RAM and SSD First",
-    "seoTitle": "Gaming Laptop Upgrades: RAM and SSD Compatibility",
-    "dek": "Some gaming laptops allow both RAM and SSD upgrades, some allow only storage, and some use soldered memory. Check the exact model before assuming it is upgradeable.",
-    "metaDescription": "Can a gaming laptop be upgraded? Learn how to check RAM slots, SSD bays, memory type, capacity limits and service documentation before buying parts.",
-    "excerpt": "Upgradeability varies by exact laptop model. Check the service manual for RAM slots, M.2 bays, supported capacities, and whether the existing memory is soldered.",
+    "title": "Can You Upgrade a Gaming Laptop? RAM & SSD Compatibility Guide",
+    "seoTitle": "Can You Upgrade a Gaming Laptop? RAM & SSD",
+    "dek": "Some gaming laptops support RAM, SSD or both upgrades; others use soldered memory or limited storage slots. Verify the exact model, supported parts and safe service procedure before spending money.",
+    "metaDescription": "Check a gaming laptop’s RAM slots, soldered memory, SSD interface and M.2 size. Use the exact model manual, protect data and upgrade safely.",
+    "excerpt": "Upgradeability varies by exact laptop model. Check the service manual for memory slots, soldered RAM, SSD interfaces, supported capacities and the correct physical drive size before you buy parts.",
     "category": "Gaming",
     "subcategory": "Gaming Laptops",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 7,
+    "updatedAt": "2026-10-16",
+    "readingTime": 11,
     "tags": [
       "Gaming Laptops",
-      "RAM",
-      "SSD",
-      "Upgrades",
-      "Hardware"
+      "Laptop RAM Upgrade",
+      "Laptop SSD Upgrade",
+      "Soldered RAM",
+      "M.2 NVMe",
+      "Hardware Compatibility"
     ],
     "relatedArticles": [
       "gaming-low-fps",
@@ -2678,44 +2679,244 @@ export const phase4Articles: Article[] = [
     "contentRole": "cluster",
     "pillarPath": "/gaming",
     "searchIntent": "informational",
+    "testing": "This is a model-specific compatibility and safety guide, not a claim that every laptop design has been opened or tested. Treat the manufacturer’s service manual and specification sheet for the complete model number as the primary authority. Do not open a laptop with suspected battery swelling.",
+    "sources": [
+      {
+        "label": "Microsoft: Caring for your battery in Windows",
+        "url": "https://support.microsoft.com/en-us/windows/experience/power-battery/caring-for-your-battery-in-windows"
+      },
+      {
+        "label": "SanDisk: M.2 form factor and SSD interfaces",
+        "url": "https://support-en.sandisk.com/app/answers/detailweb/a_id/15539/related/1"
+      },
+      {
+        "label": "Crucial: RAM and SSD compatibility selector",
+        "url": "https://www.crucial.com/upgrades"
+      },
+      {
+        "label": "Lenovo PSREF product specifications",
+        "url": "https://psref.lenovo.com/"
+      }
+    ],
     "content": [
       {
         "heading": "The exact model matters",
         "paragraphs": [
-          "Two laptops with the same product family name can have different motherboard layouts and upgrade options. The exact model number or service manual is more reliable than a retailer listing.",
-          "Look for documented RAM slots, M.2 slots, maximum supported memory, and supported SSD form factors."
+          "Start with the complete model or machine-type number, including its suffix. A laptop family can contain revisions with different motherboards, memory layouts, battery shapes, M.2 slots and factory configurations. A product page for a similar-looking model is not enough to confirm a part will fit.",
+          "Find the full identifier in the system information, on the underside label or in the manufacturer’s support utility. Search the manufacturer’s support site for the matching service manual, maintenance guide and specification sheet. Use those documents to verify what can be replaced and which steps the manufacturer requires."
+        ],
+        "steps": [
+          "Record the complete model number and current RAM and SSD configuration.",
+          "Open the manufacturer’s exact-model specifications and service or maintenance manual.",
+          "Check the allowed memory type, slot count, supported capacity, storage slot count, SSD interface and physical length.",
+          "Check the warranty and local service terms before opening the chassis."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Laptop NVMe SSD compatibility",
+            "href": "/laptop-nvme-ssd-upgrade-compatibility",
+            "description": "Check drive interface, length, clearance and other laptop-specific SSD constraints."
+          }
+        ]
+      },
+      {
+        "heading": "Battery safety before opening the chassis",
+        "paragraphs": [
+          "Inspect the outside of the laptop before removing screws. A lifting trackpad, separating case seam, bulging underside or unusual deformation can indicate a swollen battery. If you suspect swelling, stop using and charging the laptop, do not press the case closed and do not attempt to open or remove the battery yourself. Arrange qualified service.",
+          "For a device with no sign of battery damage, back up important files first. Fully shut it down, unplug the charger and peripherals, and follow the exact manufacturer procedure for opening the model and disconnecting its internal battery. Do not work on internal components while the machine is powered. If the service instructions or required tools are unclear, use a qualified repair service."
         ]
       },
       {
         "heading": "RAM: soldered, replaceable, or mixed",
         "paragraphs": [
-          "Some laptops have all memory soldered; others have one or two replaceable modules; some combine soldered memory with one slot. A mixed design can limit the practical upgrade path.",
-          "If the laptop uses replaceable modules, match the supported memory type and capacity rather than simply buying the fastest module available."
+          "Laptop memory commonly falls into three layouts: memory soldered to the motherboard, replaceable SO-DIMM modules, or a mix of soldered memory and one or more slots. A mixed design can be upgraded only within the limits of its available slot and supported configuration; soldered chips themselves are not a normal user upgrade.",
+          "Do not rely on a retailer’s generic product-family description. Confirm the maximum supported capacity, module type, slot count and memory generation for your exact model. DDR4 and DDR5 are not interchangeable, and a module advertised at a higher data rate may run only at the speed supported by the laptop’s CPU, firmware and memory design.",
+          "Windows Task Manager may show memory speed and a reported number of slots in use, but firmware reporting can be incomplete and those figures do not prove that memory is physically replaceable. Use them as clues, not as a substitute for the service manual."
+        ],
+        "table": {
+          "caption": "How the memory layout changes your upgrade options",
+          "headers": [
+            "Documented layout",
+            "What it means",
+            "What to verify before buying"
+          ],
+          "rows": [
+            [
+              "All memory soldered",
+              "There is normally no standard module-based RAM upgrade.",
+              "Whether the current capacity is sufficient; otherwise consider the device’s broader replacement path."
+            ],
+            [
+              "One or two SO-DIMM slots",
+              "Replaceable laptop memory may be possible.",
+              "DDR generation, capacity per slot, total supported capacity, speed and supported module density."
+            ],
+            [
+              "Soldered memory plus a slot",
+              "Only the slot offers a conventional module upgrade; part of the total RAM remains fixed.",
+              "Whether the slot is populated already and the maximum combined capacity supported by the model."
+            ],
+            [
+              "Slot count or layout not documented",
+              "Compatibility is not confirmed.",
+              "Find the exact service manual or ask the manufacturer before ordering memory."
+            ]
+          ]
+        },
+        "relatedLinks": [
+          {
+            "label": "Best RAM: capacity and compatibility",
+            "href": "/best-ram",
+            "description": "Understand memory capacity, generation and supported module configurations."
+          }
         ]
       },
       {
         "heading": "SSD: check bays and interfaces",
         "paragraphs": [
-          "A gaming laptop may have one M.2 slot, two M.2 slots, or an additional 2.5-inch bay. Confirm whether the slot supports PCIe NVMe and what physical length it accepts.",
-          "Before installation, back up important data and confirm whether the laptop's firmware recognizes the planned drive."
+          "A gaming laptop may have one M.2 slot, multiple M.2 slots, or a separate 2.5-inch bay in some designs. Check whether a slot is physically present and available, whether it is already occupied, and what interface and drive sizes it supports. An empty slot shown in a family-level marketing diagram is not proof that every model variant includes it.",
+          "M.2 describes a physical module format, not one universal storage protocol. An M.2 SSD may use SATA or PCIe/NVMe, and the laptop’s slot must support the drive’s interface. Also confirm the accepted length—such as 2230, 2242 or 2280—mounting point, single- or double-sided clearance, and any model-specific capacity or thermal requirements.",
+          "Before ordering a second drive, check whether the laptop includes the required screw, bracket, cable or caddy. If you are replacing the boot drive, decide whether to clone it or reinstall Windows and applications, and make a verified backup first."
+        ],
+        "table": {
+          "caption": "Laptop SSD compatibility checklist",
+          "headers": [
+            "Check",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Interface: SATA or PCIe/NVMe",
+              "The connector may look similar while the supported protocol differs."
+            ],
+            [
+              "Physical length and clearance",
+              "The drive must match the supported size and mounting position; heatsinks may not fit."
+            ],
+            [
+              "Slot count and occupancy",
+              "A second drive is useful only if the exact machine has a compatible, available slot or bay."
+            ],
+            [
+              "Capacity and platform limits",
+              "Use the manufacturer’s specification or support guidance rather than assuming every advertised capacity is supported."
+            ],
+            [
+              "Boot-drive plan and backup",
+              "Replacing the system drive requires a migration or Windows installation plan and protection for existing data."
+            ]
+          ]
+        },
+        "relatedLinks": [
+          {
+            "label": "Laptop NVMe SSD upgrade compatibility",
+            "href": "/laptop-nvme-ssd-upgrade-compatibility",
+            "description": "Check M.2 length, interface, physical clearance and firmware support before replacing a drive."
+          },
+          {
+            "label": "How to check SSD health in Windows",
+            "href": "/how-to-check-ssd-health-windows",
+            "description": "Review drive-health evidence before deciding whether replacement is needed."
+          }
+        ]
+      },
+      {
+        "heading": "Decide whether RAM or storage is the actual bottleneck",
+        "paragraphs": [
+          "Upgrade the part that addresses the observed limitation, rather than treating RAM and SSD upgrades as universal gaming-performance fixes. Check the symptom and supporting evidence before spending money."
+        ],
+        "table": {
+          "caption": "Match the symptom to the likely next check",
+          "headers": [
+            "Observed problem",
+            "What to investigate first",
+            "What the upgrade may change"
+          ],
+          "rows": [
+            [
+              "Memory use stays high, apps reload, or multitasking becomes sluggish",
+              "Check memory use while reproducing the workload and confirm whether the laptop accepts more RAM.",
+              "More capacity can reduce memory pressure if RAM is genuinely the constraint."
+            ],
+            [
+              "The SSD is nearly full or game and file loading is slow",
+              "Check free space, drive health, the workload and whether a supported larger or second SSD can be fitted.",
+              "More capacity can solve space pressure; a faster drive can help storage-bound tasks, but benefits depend on the workload."
+            ],
+            [
+              "Low gaming FPS with GPU or CPU utilization near its limit",
+              "Measure performance and check GPU, CPU, temperature, power and game settings.",
+              "RAM or SSD replacement usually will not solve a GPU-limited game; diagnose the limiting component first."
+            ],
+            [
+              "Stutters when memory fills or assets stream from storage",
+              "Compare memory pressure, paging, storage activity and repeatable frame-time behavior.",
+              "The right upgrade may help if measurements show that RAM capacity or storage is the cause; stutter alone is not proof."
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "The safe upgrade workflow",
+        "paragraphs": [
+          "Use the manufacturer’s sequence for the exact chassis. Internal layouts, connector locations and battery-disconnect procedures vary, so a generic teardown video should not override the model’s own service instructions."
+        ],
+        "steps": [
+          "Confirm compatibility from the service manual or official specifications, then cross-check the exact part number with a reputable compatibility selector.",
+          "Back up important data. If replacing the Windows drive, keep the BitLocker or device-encryption recovery key and plan the clone or clean installation before removing the old drive.",
+          "Read the warranty and service instructions; gather the specified tools and work on a clean, stable surface with appropriate static precautions.",
+          "Shut down fully, unplug power and accessories, and open the chassis only as documented. Disconnect the internal battery as instructed before handling memory or storage.",
+          "Install only a confirmed compatible part. Align modules and drives with their connectors and mounting points; never force a connector, module or screw.",
+          "Reassemble the laptop according to the manual before reconnecting power. If a connector or step does not match the guide, stop and re-check rather than improvising."
+        ]
+      },
+      {
+        "heading": "Verify the upgrade in Windows",
+        "paragraphs": [
+          "After reassembly, start the laptop and confirm that it boots normally. Use the manufacturer’s firmware setup or diagnostic utility where appropriate, then check the device in Windows. A changed part is not verified until the expected capacity and function are visible and the machine behaves normally."
+        ],
+        "steps": [
+          "For RAM, check the installed capacity in Settings or Task Manager and run the manufacturer’s or operating system’s memory diagnostic if instability appears.",
+          "For a second data SSD, check whether the drive appears in firmware and Windows Disk Management. A genuinely new, blank drive may need to be initialized and formatted before use; do not initialize, format or delete partitions on a drive that may contain needed data.",
+          "For a replaced Windows SSD, complete the planned clone or Windows installation, install required drivers, and verify applications and files before erasing or repurposing the old drive.",
+          "If the component is missing or the laptop becomes unstable, power down and revisit the model documentation and installation. Do not repeatedly reseat components while the laptop is powered."
         ]
       },
       {
         "heading": "When an upgrade is not the best investment",
         "paragraphs": [
-          "RAM or storage upgrades can extend a laptop's useful life, but they will not turn a weak GPU into a high-end gaming machine. If the main limitation is graphics performance, a new laptop or desktop may be a more meaningful upgrade.",
-          "Use the bottleneck and RAM tools to estimate whether the upgrade targets the actual limitation."
+          "RAM or storage can extend a laptop’s useful life, but these upgrades do not turn a weak GPU into a high-end gaming system. If the main limitation is graphics performance, compare the cost of the upgrade with a platform change instead.",
+          "For a boot drive that is failing, prioritize a verified backup and data recovery needs over chasing benchmark gains. For a laptop with soldered RAM, no available SSD slot, expensive proprietary parts or a damaged battery, a paid assessment may be safer and more economical than opening it on assumption."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Best gaming laptops: buying guide",
+            "href": "/best-gaming-laptops",
+            "description": "Compare future laptop options by sustained performance, cooling, display and upgrade path."
+          }
         ]
       }
     ],
     "faq": [
       {
         "question": "Can every gaming laptop upgrade its RAM?",
-        "answer": "No. Some models use soldered memory or have limited slots. Check the exact model's service documentation."
+        "answer": "No. Some models use only soldered memory, while others have one or more replaceable SO-DIMM slots or a mixed layout. Check the service manual for the complete model number."
       },
       {
         "question": "Will an SSD upgrade increase gaming FPS?",
-        "answer": "Usually not by itself. A faster or larger SSD can improve loading and storage behavior, but GPU and CPU performance normally determine rendered FPS."
+        "answer": "Usually not when the GPU or CPU is the limit. A larger or faster SSD may help loading or a storage-bound workload, but rendered frame rate normally depends more on the CPU, GPU and game settings."
+      },
+      {
+        "question": "Can I upgrade a laptop that has soldered RAM?",
+        "answer": "The soldered memory itself is not a standard user-replaceable module. Some models also include a SO-DIMM slot, so check whether the exact configuration offers a supported expansion path."
+      },
+      {
+        "question": "Is every M.2 SSD compatible with a gaming laptop?",
+        "answer": "No. Confirm whether the slot supports SATA or PCIe/NVMe, the supported physical length, available clearance, occupancy and any model-specific capacity or thermal restrictions."
+      },
+      {
+        "question": "Is it safe to open my gaming laptop?",
+        "answer": "Only follow the manufacturer’s instructions for the exact model and consider the warranty and your experience. If the case is bulging or the battery may be swollen, stop using and charging the laptop and arrange qualified service instead of opening it."
       }
     ]
   }
