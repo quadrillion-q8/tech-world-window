@@ -94,7 +94,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/ssd-nearly-full-windows-performance', kind: 'article', title: "SSD Nearly Full: How Much Free Space Does Windows Need?", indexable: true },
   { path: '/ddr4-vs-ddr5-ram-difference', kind: 'article', title: "DDR4 vs DDR5 RAM: What Actually Changes?", indexable: true },
   { path: '/laptop-nvme-ssd-upgrade-compatibility', kind: 'article', title: "Laptop NVMe SSD Upgrade: Check Compatibility Before You Buy", indexable: true },
-  { path: '/gaming-laptop-upgradeable-ram-ssd', kind: 'article', title: "Can You Upgrade a Gaming Laptop? Check RAM and SSD First", indexable: true },
+  { path: '/gaming-laptop-upgradeable-ram-ssd', kind: 'article', title: "Can You Upgrade a Gaming Laptop? RAM & SSD Compatibility Guide", indexable: true },
   { path: '/laptop-wont-turn-on', kind: 'article', title: 'Laptop Won’t Turn On: Safe Checks Before You Need a Repair', indexable: true },
   { path: '/laptop-battery-warning-signs', kind: 'article', title: 'Laptop Battery Warning Signs: Swelling, Heat and Sudden Shutdowns', indexable: true },
   { path: '/why-8gb-ram-is-no-longer-enough-for-windows-11', kind: 'article', title: 'Why 8GB RAM Can Feel Limiting on Windows 11', indexable: true },
