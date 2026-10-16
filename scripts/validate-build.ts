@@ -423,7 +423,7 @@ if (!existsSync(dist)) {
         if (!html.includes('"name":"BSOD Error Code Lookup"')) errors.push(`Breadcrumb for ${route.path} is missing the BSOD lookup level.`);
       }
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
-      if (route.path === '/tools/frame-time-analyzer' && !html.includes('Compare a second capture')) errors.push('Frame-time analyzer is missing the before/after comparison interface in prerendered HTML.');
+      if (route.path === '/tools/frame-time-analyzer' && !html.includes('compare a second capture')) errors.push('Frame-time analyzer is missing the comparison capability explanation in prerendered HTML.');
       if (route.path === '/tools/windows-battery-health-analyzer' && (!html.includes('powercfg /batteryreport') || !html.includes('Private by design: your report stays in this browser'))) errors.push('Windows Battery Health Analyzer is missing its report-generation instructions or privacy disclosure in prerendered HTML.');
     }
 
