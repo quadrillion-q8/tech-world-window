@@ -331,6 +331,29 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     });
   }
 
+  const comparisonPage = getComparisonByPath(path);
+  if (comparisonPage) {
+    const image = productImage(comparisonPage.productA);
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: seo.canonical,
+      name: seo.title,
+      description: seo.description,
+      inLanguage: 'en',
+      ...(image ? { primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl(image.src), width: image.width, height: image.height, caption: image.alt } } : {}),
+      about: [comparisonPage.productA, comparisonPage.productB].map(item => ({ '@type': 'Thing', name: `${item.brand} ${item.model}`, description: item.summary })),
+      isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+    });
+    if (comparisonPage.faq?.length) {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: comparisonPage.faq.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })),
+      });
+    }
+  }
+
   const hubCategory = reviewHubCategories[path];
   if (hubCategory !== undefined) {
     const items = hubCategory ? products.filter(item => item.category === hubCategory) : products;

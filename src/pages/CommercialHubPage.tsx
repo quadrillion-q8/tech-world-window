@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { hubSeo } from '../data/hubs';
+import { comparisons } from '../data/comparisons';
 import { productImage, productPath, products, type Product, type ProductCategory } from '../data/products';
 
 type HubCard = { title: string; description: string; href: string; label: string };
@@ -41,7 +42,6 @@ const hubs: Record<string, HubConfig> = {
     description: 'SSD specifications, endurance ratings, compatibility notes and independently published performance testing.',
     intro: 'The current TWW SSD entries are specification profiles—not TWW laboratory reviews. Rated manufacturer speeds are labeled as specifications, while any outside measurements are attributed to the source that performed them.',
     cards: [
-      { title: 'Samsung 990 PRO vs Crucial T500', description: 'Compare capacity, rated performance, endurance and use cases.', href: '/compare/samsung-990-pro-vs-crucial-t500', label: 'Specification comparison' },
       { title: 'Best SSDs for Gaming and Windows', description: 'Choose capacity, interface, thermals, endurance and value for the workload.', href: '/best-ssds', label: 'Buying guide' },
     ],
   },
@@ -50,7 +50,6 @@ const hubs: Record<string, HubConfig> = {
     description: 'GPU specifications and links to independent graphics-card benchmarks, thermals, power and gaming tests.',
     intro: 'No TWW hands-on GPU benchmark has been published yet. The product pages below summarize specifications and clearly attribute outside lab findings, including review-unit and configuration limits where known.',
     cards: [
-      { title: 'RTX 5080 vs RX 9070 XT', description: 'Architecture, memory, clocks and linked independent reviews side by side.', href: '/compare/rtx-5080-vs-rx-9070-xt', label: 'Specification comparison' },
       { title: 'GPU at 100% Usage While Gaming', description: 'Learn when full GPU utilization is normal and when another bottleneck is more likely.', href: '/gpu-100-percent-usage-gaming', label: 'Troubleshooting guide' },
       { title: 'GPU Frame-Time Spikes', description: 'Diagnose uneven frame delivery instead of relying only on average FPS.', href: '/gpu-frame-time-spikes-causes-fix', label: 'Performance guide' },
       { title: 'GPU Overheating While Gaming', description: 'Separate normal load from thermal or power-limit behavior.', href: '/gpu-overheating-gaming-pc-causes-fix', label: 'Troubleshooting guide' },
@@ -72,7 +71,6 @@ const hubs: Record<string, HubConfig> = {
     description: 'CPU platform specifications paired with independent gaming, productivity, power and thermal reviews.',
     intro: 'Core counts and boost clocks do not replace tests. TWW’s processor entries are specification profiles with links to independent results; there are no TWW-produced CPU benchmark numbers in this library yet.',
     cards: [
-      { title: 'Ryzen 7 9850X3D vs Core Ultra 5 250K Plus', description: 'Cores, cache, boost clocks, power ratings and linked independent reviews.', href: '/compare/ryzen-7-9850x3d-vs-core-ultra-5-250k-plus', label: 'Specification comparison' },
       { title: 'CPU Bottlenecks and Low FPS', description: 'Find out when the CPU is actually limiting game performance before changing hardware.', href: '/pc-game-low-fps-how-to-find-the-cause', label: 'Diagnostic guide' },
       { title: 'PC Game Stuttering: Frame-Time Spikes', description: 'Separate CPU scheduling and frame-pacing problems from GPU limitations.', href: '/pc-game-stuttering-fix-frame-time', label: 'Complete guide' },
       { title: 'Best RAM for Gaming PCs', description: 'Choose capacity and platform compatibility before chasing memory speed.', href: '/best-ram', label: 'Buying guide' },
@@ -113,6 +111,20 @@ function ProductShelf({ items, title }: { items: Product[]; title: string }) {
   </section>;
 }
 
+function ComparisonShelf({ category }: { category?: ProductCategory }) {
+  const items = category ? comparisons.filter(item => item.productA.category === category) : comparisons;
+  if (!items.length) return null;
+  return <section className="product-library-section comparison-shelf">
+    <div className="section-heading"><div><p className="eyebrow">HEAD-TO-HEAD</p><h2>{category ? 'Product comparisons' : 'Popular product comparisons'}</h2></div></div>
+    <div className="article-grid">{items.map(item => <article className="article-card" key={item.path}>
+      <div className="card-topline"><span className="eyebrow">{item.eyebrow}</span></div>
+      <h3><Link to={item.path}>{item.title}</Link></h3>
+      <p>{item.dek}</p>
+      <Link className="text-link" to={item.path}>Compare specifications →</Link>
+    </article>)}</div>
+  </section>;
+}
+
 export function CommercialHubPage() {
   const location = useLocation();
   const hub = hubs[location.pathname];
@@ -148,6 +160,7 @@ export function CommercialHubPage() {
     </article>)}</div>}
 
     <ProductShelf items={categoryProducts} title={heading} />
+    {isReviewsPage && <ComparisonShelf category={productCategory} />}
 
     {hub.cards.length > 0 && !isReviewIndex && <section className="related-review-guides">
       <div className="section-heading"><div><p className="eyebrow">{isReviewsPage ? 'RELATED GUIDES' : 'MORE TO EXPLORE'}</p><h2>{isReviewsPage ? 'Useful diagnostics and buying guides' : 'Related guides and resources'}</h2></div></div>

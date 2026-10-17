@@ -1110,7 +1110,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-07',
     readingTime: 8,
     tags: ['Microsoft', 'Surface Laptop Ultra', 'Windows', 'NVIDIA RTX Spark', 'Local AI', 'Windows 11'],
-    relatedArticles: ['best-gaming-laptops', 'windows-11-26h2-iso-released', 'microsoft-windows-surface-event-oct-7'],
+    relatedArticles: ['best-gaming-laptops', 'windows-11-26h2-iso-released'],
     searchIntent: 'informational',
     content: [
       { heading: 'The event happened — here is what actually changed', paragraphs: [
