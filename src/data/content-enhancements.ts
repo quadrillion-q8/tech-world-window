@@ -905,6 +905,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       relatedLinks: [
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate what changes immediately before and during an individual hitch.' },
         { label: 'GPU overheating', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check temperature and clock evidence before changing cooling or replacing hardware.' },
+        { label: 'Bad PSU symptoms and safe checks', href: '/pc-power-supply-problems-symptoms', description: 'If the entire PC abruptly shuts off or restarts under load, investigate power delivery separately; high GPU utilization alone does not prove a PSU fault.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze a supported frame-time capture rather than relying only on average FPS.' }
       ]
     }, {
