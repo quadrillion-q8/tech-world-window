@@ -235,7 +235,8 @@ const enhancements: Record<string, Enhancement> = {
       relatedLinks: [
         { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture and locate the spikes that need investigation.' },
         { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Compare GPU-limited spikes with shader, CPU, storage and thermal causes.' },
-        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' }
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' },
+        { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Determine whether full GPU load is normal rendering or whether temperature, clocks, and frame delivery need investigation.' }
       ]
     }]
   },
@@ -906,7 +907,8 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate what changes immediately before and during an individual hitch.' },
         { label: 'GPU overheating', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check temperature and clock evidence before changing cooling or replacing hardware.' },
         { label: 'Bad PSU symptoms and safe checks', href: '/pc-power-supply-problems-symptoms', description: 'If the entire PC abruptly shuts off or restarts under load, investigate power delivery separately; high GPU utilization alone does not prove a PSU fault.' },
-        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze a supported frame-time capture rather than relying only on average FPS.' }
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Analyze a supported frame-time capture rather than relying only on average FPS.' },
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the wider troubleshooting sequence when high GPU load is accompanied by hitches or uneven frame delivery.' }
       ]
     }, {
       heading: 'What GPU utilization actually measures',
