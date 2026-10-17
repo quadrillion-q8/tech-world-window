@@ -333,6 +333,9 @@ const productImageAlt: Record<string, string> = {
   'intel-core-ultra-5-250k-plus': 'Intel Core Ultra 5 250K Plus desktop processor, top view of the heat spreader',
   'lenovo-legion-pro-7i-gen-10-rtx-5080': 'Lenovo Legion Pro 7i Gen 10 gaming laptop with the lid open',
   'hyperx-omen-max-16-rtx-5090': 'HP OMEN MAX 16 gaming laptop with RGB keyboard and the lid open',
+  'samsung-9100-pro-4tb': 'Samsung 9100 PRO 4TB M.2 NVMe SSD, top view of the label side',
+  'nvidia-geforce-rtx-5070-ti': 'NVIDIA GeForce RTX 5070 Ti dual-fan graphics card, front view',
+  'amd-ryzen-7-9800x3d': 'AMD Ryzen 7 9800X3D desktop processor seen from above on a dark surface',
 };
 
 export type ProductImage = { src: string; srcSet: string; alt: string; width: number; height: number };
