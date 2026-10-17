@@ -195,7 +195,7 @@ export const windowsTroubleshootingPillar: Article = {
         headers: ['Stop code', 'Hex', 'Usually points to', 'Check first'],
         rows: [
           ['IRQL_NOT_LESS_OR_EQUAL', '0xA', 'A faulty driver or memory', 'The most recent driver change; run a memory test'],
-          ['PAGE_FAULT_IN_NONPAGED_AREA', '0x50', 'Bad memory, a driver, or a security-software filter driver', 'Memory test; recently installed software'],
+          [{ text: 'PAGE_FAULT_IN_NONPAGED_AREA', href: '/tools/bsod-error-code-lookup/page-fault-in-nonpaged-area' }, '0x50', 'Bad memory, a driver, or a security-software filter driver', 'Memory test; recently installed software'],
           ['MEMORY_MANAGEMENT', '0x1A', 'Memory or its configuration', '`mdsched.exe`; test one module at a time; remove XMP/EXPO or overclocking'],
           ['SYSTEM_SERVICE_EXCEPTION', '0x3B', 'Drivers, often graphics or security software', 'Update or roll back the graphics driver; review the named file'],
           ['SYSTEM_THREAD_EXCEPTION_NOT_HANDLED', '0x7E', 'A driver that failed', 'The driver named on screen or in the dump'],
@@ -207,7 +207,7 @@ export const windowsTroubleshootingPillar: Article = {
           ['VIDEO_TDR_FAILURE', '0x116', 'Graphics driver or GPU hardware', 'Clean driver install; temperatures; power delivery'],
           ['WHEA_UNCORRECTABLE_ERROR', '0x124', 'Hardware error from CPU, memory, PCIe, or power', 'Undo overclocks; test memory and cooling'],
           ['DPC_WATCHDOG_VIOLATION', '0x133', 'A driver or firmware stall, often storage', 'Storage driver and SSD firmware'],
-          ['KERNEL_SECURITY_CHECK_FAILURE', '0x139', 'Drivers, memory, or corruption', 'Driver changes; memory test; DISM and SFC'],
+          [{ text: 'KERNEL_SECURITY_CHECK_FAILURE', href: '/tools/bsod-error-code-lookup/kernel-security-check-failure' }, '0x139', 'Drivers, memory, or corruption', 'Driver changes; memory test; DISM and SFC'],
           ['UNEXPECTED_STORE_EXCEPTION', '0x154', 'Storage, a driver, or security software', 'Storage health; update storage drivers'],
         ],
       },
