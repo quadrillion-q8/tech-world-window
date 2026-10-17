@@ -391,7 +391,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       browserRequirements: 'Requires JavaScript',
       isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+      publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
     });
   }
   if (toolPage?.faq.length) {
