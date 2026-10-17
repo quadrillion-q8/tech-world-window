@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { getProductByPath, productImage, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
 import { SEOEngine, BreadcrumbStructuredData, ProductStructuredData } from '../seo/SEOEngine';
+import { comparisonsForProduct } from '../data/comparisons';
 import { AffiliateLink } from '../components/AffiliateLink';
 
 const categoryNames: Record<ProductCategory, string> = {
@@ -32,6 +33,7 @@ export function ProductReviewPage() {
   const pageTitle = productPageTitle(product);
   const description = productMetaDescription(product);
   const image = productImage(product);
+  const compareLinks = comparisonsForProduct(product);
 
   return <article className="article-page product-review-page">
     <SEOEngine title={pageTitle} description={description} path={location.pathname} type="website" />
@@ -131,6 +133,7 @@ export function ProductReviewPage() {
           {groups.manufacturer.length ? <ul>{groups.manufacturer.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a></li>)}</ul> : <p>No manufacturer source has been added yet.</p>}
           {groups.independent.length > 0 && <><h3>Independent reviews</h3><ul>{groups.independent.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a></li>)}</ul></>}
         </section>
+        {compareLinks.length > 0 && <section id="compare"><h2>Compare this product</h2><ul>{compareLinks.map(item => <li key={item.path}><Link to={item.path}>{item.title}</Link></li>)}</ul></section>}
         <p><Link className="text-link" to={categoryPath}>Explore more {product.category.toLowerCase()} product profiles →</Link></p>
         <p><Link className="text-link" to="/testing">How TWW handles testing and evidence →</Link></p>
       </div>

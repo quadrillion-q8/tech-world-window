@@ -3,7 +3,8 @@ import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
 import { getToolPageData } from '../data/tools';
-import { getProductByPath, productCategorySlug, productMetaDescription, productPageTitle } from '../data/products';
+import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
+import { getComparisonByPath } from '../data/comparisons';
 import { fitTitle } from './title';
 import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
 
@@ -16,6 +17,8 @@ type SeoData = {
   updatedAt?: string;
   authorName?: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 const DEFAULT_OG_IMAGE = '/og-default.png';
@@ -101,6 +104,22 @@ function buildSeoData(path: string): SeoData {
       description: productMetaDescription(product),
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
+      image: productImage(product).src,
+      imageWidth: 960,
+      imageHeight: 600,
+    };
+  }
+
+  const comparison = getComparisonByPath(normalizedPath);
+  if (comparison) {
+    return {
+      title: `${comparison.title}: Specifications Compared | Tech World Window`,
+      description: comparison.metaDescription,
+      canonical: absoluteUrl(normalizedPath),
+      type: 'website',
+      image: productImage(comparison.productA).src,
+      imageWidth: 960,
+      imageHeight: 600,
     };
   }
 
@@ -223,6 +242,14 @@ function breadcrumbSchema(path: string, seo: SeoData) {
   };
 }
 
+const reviewHubCategories: Record<string, ProductCategory | null> = {
+  '/reviews': null,
+  '/reviews/ssds': 'SSD',
+  '/reviews/gpus': 'GPU',
+  '/reviews/laptops': 'Laptop',
+  '/reviews/cpus': 'CPU',
+};
+
 export function injectSsgSeo(renderedHtml: string, route: string) {
   const path = route === '' ? '/' : route.replace(/\/$/, '') || '/';
   const seo = getSeoData(path);
@@ -291,6 +318,47 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     }
   }
 
+  const product = getProductByPath(path);
+  if (product) {
+    const image = productImage(product);
+    const imageObject = { '@type': 'ImageObject', url: absoluteUrl(image.src), width: image.width, height: image.height, caption: image.alt };
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: seo.canonical,
+      name: seo.title,
+      description: seo.description,
+      inLanguage: 'en',
+      primaryImageOfPage: imageObject,
+      about: { '@type': 'Thing', name: `${product.brand} ${product.model}`, description: product.summary, image: absoluteUrl(image.src) },
+      isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+    });
+  }
+
+  const hubCategory = reviewHubCategories[path];
+  if (hubCategory !== undefined) {
+    const items = hubCategory ? products.filter(item => item.category === hubCategory) : products;
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      url: seo.canonical,
+      name: seo.title,
+      description: seo.description,
+      inLanguage: 'en',
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: items.length,
+        itemListElement: items.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          url: absoluteUrl(productPath(item)),
+          name: `${item.brand} ${item.model}`,
+          image: absoluteUrl(productImage(item).src),
+        })),
+      },
+    });
+  }
+
   const toolPage = getToolPageData(path);
   if (toolPage?.webApp) {
     schemas.push({
@@ -345,8 +413,8 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     `<meta property="og:description" content="${escapeHtml(seo.description)}" />`,
     `<meta property="og:url" content="${escapeHtml(seo.canonical)}" />`,
     `<meta property="og:image" content="${escapeHtml(absoluteUrl(seo.image || DEFAULT_OG_IMAGE))}" />`,
-    '<meta property="og:image:width" content="1200" />',
-    '<meta property="og:image:height" content="630" />',
+    `<meta property="og:image:width" content="${seo.imageWidth ?? 1200}" />`,
+    `<meta property="og:image:height" content="${seo.imageHeight ?? 630}" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(seo.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(seo.description)}" />`,

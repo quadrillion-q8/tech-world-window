@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.techworldwindow.com/</loc>
   </url>
@@ -38,12 +38,69 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews/ssds/samsung-990-pro-4tb</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/samsung-990-pro-4tb-960.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews/ssds/crucial-t500-2tb</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/crucial-t500-2tb-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/gpus/nvidia-geforce-rtx-5080</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/nvidia-geforce-rtx-5080-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/gpus/amd-radeon-rx-9070-xt</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/amd-radeon-rx-9070-xt-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/cpus/amd-ryzen-7-9850x3d</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/amd-ryzen-7-9850x3d-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/cpus/intel-core-ultra-5-250k-plus</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/intel-core-ultra-5-250k-plus-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/laptops/lenovo-legion-pro-7i-gen-10-rtx-5080</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/lenovo-legion-pro-7i-gen-10-rtx-5080-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/laptops/hyperx-omen-max-16-rtx-5090</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/hyperx-omen-max-16-rtx-5090-960.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/compare/samsung-990-pro-vs-crucial-t500</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/samsung-990-pro-4tb-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/rtx-5080-vs-rx-9070-xt</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/nvidia-geforce-rtx-5080-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/ryzen-7-9850x3d-vs-core-ultra-5-250k-plus</loc>
+    <image:image>
+      <image:loc>https://www.techworldwindow.com/images/reviews/amd-ryzen-7-9850x3d-960.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews/gpus</loc>
@@ -60,7 +117,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/best-gaming-laptops</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/best-gaming-monitors</loc>
@@ -75,6 +132,9 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/tools/frame-time-analyzer</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/tools/windows-battery-health-analyzer</loc>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/tools/bsod-error-code-lookup</loc>
@@ -201,7 +261,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research/does-more-ram-make-windows-faster</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-17</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research/how-ssd-temperature-affects-performance</loc>
@@ -213,7 +273,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-26h2-installation-guide</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-wifi-connected-no-internet</loc>
@@ -242,6 +302,10 @@
   <url>
     <loc>https://www.techworldwindow.com/shader-compilation-stutter-pc-games</loc>
     <lastmod>2026-10-13</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/gamebar-presence-writer-fix</loc>
+    <lastmod>2026-10-14</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/nvme-ssd-temperature-too-high</loc>
@@ -277,7 +341,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-high-memory-usage-how-to-find-the-cause</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-unknown-device-device-manager</loc>
@@ -301,7 +365,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/gpu-100-percent-usage-gaming</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/how-much-ram-do-you-need-gaming</loc>
@@ -313,7 +377,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/pc-power-supply-problems-symptoms</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/ssd-nearly-full-windows-performance</loc>
@@ -329,9 +393,22 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/gaming-laptop-upgradeable-ram-ssd</loc>
-    <lastmod>2026-10-16</lastmod>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
-    <loc>https://www.techworldwindow.com/gamebar-presence-writer-fix</loc>
+    <loc>https://www.techworldwindow.com/laptop-wont-turn-on</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/laptop-battery-warning-signs</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/why-8gb-ram-is-no-longer-enough-for-windows-11</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-11-26h2-iso-released</loc>
+    <lastmod>2026-10-15</lastmod>
   </url>
 </urlset>
