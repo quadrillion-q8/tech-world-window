@@ -1601,7 +1601,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     metaDescription: 'PC game stutters on first use? Learn the signs of shader compilation, compare repeat runs, avoid unnecessary cache clearing, and check other causes of hitches.'
   },
   'nvme-ssd-temperature-too-high': {
-    seoTitle: 'NVMe SSD Temperature Too High? Safe Temps & Throttling',
+    seoTitle: 'NVMe SSD Temperature Too High? Safe Temps',
     metaDescription: 'How hot is too hot for an NVMe SSD? Check sensor readings, thermal throttling evidence, heatsink contact, airflow and drive health before replacing it.'
   },
   'why-ssd-is-slowing-down-windows': { seoTitle: 'Why an SSD Slows Down Over Time' },

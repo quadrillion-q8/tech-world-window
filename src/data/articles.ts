@@ -751,7 +751,7 @@ const baseArticles: Article[] = [
     id: 'nvme-temperature',
     slug: 'nvme-ssd-temperature-too-high',
     title: 'NVMe SSD Temperature Too High: What Is Normal and When It Throttles',
-    seoTitle: "NVMe SSD Temperature Too High? Safe Temps & Throttling",
+    seoTitle: "NVMe SSD Temperature Too High? Safe Temps",
     dek: 'How to interpret NVMe SSD temperature readings, when heat reduces performance, and practical ways to improve cooling.',
     metaDescription: "NVMe SSD temperature too high? Learn what the reading means, signs of thermal throttling, when to worry, and how to improve cooling safely.",
     excerpt: 'High NVMe temperatures cause throttling long before they threaten the drive. Read the number alongside performance and the manufacturer limits.',
