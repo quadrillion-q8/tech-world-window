@@ -648,3 +648,8 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
   .product-card-image img { transition: none; }
   .product-profile-card:hover .product-card-image img { transform: none; }
 }
+.comparison-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0 0 2rem; }
+.comparison-product { display: block; text-decoration: none; border: 1px solid rgba(19, 34, 56, .12); border-radius: 14px; overflow: hidden; background: #fff; }
+.comparison-product img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.comparison-product span { display: block; padding: .7rem .9rem; font-weight: 700; font-size: .9rem; color: #1d2733; }
+@media (max-width: 560px) { .comparison-products { grid-template-columns: 1fr; } }

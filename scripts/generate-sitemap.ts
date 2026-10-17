@@ -2,6 +2,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { articles } from '../src/data/articles';
 import { routeGraph, SITE_URL } from '../src/data/graph';
+import { getProductByPath, productImage } from '../src/data/products';
+import { getComparisonByPath } from '../src/data/comparisons';
 
 const publicDir = resolve('public');
 mkdirSync(publicDir, { recursive: true });
@@ -16,17 +18,20 @@ const urls = routeGraph
     const loc = new URL(route.path, SITE_URL).toString();
     const article = articleByPath.get(route.path);
     const lastmod = article?.updatedAt || article?.publishedAt;
+    const imagePath = (getProductByPath(route.path) ?? getComparisonByPath(route.path)?.productA);
+    const image = imagePath ? new URL(productImage(imagePath).src, SITE_URL).toString() : undefined;
     return [
       '  <url>',
       `    <loc>${loc}</loc>`,
       ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+      ...(image ? ['    <image:image>', `      <image:loc>${image}</image:loc>`, '    </image:image>'] : []),
       '  </url>',
     ].join('\n');
   });
 
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
   ...urls,
   '</urlset>',
   '',

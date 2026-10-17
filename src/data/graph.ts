@@ -5,6 +5,7 @@
 import { bsodEntries, bsodPath, shortHex } from './bsod';
 import { tools } from './tools';
 import { productPageTitle, productPath, products } from './products';
+import { comparisons } from './comparisons';
 
 export type RouteNode = {
   path: string;
@@ -40,7 +41,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/research', kind: 'static', title: 'TWW Technology Research', indexable: true },
   { path: '/reviews/ssds', kind: 'category', title: 'SSD Reviews', indexable: true },
   ...products.map(product => ({ path: productPath(product), kind: 'product-review' as const, title: productPageTitle(product), indexable: true })),
-  { path: '/compare/samsung-990-pro-vs-crucial-t500', kind: 'comparison', title: 'Samsung 990 PRO 4TB vs Crucial T500 2TB', indexable: true },
+  ...comparisons.map(item => ({ path: item.path, kind: 'comparison' as const, title: item.title, indexable: true })),
   { path: '/reviews/gpus', kind: 'category', title: 'GPU Reviews', indexable: true },
   { path: '/reviews/laptops', kind: 'category', title: 'Laptop Reviews', indexable: true },
   { path: '/reviews/cpus', kind: 'category', title: 'CPU Reviews', indexable: true },
