@@ -804,3 +804,11 @@ tr:nth-child(even) { background: rgba(120, 90, 40, .035); }
 
 .product-hero-image figcaption { color: var(--wb-subtle); }
 .product-card-image, .product-hero-image img { border-color: var(--wb-line); }
+
+/* Comparison pages: quick answer, related comparisons, hub shelf */
+.quick-answer { margin: 0 0 1.5rem; }
+.quick-answer p { margin: 0.35rem 0 0; }
+.related-comparisons { margin-top: 2rem; }
+.related-comparisons ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.related-comparisons li { margin: 0.35rem 0; }
+.comparison-shelf { margin-top: 2.5rem; }
