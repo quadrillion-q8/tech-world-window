@@ -240,6 +240,78 @@ export const products: Product[] = [
     independentReviewSummary: 'Tom’s Hardware’s August 2026 review tested an OMEN MAX 16 with a Core Ultra 9 290HX Plus, RTX 5090 Laptop GPU, 32GB DDR5-6400 and a 2TB PCIe 5.0 SSD. Its conclusion was critical of the price-to-performance proposition, while noting the chassis, memory access and PCIe 5.0 storage. Those are the outside publication’s observations, not TWW test results.',
     lastVerified: '2026-10-17',
   },
+  {
+    id: 'samsung-9100-pro-4tb', slug: 'samsung-9100-pro-4tb', brand: 'Samsung', model: '9100 PRO 4TB', category: 'SSD',
+    summary: 'Samsung’s PCIe 5.0 NVMe SSD with a rated 14,800MB/s sequential read on the 4TB model. Independent reviewers found it fast and cool-running, with a premium price and few real-world gains for typical gaming.',
+    status: 'spec-profile',
+    specs: [
+      { label: 'Interface', value: 'PCIe 5.0 x4, NVMe 2.0' },
+      { label: 'Form factor', value: 'M.2 2280 (a heatsink version is also sold)' },
+      { label: 'NAND / controller', value: 'Samsung V-NAND TLC (V8); in-house 5nm controller' },
+      { label: 'Cache (4TB)', value: '4GB LPDDR4X' },
+      { label: 'Sequential read', value: 'Up to 14,800 MB/s (4TB, manufacturer rating)' },
+      { label: 'Sequential write', value: 'Up to 13,400 MB/s (4TB, manufacturer rating; measured with Intelligent TurboWrite active)' },
+      { label: 'Warranty / endurance', value: '5 years or 2,400 TBW (4TB)' },
+    ],
+    strengths: ['PCIe 5.0 interface with very high manufacturer-rated sequential speeds and a 4TB capacity option.', 'HotHardware described the drive as relatively cool-running and low-power for a Gen 5 SSD, and noted that it led its game-storage trace tests.', 'TechRadar highlighted sequential write speed as a standout in its testing.'],
+    limitations: ['TechRadar’s review measured sequential reads below the box rating at first and later reported reaching the rated figure after retesting on other hardware, so results depend on the test platform.', 'Both reviewers consider it a premium-priced drive; TechRadar did not recommend it for most general or gaming users.', 'It needs a PCIe 5.0 M.2 slot to reach its rated speeds, and consoles or PCIe 4.0 systems cannot use the extra bandwidth.'],
+    bestFor: ['Workstations and creators moving very large files', 'New PCIe 5.0 builds where the budget allows a premium drive', 'Buyers comparing it with the PCIe 4.0 990 PRO on price and real workload benefit'],
+    sources: [
+      { label: 'Samsung 9100 PRO series announcement and specifications', url: 'https://news.samsung.com/us/samsung-announces-9100-pro-series-ssds-with-breakthrough-pcie-5-0-performance/', kind: 'manufacturer' },
+      { label: 'HotHardware: Samsung 9100 Pro SSD review (4TB, August 2025)', url: 'https://hothardware.com/reviews/samsung-9100-pro-ssd-review', kind: 'independent-review' },
+      { label: 'TechRadar: Samsung 9100 Pro review (4TB, March 2025)', url: 'https://www.techradar.com/computing/computing-components/samsung-9100-pro', kind: 'independent-review' },
+    ],
+    independentReviewSummary: 'HotHardware tested the 4TB model and found it strong and well-rounded for a PCIe 5.0 drive, with first-place results in several storage traces and relatively cool, low-power operation. TechRadar’s 4TB review praised sequential write speed but judged the drive expensive and aimed at professionals rather than typical gamers. Those are the outlets’ findings on their own test systems, not TWW measurements.',
+    configurationNote: 'The reviewed samples were the 4TB model without a heatsink; the heatsink version and other capacities have different ratings and prices.',
+    lastVerified: '2026-10-17',
+  },
+  {
+    id: 'nvidia-geforce-rtx-5070-ti', slug: 'nvidia-geforce-rtx-5070-ti', brand: 'NVIDIA', model: 'GeForce RTX 5070 Ti', category: 'GPU',
+    summary: 'A Blackwell graphics card with 16GB of GDDR7 and a 300W total graphics power rating, positioned below the RTX 5080. Independent testing found a solid 1440p card with modest gains over the previous-generation RTX 4070 Ti Super.',
+    status: 'spec-profile',
+    specs: [
+      { label: 'GPU architecture', value: 'NVIDIA Blackwell' },
+      { label: 'CUDA cores', value: '8,960 (NVIDIA specification)' },
+      { label: 'Memory', value: '16GB GDDR7' },
+      { label: 'Memory interface', value: '256-bit' },
+      { label: 'Boost clock', value: '2.45GHz (NVIDIA specification)' },
+      { label: 'Total graphics power', value: '300W' },
+      { label: 'Interface / power connector', value: 'PCIe Gen 5; 2 × 8-pin via adapter, or a 300W-or-greater PCIe Gen 5 cable' },
+    ],
+    strengths: ['16GB of GDDR7 on a 256-bit interface for high-resolution gaming.', 'Tom’s Hardware called it a great 1440p native solution, or 4K with upscaling.', 'NVIDIA’s DLSS, ray-tracing and CUDA ecosystem support applies.'],
+    limitations: ['Tom’s Hardware described the generational gain over the RTX 4070 Ti Super as incremental, with near-identical compute throughput and the main gain in memory bandwidth.', 'Its recommendation was conditional on finding the card near the launch price, so real local pricing and stock matter.', 'Partner cards differ in cooling, size, noise and power behavior; the review tested one specific Asus model.'],
+    bestFor: ['1440p high-refresh gaming', 'Buyers who want NVIDIA features and 16GB of VRAM below RTX 5080 pricing', 'Upgraders coming from older RTX 30 or 40 series cards'],
+    sources: [
+      { label: 'NVIDIA GeForce RTX 5070 family official specifications', url: 'https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5070-family/', kind: 'manufacturer' },
+      { label: 'Tom’s Hardware: GeForce RTX 5070 Ti review (ASUS Prime, February 2025)', url: 'https://www.tomshardware.com/pc-components/gpus/nvidia-geforce-rtx-5070-ti-review-asus', kind: 'independent-review' },
+    ],
+    independentReviewSummary: 'Tom’s Hardware’s February 2025 review tested an Asus RTX 5070 Ti Prime. It judged the card a proper high-end GPU for 1440p and upscaled 4K, but an incremental upgrade over the RTX 4070 Ti Super and worth buying only near MSRP. Those are the reviewer’s findings on one partner card, not TWW measurements.',
+    configurationNote: 'The reviewed card was an Asus partner model. Clocks, cooler and noise vary by manufacturer; confirm the exact model before applying review results.',
+    lastVerified: '2026-10-17',
+  },
+  {
+    id: 'amd-ryzen-7-9800x3d', slug: 'amd-ryzen-7-9800x3d', brand: 'AMD', model: 'Ryzen 7 9800X3D', category: 'CPU',
+    summary: 'An 8-core, 16-thread AM5 gaming processor with 96MB of L3 cache and a 120W default TDP. TechSpot’s 45-game test found it faster than the Ryzen 7 7800X3D by 8% on average.',
+    status: 'spec-profile',
+    specs: [
+      { label: 'Architecture / socket', value: 'Zen 5 with 3D V-Cache / AM5' },
+      { label: 'Cores / threads', value: '8 / 16' },
+      { label: 'Base / max boost', value: '4.7GHz / up to 5.2GHz' },
+      { label: 'L3 cache', value: '96MB' },
+      { label: 'Default TDP', value: '120W' },
+      { label: 'Memory', value: 'DDR5; two memory channels; up to DDR5-5600 with 1 or 2 DIMMs per channel' },
+      { label: 'Thermal solution', value: 'Cooler not included; AMD recommends a liquid cooler for optimal performance' },
+    ],
+    strengths: ['Large L3 cache aimed at latency-sensitive gaming workloads.', 'TechSpot measured an average 8% gaming lead over the Ryzen 7 7800X3D across 45 games, and 11% across the 30 games with larger margins.', 'AM5 is a current desktop platform with DDR5 support.'],
+    limitations: ['Gains varied by game; TechSpot found some titles with under 1% or no improvement.', 'TechSpot’s review did not cover productivity or power consumption, so check other sources for those.', 'A cooler and a compatible AM5 motherboard are additional costs; confirm BIOS support before upgrading.'],
+    bestFor: ['High-refresh-rate gaming builds', 'AM5 builders comparing X3D options and their price differences', 'Players who are CPU-limited at 1080p or 1440p'],
+    sources: [
+      { label: 'AMD Ryzen 7 9800X3D official specifications', url: 'https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9800x3d.html', kind: 'manufacturer' },
+      { label: 'TechSpot: Ryzen 7 9800X3D review (November 2024)', url: 'https://www.techspot.com/review/2917-amd-ryzen-7-9800x3d/', kind: 'independent-review' },
+    ],
+    independentReviewSummary: 'TechSpot’s November 2024 review ran 45 games at 1080p with a GeForce RTX 4090 and found the 9800X3D 8% faster on average than the Ryzen 7 7800X3D, with up to 21% in some titles. The review predates later X3D models, so check newer results before comparing with them. Those are TechSpot’s findings, not TWW measurements.',
+    lastVerified: '2026-10-17',
+  },
 ];
 
 export function getProduct(slug: string): Product | undefined {
@@ -265,12 +337,14 @@ const productImageAlt: Record<string, string> = {
 
 export type ProductImage = { src: string; srcSet: string; alt: string; width: number; height: number };
 
-export function productImage(product: Product): ProductImage {
+/** Returns undefined for products that have no photo yet, so pages simply omit the image. */
+export function productImage(product: Product): ProductImage | undefined {
+  if (!productImageAlt[product.slug]) return undefined;
   const base = `/images/reviews/${product.slug}`;
   return {
     src: `${base}-960.webp`,
     srcSet: `${base}-480.webp 480w, ${base}-960.webp 960w`,
-    alt: productImageAlt[product.slug] ?? `${product.brand} ${product.model}`,
+    alt: productImageAlt[product.slug],
     width: 960,
     height: 600,
   };

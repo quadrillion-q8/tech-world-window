@@ -104,9 +104,7 @@ function buildSeoData(path: string): SeoData {
       description: productMetaDescription(product),
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
-      image: productImage(product).src,
-      imageWidth: 960,
-      imageHeight: 600,
+      ...(productImage(product) ? { image: productImage(product)!.src, imageWidth: 960, imageHeight: 600 } : {}),
     };
   }
 
@@ -117,9 +115,7 @@ function buildSeoData(path: string): SeoData {
       description: comparison.metaDescription,
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
-      image: productImage(comparison.productA).src,
-      imageWidth: 960,
-      imageHeight: 600,
+      ...(productImage(comparison.productA) ? { image: productImage(comparison.productA)!.src, imageWidth: 960, imageHeight: 600 } : {}),
     };
   }
 
@@ -321,7 +317,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
   const product = getProductByPath(path);
   if (product) {
     const image = productImage(product);
-    const imageObject = { '@type': 'ImageObject', url: absoluteUrl(image.src), width: image.width, height: image.height, caption: image.alt };
+    const imageObject = image ? { '@type': 'ImageObject', url: absoluteUrl(image.src), width: image.width, height: image.height, caption: image.alt } : undefined;
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
@@ -329,8 +325,8 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       name: seo.title,
       description: seo.description,
       inLanguage: 'en',
-      primaryImageOfPage: imageObject,
-      about: { '@type': 'Thing', name: `${product.brand} ${product.model}`, description: product.summary, image: absoluteUrl(image.src) },
+      ...(imageObject ? { primaryImageOfPage: imageObject } : {}),
+      about: { '@type': 'Thing', name: `${product.brand} ${product.model}`, description: product.summary, ...(image ? { image: absoluteUrl(image.src) } : {}) },
       isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
     });
   }
@@ -353,7 +349,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
           position: index + 1,
           url: absoluteUrl(productPath(item)),
           name: `${item.brand} ${item.model}`,
-          image: absoluteUrl(productImage(item).src),
+          ...(productImage(item) ? { image: absoluteUrl(productImage(item)!.src) } : {}),
         })),
       },
     });

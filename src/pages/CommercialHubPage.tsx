@@ -91,9 +91,9 @@ function ProfileCard({ product }: { product: Product }) {
   const externalCount = product.sources.filter(source => source.kind === 'independent-review').length;
   const image = productImage(product);
   return <article className="article-card product-profile-card" key={product.id}>
-    <Link className="product-card-image" to={productPath(product)} tabIndex={-1} aria-hidden="true">
+    {image && <Link className="product-card-image" to={productPath(product)} tabIndex={-1} aria-hidden="true">
       <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 360px" alt="" width={image.width} height={image.height} loading="lazy" decoding="async" />
-    </Link>
+    </Link>}
     <div className="card-topline">
       <span className="eyebrow">{externalCount ? 'SPEC PROFILE · EXTERNAL TESTS LINKED' : 'SPECIFICATION PROFILE'}</span>
       <span className="reading-time">{product.category}</span>

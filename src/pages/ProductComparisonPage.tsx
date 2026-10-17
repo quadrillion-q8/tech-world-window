@@ -22,12 +22,12 @@ export function ProductComparisonPage() {
       <p className="article-dek">{comparison.dek}</p>
     </div>
     <div className="article-body section">
-      <div className="comparison-products">
+      {imgA && imgB && <div className="comparison-products">
         {[{ p: a, img: imgA }, { p: b, img: imgB }].map(({ p, img }) => <Link key={p.id} to={productPath(p)} className="comparison-product">
           <img src={img.srcSet.split(' ')[0]} srcSet={img.srcSet} sizes="(max-width: 700px) 92vw, 440px" alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async" />
           <span>{p.brand} {p.model}</span>
         </Link>)}
-      </div>
+      </div>}
       <div className="table-wrap"><table className="article-table"><thead><tr><th scope="col">Specification</th><th scope="col">{a.brand} {a.model}</th><th scope="col">{b.brand} {b.model}</th></tr></thead><tbody>
         {comparison.rows.map(row => <tr key={row.label}><th scope="row">{row.label}</th><td>{row.a}</td><td>{row.b}</td></tr>)}
       </tbody></table></div>

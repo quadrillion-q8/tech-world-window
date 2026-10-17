@@ -19,7 +19,8 @@ const urls = routeGraph
     const article = articleByPath.get(route.path);
     const lastmod = article?.updatedAt || article?.publishedAt;
     const imagePath = (getProductByPath(route.path) ?? getComparisonByPath(route.path)?.productA);
-    const image = imagePath ? new URL(productImage(imagePath).src, SITE_URL).toString() : undefined;
+    const imageSrc = imagePath ? productImage(imagePath)?.src : undefined;
+    const image = imageSrc ? new URL(imageSrc, SITE_URL).toString() : undefined;
     return [
       '  <url>',
       `    <loc>${loc}</loc>`,
