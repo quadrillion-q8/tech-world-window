@@ -409,6 +409,191 @@ const comparisonDefs: ComparisonDef[] = [
     evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings of specific configurations. TWW has not tested either laptop.',
     guide: { label: 'Best gaming laptops guide →', href: '/best-gaming-laptops' },
   },
+  {
+    slug: 'rtx-5090-vs-rtx-5080',
+    a: 'nvidia-geforce-rtx-5090', b: 'nvidia-geforce-rtx-5080',
+    eyebrow: 'GPU COMPARISON',
+    dek: 'NVIDIA’s flagship Blackwell card against the RTX 5080, compared on manufacturer specifications and what independent reviewers have published.',
+    metaDescription: 'GeForce RTX 5090 vs RTX 5080: CUDA cores, 32GB vs 16GB memory, interface width, clocks and linked independent review findings side by side.',
+    quickAnswer: 'The RTX 5090 lists 21,760 CUDA cores, 32GB of GDDR7 and a 512-bit interface, against 10,752 cores, 16GB and a 256-bit interface on the RTX 5080. In Tom’s Hardware’s 4K ray-tracing tests with upscaling the 5090 reached 48 fps against 29 fps in Alan Wake 2, but those are not native-performance results.',
+    rows: [
+      ['GPU architecture', 'GPU architecture', 'GPU architecture'],
+      ['CUDA cores', 'CUDA cores', 'CUDA cores'],
+      ['Memory', 'Memory', 'Memory'],
+      ['Memory interface', 'Memory interface', 'Memory interface'],
+      ['Boost clock', 'Boost clock', 'Boost clock'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'Both cards use the Blackwell architecture. The RTX 5090 lists 21,760 CUDA cores, 32GB of GDDR7 and a 512-bit memory interface, while the RTX 5080 lists 10,752 CUDA cores, 16GB of GDDR7 and a 256-bit interface. That is roughly double the shader count, memory capacity and interface width.',
+          'The RTX 5090’s listed boost clock (2.41GHz) is lower than the RTX 5080’s (2.62GHz), so the difference comes from the extra hardware rather than clock speed. NVIDIA lists a 575W total graphics power for the RTX 5090, with an 850W minimum power supply and four 8-pin connectors or one 600W PCIe Gen 5 cable; check NVIDIA’s RTX 5080 page for that card’s requirements.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'Against the previous generation, TechSpot measured a 27% average gain for the RTX 5090 over the RTX 4090 at 4K and Tom’s Hardware measured 25% at 4K Ultra, with much smaller gains at 1440p and below. Tom’s Hardware found the RTX 5080 Founders Edition’s conventional gains over the RTX 4080 Super modest in many tests.',
+          'Tom’s Hardware’s February 2025 test of both cards used five ray-tracing games at 4K with upscaling. In Alan Wake 2 with full ray tracing the RTX 5090 reached 48 fps against 29 fps for the RTX 5080, and in Indiana Jones and the Great Circle it reached 102 fps against 69 fps. The same article noted the RTX 5080 ran out of VRAM with frame generation at 4K in that game. These are heavy ray-tracing results with upscaling, not native-resolution comparisons, and TWW has not measured either card.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'The extra memory and shader count matter most for 4K, heavy ray tracing and memory-hungry workloads. Reviewers found the RTX 5090’s gains over the RTX 4090 shrink at lower resolutions, so a 1440p player may see less benefit from the added hardware. Also weigh power supply requirements, case clearance, the cost difference in your market, and whether 16GB meets the games and creative work you actually run.',
+        ],
+      },
+    ],
+    faq: [
+      { question: 'How much more VRAM does the RTX 5090 have than the RTX 5080?', answer: 'The RTX 5090 has 32GB of GDDR7 on a 512-bit interface. The RTX 5080 has 16GB of GDDR7 on a 256-bit interface.' },
+      { question: 'Is the RTX 5090 twice as fast as the RTX 5080?', answer: 'It lists roughly twice the CUDA cores, but frame rates do not scale directly with core count. In Tom’s Hardware’s 4K ray-tracing tests with upscaling it reached 48 fps against 29 fps in Alan Wake 2 and 102 against 69 in Indiana Jones and the Great Circle. Those are not native-resolution results.' },
+      { question: 'How much power does the RTX 5090 need?', answer: 'NVIDIA lists 575W total graphics power, an 850W minimum power supply (its specification table lists 1,000W required system power), and four 8-pin connectors via the included adapter or one 600W PCIe Gen 5 cable.' },
+      { question: 'Is this a TWW benchmark?', answer: 'No. The page uses manufacturer specifications and attributed findings from outside reviewers. TWW has not tested either card.' },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either card.',
+    guide: { label: 'GPU product profiles →', href: '/reviews/gpus' },
+  },
+  {
+    slug: 'ryzen-9-9950x3d-vs-ryzen-7-9800x3d',
+    a: 'amd-ryzen-9-9950x3d', b: 'amd-ryzen-7-9800x3d',
+    eyebrow: 'CPU COMPARISON',
+    dek: 'A 16-core X3D chip against the 8-core gaming favorite, compared on specifications and a direct independent head-to-head.',
+    metaDescription: 'Ryzen 9 9950X3D vs Ryzen 7 9800X3D: cores, cache, TDP, and Tom’s Hardware’s head-to-head gaming, productivity and power results.',
+    quickAnswer: 'Tom’s Hardware’s head-to-head found the two chips effectively tied in games (194.8 fps average for the 9950X3D against 195.5 for the 9800X3D at 1080p). The 9950X3D scored much higher in multi-threaded tests but drew more power, and the article recommended the 9800X3D for gaming-focused builds.',
+    rows: [
+      ['Platform', 'Socket', 'Architecture / socket'],
+      ['Cores / threads', 'Cores / threads', 'Cores / threads'],
+      ['Base / max boost', 'Base / max boost', 'Base / max boost'],
+      ['L3 cache', 'L3 cache', 'L3 cache'],
+      ['Default TDP', 'Default TDP', 'Default TDP'],
+      ['Memory', 'Memory', 'Memory'],
+      ['Thermal solution', 'Thermal solution', 'Thermal solution'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'The Ryzen 9 9950X3D has 16 cores and 32 threads with 128MB of L3 cache and a 170W default TDP. The Ryzen 7 9800X3D has 8 cores and 16 threads with 96MB of L3 cache and a 120W default TDP. The 9950X3D lists a higher maximum boost (up to 5.7GHz against 5.2GHz) but a lower base clock (4.3GHz against 4.7GHz).',
+          'Both use the AM5 socket, support DDR5-5600 in a two-module configuration, and ship without a cooler. AMD recommends a liquid cooler for optimal performance on both.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'Tom’s Hardware tested both chips directly (page updated September 2025) across 16 games at 1080p with an RTX 5090. The 9800X3D averaged 195.5 fps and the 9950X3D 194.8 fps, with 1% lows of 134 and 136 fps. The 9800X3D led in Minecraft with ray tracing, A Plague Tale: Requiem and Starfield, while the 9950X3D led in Baldur’s Gate 3.',
+          'In productivity the 9950X3D scored 635 against 367 in the same article’s multi-threaded geomean, and 258 against 243 in single-threaded tests. It also drew more power: 215W against 171W in Prime95 Small FFTs, and the article recommended a 360mm all-in-one cooler for it versus a dual-tower air cooler or 240mm all-in-one for the 9800X3D. TechSpot’s March 2025 review of the 9950X3D (12 games, RTX 4090) likewise found gaming essentially level with the 9800X3D and measured 44% more power in Cyberpunk 2077.',
+          'Tom’s Hardware called the matchup a tie overall: buy the 9800X3D for gaming-focused builds, and the 9950X3D for a mix of gaming and heavy multi-threaded work. That is the outlet’s conclusion on its own test bench, not a TWW result.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'If you mostly game, the reviews found no measured gaming advantage for the 9950X3D, so compare the price difference in your market against the extra cooler and motherboard budget it may need. If you also render, encode or compile code, the extra cores are where the 9950X3D pulls ahead. Confirm BIOS support on your AM5 motherboard either way.',
+        ],
+      },
+    ],
+    faq: [
+      { question: 'Is the Ryzen 9 9950X3D faster than the Ryzen 7 9800X3D for gaming?', answer: 'In Tom’s Hardware’s 16-game 1080p test the 9800X3D averaged 195.5 fps and the 9950X3D 194.8 fps, effectively a tie. TechSpot also found gaming essentially level in its 12-game test.' },
+      { question: 'Which is better for productivity?', answer: 'The 9950X3D, which has 16 cores against 8. Tom’s Hardware’s multi-threaded geomean scored 635 for it against 367 for the 9800X3D.' },
+      { question: 'Do I need a bigger cooler for the 9950X3D?', answer: 'Tom’s Hardware recommended a 360mm all-in-one cooler for the 9950X3D and said a dual-tower air cooler or 240mm all-in-one suffices for the 9800X3D. Neither chip includes a cooler.' },
+      { question: 'Do they use the same socket?', answer: 'Yes. Both use AM5 and DDR5 memory. Check your motherboard’s BIOS support before buying.' },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings, including a direct head-to-head by Tom’s Hardware. TWW has not tested either processor.',
+    guide: { label: 'CPU product profiles →', href: '/reviews/cpus' },
+  },
+  {
+    slug: 'rx-9060-xt-vs-rx-9070-xt',
+    a: 'amd-radeon-rx-9060-xt-16gb', b: 'amd-radeon-rx-9070-xt',
+    eyebrow: 'GPU COMPARISON',
+    dek: 'AMD’s mainstream 16GB card against its higher-end 16GB card, compared on manufacturer specifications and linked independent reviews.',
+    metaDescription: 'Radeon RX 9060 XT 16GB vs RX 9070 XT: compute units, memory interface, bandwidth, clocks, power connectors and linked independent reviews.',
+    quickAnswer: 'Both cards carry 16GB of GDDR6. The RX 9070 XT doubles the compute units (64 against 32), the memory interface (256-bit against 128-bit) and the rated bandwidth (640GB/s against 320GB/s), and uses two 8-pin power connectors where the RX 9060 XT uses one.',
+    rows: [
+      ['Compute units', 'Compute units', 'Compute units'],
+      ['Game / boost frequency', 'Game / boost frequency', 'Game / boost frequency'],
+      ['Memory', 'Memory', 'Memory'],
+      ['Memory interface', 'Memory interface', 'Memory interface'],
+      ['Power connector', 'Power connector', 'Power connector'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'The RX 9060 XT 16GB lists 32 compute units, and the RX 9070 XT lists 64. Both carry 16GB of GDDR6, so memory capacity does not separate them, but the RX 9070 XT uses a 256-bit interface with a rated 640GB/s of bandwidth, against 128-bit and up to 320GB/s for the RX 9060 XT.',
+          'AMD lists a 160W typical board power and a single 8-pin connector for the RX 9060 XT, and a reference specification of two 8-pin connectors for the RX 9070 XT. The RX 9060 XT’s listed clocks are actually higher (up to 2.53GHz game clock and 3.13GHz boost, against 2.4GHz and 2.97GHz), so compute unit count and memory width are the larger differences.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'Tom’s Hardware’s June 2025 review gave the RX 9060 XT 16GB an Editor’s Choice, called it a strong mainstream option with plenty of VRAM, and advised avoiding the 8GB variant. For the RX 9070 XT, independent reviews found strong conventional rendering performance for its segment, and TechSpot’s August 2026 comparison tested 52 games across the RX 9070 and RX 9070 XT.',
+          'Those reviews were run separately on different systems, so they are not a head-to-head between these two cards. Check each review’s resolution, settings and comparison set before drawing a conclusion.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'Start with your target resolution and the games you play, then compare current local prices, since both reviewers tied their verdicts to pricing. Also check your power supply for one or two 8-pin connectors, and make sure you are looking at the 16GB RX 9060 XT, not the 8GB version that Tom’s Hardware advised avoiding.',
+        ],
+      },
+    ],
+    faq: [
+      { question: 'Do the RX 9060 XT 16GB and RX 9070 XT have the same VRAM?', answer: 'Yes. Both list 16GB of GDDR6. The RX 9070 XT has a 256-bit interface and the RX 9060 XT a 128-bit interface.' },
+      { question: 'How many compute units does each card have?', answer: 'AMD lists 32 compute units for the RX 9060 XT and 64 for the RX 9070 XT.' },
+      { question: 'Which needs more power connectors?', answer: 'AMD lists one 8-pin connector for the RX 9060 XT and a reference specification of two 8-pin connectors for the RX 9070 XT. Partner cards can differ, so check the exact model.' },
+      { question: 'Is this a TWW benchmark?', answer: 'No. The page uses manufacturer specifications and attributed findings from outside reviewers. TWW has not tested either card.' },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either card.',
+    guide: { label: 'GPU product profiles →', href: '/reviews/gpus' },
+  },
+  {
+    slug: 'ryzen-9-9950x3d-vs-ryzen-7-9850x3d',
+    a: 'amd-ryzen-9-9950x3d', b: 'amd-ryzen-7-9850x3d',
+    eyebrow: 'CPU COMPARISON',
+    dek: 'A 16-core X3D chip against the faster-clocked 8-core 9850X3D, compared on specifications and linked independent reviews.',
+    metaDescription: 'Ryzen 9 9950X3D vs Ryzen 7 9850X3D: cores, cache, boost clocks, TDP and what Tom’s Hardware and TechSpot found in their reviews.',
+    quickAnswer: 'The Ryzen 9 9950X3D has 16 cores and 128MB of L3 cache, while the Ryzen 7 9850X3D has 8 cores and 96MB but a higher listed base clock. Each was reviewed against the Ryzen 7 9800X3D rather than against the other, so there is no direct result for this pair.',
+    rows: [
+      ['Platform', 'Socket', 'Architecture / socket'],
+      ['Cores / threads', 'Cores / threads', 'Cores / threads'],
+      ['Base / max boost', 'Base / max boost', 'Base / max boost'],
+      ['L3 cache', 'L3 cache', 'L3 cache'],
+      ['Default TDP', 'Default TDP', 'Default TDP'],
+      ['Memory', 'Memory', 'Memory'],
+      ['Thermal solution', 'Thermal solution', 'Thermal solution'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'The Ryzen 9 9950X3D lists 16 cores and 32 threads with 128MB of L3 cache and a 170W default TDP. The Ryzen 7 9850X3D lists 8 cores and 16 threads with 96MB of L3 cache and a 120W default TDP. The 9950X3D boosts up to 5.7GHz from a 4.3GHz base, and the 9850X3D up to 5.6GHz from a 4.7GHz base.',
+          'Both are AM5 chips without an included cooler, so confirm motherboard BIOS support and budget for a cooler. Core count and cache are the large differences on paper.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'Tom’s Hardware described the 9850X3D’s gains over the Ryzen 7 9800X3D as marginal relative to its extra power use. For the 9950X3D, TechSpot found gaming essentially level with the 9800X3D in its 12-game test and recommended it for users who need strong productivity and gaming together, while advising gaming-only buyers that the 9800X3D offers better value.',
+          'Because both chips were measured against the 9800X3D on different test benches, these results are not a direct comparison of the 9950X3D and 9850X3D. Use each review’s own game list, power measurements and settings.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'TechSpot found the 9950X3D’s gaming results level with the 9800X3D rather than ahead of it, so its extra cores matter mainly for rendering, encoding and other multi-threaded work; for gaming alone, check the 8-core X3D chips’ reviews before paying for more cores. Weigh the price gap in your market, the cooler each chip needs, and your motherboard’s BIOS support.',
+        ],
+      },
+    ],
+    faq: [
+      { question: 'How many cores do the 9950X3D and 9850X3D have?', answer: 'The Ryzen 9 9950X3D has 16 cores and 32 threads. The Ryzen 7 9850X3D has 8 cores and 16 threads.' },
+      { question: 'Which has more L3 cache?', answer: 'The 9950X3D lists 128MB of L3 cache and the 9850X3D lists 96MB.' },
+      { question: 'Has any review compared them directly?', answer: 'Not in the sources TWW links. Tom’s Hardware reviewed the 9850X3D against the 9800X3D, and TechSpot reviewed the 9950X3D against the 9800X3D, so this pair was not measured head to head.' },
+      { question: 'Is this a TWW benchmark?', answer: 'No. The page uses manufacturer specifications and attributed findings from outside reviewers. TWW has not tested either processor.' },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either processor.',
+    guide: { label: 'CPU product profiles →', href: '/reviews/cpus' },
+  },
 ];
 
 export type ResolvedComparison = Comparison & { path: string; productA: Product; productB: Product; title: string };
