@@ -50,6 +50,7 @@ const hubs: Record<string, HubConfig> = {
     description: 'GPU specifications and links to independent graphics-card benchmarks, thermals, power and gaming tests.',
     intro: 'No TWW hands-on GPU benchmark has been published yet. The product pages below summarize specifications and clearly attribute outside lab findings, including review-unit and configuration limits where known.',
     cards: [
+      { title: 'RTX 5070 Ti vs RTX 5080', description: 'CUDA cores, memory, clocks and the reviewer’s estimated performance gap.', href: '/compare/rtx-5070-ti-vs-rtx-5080', label: 'Specification comparison' },
       { title: 'RTX 5080 vs RX 9070 XT', description: 'Architecture, memory, clocks and linked independent reviews side by side.', href: '/compare/rtx-5080-vs-rx-9070-xt', label: 'Specification comparison' },
       { title: 'GPU at 100% Usage While Gaming', description: 'Learn when full GPU utilization is normal and when another bottleneck is more likely.', href: '/gpu-100-percent-usage-gaming', label: 'Troubleshooting guide' },
       { title: 'GPU Frame-Time Spikes', description: 'Diagnose uneven frame delivery instead of relying only on average FPS.', href: '/gpu-frame-time-spikes-causes-fix', label: 'Performance guide' },
@@ -72,6 +73,7 @@ const hubs: Record<string, HubConfig> = {
     description: 'CPU platform specifications paired with independent gaming, productivity, power and thermal reviews.',
     intro: 'Core counts and boost clocks do not replace tests. TWW’s processor entries are specification profiles with links to independent results; there are no TWW-produced CPU benchmark numbers in this library yet.',
     cards: [
+      { title: 'Ryzen 7 9800X3D vs Ryzen 7 9850X3D', description: 'Boost clocks, cache, TDP and what independent reviews found.', href: '/compare/ryzen-7-9800x3d-vs-ryzen-7-9850x3d', label: 'Specification comparison' },
       { title: 'Ryzen 7 9850X3D vs Core Ultra 5 250K Plus', description: 'Cores, cache, boost clocks, power ratings and linked independent reviews.', href: '/compare/ryzen-7-9850x3d-vs-core-ultra-5-250k-plus', label: 'Specification comparison' },
       { title: 'CPU Bottlenecks and Low FPS', description: 'Find out when the CPU is actually limiting game performance before changing hardware.', href: '/pc-game-low-fps-how-to-find-the-cause', label: 'Diagnostic guide' },
       { title: 'PC Game Stuttering: Frame-Time Spikes', description: 'Separate CPU scheduling and frame-pacing problems from GPU limitations.', href: '/pc-game-stuttering-fix-frame-time', label: 'Complete guide' },
