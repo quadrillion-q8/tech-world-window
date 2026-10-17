@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { getProductByPath, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
+import { getProductByPath, productImage, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
 import { SEOEngine, BreadcrumbStructuredData, ProductStructuredData } from '../seo/SEOEngine';
 import { AffiliateLink } from '../components/AffiliateLink';
 
@@ -31,6 +31,7 @@ export function ProductReviewPage() {
   const hasIndependentReview = groups.independent.length > 0;
   const pageTitle = productPageTitle(product);
   const description = productMetaDescription(product);
+  const image = productImage(product);
 
   return <article className="article-page product-review-page">
     <SEOEngine title={pageTitle} description={description} path={location.pathname} type="website" />
@@ -51,6 +52,11 @@ export function ProductReviewPage() {
         <div><strong>Tech World Window Editorial Team</strong><span>Specifications and source links checked {product.lastVerified}</span></div>
       </div>
     </div>
+
+    <figure className="product-hero-image">
+      <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 960px) 100vw, 900px" alt={image.alt} width={image.width} height={image.height} fetchPriority="high" decoding="async" />
+      <figcaption>{product.brand} {product.model}. Product image for identification; not a TWW test photo.</figcaption>
+    </figure>
 
     <div className="article-layout">
       <aside className="article-aside">

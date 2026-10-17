@@ -801,3 +801,6 @@ tr:nth-child(even) { background: rgba(120, 90, 40, .035); }
   body { background: #fff; color: #000; }
   .site-footer, footer { background: #fff; color: #000; border-top: 1px solid #000; }
 }
+
+.product-hero-image figcaption { color: var(--wb-subtle); }
+.product-card-image, .product-hero-image img { border-color: var(--wb-line); }

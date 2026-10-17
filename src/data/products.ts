@@ -250,3 +250,28 @@ export function getProductByPath(path: string): Product | undefined {
   const normalized = path.replace(/\/$/, '');
   return products.find(product => productPath(product) === normalized);
 }
+
+/** Product photography lives in /public/images/reviews as 16:10 WebP (960w hero, 480w card). */
+const productImageAlt: Record<string, string> = {
+  'samsung-990-pro-4tb': 'Samsung 990 PRO 4TB M.2 NVMe SSD, top view of the label side',
+  'crucial-t500-2tb': 'Crucial T500 2TB M.2 NVMe SSD with heatsink, shown at an angle',
+  'nvidia-geforce-rtx-5080': 'NVIDIA GeForce RTX 5080 Founders Edition graphics card beside its packaging',
+  'amd-radeon-rx-9070-xt': 'AMD Radeon RX 9070 XT triple-fan graphics card, side view',
+  'amd-ryzen-7-9850x3d': 'AMD Ryzen 9000 Series desktop processor, top view of the heat spreader',
+  'intel-core-ultra-5-250k-plus': 'Intel Core Ultra 5 250K Plus desktop processor, top view of the heat spreader',
+  'lenovo-legion-pro-7i-gen-10-rtx-5080': 'Lenovo Legion Pro 7i Gen 10 gaming laptop with the lid open',
+  'hyperx-omen-max-16-rtx-5090': 'HP OMEN MAX 16 gaming laptop with RGB keyboard and the lid open',
+};
+
+export type ProductImage = { src: string; srcSet: string; alt: string; width: number; height: number };
+
+export function productImage(product: Product): ProductImage {
+  const base = `/images/reviews/${product.slug}`;
+  return {
+    src: `${base}-960.webp`,
+    srcSet: `${base}-480.webp 480w, ${base}-960.webp 960w`,
+    alt: productImageAlt[product.slug] ?? `${product.brand} ${product.model}`,
+    width: 960,
+    height: 600,
+  };
+}

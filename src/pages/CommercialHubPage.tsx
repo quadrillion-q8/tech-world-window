@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { hubSeo } from '../data/hubs';
-import { productPath, products, type Product, type ProductCategory } from '../data/products';
+import { productImage, productPath, products, type Product, type ProductCategory } from '../data/products';
 
 type HubCard = { title: string; description: string; href: string; label: string };
 type HubConfig = {
@@ -87,7 +87,11 @@ const categoryByPath: Record<string, ProductCategory | undefined> = {
 
 function ProfileCard({ product }: { product: Product }) {
   const externalCount = product.sources.filter(source => source.kind === 'independent-review').length;
+  const image = productImage(product);
   return <article className="article-card product-profile-card" key={product.id}>
+    <Link className="product-card-image" to={productPath(product)} tabIndex={-1} aria-hidden="true">
+      <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 360px" alt="" width={image.width} height={image.height} loading="lazy" decoding="async" />
+    </Link>
     <div className="card-topline">
       <span className="eyebrow">{externalCount ? 'SPEC PROFILE · EXTERNAL TESTS LINKED' : 'SPECIFICATION PROFILE'}</span>
       <span className="reading-time">{product.category}</span>
