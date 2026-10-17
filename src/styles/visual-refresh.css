@@ -604,3 +604,47 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
   .tools-filter-row { align-items: stretch; }
   .tools-filter { flex: 1 1 auto; }
 }
+
+/* ---------------------------------- Product review images (16:10 WebP) */
+.product-card-image {
+  display: block;
+  margin: -.2rem -.2rem 1rem;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(19, 34, 56, .12);
+  background: #fff;
+}
+.product-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+.product-profile-card:hover .product-card-image img { transform: scale(1.03); }
+.product-hero-image {
+  max-width: 960px;
+  margin: 0 auto 2.5rem;
+  padding: 0 1.5rem;
+}
+.product-hero-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid rgba(19, 34, 56, .12);
+  border-radius: 16px;
+}
+.product-hero-image figcaption {
+  margin-top: .6rem;
+  font-size: .78rem;
+  color: #7d92a6;
+  line-height: 1.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-card-image img { transition: none; }
+  .product-profile-card:hover .product-card-image img { transform: none; }
+}
