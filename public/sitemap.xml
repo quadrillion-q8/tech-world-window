@@ -103,6 +103,15 @@
     </image:image>
   </url>
   <url>
+    <loc>https://www.techworldwindow.com/reviews/gpus/nvidia-geforce-rtx-5090</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/cpus/amd-ryzen-9-9950x3d</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/reviews/gpus/amd-radeon-rx-9060-xt-16gb</loc>
+  </url>
+  <url>
     <loc>https://www.techworldwindow.com/compare/samsung-990-pro-vs-crucial-t500</loc>
     <image:image>
       <image:loc>https://www.techworldwindow.com/images/reviews/samsung-990-pro-4tb-960.webp</image:loc>
@@ -155,6 +164,18 @@
     <image:image>
       <image:loc>https://www.techworldwindow.com/images/reviews/lenovo-legion-pro-7i-gen-10-rtx-5080-960.webp</image:loc>
     </image:image>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/rtx-5090-vs-rtx-5080</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/ryzen-9-9950x3d-vs-ryzen-7-9800x3d</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/rx-9060-xt-vs-rx-9070-xt</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/compare/ryzen-9-9950x3d-vs-ryzen-7-9850x3d</loc>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews/gpus</loc>
