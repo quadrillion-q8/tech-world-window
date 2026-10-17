@@ -1,0 +1,66 @@
+diff --git a/public/7e4f599b78533bfe29aa94634833993e.txt b/public/7e4f599b78533bfe29aa94634833993e.txt
+new file mode 100644
+index 0000000..3014243
+--- /dev/null
++++ b/public/7e4f599b78533bfe29aa94634833993e.txt
+@@ -0,0 +1 @@
++7e4f599b78533bfe29aa94634833993e
+\ No newline at end of file
+diff --git a/scripts/submit-indexnow.mjs b/scripts/submit-indexnow.mjs
+new file mode 100644
+index 0000000..47e961a
+--- /dev/null
++++ b/scripts/submit-indexnow.mjs
+@@ -0,0 +1,16 @@
++// Usage: node scripts/submit-indexnow.mjs [url ...]
++// With no arguments, submits every URL in public/sitemap.xml.
++import { readFileSync } from 'node:fs';
++const HOST = 'www.techworldwindow.com';
++const KEY = '7e4f599b78533bfe29aa94634833993e';
++let urls = process.argv.slice(2);
++if (!urls.length) {
++  const xml = readFileSync(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
++  urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
++}
++const res = await fetch('https://api.indexnow.org/indexnow', {
++  method: 'POST',
++  headers: { 'Content-Type': 'application/json; charset=utf-8' },
++  body: JSON.stringify({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList: urls }),
++});
++console.log(`IndexNow: ${urls.length} URLs, HTTP ${res.status}`);
+diff --git a/src/data/content-enhancements.ts b/src/data/content-enhancements.ts
+index 7429422..3592d9c 100644
+--- a/src/data/content-enhancements.ts
++++ b/src/data/content-enhancements.ts
+@@ -950,7 +950,8 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
+       relatedLinks: [
+         { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a proper memory test when crashes occur across multiple applications or workloads.' },
+         { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the crash type and stop-code evidence if the system blue-screens instead of closing the game.' },
+-        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' }
++        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' },
++        { label: 'KERNEL_SECURITY_CHECK_FAILURE (0x139)', href: '/tools/bsod-error-code-lookup/kernel-security-check-failure', description: 'If a game crash ends in a blue screen with this stop code, see its common causes and the order to check them.' }
+       ]
+     }],
+     faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' }]
+diff --git a/src/data/windows-troubleshooting-pillar.ts b/src/data/windows-troubleshooting-pillar.ts
+index 7866a9a..a4c4639 100644
+--- a/src/data/windows-troubleshooting-pillar.ts
++++ b/src/data/windows-troubleshooting-pillar.ts
+@@ -195,7 +195,7 @@ export const windowsTroubleshootingPillar: Article = {
+         headers: ['Stop code', 'Hex', 'Usually points to', 'Check first'],
+         rows: [
+           ['IRQL_NOT_LESS_OR_EQUAL', '0xA', 'A faulty driver or memory', 'The most recent driver change; run a memory test'],
+-          ['PAGE_FAULT_IN_NONPAGED_AREA', '0x50', 'Bad memory, a driver, or a security-software filter driver', 'Memory test; recently installed software'],
++          [{ text: 'PAGE_FAULT_IN_NONPAGED_AREA', href: '/tools/bsod-error-code-lookup/page-fault-in-nonpaged-area' }, '0x50', 'Bad memory, a driver, or a security-software filter driver', 'Memory test; recently installed software'],
+           ['MEMORY_MANAGEMENT', '0x1A', 'Memory or its configuration', '`mdsched.exe`; test one module at a time; remove XMP/EXPO or overclocking'],
+           ['SYSTEM_SERVICE_EXCEPTION', '0x3B', 'Drivers, often graphics or security software', 'Update or roll back the graphics driver; review the named file'],
+           ['SYSTEM_THREAD_EXCEPTION_NOT_HANDLED', '0x7E', 'A driver that failed', 'The driver named on screen or in the dump'],
+@@ -207,7 +207,7 @@ export const windowsTroubleshootingPillar: Article = {
+           ['VIDEO_TDR_FAILURE', '0x116', 'Graphics driver or GPU hardware', 'Clean driver install; temperatures; power delivery'],
+           ['WHEA_UNCORRECTABLE_ERROR', '0x124', 'Hardware error from CPU, memory, PCIe, or power', 'Undo overclocks; test memory and cooling'],
+           ['DPC_WATCHDOG_VIOLATION', '0x133', 'A driver or firmware stall, often storage', 'Storage driver and SSD firmware'],
+-          ['KERNEL_SECURITY_CHECK_FAILURE', '0x139', 'Drivers, memory, or corruption', 'Driver changes; memory test; DISM and SFC'],
++          [{ text: 'KERNEL_SECURITY_CHECK_FAILURE', href: '/tools/bsod-error-code-lookup/kernel-security-check-failure' }, '0x139', 'Drivers, memory, or corruption', 'Driver changes; memory test; DISM and SFC'],
+           ['UNEXPECTED_STORE_EXCEPTION', '0x154', 'Storage, a driver, or security software', 'Storage health; update storage drivers'],
+         ],
+       },
