@@ -950,7 +950,8 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       relatedLinks: [
         { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use a proper memory test when crashes occur across multiple applications or workloads.' },
         { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the crash type and stop-code evidence if the system blue-screens instead of closing the game.' },
-        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' }
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' },
+        { label: 'KERNEL_SECURITY_CHECK_FAILURE (0x139)', href: '/tools/bsod-error-code-lookup/kernel-security-check-failure', description: 'If a game crash ends in a blue screen with this stop code, see its common causes and the order to check them.' }
       ]
     }],
     faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' }]
