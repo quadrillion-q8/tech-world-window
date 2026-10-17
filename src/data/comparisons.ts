@@ -115,6 +115,82 @@ const comparisonDefs = [
     evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either processor.',
     guide: { label: 'CPU product profiles →', href: '/reviews/cpus' },
   },
+  {
+    slug: 'rtx-5070-ti-vs-rtx-5080',
+    a: 'nvidia-geforce-rtx-5070-ti', b: 'nvidia-geforce-rtx-5080',
+    eyebrow: 'GPU COMPARISON',
+    dek: 'Two 16GB Blackwell graphics cards from NVIDIA, compared on manufacturer specifications and what independent reviewers have published.',
+    metaDescription: 'GeForce RTX 5070 Ti vs RTX 5080: CUDA cores, memory, clocks and linked independent review findings side by side.',
+    rows: [
+      ['GPU architecture', 'GPU architecture', 'GPU architecture'],
+      ['CUDA cores', 'CUDA cores', 'CUDA cores'],
+      ['Memory', 'Memory', 'Memory'],
+      ['Memory interface', 'Memory interface', 'Memory interface'],
+      ['Boost clock', 'Boost clock', 'Boost clock'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'Both cards use the Blackwell architecture with 16GB of GDDR7 on a 256-bit interface, so the difference is mainly shader count and clocks: the RTX 5070 Ti lists 8,960 CUDA cores at a 2.45GHz boost clock, and the RTX 5080 lists 10,752 at 2.62GHz.',
+          'Because memory capacity and interface match, the gap between the cards is smaller than a tier jump might suggest. Specifications alone do not give a performance number.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'In its RTX 5070 Ti review, Tom’s Hardware estimated that on paper the card could be up to 17% slower than the RTX 5080, and possibly only 5–10% slower in memory-dependent games. That is a reviewer’s estimate, not a measured head-to-head in this comparison.',
+          'Tom’s Hardware tested an Asus RTX 5070 Ti Prime and an RTX 5080 Founders Edition, which are different cards from different reviews, so use each review’s own game list and settings.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'Compare the exact games and resolution you play, then weigh current local prices, the specific partner card’s cooling and size, and your power supply. If the price gap in your market is large and you play at 1440p, the smaller performance gap may matter more than the tier name.',
+        ],
+      },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either card.',
+    guide: { label: 'GPU product profiles →', href: '/reviews/gpus' },
+  },
+  {
+    slug: 'ryzen-7-9800x3d-vs-ryzen-7-9850x3d',
+    a: 'amd-ryzen-7-9800x3d', b: 'amd-ryzen-7-9850x3d',
+    eyebrow: 'CPU COMPARISON',
+    dek: 'Two 8-core AM5 gaming processors with 96MB of L3 cache, compared on specifications and linked independent testing.',
+    metaDescription: 'Ryzen 7 9800X3D vs Ryzen 7 9850X3D: boost clocks, cache, TDP, platform and what independent reviews found.',
+    rows: [
+      ['Architecture / socket', 'Architecture / socket', 'Architecture / socket'],
+      ['Cores / threads', 'Cores / threads', 'Cores / threads'],
+      ['Base / max boost', 'Base / max boost', 'Base / max boost'],
+      ['L3 cache', 'L3 cache', 'L3 cache'],
+      ['Default TDP', 'Default TDP', 'Default TDP'],
+      ['Thermal solution', 'Thermal solution', 'Thermal solution'],
+    ],
+    sections: [
+      {
+        heading: 'What the specifications show',
+        paragraphs: [
+          'Both chips list 8 cores, 16 threads, 96MB of L3 cache, a 120W default TDP and the AM5 socket, and neither ships with a cooler. The listed difference is the maximum boost clock: up to 5.2GHz for the 9800X3D and up to 5.6GHz for the 9850X3D.',
+        ],
+      },
+      {
+        heading: 'What independent reviews add',
+        paragraphs: [
+          'Tom’s Hardware described the 9850X3D’s average gain over the 9800X3D as small, while reporting a substantially larger power increase in its test suite, even though the default TDP rating is the same.',
+          'TechSpot’s 9800X3D review compared it with the Ryzen 7 7800X3D, not the 9850X3D, and dates from November 2024, so it is useful for the 9800X3D’s own results rather than this pairing.',
+        ],
+      },
+      {
+        heading: 'How to decide',
+        paragraphs: [
+          'If both are available, compare the current local price difference against a likely small performance gain, and check your motherboard’s BIOS support. A higher boost clock on paper is not a guaranteed gain in the games you play.',
+        ],
+      },
+    ],
+    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either processor.',
+    guide: { label: 'CPU product profiles →', href: '/reviews/cpus' },
+  },
 ] as const;
 
 export type ResolvedComparison = Comparison & { path: string; productA: Product; productB: Product; title: string };
