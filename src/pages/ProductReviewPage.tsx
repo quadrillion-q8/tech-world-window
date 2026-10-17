@@ -55,10 +55,10 @@ export function ProductReviewPage() {
       </div>
     </div>
 
-    <figure className="product-hero-image">
+    {image && <figure className="product-hero-image">
       <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 960px) 100vw, 900px" alt={image.alt} width={image.width} height={image.height} fetchPriority="high" decoding="async" />
       <figcaption>{product.brand} {product.model}. Product image for identification; not a TWW test photo.</figcaption>
-    </figure>
+    </figure>}
 
     <div className="article-layout">
       <aside className="article-aside">
