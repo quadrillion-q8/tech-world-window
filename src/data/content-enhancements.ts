@@ -1739,7 +1739,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   'research/windows-100-percent-disk-usage-low-mbps': { seoTitle: 'Windows 100% Disk Usage: Research' },
   'research/what-actually-causes-pc-game-stuttering': {
     seoTitle: 'Causes of PC Game Stuttering: Research',
-    metaDescription: 'Research how repeatable frame-time captures help separate shader compilation, CPU and GPU limits, storage activity, background tasks, and thermal or power behavior.'
+    metaDescription: 'Research how repeatable frame-time captures separate shader compilation, CPU/GPU limits, storage activity, background tasks, and thermal or power behavior.'
   },
   'research/does-more-ram-make-windows-faster': { seoTitle: 'Does More RAM Make Windows Faster?' },
   'research/how-ssd-temperature-affects-performance': { seoTitle: 'SSD Temperature and Performance: Research' },
