@@ -213,6 +213,12 @@ export function bsodSeo(entry: BsodEntry) {
       description: 'KERNEL_SECURITY_CHECK_FAILURE (0x139 / 0x00000139) on Windows 11 or 10? Check drivers, unstable RAM settings and low-level software safely.',
     };
   }
+  if (entry.slug === 'memory-management') {
+    return {
+      title: 'MEMORY_MANAGEMENT (0x1A): Causes and Safe Fixes',
+      description: 'MEMORY_MANAGEMENT (0x1A / 0x0000001A) blue screen on Windows? Test RAM, return XMP/EXPO to stock, check drivers and read the crash evidence.',
+    };
+  }
   if (entry.slug === 'page-fault-in-nonpaged-area') {
     return {
       title: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50): Fix',
@@ -231,6 +237,7 @@ export function bsodFaq(entry: BsodEntry): ToolFaq[] {
     { question: `What does ${entry.name} mean?`, answer: stripCode(`${entry.summary} ${entry.meaning}`) },
     { question: `What usually causes ${entry.name}?`, answer: stripCode(`Typical causes: ${entry.causes.join('; ')}.`) },
     { question: `How do I fix ${entry.name} (${entry.hex})?`, answer: stripCode(`A sensible order is: ${order}. ${entry.escalate}`) },
+    ...(entry.deepDive?.faq ?? []),
   ];
 }
 
