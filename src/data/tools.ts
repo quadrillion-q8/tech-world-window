@@ -127,10 +127,17 @@ export const tools: ToolDef[] = [
     group: 'plan',
     kindLabel: 'Calculator',
     status: 'Available now',
-    hubDescription: 'Estimate a sensible PSU range from GPU, CPU and other system load.',
-    menuDescription: 'Estimate practical PSU headroom.',
-    seoTitle: 'PSU Wattage Calculator',
-    metaDescription: 'Estimate a sensible power supply range from your GPU, CPU and other system load before you buy a PSU.',
+    hubDescription: 'Estimate a starting PSU wattage range from GPU, CPU and other system load, then check connectors, transient power and manufacturer guidance before buying.',
+    menuDescription: 'Estimate PSU wattage and check the details that matter before buying.',
+    seoTitle: 'PSU Wattage Calculator: Estimate Power Supply Size',
+    metaDescription: 'Estimate a starting PC power supply wattage from GPU, CPU and other components. Learn about headroom, GPU power spikes, connectors, PSU quality and manufacturer recommendations.',
+    faq: [
+      { question: 'How much PSU wattage does my PC need?', answer: 'Add a realistic estimate for the graphics card, processor and the rest of the system, then leave suitable headroom. This calculator uses a simple 35% planning margin and rounds to a common wattage; it is a starting point, not a guarantee. Check the exact GPU manufacturer recommendation and independent tests for your components.' },
+      { question: 'Is a higher-wattage power supply always better?', answer: 'No. Wattage alone does not tell you build quality, voltage regulation, noise, protections, efficiency or connector suitability. Choose a reputable model reviewed under load, with the right native connectors and enough capacity for the actual system.' },
+      { question: 'Why can a GPU need more power than its average board power?', answer: 'Some graphics cards can draw brief transient power spikes above typical sustained consumption. The calculator cannot model those spikes or a specific PSU response, so check the GPU maker’s guidance and choose a tested PSU platform with suitable transient handling.' },
+      { question: 'Do I need an ATX 3.0 or ATX 3.1 power supply?', answer: 'It depends on the graphics card, connector and PSU model. Newer standards can include defined transient-power requirements and newer GPU power connectors, but the label alone does not prove that a particular unit is the right choice. Verify native connector type, cable requirements and the GPU manufacturer’s instructions.' },
+      { question: 'Can this calculator tell me whether my existing PSU is safe?', answer: 'No. It estimates a wattage shortlist only. It cannot inspect PSU age, condition, quality, wiring, protection circuits or whether a specific model handles your GPU’s transient loads. Do not open a PSU; if it smells burnt, makes abnormal electrical noises or shows damage, stop using it and have it replaced or checked by a qualified professional.' },
+    ],
   },
   {
     id: 'ram-calculator',
@@ -177,6 +184,7 @@ export const articleToolLinks: Record<string, string[]> = {
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
   'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],
+  'pc-power-supply-problems-symptoms': ['/tools/psu-wattage-calculator'],
 };
 
 const stripCode = (text: string) => text.replace(/`/g, '');

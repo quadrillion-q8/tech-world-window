@@ -7,7 +7,7 @@ type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
 
 const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
   bottleneck: { title: 'PC Bottleneck Calculator', description: 'Estimate CPU/GPU balance at common gaming resolutions.', path: '/tools/pc-bottleneck-calculator' },
-  psu: { title: 'PSU Wattage Calculator', description: 'Estimate a sensible power-supply range from your CPU, GPU and system configuration.', path: '/tools/psu-wattage-calculator' },
+  psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
 };
@@ -123,7 +123,24 @@ export function ToolPage() {
         <label>CPU typical package power (W)<input type="number" min="20" max="400" value={cpuWatts} onChange={e=>setCpuWatts(boundedNumber(e.target.value, 20, 400, 120))}/></label>
         <label>Other system load (W)<input type="number" min="20" max="300" value={systemWatts} onChange={e=>setSystemWatts(boundedNumber(e.target.value, 20, 300, 80))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">ESTIMATE</span><h2>Start your shortlist at {psu.commonSize} W</h2><p>Estimated sustained system load: about {psu.load} W. A simple 35% planning margin gives roughly {psu.recommended} W before choosing a standard size.</p><small>Check the GPU maker’s PSU guidance, 12V-2x6/PCIe connector needs, transient spikes, PSU quality and independent reviews. A wattage estimate cannot verify a specific PSU model.</small></div>
+      <div className="tool-result"><span className="eyebrow">ESTIMATED STARTING POINT</span><h2>Shortlist a {psu.commonSize} W PSU or higher</h2><p>Estimated sustained system load: about {psu.load} W. This calculator applies a simple 35% planning margin ({psu.recommended} W) and rounds up to a common capacity. It does not simulate short GPU power spikes or test a specific PSU.</p><small>Before buying, verify the exact graphics-card maker recommendation, the PSU’s native GPU connector and cable instructions, transient-load testing, protections, noise and independent reviews. Do not choose by wattage or the 80 PLUS label alone.</small></div>
+    </div>}
+    {kind === 'psu' && <div className="editorial-note">
+      <h2>How to choose a power supply for your PC</h2>
+      <p>Use the result as a shortlist, not a pass/fail safety rating. The right unit depends on the exact CPU and GPU, their power limits, the rest of the system, connector requirements, and the quality of the PSU design.</p>
+      <h3>Check these details before ordering</h3>
+      <ol>
+        <li>Look up the graphics card manufacturer's recommended PSU capacity for your exact card model—not just the GPU family.</li>
+        <li>Confirm the unit has the correct native PCIe or 12V-2x6 connector and follow the PSU and GPU cable instructions. Do not force connectors or rely on an unsuitable adapter.</li>
+        <li>Read independent reviews that test electrical performance, protection behavior, noise and transient response. Wattage and efficiency certification alone do not establish quality.</li>
+        <li>Account for overclocking, power limits, future upgrades and the PSU's age or condition. If the system shuts down under load, investigate overheating, cabling and hardware faults instead of assuming wattage is the only cause.</li>
+      </ol>
+      <p>A 35% margin is a planning assumption used by this calculator, not a universal engineering rule. Some builds need a different choice; the tool does not model transient spikes, PSU degradation, connector condition or a specific unit's performance.</p>
+      <h3>PSU wattage calculator: common questions</h3>
+      <details><summary>Is the result the minimum wattage my PC can run on?</summary><p>No. It is a suggested starting capacity based on the values you enter and a simple margin. Check the exact GPU manufacturer's recommendation and reviews of the specific PSU model before buying.</p></details>
+      <details><summary>Should I buy a 1000 W PSU just to be safe?</summary><p>Not automatically. Excess capacity does not compensate for poor quality or missing connectors. Choose a tested model that meets the actual system's sustained and transient requirements with sensible upgrade headroom.</p></details>
+      <details><summary>Does 80 PLUS Gold mean the PSU is high quality?</summary><p>No. 80 PLUS is an efficiency certification, not a complete assessment of voltage regulation, protections, noise, transient response or long-term reliability. Look for credible independent testing of the exact model.</p></details>
+      <details><summary>Can I reuse an old PSU after upgrading my GPU?</summary><p>Only after checking its exact model, age, condition, available native connectors, capacity and tested transient performance against the new GPU's requirements. Never open the PSU casing; it can retain dangerous voltages even when unplugged.</p></details>
     </div>}
 
     {kind === 'ram' && <div className="tool-panel">
