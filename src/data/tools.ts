@@ -24,7 +24,7 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free browser-based tech tools for Windows troubleshooting, PC hardware planning, gaming analysis and responsive video embed code generation.';
+export const HUB_SEO_DESCRIPTION = 'Free tech tools for Windows troubleshooting, AI crash-log analysis, PC hardware planning, gaming diagnostics and responsive video embeds.';
 
 export const tools: ToolDef[] = [
   {
@@ -168,6 +168,27 @@ export const tools: ToolDef[] = [
     ],
   },
   {
+    id: 'windows-crash-investigator',
+    path: '/tools/windows-crash-investigator',
+    title: 'AI Windows Crash Investigator',
+    group: 'diagnose',
+    kindLabel: 'AI investigator',
+    status: 'New',
+    hubDescription: 'Analyze a Windows stop code, selected Event Viewer details or WinDbg output with AI. Review ranked hypotheses, the evidence behind them and safer next checks.',
+    menuDescription: 'Turn crash evidence into ranked hypotheses and safer next checks.',
+    seoTitle: 'AI Windows Crash Log Investigator: Analyze BSOD Evidence',
+    metaDescription: 'Analyze Windows blue-screen and crash evidence with AI. Paste a stop code, Event Viewer details or WinDbg output for ranked causes and safer next checks.',
+    faq: [
+      { question: 'Does this tool scan my PC or analyze a dump file automatically?', answer: 'No. You choose which text to submit. This version does not connect to your computer, run commands, inspect the file system or accept full .dmp memory-dump uploads.' },
+      { question: 'What evidence should I provide?', answer: 'Start with the exact stop code and the What failed driver name if Windows showed one. For deeper evidence, paste relevant Event Viewer details or the text output from WinDbg !analyze -v. Include what changed recently and whether the crash repeats under the same conditions.' },
+      { question: 'Is my diagnostic text sent outside my browser?', answer: 'Yes. When you submit the form and consent, the text is sent to a Tech World Window server function and forwarded to an AI provider to generate the report. TWW does not save the submitted text to a database; provider processing and retention are governed by the provider terms and configuration. Remove names, email addresses, serial numbers, private paths and secrets first.' },
+      { question: 'Does the AI identify the exact faulty component?', answer: 'Not reliably from every report. A stop code alone rarely proves root cause. The investigator separates direct evidence from hypotheses, labels confidence, and identifies missing information. Verify important conclusions with repeatable tests or a qualified technician.' },
+      { question: 'Will the tool run PowerShell, change the registry or repair Windows for me?', answer: 'No. It only returns a written analysis and suggested checks. It does not execute commands, edit the registry, change drivers, flash firmware, delete files or reinstall Windows.' },
+      { question: 'Can I paste an entire memory dump?', answer: 'No. Full .dmp files are not supported. Paste relevant text output instead, ideally the summary and stack details from WinDbg !analyze -v. Keep the evidence focused and remove personal or confidential information.' },
+      { question: 'Which references does the report use?', answer: 'The investigator is instructed to prefer relevant Microsoft Learn references about Windows stop-code troubleshooting and bug-check codes. AI can still make mistakes, so open the references and verify any suggested action before applying it.' },
+    ],
+  },
+  {
     id: 'video-embed-code-generator',
     path: '/tools/video-embed-code-generator',
     title: 'Video Embed Code Generator',
@@ -209,8 +230,8 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 export const articleToolLinks: Record<string, string[]> = {
   'research/does-more-ram-make-windows-faster': ['/tools/ram-calculator'],
   'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
-  'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
-  'windows-troubleshooting-complete-guide': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
+  'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant', '/tools/windows-crash-investigator'],
+  'windows-troubleshooting-complete-guide': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant', '/tools/windows-crash-investigator'],
   'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant'],
   'windows-11-high-memory-usage-how-to-find-the-cause': ['/tools/windows-troubleshooting-assistant'],
