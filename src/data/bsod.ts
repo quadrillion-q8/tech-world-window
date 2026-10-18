@@ -171,7 +171,7 @@ export const bsodEntries: BsodEntry[] = [
     hex: '0x00000050',
     category: 'memory',
     summary: 'Windows tried to use memory that should always be present in RAM and found it invalid or missing.',
-    meaning: 'Some memory must stay in RAM at all times. When Windows asks for such a page and it is invalid, the system cannot recover. Faulty RAM, a driver writing to the wrong address, or a damaged file system are the usual explanations, and security software that hooks deep into the system has also been implicated.',
+    meaning: 'Bug check 0x50 (also shown as 0x00000050) means Windows referenced invalid system memory. Faulty or unstable RAM is one possibility, but a buggy driver or system service, security software, a corrupted NTFS volume, or recently added hardware can also contribute. The code alone does not prove that RAM has failed; note any driver named on the blue screen and check events recorded at the same time.',
     causes: [
       'Faulty or badly seated RAM',
       'A driver or security tool corrupting memory',
@@ -179,13 +179,14 @@ export const bsodEntries: BsodEntry[] = [
       'A memory overclock or XMP/EXPO profile that is not stable',
     ],
     steps: [
+      step.undo('If the blue screen names a driver, record it and check the PC or component maker’s supported version before using driver-cleanup utilities.'),
+      { title: 'Check recent memory or hardware changes', detail: 'If the crashes began after adding RAM or enabling XMP/EXPO, return that specific change to its default for a controlled test. If hardware was recently installed, check the exact model’s service guidance instead of changing unrelated firmware settings.' },
       step.memory(),
-      { title: 'Reseat and isolate the RAM sticks', detail: 'Power off, unplug the PC and reseat each stick firmly. If you have more than one, test with a single stick in the slot your motherboard manual recommends, then swap sticks. A crash that follows one stick identifies it.' },
-      { title: 'Scan the file system', detail: 'Open Terminal (Admin) and run `chkdsk C: /scan`. It checks the volume without taking it offline. Back up first if the drive is old or has shown errors.' },
-      step.stock(),
-      step.undo(),
+      step.sfc(),
+      { title: 'Check the file system only when storage evidence points there', detail: 'If Windows logs NTFS or disk errors, or the drive disappears or reports warnings, protect important files before further tests. On a drive without those warning signs, open Terminal (Admin) and run `chkdsk C: /scan`; do not start with a write-heavy repair or repeated benchmark.' },
+      { title: 'Inspect or reseat memory only if you are comfortable doing so', detail: 'If a memory test reports errors, shut down, disconnect power, and follow the computer or motherboard maker’s instructions. Testing one module at a time may help distinguish a stick from a slot or unstable setting; otherwise use qualified service.' },
     ],
-    escalate: 'Memory errors in a test mean replacing the stick, not tuning around it. If tests pass but crashes continue, look at the most recently installed drivers and security software.',
+    escalate: 'If a memory test reports errors, preserve the result and identify whether the fault follows a module, slot, or memory setting before replacing parts. If tests pass but the crash continues, preserve any minidump and use the named driver plus same-time Event Viewer records to guide the next diagnosis.',
     related: [GUIDE.decode, GUIDE.ram, GUIDE.ssd],
   },
   {
