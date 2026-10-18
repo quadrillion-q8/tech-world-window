@@ -96,6 +96,27 @@ export function ToolPage() {
       <div className="tool-result"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
     </div>}
 
+    {kind === 'bottleneck' && <div className="editorial-note">
+      <h2>How to interpret a PC bottleneck estimate</h2>
+      <p>A bottleneck is the part of a system that limits performance in a particular workload. It is not a permanent percentage attached to a CPU or graphics card: the limiting component can change between games, scenes, graphics settings and target frame rates.</p>
+      <h3>What resolution changes</h3>
+      <p>At 1080p, a graphics card has fewer pixels to render, so the CPU can become the limit more often when aiming for very high frame rates. At 1440p and 4K, the graphics workload usually rises and the GPU is more likely to set the pace. This is a tendency, not a rule for every game or PC.</p>
+      <h3>Check the real system before buying parts</h3>
+      <ol>
+        <li>Repeat a representative section of the same game with the same settings.</li>
+        <li>Check GPU utilization, GPU temperature and clock speed alongside frame time—not utilization alone.</li>
+        <li>Look for a repeatable pattern: GPU load falling while a CPU thread is saturated can suggest a CPU-side limit; consistently high GPU load while frame rate is below target can suggest a graphics-side limit.</li>
+        <li>Check for other causes such as thermal throttling, power limits, background tasks, shader compilation or memory pressure before replacing hardware.</li>
+      </ol>
+      <p>This tool uses broad performance tiers, so its result is a starting hypothesis—not a measured bottleneck percentage, compatibility check, or FPS forecast.</p>
+      <p>For symptom-led checks, see <Link className="text-link" to="/pc-game-low-fps-how-to-find-the-cause">how to diagnose low FPS</Link>, <Link className="text-link" to="/gpu-100-percent-usage-gaming">what 100% GPU usage means</Link>, and the <Link className="text-link" to="/tools/frame-time-analyzer">Frame-Time Analyzer</Link> for supported capture files.</p>
+      <h3>PC bottleneck calculator: common questions</h3>
+      <details><summary>Does this calculator give an exact bottleneck percentage?</summary><p>No. It compares broad CPU and GPU performance tiers with a simple resolution adjustment. It does not use a live benchmark database or measure your PC.</p></details>
+      <details><summary>Does 100% GPU usage mean my PC has a problem?</summary><p>Not usually. High GPU utilization can mean the game is making full use of the graphics card. Check whether performance meets your target and look for abnormal temperatures, falling clocks, instability or frame-time problems.</p></details>
+      <details><summary>Should I upgrade my CPU or GPU first?</summary><p>Do not decide from this estimate alone. Measure the games and settings you care about, identify the repeatable limit, check compatibility and power/cooling requirements, and compare independent benchmarks for the exact components.</p></details>
+      <details><summary>Why can the same PC show different bottlenecks in different games?</summary><p>Games use CPU threads, graphics features, memory and engines differently. Resolution, quality settings, ray tracing, upscaling and target frame rate also change the workload, so there is no single bottleneck result for every situation.</p></details>
+    </div>}
+
     {kind === 'psu' && <div className="tool-panel">
       <div className="tool-controls">
         <label>GPU typical board power (W)<input type="number" min="30" max="800" value={gpuWatts} onChange={e=>setGpuWatts(boundedNumber(e.target.value, 30, 800, 220))}/></label>

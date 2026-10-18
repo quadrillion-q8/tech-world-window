@@ -109,10 +109,16 @@ export const tools: ToolDef[] = [
     group: 'plan',
     kindLabel: 'Calculator',
     status: 'Available now',
-    hubDescription: 'Estimate whether a CPU/GPU pairing may be limiting performance at 1080p, 1440p, or 4K.',
-    menuDescription: 'Explore CPU/GPU pairing.',
-    seoTitle: 'PC Bottleneck Calculator',
-    metaDescription: 'A simple educational PC pairing estimator. Learn why CPU and GPU bottlenecks depend on resolution, games, settings, and target frame rate.',
+    hubDescription: 'Estimate a possible CPU/GPU limit at 1080p, 1440p, or 4K, then learn how to verify it with real game measurements.',
+    menuDescription: 'Estimate CPU/GPU limits and learn how to verify them.',
+    seoTitle: 'PC Bottleneck Calculator: CPU and GPU Balance by Resolution',
+    metaDescription: 'Estimate possible CPU or GPU limits at 1080p, 1440p and 4K. Learn why bottlenecks vary by game and how to verify performance before upgrading.',
+    faq: [
+      { question: 'Does this PC bottleneck calculator give an exact percentage?', answer: 'No. It compares broad CPU and GPU performance tiers with a simple resolution adjustment. It does not measure your PC, query a live benchmark database, or predict exact FPS.' },
+      { question: 'Does 100% GPU usage mean my PC has a problem?', answer: 'Not usually. High GPU utilization can mean the game is using the graphics card fully. Check whether performance meets your target and look for abnormal temperatures, falling clocks, instability or frame-time problems.' },
+      { question: 'Should I upgrade my CPU or GPU first?', answer: 'Do not decide from this estimate alone. Measure the games and settings you care about, identify the repeatable limit, check compatibility and power/cooling requirements, and compare independent benchmarks for the exact components.' },
+      { question: 'Why can the same PC show different bottlenecks in different games?', answer: 'Games use CPU threads, graphics features, memory and engines differently. Resolution, quality settings, ray tracing, upscaling and target frame rate also change the workload, so there is no single bottleneck result for every situation.' },
+    ],
   },
   {
     id: 'psu-wattage-calculator',
@@ -169,7 +175,8 @@ export const articleToolLinks: Record<string, string[]> = {
   'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
-  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
+  'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],
 };
 
 const stripCode = (text: string) => text.replace(/`/g, '');
