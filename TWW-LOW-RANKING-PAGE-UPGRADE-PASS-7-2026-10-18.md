@@ -27,6 +27,10 @@ Source: `techworldwindow.com-Performance-on-Search-2026-10-18.zip`, Web search, 
 - Existing GPU/PSU, RAM calculator, BSOD, SSD health, disk usage and general stutter upgrades were not repeated.
 - No performance benchmark results or ranking gains are claimed. The example DDR timing math explains only the CAS component; full system latency and workload performance depend on more variables.
 
-## Validation
+## Validation status
 
-The PR must pass the repository's build, prerender, content and route validators, plus the Vercel preview check. After merge and recrawl, assess another comparable Search Console period before deciding whether to revise snippets again.
+- GitHub Actions `build-and-validate` passed for this pass, including the production build, prerender and content/route validation.
+- Vercel’s PR check returned a `build-rate-limit` response (the link directs the project to the Vercel plan/usage limit). This is a deployment-preview blocker, not an identified source-code failure, but it means a successful Vercel preview was **not** confirmed.
+- No live rendered-HTML verification, production deployment success, or ranking improvement is claimed.
+
+After the deployment quota is available and Google has recrawled the pages, assess another comparable Search Console period before deciding whether to revise snippets again.
