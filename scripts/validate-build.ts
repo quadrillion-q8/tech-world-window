@@ -430,7 +430,7 @@ if (!existsSync(dist)) {
         for (const phrase of requiredText) {
           if (!html.toLowerCase().includes(phrase.toLowerCase())) errors.push(`Video Embed Code Generator is missing "${phrase}" in prerendered HTML.`);
         }
-        if (/<iframe\\b[^>]*\\bsrc=/i.test(html)) {
+        if (/<iframe\b[^>]*\bsrc=/i.test(html)) {
           errors.push('Video Embed Code Generator must not mount a third-party iframe in prerendered HTML before the user requests a preview.');
         }
         const generatorSourcePath = join(root, 'src/pages/VideoEmbedCodeGeneratorPage.tsx');
