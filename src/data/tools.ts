@@ -175,7 +175,8 @@ export const articleToolLinks: Record<string, string[]> = {
   'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
-  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
+  'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],
 };
 
 const stripCode = (text: string) => text.replace(/`/g, '');
