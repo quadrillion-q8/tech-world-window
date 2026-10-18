@@ -117,7 +117,7 @@ export const tools: ToolDef[] = [
     hubDescription: 'Compare broad CPU and GPU performance tiers at 1080p, 1440p and 4K, then verify the suspected limit with real game measurements.',
     menuDescription: 'Compare CPU/GPU tiers and verify a possible gaming limit.',
     seoTitle: 'PC Bottleneck Calculator: CPU vs GPU',
-    metaDescription: 'Estimate possible CPU/GPU limits at 1080p, 1440p and 4K. Validate your result with real game FPS and frame-time tests; this tier estimate is not an exact percentage.',
+    metaDescription: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.',
     faq: [
       { question: 'Does this PC bottleneck calculator give an exact percentage?', answer: 'No. It compares broad CPU and GPU performance tiers with a simple resolution adjustment. It does not measure your PC, query a live benchmark database, or predict exact FPS.' },
       { question: 'Does 100% GPU usage mean my PC has a problem?', answer: 'Not usually. High GPU utilization can mean the game is using the graphics card fully. Check whether performance meets your target and look for abnormal temperatures, falling clocks, instability or frame-time problems.' },
@@ -210,7 +210,7 @@ export function bsodSeo(entry: BsodEntry) {
   if (entry.slug === 'kernel-security-check-failure') {
     return {
       title: 'KERNEL_SECURITY_CHECK_FAILURE (0x139): Safe Fixes',
-      description: 'KERNEL_SECURITY_CHECK_FAILURE (0x139 / 0x00000139) on Windows 11 or 10? Check recent drivers, unstable RAM settings and low-level software safely.',
+      description: 'KERNEL_SECURITY_CHECK_FAILURE (0x139 / 0x00000139) on Windows 11 or 10? Check drivers, unstable RAM settings and low-level software safely.',
     };
   }
   return {
