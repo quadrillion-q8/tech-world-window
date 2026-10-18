@@ -110,7 +110,7 @@ export const tools: ToolDef[] = [
   {
     id: 'pc-bottleneck-calculator',
     path: '/tools/pc-bottleneck-calculator',
-    title: 'PC Bottleneck Calculator',
+    title: 'PC Bottleneck Calculator: CPU vs GPU',
     group: 'plan',
     kindLabel: 'Calculator',
     status: 'Available now',
