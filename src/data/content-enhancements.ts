@@ -1249,7 +1249,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   'ddr4-vs-ddr5-ram-difference': {
     updatedAt: '2026-10-10',
     seoTitle: 'DDR4 vs DDR5 RAM: Differences Explained',
-    metaDescription: 'DDR4 vs DDR5: compare compatibility, data rate, CAS latency and platform cost, plus when higher-bandwidth memory is worth a full PC upgrade.',
+    metaDescription: 'DDR4 vs DDR5: compare compatibility, data rate, CAS latency and platform cost—and when a full platform upgrade is worth it.',
     sources: [
       { label: 'Intel: Extreme Memory Profile (XMP)', url: 'https://www.intel.com/content/www/us/en/gaming/extreme-memory-profile-xmp.html' },
       { label: 'Intel: How to check XMP compatibility', url: 'https://www.intel.com/content/www/us/en/support/articles/000060130/processors.html' }
@@ -1761,7 +1761,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'windows-11-high-memory-usage-how-to-find-the-cause': {
     seoTitle: 'Windows 11 High RAM Usage: Find the Cause',
-    metaDescription: 'Windows 11 high RAM usage? Find the process, check DWM and SearchHost memory growth, separate caching from memory pressure, and know when an upgrade helps.'
+    metaDescription: 'Windows 11 high RAM usage? Find the process, check DWM or SearchHost growth, and separate caching from real memory pressure before upgrading RAM.'
   },
   'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
   'windows-11-network-adapter-reset-guide': {
