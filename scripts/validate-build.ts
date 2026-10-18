@@ -425,6 +425,33 @@ if (!existsSync(dist)) {
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('compare a second capture')) errors.push('Frame-time analyzer is missing the comparison capability explanation in prerendered HTML.');
       if (route.path === '/tools/windows-battery-health-analyzer' && (!html.includes('powercfg /batteryreport') || !html.includes('Private by design: your report stays in this browser'))) errors.push('Windows Battery Health Analyzer is missing its report-generation instructions or privacy disclosure in prerendered HTML.');
+      if (route.path === '/tools/video-embed-code-generator') {
+        const requiredText = ['Video Embed Code Generator', 'React JSX', 'WordPress Custom HTML', 'Load video preview', 'privacy-enhanced'];
+        for (const phrase of requiredText) {
+          if (!html.toLowerCase().includes(phrase.toLowerCase())) errors.push(`Video Embed Code Generator is missing "${phrase}" in prerendered HTML.`);
+        }
+        if (/<iframe\\b[^>]*\\bsrc=/i.test(html)) {
+          errors.push('Video Embed Code Generator must not mount a third-party iframe in prerendered HTML before the user requests a preview.');
+        }
+        const generatorSourcePath = join(root, 'src/pages/VideoEmbedCodeGeneratorPage.tsx');
+        if (!existsSync(generatorSourcePath)) {
+          errors.push('Video Embed Code Generator page source is missing.');
+        } else {
+          const generatorSource = readFileSync(generatorSourcePath, 'utf8');
+          const requiredSource = [
+            'function parseYouTubeUrl(',
+            'youtube-nocookie.com',
+            "url.searchParams.set('playlist', videoId)",
+            'loading="lazy"',
+            'setPreviewSrc(currentEmbedUrl)',
+            "format === 'jsx'",
+            "format === 'wordpress'",
+          ];
+          for (const feature of requiredSource) {
+            if (!generatorSource.includes(feature)) errors.push(`Video Embed Code Generator source is missing required feature marker: ${feature}`);
+          }
+        }
+      }
     }
 
     if (route.kind === 'article') {
