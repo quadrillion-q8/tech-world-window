@@ -213,6 +213,12 @@ export function bsodSeo(entry: BsodEntry) {
       description: 'KERNEL_SECURITY_CHECK_FAILURE (0x139 / 0x00000139) on Windows 11 or 10? Check drivers, unstable RAM settings and low-level software safely.',
     };
   }
+  if (entry.slug === 'page-fault-in-nonpaged-area') {
+    return {
+      title: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50): Fix',
+      description: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50 / 0x00000050) on Windows? Check recent drivers, memory stability, and storage evidence without assuming RAM is faulty.',
+    };
+  }
   return {
     title: `${entry.name} (${shortHex(entry.hex)}): Causes and Fixes`,
     description: `${entry.name} (${entry.hex}) on Windows 11 and 10: what it means, common causes and a safe step-by-step fix order.`,
