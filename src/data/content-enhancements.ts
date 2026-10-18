@@ -1647,11 +1647,11 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'nvme-ssd-temperature-too-high': {
     seoTitle: 'NVMe SSD Temperature: What Is Normal?',
-    metaDescription: 'NVMe SSD temperature varies by model and sensor. Compare idle and sustained-load readings, check for thermal throttling, and confirm vendor limits before replacing a drive.'
+    metaDescription: 'NVMe SSD temperature varies by model and sensor. Compare idle and load readings, check for throttling, and confirm vendor limits before replacing the drive.'
   },
   'windows-11-slow-startup-fix': {
     seoTitle: 'Windows 11 Slow Startup: How to Fix It',
-    metaDescription: 'Windows 11 slow to start? Find whether the delay happens before boot, at sign-in or after the desktop, then test startup apps, updates, drivers and storage safely.'
+    metaDescription: 'Windows 11 slow to start? Find whether delay occurs before boot, at sign-in or after the desktop, then test apps, updates, drivers and storage safely.'
   },
   'how-to-check-ssd-health-windows': {
     seoTitle: 'How to Check SSD Health in Windows',
