@@ -42,4 +42,8 @@ The export contains apex and www rows for several same-path URLs with very diffe
 
 ## Validation and next measurement
 
-Source changes are committed on a review branch and should pass the repository’s CI build/validation before merge. No production deployment or ranking improvement is claimed by this report. After preview/build validation and merge, compare Search Console again after Google has recrawled the changed pages and a mature reporting window is available. Review clicks, impressions, CTR and queries together; do not judge success from a single daily position.
+- The first CI run built and prerendered 127 indexable routes, then failed the content metadata validator because the RAM Calculator meta description was 188 characters (the repository limit is 160).
+- A follow-up correction shortened that description to 145 characters. The post-correction GitHub Actions “Build and validate” run passed on main commit `f2073b8f48fb897bc1fc89b768181b5d171d2611`; the Vercel check for that commit is also successful.
+- This is a source/build verification result, not proof of ranking gains. The connected Vercel/browser integration denied direct inspection of the live HTML on the target URLs, so this report does not claim an independent rendered-page spot-check.
+
+After Google has recrawled the pages and enough reporting data accumulates, compare clicks, impressions, CTR and queries together; do not judge success from a single daily position.
