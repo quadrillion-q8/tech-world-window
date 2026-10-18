@@ -94,7 +94,8 @@ export const tools: ToolDef[] = [
     hubDescription: `Search a Windows BSOD stop code by name, hex value or keyword. Understand the error, review likely causes and follow a safe troubleshooting order for ${bsodEntries.length} common stop codes.`,
     menuDescription: 'Search Windows blue-screen stop codes and safe fixes.',
     seoTitle: 'BSOD Error Code Lookup: Windows Stop Codes and Fixes',
-    metaDescription: `Look up Windows BSOD stop codes by name, hex value or keyword. Get plain-English meanings, likely causes and a safe fix order for ${bsodEntries.length} common errors on Windows 11 and 10.`,
+    // Kept under the 160-character validator limit (about 141 characters with a two-digit count).
+    metaDescription: `Look up Windows BSOD stop codes by name, hex or keyword. Get plain-English meanings, likely causes and a safe fix order for ${bsodEntries.length} common errors.`,
     faq: [
       { question: 'How do I find my blue screen stop code?', answer: 'Windows shows the stop code as text on the blue screen, for example CRITICAL_PROCESS_DIED. If the PC restarted before you could read it, open Event Viewer, then Windows Logs, then System, and look for a BugCheck event with ID 1001, which records the code. Reliability Monitor also lists critical events.' },
       { question: 'Does the hex code or the name matter more?', answer: 'They identify the same bug check. The name is easier to search and read, while the hex value, for example 0x000000EF, appears in logs and dump files.' },
@@ -134,7 +135,8 @@ export const tools: ToolDef[] = [
     hubDescription: 'Estimate a starting PSU wattage range from GPU, CPU and other system load, then check connectors, transient power and manufacturer guidance before buying.',
     menuDescription: 'Estimate PSU wattage and check the details that matter before buying.',
     seoTitle: 'PSU Wattage Calculator: Estimate Power Supply Size',
-    metaDescription: 'Estimate a starting PC power supply wattage from GPU, CPU and other components. Learn about headroom, GPU power spikes, connectors, PSU quality and manufacturer recommendations.',
+    // Kept under the 160-character validator limit (147 characters).
+    metaDescription: 'Estimate a starting PC power supply wattage from your GPU, CPU and other parts. Learn about headroom, GPU power spikes, connectors and PSU quality.',
     faq: [
       { question: 'How much PSU wattage does my PC need?', answer: 'Add a realistic estimate for the graphics card, processor and the rest of the system, then leave suitable headroom. This calculator uses a simple 35% planning margin and rounds to a common wattage; it is a starting point, not a guarantee. Check the exact GPU manufacturer recommendation and independent tests for your components.' },
       { question: 'Is a higher-wattage power supply always better?', answer: 'No. Wattage alone does not tell you build quality, voltage regulation, noise, protections, efficiency or connector suitability. Choose a reputable model reviewed under load, with the right native connectors and enough capacity for the actual system.' },
