@@ -20,6 +20,15 @@ export const bsodCategoryLabels: Record<BsodCategory, string> = {
 
 export type BsodStep = { title: string; detail: string };
 
+/** Optional evidence-reading section for stop codes whose causes need extra interpretation. */
+export type BsodDeepDive = {
+  heading: string;
+  paragraphs: string[];
+  table?: { caption: string; headers: string[]; rows: string[][] };
+  faq?: { question: string; answer: string }[];
+  sources?: { label: string; url: string }[];
+};
+
 export type BsodEntry = {
   slug: string;
   /** Official bug check name as shown on the blue screen. */
@@ -32,6 +41,7 @@ export type BsodEntry = {
   causes: string[];
   steps: BsodStep[];
   escalate: string;
+  deepDive?: BsodDeepDive;
   /** Internal guide paths. Every path must exist in the route graph (validated at build time). */
   related: string[];
 };
@@ -276,6 +286,31 @@ export const bsodEntries: BsodEntry[] = [
       step.stock(),
     ],
     escalate: 'If 0x139 continues after recent driver/software changes are removed, memory settings are returned to stock, and memory/system-file checks are clean, preserve the minidump and seek a debugger-informed diagnosis or qualified support before resorting to a clean Windows installation.',
+    deepDive: {
+      heading: 'Reading the crash evidence for 0x139',
+      paragraphs: [
+        'Microsoft’s bug check reference describes 0x139 as the kernel detecting corruption of a critical data structure. The first parameter in the crash record names the kind of violation, which is why two crashes with the same stop code can have different causes.',
+        'The documented types include an inconsistency in a doubly linked list, an invalid parameter passed to a function that treats bad input as fatal, a compiler-inserted array bounds check, and control-flow or write guard checks. A list inconsistency often points to a driver or other kernel-mode code touching memory it should not, which is why recent driver and software changes are the first thing to review.',
+        'You do not need a debugger to start. Reliability Monitor and the BugCheck event (ID 1001 in the System log of Event Viewer) show when each crash happened, and Windows normally saves a small dump in `C:\\Windows\\Minidump`. If crashes repeat, keep those files: a debugger’s `!analyze -v` output can name the module involved, which is more useful than the stop code alone.',
+      ],
+      table: {
+        caption: 'Match what you observe to the next check',
+        headers: ['What you observe', 'What it may suggest', 'Next check'],
+        rows: [
+          ['Crashes began right after a driver, firmware or utility update', 'A driver or low-level tool may be corrupting kernel memory', 'Roll back or remove that one change and retest'],
+          ['Crashes only under load or during games', 'Heat, power or unstable memory or overclock settings may be involved; drivers are still possible', 'Return memory, CPU and GPU to stock, then compare and watch temperatures'],
+          ['Crashes stopped after turning XMP or EXPO off', 'The memory profile may not be stable on that platform', 'Retest at a lower speed or a supported profile, then run a memory test'],
+          ['Several different stop codes appear in the same week', 'Memory, storage or a failing component may be corrupting data more broadly', 'Run memory and drive checks and list every code from Event Viewer'],
+          ['The same driver or module name appears in each dump', 'That driver or its software is the leading suspect', 'Update or remove it using the maker’s supported package'],
+        ],
+      },
+      faq: [
+        { question: 'Is KERNEL_SECURITY_CHECK_FAILURE usually caused by RAM?', answer: 'RAM can cause it, but it is not always the first suspect. Microsoft describes the code as corruption of a critical kernel data structure, and its guidance centers on what changed on the system and whether the maker has patches. Recent driver changes, low-level software and unstable memory or overclock settings are all worth ruling out before you replace memory.' },
+        { question: 'Does 0x139 mean my PC has a virus?', answer: 'Not by itself. Microsoft’s reference notes that malware can damage disks and lead to bug checks, but most reports trace back to drivers, settings or hardware. If you also see other signs of infection, run a full Microsoft Defender scan.' },
+        { question: 'Do I need to reinstall Windows to fix it?', answer: 'Usually not as a first step. Remove recent driver or software changes, restore stock settings, run System File Checker and a memory test, and keep the minidump. A clean install makes sense only if those steps do not help and your data is backed up.' },
+      ],
+      sources: [{ label: 'Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure' }],
+    },
     related: [GUIDE.decode, GUIDE.ram, GUIDE.ssd, GUIDE.freezes],
   },
   {
@@ -459,6 +494,31 @@ export const bsodEntries: BsodEntry[] = [
       step.drive(),
     ],
     escalate: 'Any error in a full MemTest86 run means the module or slot is at fault. Replace the module rather than relying on it.',
+    deepDive: {
+      heading: 'Reading the crash evidence for 0x1A',
+      paragraphs: [
+        'Microsoft’s bug check reference describes 0x1A as a severe memory-management error and says the first parameter identifies the exact violation. Some documented subtypes point toward hardware, such as an in-page operation that failed with a CRC error. Others, such as a write-after-free or an overrun from a previous page, can come from a driver bug.',
+        'That is why the stop code alone is not a verdict on your RAM. Microsoft also suggests running Windows Memory Diagnostic to check physical memory, and a debugger’s `!analyze` output shows the subtype and may name the component involved. Windows normally saves a small dump in `C:\\Windows\\Minidump`; keep it if the crashes repeat.',
+        'Note when the crashes happen. A repeated failure that names the same driver component can point away from a failing module and toward a driver or settings problem, while crashes that follow a memory-speed change point toward stability.',
+      ],
+      table: {
+        caption: 'Match what you observe to the next check',
+        headers: ['What you observe', 'What it may suggest', 'Next check'],
+        rows: [
+          ['Crashes began after enabling XMP or EXPO or changing memory speed', 'The profile may be unstable on that CPU, board and module combination', 'Load default memory settings and retest before replacing RAM'],
+          ['A memory test reports errors', 'A module, slot or memory setting is faulty or unstable', 'Retest one module at a time in a recommended slot and replace a module that fails alone'],
+          ['Memory tests pass but crashes continue', 'A driver, a storage fault or an intermittent hardware issue is still possible', 'Review drivers changed before the first crash, check drive health and keep the dump'],
+          ['Crashes only in games or graphics workloads', 'A graphics driver or GPU memory behavior may be involved', 'Roll back or cleanly reinstall the graphics driver from the GPU maker and retest'],
+          ['Disk errors or very slow file access accompany the crashes', 'Trouble on the drive holding the paging file may contribute', 'Back up your data first, then check drive health'],
+        ],
+      },
+      faq: [
+        { question: 'What does 0x1A mean in MEMORY_MANAGEMENT (0x0000001A)?', answer: '0x1A and 0x0000001A are the same bug check number written two ways. It stands for MEMORY_MANAGEMENT, and the first parameter in the crash record identifies the specific violation.' },
+        { question: 'Does MEMORY_MANAGEMENT always mean bad RAM?', answer: 'No. Faulty RAM and unstable memory settings are common causes, but drivers and storage problems can also trigger it. Test memory and review recent changes before you replace modules.' },
+        { question: 'My Windows Memory Diagnostic test passed. Is my RAM fine?', answer: 'Not necessarily. A quick test can miss intermittent faults. A longer bootable test such as MemTest86 is more thorough, and instability that only appears with XMP or EXPO enabled needs a test run at that setting as well.' },
+      ],
+      sources: [{ label: 'Microsoft Learn: Bug Check 0x1A MEMORY_MANAGEMENT', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x1a--memory-management' }],
+    },
     related: [GUIDE.ram, GUIDE.decode, GUIDE.freezes],
   },
   {
