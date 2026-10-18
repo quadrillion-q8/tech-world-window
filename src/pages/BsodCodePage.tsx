@@ -54,6 +54,21 @@ export function BsodCodePage() {
         </ol>
       </section>
 
+      {entry.deepDive && <section>
+        <h2>{entry.deepDive.heading}</h2>
+        {entry.deepDive.paragraphs.map(text => <p key={text}>{renderInline(text)}</p>)}
+        {entry.deepDive.table && <div className="table-wrap" tabIndex={0} role="region" aria-label={entry.deepDive.table.caption}>
+          <table className="article-table">
+            <caption>{entry.deepDive.table.caption}</caption>
+            <thead><tr>{entry.deepDive.table.headers.map(header => <th key={header} scope="col">{header}</th>)}</tr></thead>
+            <tbody>{entry.deepDive.table.rows.map(row => <tr key={row[0]}>{row.map((cell, index) => index === 0
+              ? <th key={index} scope="row">{cell}</th>
+              : <td key={index}>{cell}</td>)}</tr>)}</tbody>
+          </table>
+        </div>}
+        {entry.deepDive.sources && <p>Source: {entry.deepDive.sources.map(source => <a key={source.url} href={source.url} rel="noopener noreferrer">{source.label} ↗</a>)}</p>}
+      </section>}
+
       <div className="editorial-note">
         <strong>When to stop and protect your data</strong>
         <p>{entry.escalate}</p>
