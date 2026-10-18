@@ -1413,12 +1413,12 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
     sections: [{
       heading: 'Use Resource Monitor when Task Manager does not explain the disk load',
       paragraphs: [
-        'If Disk active time stays near 100%, open Resource Monitor by pressing Win + R, entering \`resmon\`, and selecting the Disk tab. Compare the processes using the drive with their read/write activity and response time. This can help distinguish a visible workload from a drive that is struggling to service requests; no single counter proves a hardware fault.',
+        'If Disk active time stays near 100%, open Resource Monitor by pressing Win + R, entering `resmon`, and selecting the Disk tab. Compare the processes using the drive with their read/write activity and response time. This can help distinguish a visible workload from a drive that is struggling to service requests; no single counter proves a hardware fault.',
         'Repeat the observation when the PC is idle and when the slowdown happens. A short spike during Windows Update, an antivirus scan, game installation, or indexing may settle on its own. Persistent activity with poor responsiveness deserves a closer look at the process, free space, reliability warnings, and Windows storage events.'
       ],
       steps: [
         'In Task Manager, open Processes and sort by Disk. Note the process name and whether activity drops when its known task finishes.',
-        'If the process is unclear, open Resource Monitor (\`resmon\`) and use the Disk tab to compare the process list, activity, and response time.',
+        'If the process is unclear, open Resource Monitor (`resmon`) and use the Disk tab to compare the process list, activity, and response time.',
         'Check free space and review the drive maker’s supported health utility. On supported storage devices, PowerShell’s Get-StorageReliabilityCounter may expose temperature, wear, or error counters; blank fields are not proof that the drive is healthy or faulty.',
         'If the drive disappears, reports critical warnings, produces repeated I/O errors, or contains important files without a current backup, protect the data before running more tests.',
         'Do not disable Windows Search, SysMain, security software, or other services as a blanket fix. Test a known process or recent change one at a time, then repeat the same observation.'
