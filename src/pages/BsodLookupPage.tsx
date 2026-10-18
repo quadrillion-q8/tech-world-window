@@ -23,7 +23,7 @@ export function BsodLookupPage() {
     <SEOEngine title={tool.seoTitle} description={tool.metaDescription} path={BSOD_BASE_PATH} />
     <span className="eyebrow">FREE LOOKUP TOOL</span>
     <h1>BSOD Error Code Lookup</h1>
-    <p className="page-intro">Type the stop code from your Windows blue screen, either the name (CRITICAL_PROCESS_DIED) or the hex value (0xEF), to see what it means, what usually causes it and the safest order of fixes.</p>
+    <p className="page-intro">Search a Windows blue screen (BSOD) stop code by its name, hexadecimal value, or a phrase from the error. Each result explains what Windows detected, common causes, and a safer order of checks for Windows 11 and Windows 10. A stop code narrows the investigation; it does not prove which component is faulty.</p>
 
     <div className="bsod-search" role="search">
       <label htmlFor="bsod-query">Stop code, hex value or words from the blue screen</label>
@@ -32,7 +32,7 @@ export function BsodLookupPage() {
         type="search"
         value={query}
         onChange={event => onSearch(event.target.value)}
-        placeholder="For example 0x7E, page fault, or VIDEO_TDR_FAILURE"
+        placeholder="Try 0x7E, memory management, or VIDEO_TDR_FAILURE"
         autoComplete="off"
         spellCheck={false}
       />
@@ -43,7 +43,7 @@ export function BsodLookupPage() {
 
     {searching && results.length === 0 && <div className="editorial-note">
       <strong>Code not listed yet</strong>
-      <p>This lookup covers the most common stop codes. Check the spelling, or read how to find and interpret a stop code in our <Link className="text-link" to="/windows-11-blue-screen-stop-code-how-to-read">blue screen guide</Link>.</p>
+      <p>This lookup covers common stop codes, not every possible bug check. Try the code without extra punctuation, search by part of its name, or check the spelling. Our <Link className="text-link" to="/windows-11-blue-screen-stop-code-how-to-read">blue screen stop-code guide</Link> explains where to find the code and how to read it. If you only know the symptom, start with the <Link className="text-link" to="/tools/windows-troubleshooting-assistant">Windows Troubleshooting Assistant</Link>.</p>
     </div>}
 
     {searching
