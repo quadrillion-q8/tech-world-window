@@ -1989,14 +1989,16 @@ export const phase4Articles: Article[] = [
     "subcategory": "Performance",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 9,
+    "updatedAt": "2026-10-18",
+    "readingTime": 10,
     "tags": [
       "PC Gaming",
       "Low FPS",
       "GPU",
       "CPU",
-      "Performance"
+      "Performance",
+      "Bottleneck",
+      "Frame Time"
     ],
     "relatedArticles": [
       "gaming-stutter",
@@ -2020,8 +2022,20 @@ export const phase4Articles: Article[] = [
       {
         "heading": "Check GPU load, CPU load, and clocks",
         "paragraphs": [
-          "If the GPU is near full utilization with stable clocks and temperatures, lowering GPU-heavy settings or resolution can show whether the graphics processor is the limit.",
-          "If GPU utilization is low while one or more CPU cores are saturated, the CPU, game engine, background software, or a frame-rate cap may be limiting performance. Check clocks and temperatures before concluding that the CPU is simply too slow."
+          "If the GPU is near full utilization with stable clocks and temperatures, lowering GPU-heavy settings or resolution can show whether the graphics processor is the limit. If FPS rises at lower resolution in the same scene, that is useful evidence of a GPU-side limit.",
+          "If GPU utilization is low while one or more CPU cores are saturated, the CPU, game engine, background software, or a frame-rate cap may be limiting performance. Check clocks and temperatures before concluding that the CPU is simply too slow. Total CPU usage can hide a limit on one heavily loaded thread."
+        ],
+        "relatedLinks": [
+          {
+            "label": "PC bottleneck calculator",
+            "href": "/tools/pc-bottleneck-calculator",
+            "description": "Get a rough CPU/GPU balance estimate by resolution, then confirm it with real gameplay measurements."
+          },
+          {
+            "label": "GPU at 100% usage while gaming",
+            "href": "/gpu-100-percent-usage-gaming",
+            "description": "Learn when full GPU utilization is normal and what accompanying signs deserve investigation."
+          }
         ]
       },
       {
@@ -2041,7 +2055,20 @@ export const phase4Articles: Article[] = [
       {
         "heading": "Use a repeatable test scene",
         "paragraphs": [
-          "The best comparison is the same game, same map or sequence, same resolution, and similar background workload. A repeatable test makes driver and settings changes meaningful and helps distinguish a real improvement from normal variation."
+          "The best comparison is the same game, same map or sequence, same resolution, and similar background workload. A repeatable test makes driver and settings changes meaningful and helps distinguish a real improvement from normal variation.",
+          "Record average FPS and frame-time behavior, GPU utilization, the busiest CPU thread if your monitor exposes it, dedicated VRAM use, temperatures, and clock speeds. Change one variable at a time and revert changes that do not help."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Frame-Time Analyzer",
+            "href": "/tools/frame-time-analyzer",
+            "description": "Compare frame-time samples when low average FPS is accompanied by uneven delivery."
+          },
+          {
+            "label": "PC game stuttering diagnosis",
+            "href": "/pc-game-stuttering-fix-frame-time",
+            "description": "Follow a separate diagnostic path when the main symptom is stutter or sudden drops rather than consistently low FPS."
+          }
         ]
       }
     ],
@@ -2053,6 +2080,14 @@ export const phase4Articles: Article[] = [
       {
         "question": "Does more RAM increase FPS?",
         "answer": "It can help when the game is memory-constrained, but it will not directly fix a GPU or CPU bottleneck."
+      },
+      {
+        "question": "Should I upgrade my GPU or CPU for low FPS?",
+        "answer": "Do not decide from the component names alone. Repeat the same game scene, reduce resolution to test GPU load, inspect CPU-thread load, and check temperatures, clocks, memory pressure, and frame caps before buying hardware."
+      },
+      {
+        "question": "Why does lowering graphics settings not improve FPS?",
+        "answer": "The limit may be CPU-side, a frame cap or synchronization setting, memory pressure, background activity, thermal or power throttling, or the game engine. Check GPU utilization and clocks alongside CPU-thread load and frame times."
       }
     ]
   },
@@ -2138,14 +2173,16 @@ export const phase4Articles: Article[] = [
     "subcategory": "GPU",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-07",
-    "readingTime": 7,
+    "updatedAt": "2026-10-18",
+    "readingTime": 8,
     "tags": [
       "GPU",
       "Gaming",
       "GPU Usage",
       "Temperatures",
-      "Performance"
+      "Performance",
+      "GPU Bottleneck",
+      "FPS"
     ],
     "relatedArticles": [
       "gaming-low-fps",
@@ -2178,15 +2215,39 @@ export const phase4Articles: Article[] = [
       {
         "heading": "When high usage needs investigation",
         "paragraphs": [
-          "Investigate if high usage comes with overheating, major clock reductions, visual artifacts, crashes, or performance that is far below what the same hardware normally delivers.",
-          "Also check whether an application other than the game is using the GPU. Task Manager can show which processes are active."
+          "Investigate if high usage comes with overheating relative to the card manufacturer's limits, sustained clock drops, visual artifacts, crashes, or performance far below what the same hardware normally delivers. A high utilization percentage by itself is not evidence of damage.",
+          "Check which process is using the GPU, whether dedicated VRAM is close to its limit, and whether temperatures and clocks change when the FPS falls. Compare the same scene more than once; a single sensor sample can be misleading."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Low FPS in PC games",
+            "href": "/pc-game-low-fps-how-to-find-the-cause",
+            "description": "Find out whether the GPU, CPU, settings, memory, or power behavior is limiting performance."
+          },
+          {
+            "label": "GPU frame-time spikes",
+            "href": "/gpu-frame-time-spikes-causes-fix",
+            "description": "Diagnose uneven frame delivery when utilization looks normal but gameplay feels choppy."
+          },
+          {
+            "label": "PC bottleneck calculator",
+            "href": "/tools/pc-bottleneck-calculator",
+            "description": "Use a rough CPU/GPU estimate as a starting point, then verify it in the game."
+          }
         ]
       },
       {
         "heading": "Test the graphics workload",
         "paragraphs": [
-          "Lower resolution or render scale. If FPS rises substantially, the GPU workload is confirmed as a major limit. Then test individual expensive settings such as ray tracing and shadows.",
-          "If FPS barely changes when GPU-heavy settings are reduced, investigate CPU limits, frame caps, synchronization, or the game engine instead."
+          "Lower resolution or render scale. If FPS rises substantially in the same repeatable scene, the GPU workload is a major limit. Then test individual expensive settings such as ray tracing and shadows.",
+          "If FPS barely changes when GPU-heavy settings are reduced, investigate CPU limits, frame caps, synchronization, background processes, or the game engine instead. If the problem is stutter rather than consistently low FPS, inspect frame-time spikes as well as the average."
+        ],
+        "relatedLinks": [
+          {
+            "label": "PC game stuttering and frame-time diagnosis",
+            "href": "/pc-game-stuttering-fix-frame-time",
+            "description": "Separate a GPU limit from shader compilation, asset loading, and other frame-time spikes."
+          }
         ]
       }
     ],
@@ -2198,6 +2259,14 @@ export const phase4Articles: Article[] = [
       {
         "question": "Should I try to keep GPU usage below 100%?",
         "answer": "Not unless you have a specific reason such as reducing heat, noise, power consumption, or latency. A frame-rate cap can be appropriate for those goals."
+      },
+      {
+        "question": "Why is my GPU at 100% but FPS is low?",
+        "answer": "The GPU may be working as hard as it can at the selected resolution and settings. Test a lower resolution or render scale in the same scene, check temperature and clock behavior, and compare with the performance expected for the exact GPU and game. If lowering GPU load does not improve FPS, check frame caps, CPU limits, memory pressure, and the game engine."
+      },
+      {
+        "question": "Can 100% GPU usage cause stuttering?",
+        "answer": "It can coincide with frame-time spikes if the GPU is overloaded or running into VRAM, thermal, or power limits, but full utilization is not automatically the cause. Capture frame times and compare them with temperature, clocks, and VRAM use."
       }
     ]
   },
