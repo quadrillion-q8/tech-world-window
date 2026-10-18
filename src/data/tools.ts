@@ -170,14 +170,14 @@ export const tools: ToolDef[] = [
   {
     id: 'storage-calculator',
     path: '/tools/storage-calculator',
-    title: 'Storage Calculator',
+    title: 'SSD & HDD Storage Calculator',
     group: 'plan',
     kindLabel: 'Calculator',
     status: 'Available now',
-    hubDescription: 'Estimate how much SSD or HDD capacity your games, apps and files will need.',
-    menuDescription: 'Plan storage capacity and headroom.',
-    seoTitle: 'Storage Calculator',
-    metaDescription: 'Estimate how much SSD or HDD capacity your games, apps and files will need before choosing a drive.',
+    hubDescription: 'Estimate game-library and file storage, then add planning headroom before choosing an SSD or HDD.',
+    menuDescription: 'Estimate game storage and free-space headroom.',
+    seoTitle: 'SSD & HDD Storage Calculator',
+    metaDescription: 'Plan SSD or HDD capacity for games, apps and files. Estimate your total, add 20% headroom, and compare the result in GB and decimal TB.',
   },
 ];
 
