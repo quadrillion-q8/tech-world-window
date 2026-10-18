@@ -9,7 +9,7 @@ const toolMeta: Record<ToolKind, { title: string; description: string; path: str
   bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', description: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
   psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
-  storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
+  storage: { title: 'SSD & HDD Storage Calculator', description: 'Plan SSD or HDD capacity for games, apps and files. Estimate your total, add 20% headroom, and compare the result in GB and decimal TB.', path: '/tools/storage-calculator' },
 };
 
 function boundedNumber(value: string, min: number, max: number, fallback: number): number {
@@ -29,6 +29,12 @@ export function ToolPage() {
   const location = useLocation();
   const kind = kindFromPath(location.pathname);
   const meta = toolMeta[kind];
+  const estimateNote: Record<ToolKind, string> = {
+    bottleneck: 'This is a broad-tier estimate, not a measured bottleneck percentage or FPS forecast; verify the result with repeatable gameplay tests.',
+    psu: 'This is a starting wattage estimate, not a measurement of power draw or a test of PSU quality. Verify component recommendations, transient demands and native connector requirements.',
+    ram: 'This is a capacity and timing estimate, not a compatibility check or real-world performance benchmark. Verify your platform’s supported memory type and configuration.',
+    storage: 'This is a capacity-planning estimate, not exact usable space. Operating-system files, formatting, recovery partitions and changing game sizes affect what fits.',
+  };
 
   const [cpu, setCpu] = useState(2);
   const [gpu, setGpu] = useState(2);
@@ -85,7 +91,7 @@ export function ToolPage() {
     <SEOEngine title={meta.title} description={meta.description} path={meta.path} />
     <span className="eyebrow">FREE INTERACTIVE TOOL</span>
     <h1>{meta.title}</h1>
-    <p className="page-intro">{meta.description} This is a first-pass estimate, not a measured bottleneck percentage, benchmark result or FPS forecast.</p>
+    <p className="page-intro">{meta.description} {estimateNote[kind]}</p>
 
     {kind === 'bottleneck' && <div className="tool-panel">
       <div className="tool-controls">
@@ -183,6 +189,24 @@ export function ToolPage() {
         <label>Other files/apps (GB)<input type="number" min="0" max="10000" value={otherStorage} onChange={e=>setOtherStorage(boundedNumber(e.target.value, 0, 10000, 200))}/></label>
       </div>
       <div className="tool-result"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
+    </div>}
+
+    {kind === 'storage' && <div className="editorial-note">
+      <h2>How this storage calculator estimates capacity</h2>
+      <p>Enter the number of games you expect to keep installed, estimate their average size in GB, and add the space needed for other files and apps. The calculator adds those amounts, applies 20% planning room, rounds the recommendation up in 100 GB increments, and shows the result in decimal terabytes (1 TB = 1,000 GB).</p>
+      <p>The result is a planning estimate, not a reading of your current drive. Actual installs vary by game edition, updates, downloadable content and language packs, and the calculator does not inspect your files or predict future updates.</p>
+      <h3>Improve the estimate before buying</h3>
+      <ol>
+        <li>Use recent install sizes for the games you actually keep on the drive, especially if you use large add-ons or several major titles.</li>
+        <li>Include non-game files such as applications, documents, photos, video, downloads and other content stored on that drive; avoid counting the same content twice.</li>
+        <li>Keep additional room if your library changes frequently or you regularly work with large media files. The built-in 20% is a planning allowance, not a universal minimum.</li>
+        <li>Remember that advertised drive capacity and the space shown by the operating system differ because manufacturers use decimal units and some capacity is used by formatting, partitions and system files.</li>
+      </ol>
+      <p>Capacity is only one buying decision. Confirm the drive interface and physical format supported by your exact computer, then compare the workload and reliability needs before choosing an SSD. See the <Link className="text-link" to="/best-ssds">SSD buying guide</Link> or the <Link className="text-link" to="/laptop-nvme-ssd-upgrade-compatibility">laptop NVMe compatibility checklist</Link> before ordering an upgrade.</p>
+      <h3>Storage calculator: common questions</h3>
+      <details><summary>Why does the calculator add 20% headroom?</summary><p>It leaves planning room beyond the listed games and files, so the estimate is not exactly equal to the sum of today’s content. It is not a guarantee that every future update will fit.</p></details>
+      <details><summary>Why is usable storage lower than the number on the drive box?</summary><p>Drive makers advertise capacity in decimal units, while operating systems may display capacity differently. Formatting, partitions and operating-system files also consume space. The calculator gives a planning estimate rather than exact usable capacity.</p></details>
+      <details><summary>What should I include in “Other files/apps”?</summary><p>Include the non-game content you expect to store on the same drive, such as applications, documents, photos, downloads, media and other files. Do not count items already included in your game-size estimate.</p></details>
     </div>}
 
     <div className="editorial-note">
