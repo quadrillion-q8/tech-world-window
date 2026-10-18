@@ -265,10 +265,6 @@ const enhancements: Record<string, Enhancement> = {
       { question: 'What should I do when average FPS is high but the game still feels slow?', answer: 'Check 1% lows and frame-time behavior. A small number of late frames can feel like stutter even when the average looks good; follow the frame-time diagnosis path and compare events around the hitch.' }
     ]
   },
-  'pc-game-low-fps-how-to-find-the-cause': {
-    seoTitle: 'Low FPS in PC Games: Find the Bottleneck',
-    metaDescription: 'Low FPS in PC games? Compare FPS and 1% lows, test resolution, CPU-thread load, temperatures and background apps before buying new hardware.'
-  },
   'pc-game-stuttering-fix-frame-time': {
     sections: [{
       heading: 'TWW diagnosis: stutter is a timing problem',
@@ -1854,6 +1850,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   'windows-11-high-memory-usage-how-to-find-the-cause': {
     seoTitle: 'Windows 11 High RAM Usage: Find the Cause',
     metaDescription: 'Windows 11 high RAM usage? Find the process, check DWM or SearchHost growth, and separate caching from real memory pressure before upgrading RAM.'
+  },
+  'pc-game-low-fps-how-to-find-the-cause': {
+    seoTitle: 'Low FPS in PC Games: Find the Bottleneck',
+    metaDescription: 'Low FPS in PC games? Compare FPS and 1% lows, test resolution, CPU-thread load, temperatures and background apps before buying new hardware.'
   },
   'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
   'windows-11-network-adapter-reset-guide': {
