@@ -223,7 +223,46 @@ const enhancements: Record<string, Enhancement> = {
           ['Cap FPS below the unstable peak', 'Frame pacing becomes smoother', 'Frame-time stability rather than raw GPU power']
         ]
       }
-    }]
+    }, {
+      heading: 'Separate a steady FPS limit from sudden drops',
+      paragraphs: [
+        'First decide whether the game is consistently below your target or only dips briefly. Low average FPS across a whole session usually calls for a workload and settings comparison; abrupt dips or hitches need a time-correlated check of frame time, clocks, temperatures, memory and storage. These symptoms can coexist, but they do not always share a cause.',
+        'Before comparing results, check the game’s frame limiter, V-Sync and any driver-level frame cap. A configured cap can keep GPU utilization below 100% by design. Make a note of the original setting, change only one cap or sync variable for a comparison, and restore it if the test does not help.'
+      ],
+      table: {
+        caption: 'Choose a test based on the FPS pattern',
+        headers: ['Pattern', 'What to verify first', 'Controlled next test'],
+        rows: [
+          ['FPS stays low across the same scene', 'Resolution, graphics preset, frame cap and GPU load', 'Reduce one GPU-heavy setting and repeat the scene'],
+          ['GPU utilization is low while one CPU thread is busy', 'CPU-side work, game engine, background apps or frame cap', 'Check caps and repeat with one known background workload closed'],
+          ['FPS falls as temperatures rise and clocks drop', 'Thermal or power limiting', 'Compare temperatures and clocks with the exact hardware guidance'],
+          ['Average FPS seems fine but 1% lows are poor', 'Uneven frame delivery or periodic workload spikes', 'Capture frame time and follow the stutter diagnosis path'],
+          ['Only one game performs badly', 'Game settings, engine behavior, drivers, files or shader preparation', 'Compare another game and the affected game’s known scene']
+        ]
+      },
+      relatedLinks: [
+        { label: 'PC game stuttering diagnosis', href: '/pc-game-stuttering-fix-frame-time', description: 'Use this when the main symptom is uneven delivery or sudden frame-time spikes.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Correlate a hitch with GPU clocks, load, VRAM, temperature and CPU activity.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect supported capture files instead of relying on one average FPS number.' }
+      ]
+    }, {
+      heading: 'Run a repeatable before-and-after test',
+      paragraphs: [
+        'Use the same game, map or replay, camera position, resolution, quality settings and target frame rate. Warm up the scene in the same way where practical, record the baseline, change one variable, and repeat. Do not compare a quiet scene against a crowded scene or treat one brief run as proof of an upgrade benefit.',
+        'If lower resolution changes FPS substantially, that supports a graphics-side limit under those settings; it does not prove the GPU is defective. If the GPU appears underused, check frame caps, CPU-thread activity, asset loading, memory pressure and the game engine before replacing hardware.'
+      ],
+      steps: [
+        'Write down the target FPS, resolution, preset, frame cap/V-Sync state, driver version and the exact repeatable scene.',
+        'Record average FPS and 1% lows or frame-time behavior alongside GPU utilization, GPU clock, temperature, VRAM and the busiest CPU thread where available.',
+        'Change one variable only and repeat the same scene; keep the change only if the improvement is repeatable and no new issue appears.',
+        'If the issue is only a brief hitch or the average is misleading, use the dedicated stutter guide and frame-time analyzer rather than buying a faster GPU from guesswork.'
+      ]
+    }],
+    faq: [
+      { question: 'Can V-Sync or a frame cap cause GPU usage to stay below 100%?', answer: 'Yes. When a game is limited to a target frame rate, the GPU may not need to render continuously at maximum utilization. Check the in-game limit, V-Sync, driver settings and display refresh rate before interpreting lower utilization as a hardware problem.' },
+      { question: 'Should I upgrade my GPU if lowering resolution increases FPS?', answer: 'A repeatable improvement after lowering resolution suggests the graphics workload is limiting performance in that scene, but it does not by itself prove that a new GPU is the best purchase. Compare your target frame rate, exact game, settings, temperatures, power behavior and independent model-specific benchmarks first.' },
+      { question: 'What should I do when average FPS is high but the game still feels slow?', answer: 'Check 1% lows and frame-time behavior. A small number of late frames can feel like stutter even when the average looks good; follow the frame-time diagnosis path and compare events around the hitch.' }
+    ]
   },
   'pc-game-stuttering-fix-frame-time': {
     sections: [{
