@@ -571,7 +571,7 @@ const baseArticles: Article[] = [
         'Record settings, resolution, driver version, and the exact scene.',
         'Check whether frame-time spikes coincide with CPU/GPU load, temperature, clock drops, VRAM pressure, or disk activity.',
         'Compare a first run with a repeat run; first-visit-only stutter can point toward shader compilation or asset loading.',
-        'Use the [Frame-Time Analyzer](/tools/frame-time-analyzer) to inspect a capture, and treat any single overlay reading as a clue rather than proof.'
+        'Use the Frame-Time Analyzer tool to inspect a capture, and treat any single overlay reading as a clue rather than proof.'
       ], relatedLinks: [
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect frame-time samples and compare before-and-after captures.' },
         { label: 'Low FPS in PC games', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Find the actual CPU, GPU, memory, or power limit before upgrading.' }
