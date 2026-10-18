@@ -157,7 +157,7 @@ export const tools: ToolDef[] = [
     hubDescription: 'Estimate how much RAM your workload may need, then compare memory data rate, CAS latency and theoretical bandwidth before upgrading.',
     menuDescription: 'Plan RAM capacity and compare speed and latency.',
     seoTitle: 'RAM Calculator: How Much RAM Do I Need? Speed & Latency',
-    metaDescription: 'Use this free RAM calculator to estimate memory capacity for Windows, gaming and apps, then compare DDR data rate, CAS latency and theoretical bandwidth before buying a compatible upgrade.',
+    metaDescription: 'Estimate RAM needs for Windows, gaming and apps, then compare data rate, CAS latency and bandwidth. Check compatibility before buying an upgrade.',
     faq: [
       { question: 'How much RAM do I need for gaming?', answer: 'The right capacity depends on the games, background apps, resolution-independent workload and whether you stream, create content or run virtual machines. Use the estimate as a planning starting point, then check actual memory use during your heaviest normal session.' },
       { question: 'Does more RAM make a PC faster?', answer: 'More capacity helps when your workload is running short of memory and Windows has to page data to storage. If memory use is comfortably below capacity, adding RAM may make little difference; CPU, GPU, storage, or software limits may matter more.' },
