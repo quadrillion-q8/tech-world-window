@@ -264,6 +264,10 @@ const enhancements: Record<string, Enhancement> = {
       { question: 'What should I do when average FPS is high but the game still feels slow?', answer: 'Check 1% lows and frame-time behavior. A small number of late frames can feel like stutter even when the average looks good; follow the frame-time diagnosis path and compare events around the hitch.' }
     ]
   },
+  'pc-game-low-fps-how-to-find-the-cause': {
+    seoTitle: 'Low FPS in PC Games: Find the Bottleneck',
+    metaDescription: 'Low FPS in PC games? Compare FPS and 1% lows, test resolution, CPU-thread load, temperatures and background apps before buying new hardware.'
+  },
   'pc-game-stuttering-fix-frame-time': {
     sections: [{
       heading: 'TWW diagnosis: stutter is a timing problem',
@@ -1884,7 +1888,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     seoTitle: 'How to Check SSD Health in Windows',
     metaDescription: 'Check SSD health in Windows with supported SMART data, PowerShell and the drive maker’s utility. Learn what a healthy status can—and cannot—prove.'
   },
-  'why-ssd-is-slowing-down-windows': { seoTitle: 'Why an SSD Slows Down Over Time' },
+  'why-ssd-is-slowing-down-windows': {
+    seoTitle: 'Why an SSD Slows Down Over Time',
+    metaDescription: 'SSD slowing down Windows? Check free space, background disk activity, temperature, write-cache behavior and health warnings before replacing the drive.'
+  },
   'how-to-check-ram-for-errors-windows': { seoTitle: 'How to Test RAM for Errors' },
   'windows-11-blue-screen-stop-code-how-to-read': { seoTitle: 'Windows 11 Blue Screen Stop Codes' },
   'windows-11-freezing-randomly-causes-fix': { seoTitle: 'Windows 11 Freezing: Find the Cause' },
