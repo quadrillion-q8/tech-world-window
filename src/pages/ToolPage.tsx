@@ -7,7 +7,7 @@ type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
 
 const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
   bottleneck: { title: 'PC Bottleneck Calculator', description: 'Estimate CPU/GPU balance at common gaming resolutions.', path: '/tools/pc-bottleneck-calculator' },
-  psu: { title: 'PSU Wattage Calculator', description: 'Estimate a sensible power-supply range from your CPU, GPU and system configuration.', path: '/tools/psu-wattage-calculator' },
+  psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
 };
