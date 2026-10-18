@@ -1274,7 +1274,27 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Choose a useful capacity for your actual workloads first.' },
         { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check stability after an upgrade or memory-profile change.' }
       ]
-    }]
+    }, {
+      heading: 'Compare CAS latency in nanoseconds, not by the CL number alone',
+      paragraphs: [
+        'A DDR5 kit marked CL30 is not automatically slower to begin a read than a DDR4 kit marked CL16. CAS latency is measured in clock cycles, and the memory clock changes with the data rate. For a rough comparison of the CAS component only, use: latency in nanoseconds ≈ CAS cycles × 2000 ÷ data rate in MT/s.',
+        'For illustration, DDR4-3200 CL16 and DDR5-6000 CL30 both work out to about 10 ns for this CAS-only calculation. That does not make the kits or platforms equivalent: complete system memory latency also depends on other timings, controller behavior, memory configuration, CPU and motherboard. Use repeatable workload measurements rather than treating one timing number as a full performance score.'
+      ],
+      table: {
+        caption: 'How to read a RAM specification line',
+        headers: ['Specification', 'What it tells you', 'What it does not tell you'],
+        rows: [
+          ['DDR4-3200 or DDR5-6000', 'Effective data rate in transfers per second', 'Exact application or game performance'],
+          ['CL16 or CL30', 'CAS delay expressed in memory clock cycles', 'Complete end-to-end memory latency by itself'],
+          ['Dual-channel configuration', 'Available memory-channel bandwidth when the platform is configured correctly', 'A guaranteed FPS increase in every game'],
+          ['XMP or EXPO profile', 'A stored performance profile that may run above baseline defaults', 'Guaranteed stability on every CPU and motherboard']
+        ]
+      }
+    }],
+    faq: [
+      { question: 'Is DDR5 CL30 slower than DDR4 CL16?', answer: 'Not necessarily. CL is measured in clock cycles, and data rate changes the duration of those cycles. A rough CAS-only estimate is CL × 2000 ÷ data rate in MT/s; full memory latency and application performance depend on more than CAS timing.' },
+      { question: 'Should I upgrade from DDR4 to DDR5 only for better FPS?', answer: 'Usually compare the total compatible platform cost first. Moving generations often requires a different motherboard and sometimes a different CPU. Check whether memory is actually limiting the games or applications you use before replacing otherwise healthy parts.' }
+    ]
   },
   'how-much-ram-do-you-need-gaming': {
     updatedAt: '2026-10-10',
