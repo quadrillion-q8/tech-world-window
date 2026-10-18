@@ -207,6 +207,7 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'pc-game-low-fps-how-to-find-the-cause': {
+    updatedAt: '2026-10-18',
     sections: [{
       heading: 'TWW diagnosis: change one variable at a time',
       paragraphs: [
