@@ -34,8 +34,13 @@ The export's Pages.csv and Queries.csv are separate tables. The metrics below ar
 - No fabricated benchmarks or ranking promises.
 - The storage calculator's input/output behavior is unchanged. Its existing formula sums estimated game storage and other files, adds 20% headroom, rounds up in 100 GB increments, and displays decimal TB; the new copy documents that behavior.
 
-## Validation status
+## Final validation status
 
-The PR should run the repository's build, prerender, content and route validators. Vercel has recently returned a `build-rate-limit` response; if it persists, a successful GitHub Actions source build can be confirmed independently, but a Vercel preview deployment must not be claimed.
+- The first Pass 8 CI run (`39089582819`) failed during prerender because a low-FPS SEO metadata object was placed in the article-enhancement map. This was a source issue, not a Vercel issue.
+- The placement error was corrected in [PR #59](https://github.com/quadrillion-q8/tech-world-window/pull/59). GitHub Actions `build-and-validate` passed on the corrected code in [run 39089668107](https://github.com/quadrillion-q8/tech-world-window/actions/runs/39089668107).
+- Vercel's PR check returned `build-rate-limit`. Successful Vercel preview/production deployment is therefore **not confirmed** by this pass; source build validation and deployment status are separate.
+- No live rendered-HTML verification or ranking improvement is claimed.
+
+After Google recrawls the updates, assess a comparable Search Console window before deciding whether these page improvements led to better visibility or clicks.
 
 After Google recrawls the updates, assess a comparable Search Console window before deciding whether these page improvements led to better visibility or clicks.
