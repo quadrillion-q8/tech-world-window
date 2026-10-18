@@ -720,7 +720,7 @@ const baseArticles: Article[] = [
     id: 'ssd-health',
     slug: 'how-to-check-ssd-health-windows',
     title: 'How to Check SSD Health in Windows',
-    seoTitle: 'How to Check SSD Health in Windows 11: SMART & Warning Signs',
+    seoTitle: 'Check SSD Health in Windows 11 (SMART Guide)',
     metaDescription: 'Check SSD health in Windows 11 and 10, read SMART wear and error warnings, identify possible failure signs, and know when to back up or replace a drive.',
     dek: 'A practical Windows guide to checking SSD health, interpreting SMART wear and error indicators, separating normal wear from warning signs, and deciding what to do next.',
     excerpt: 'Check your SSD health, interpret the important SMART indicators, and use a safe backup-first decision process instead of guessing from one number.',
