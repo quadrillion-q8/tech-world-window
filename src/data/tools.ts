@@ -184,6 +184,7 @@ export const articleToolLinks: Record<string, string[]> = {
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
   'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],
+  'pc-power-supply-problems-symptoms': ['/tools/psu-wattage-calculator'],
 };
 
 const stripCode = (text: string) => text.replace(/`/g, '');
