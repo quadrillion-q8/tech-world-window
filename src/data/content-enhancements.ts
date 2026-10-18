@@ -1405,6 +1405,61 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
       { question: 'Should I keep using an SSD that reports critical warnings?', answer: 'Protect important data first, avoid unnecessary write-heavy tests and consult the drive maker’s diagnostics. A critical warning or repeated I/O errors deserve attention even if Windows still starts.' }
     ]
   },
+  'windows-11-disk-100-percent-usage': {
+    updatedAt: '2026-10-18',
+    sources: [
+      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' }
+    ],
+    sections: [{
+      heading: 'Use Resource Monitor when Task Manager does not explain the disk load',
+      paragraphs: [
+        'If Disk active time stays near 100%, open Resource Monitor by pressing Win + R, entering \`resmon\`, and selecting the Disk tab. Compare the processes using the drive with their read/write activity and response time. This can help distinguish a visible workload from a drive that is struggling to service requests; no single counter proves a hardware fault.',
+        'Repeat the observation when the PC is idle and when the slowdown happens. A short spike during Windows Update, an antivirus scan, game installation, or indexing may settle on its own. Persistent activity with poor responsiveness deserves a closer look at the process, free space, reliability warnings, and Windows storage events.'
+      ],
+      steps: [
+        'In Task Manager, open Processes and sort by Disk. Note the process name and whether activity drops when its known task finishes.',
+        'If the process is unclear, open Resource Monitor (\`resmon\`) and use the Disk tab to compare the process list, activity, and response time.',
+        'Check free space and review the drive maker’s supported health utility. On supported storage devices, PowerShell’s Get-StorageReliabilityCounter may expose temperature, wear, or error counters; blank fields are not proof that the drive is healthy or faulty.',
+        'If the drive disappears, reports critical warnings, produces repeated I/O errors, or contains important files without a current backup, protect the data before running more tests.',
+        'Do not disable Windows Search, SysMain, security software, or other services as a blanket fix. Test a known process or recent change one at a time, then repeat the same observation.'
+      ],
+      table: {
+        caption: 'Choose the next check from the disk-usage pattern',
+        headers: ['Observed pattern', 'What it may indicate', 'Next check'],
+        rows: [
+          ['100% active time during an update or scan, then it settles', 'A temporary workload may be responsible', 'Wait for the task to finish and compare idle behavior'],
+          ['100% active time with very low MB/s and long response times', 'Latency or many small requests rather than high sequential throughput', 'Resource Monitor, process activity, and drive-health evidence'],
+          ['High activity while memory is nearly full', 'Paging may be adding storage work', 'Check available/committed memory and the process using RAM'],
+          ['Repeated drive errors, disappearing drive, or critical warning', 'A reliability or connection problem needs attention', 'Back up first and use the drive maker’s diagnostic guidance']
+        ]
+      },
+      relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Interpret health and reliability indicators without treating one status as a guarantee.' },
+        { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare low free space, cache behavior, background activity, temperature and health.' },
+        { label: '100% disk usage but low MB/s: research', href: '/research/windows-100-percent-disk-usage-low-mbps', description: 'Understand active time, transfer rate and latency as separate measurements.' }
+      ]
+    }],
+    faq: [
+      { question: 'Why does Windows show 100% disk usage with very low MB/s?', answer: 'Disk active time measures how busy the drive is, not how much sequential data it transfers. Many small requests, high response time, paging, or a slower HDD can keep active time high while throughput stays low. Compare the process list and response time before blaming the drive.' },
+      { question: 'Should I disable SysMain or Windows Search to fix 100% disk usage?', answer: 'Not as a blanket fix. First identify which process is active and whether the activity settles. Disabling services can create new problems and hides the original cause; change one known variable only when the evidence supports it.' }
+    ]
+  },
+  'research/what-actually-causes-pc-game-stuttering': {
+    updatedAt: '2026-10-18',
+    sections: [{
+      heading: 'Turn the investigation into a useful next test',
+      paragraphs: [
+        'Use this research page to interpret a repeatable frame-time pattern, then move to the focused guide or tool that matches the evidence. It is not a claim that TWW has measured every game or component combination, and a frame-time spike alone cannot prove that a specific part is defective.',
+        'Keep the same game scene, settings, frame cap and background workload for the baseline and comparison. Record the moment of the hitch along with frame time, CPU-thread activity where available, GPU utilization and clocks, memory use, temperatures, and storage activity. Change one variable only and repeat the same scene before deciding that the fix worked.'
+      ],
+      relatedLinks: [
+        { label: 'PC game stuttering: step-by-step diagnosis', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow the practical troubleshooting order for persistent or recurring hitches.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect supported CSV captures and compare frame-time behavior in your browser.' },
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether the hitch mainly happens on the first encounter with a visual effect or area.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Compare frame-time spikes with GPU load, clocks, VRAM and temperature.' }
+      ]
+    }]
+  },
   'nvme-ssd-temperature-too-high': {
     updatedAt: '2026-10-13',
     sections: [{
@@ -1653,6 +1708,11 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     seoTitle: 'Windows 11 Slow Startup: How to Fix It',
     metaDescription: 'Windows 11 slow to start? Find whether delay occurs before boot, at sign-in or after the desktop, then test apps, updates, drivers and storage safely.'
   },
+  'windows-11-disk-100-percent-usage': {
+    seoTitle: 'Windows 11 100% Disk Usage: What to Check',
+    metaDescription: 'Windows 11 disk at 100%? Find the process using it, compare active time with MB/s, and check free space, drive health and background tasks safely.'
+  },
+
   'how-to-check-ssd-health-windows': {
     seoTitle: 'How to Check SSD Health in Windows',
     metaDescription: 'Check SSD health in Windows with supported SMART data, PowerShell and the drive maker’s utility. Learn what a healthy status can—and cannot—prove.'
@@ -1677,7 +1737,10 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'research/ssd-nearly-full-what-really-changes': { seoTitle: 'SSD Nearly Full: Research Findings' },
   'research/windows-100-percent-disk-usage-low-mbps': { seoTitle: 'Windows 100% Disk Usage: Research' },
-  'research/what-actually-causes-pc-game-stuttering': { seoTitle: 'Causes of PC Game Stuttering: Research' },
+  'research/what-actually-causes-pc-game-stuttering': {
+    seoTitle: 'Causes of PC Game Stuttering: Research',
+    metaDescription: 'Research how repeatable frame-time captures help separate shader compilation, CPU and GPU limits, storage activity, background tasks, and thermal or power behavior.'
+  },
   'research/does-more-ram-make-windows-faster': { seoTitle: 'Does More RAM Make Windows Faster?' },
   'research/how-ssd-temperature-affects-performance': { seoTitle: 'SSD Temperature and Performance: Research' },
   'windows-troubleshooting-complete-guide': { seoTitle: 'Windows Troubleshooting: Complete Guide' }
