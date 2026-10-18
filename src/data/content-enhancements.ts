@@ -238,7 +238,36 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' },
         { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Determine whether full GPU load is normal rendering or whether temperature, clocks, and frame delivery need investigation.' }
       ]
-    }]
+    }, {
+      heading: 'Run a controlled capture before changing settings',
+      paragraphs: [
+        'A useful capture answers two questions: when did the frame-time spike happen, and what changed at that moment? Start with a repeatable 60-second section of gameplay. Keep the resolution, graphics settings, frame cap, driver, and background applications constant so a before/after comparison has meaning.',
+        'A drop in GPU utilization during a hitch does not automatically mean the graphics card is failing. The GPU may be waiting for a CPU thread, asset streaming, shader work, memory transfers, or another synchronized task. Compare several signals around the same timestamp before deciding which branch to test.'
+      ],
+      steps: [
+        'Record a frame-time capture with the same game scene and settings; mark the time of a visible hitch.',
+        'Compare GPU utilization, core clock, temperature and VRAM use with CPU-thread activity, system memory and disk activity around that timestamp.',
+        'Repeat the same scene without changing settings. If the hitch appears mainly on the first encounter with a new effect or area, test shader or asset preparation before changing the driver.',
+        'Change one plausible variable only, such as one GPU-heavy setting, and compare the frame-time graph—not just average FPS.',
+        'If the event coincides with a sharp clock drop, unusual temperature, artifacts or system instability, stop repetitive stress testing and check the exact hardware’s limits and logs.'
+      ],
+      table: {
+        caption: 'Read a GPU frame-time spike in context',
+        headers: ['Pattern at the hitch', 'Possible direction', 'Next controlled check'],
+        rows: [
+          ['GPU stays heavily loaded while the frame time spikes', 'A graphics-heavy scene or GPU-side limit may be involved', 'Repeat the scene with one GPU-heavy setting reduced'],
+          ['GPU load drops while one CPU thread is saturated', 'CPU-side work or game-engine waiting may be involved', 'Close one known background load and repeat the same scene'],
+          ['The hitch is most prominent on the first encounter', 'Shader compilation or asset preparation may contribute', 'Compare first and repeat runs without clearing caches blindly'],
+          ['Disk activity or VRAM pressure rises at the same time', 'Asset streaming or memory pressure may be involved', 'Compare resource use and the timestamp across repeat captures'],
+          ['Clock falls as temperature rises and frame time worsens', 'Thermal or power limiting is worth checking', 'Compare temperature, fan behavior, power profile and manufacturer guidance']
+        ]
+      }
+    }],
+    faq: [
+      { question: 'What causes GPU frame-time spikes?', answer: 'Possible causes include a heavier rendering workload, a CPU or engine-side wait, shader compilation, asset streaming, memory pressure, background tasks, or thermal and power behavior. The frame-time graph marks the hitch; other measurements help explain it.' },
+      { question: 'Does a GPU frame-time spike mean my graphics card is faulty?', answer: 'No. A single spike is not a hardware diagnosis. Repeat the same scene and compare GPU clocks, temperature, utilization, CPU-thread load, memory and storage activity before deciding what to test next.' },
+      { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' }
+    ]
   },
   'shader-compilation-stutter-pc-games': {
     sections: [{
