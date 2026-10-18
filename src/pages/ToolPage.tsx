@@ -139,6 +139,22 @@ export function ToolPage() {
         <label>Memory channels<select value={ramChannels} onChange={e=>setRamChannels(Number(e.target.value))}><option value={1}>1 channel</option><option value={2}>2 channels</option><option value={4}>4 channels</option></select></label>
       </div>
       <div className="tool-result"><span className="eyebrow">SPEED ESTIMATE</span><h2>About {ramSpeedMetrics.latencyNs.toFixed(1)} ns CAS latency</h2><p>Theoretical peak bandwidth: about {ramSpeedMetrics.bandwidthGbps.toFixed(1)} GB/s across {ramChannels} {ramChannels === 1 ? 'channel' : 'channels'}. This estimate assumes 64-bit channels and uses the selected transfer rate and CAS timing; it is not a benchmark or a prediction of application performance.</p><small>Compare kits only within the same platform and configuration. DDR generation, motherboard/CPU support, rank layout, timings beyond CL, and actual memory-controller settings matter. Advertised MT/s is a transfer rate, not the physical clock in MHz. Confirm the system's supported settings before buying.</small></div>
+      <div className="editorial-note">
+        <h2>How to use this RAM estimate</h2>
+        <p>The capacity result is a planning target based on the three amounts you entered. It is not a minimum specification for every game or application. If you want to avoid an unnecessary upgrade, check Task Manager's memory usage during your normal heaviest workload and look for sustained pressure, slowdowns, or heavy paging.</p>
+        <h3>Capacity, speed and compatibility are different questions</h3>
+        <ul>
+          <li><strong>Capacity:</strong> add RAM when your workload regularly approaches available memory and paging or app pressure is affecting responsiveness.</li>
+          <li><strong>Speed and latency:</strong> higher data rates and lower timings can help some workloads, but gains depend on platform and application; this estimate is not a benchmark.</li>
+          <li><strong>Compatibility:</strong> verify DDR generation, DIMM or SO-DIMM format, supported capacity, memory profile support, and whether your laptop's RAM is upgradeable.</li>
+          <li><strong>Stability:</strong> mixed kits and aggressive profiles may not run at their advertised settings on every system.</li>
+        </ul>
+        <h3>RAM calculator: common questions</h3>
+        <details><summary>Will adding RAM increase FPS?</summary><p>Only in situations where memory capacity or memory configuration is limiting performance. If the game is limited by the GPU or CPU and memory use is not under pressure, more RAM may not increase frame rate.</p></details>
+        <details><summary>Is 32 GB RAM enough for gaming?</summary><p>It is a practical capacity for many current gaming setups, but the right amount depends on the specific games, mods, browser tabs, streaming and creative apps you run alongside them. Check actual usage rather than treating one capacity as universal.</p></details>
+        <details><summary>Should I prioritize RAM capacity or speed?</summary><p>First make sure you have enough capacity for your workload and a compatible configuration. After that, compare platform-supported memory speeds and independent tests for the exact CPU and workload.</p></details>
+        <p>For more context, read <Link className="text-link" to="/research/does-more-ram-make-windows-faster">does more RAM make Windows faster?</Link> and our <Link className="text-link" to="/best-ram" onClick={()=>conversion('ram_to_buying_guide')}>RAM buying guide</Link>.</p>
+      </div>
     </div>}
 
     {kind === 'storage' && <div className="tool-panel">
