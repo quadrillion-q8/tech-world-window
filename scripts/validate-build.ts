@@ -430,7 +430,7 @@ if (!existsSync(dist)) {
           'AI Windows Crash Investigator',
           'sent to an AI provider',
           'WinDbg',
-          'full .dmp files are not supported',
+          'full .dmp uploads are not supported',
           'Bug-check code reference',
         ];
         for (const phrase of requiredText) {
