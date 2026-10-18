@@ -41,7 +41,7 @@ function parseYouTubeUrl(input: string): ParsedVideo | null {
     return { error: 'Enter a complete YouTube URL, including the https:// prefix.' };
   }
 
-  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || !YOUTUBE_HOSTS.has(url.hostname.toLowerCase())) {
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.port || !YOUTUBE_HOSTS.has(url.hostname.toLowerCase())) {
     return { error: 'Use a YouTube watch, youtu.be, Shorts, live, or embed URL. Other sites are not supported in this version.' };
   }
 
@@ -102,10 +102,11 @@ function buildEmbedCode(
 ): string {
   const safeSrc = htmlEscape(src);
   if (format === 'jsx') {
+    const jsxSrc = src;
     return [
       '<div style={{ position: \'relative\', width: \'100%\', aspectRatio: \'PLACEHOLDER\' }}>',
       '  <iframe',
-      `    src="${safeSrc}"`,
+      `    src="${jsxSrc}"`,
       '    title="YouTube video player"',
       '    style={{ position: \'absolute\', inset: 0, width: \'100%\', height: \'100%\', border: 0 }}',
       ...(lazyLoad ? ['    loading="lazy"'] : []),

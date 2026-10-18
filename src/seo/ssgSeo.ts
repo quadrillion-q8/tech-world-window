@@ -2,7 +2,7 @@ import { articles, articleWordCount, categories } from '../data/articles';
 import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
-import { getToolPageData } from '../data/tools';
+import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
 import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
 import { getComparisonByPath } from '../data/comparisons';
 import { fitTitle } from './title';
@@ -152,7 +152,7 @@ function buildSeoData(path: string): SeoData {
   if (normalizedPath === '/tools') {
     return {
       title: 'Free Tech Tools | Tech World Window',
-      description: 'Free Windows troubleshooting, frame-time analysis, blue-screen lookup, laptop battery health analysis and PC hardware calculators.',
+      description: HUB_SEO_DESCRIPTION,
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
     };
