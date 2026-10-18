@@ -36,7 +36,38 @@ const enhancements: Record<string, Enhancement> = {
       relatedLinks: [
         { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'Measure memory pressure and check upgrade compatibility before buying RAM.' }
       ]
+    }, {
+      heading: 'Check Desktop Window Manager before calling it a memory leak',
+      paragraphs: [
+        'Desktop Window Manager (dwm.exe) composes the Windows desktop. Memory use can change with the display configuration and graphics workload, so one high snapshot is not enough to diagnose a leak. Watch whether use keeps rising over time and whether the same rise coincides with desktop lag, visual glitches, or a recent display-driver or monitor change.',
+        'For a useful comparison, close one known graphics-heavy application, wait for the desktop workload to settle, and capture the process memory again. If the behavior began after a display or graphics-driver change, check the PC maker or GPU vendor’s supported driver and compare the same monitor layout before and after. Do not disable Desktop Window Manager or install a third-party “RAM cleaner” as a blanket fix.'
+      ],
+      steps: [
+        'In Task Manager, open Processes and sort by Memory; note the process name and whether the value keeps climbing or settles after startup.',
+        'Open Task Manager’s Performance > Memory view and compare In use, Available and Committed memory. High cached memory alone is not the same as an application leak.',
+        'If dwm.exe stands out, note the number of displays, resolution, refresh rate, HDR setting and whether a visual problem is present; repeat the observation with the same setup.',
+        'If the change began after a graphics-driver update, use the supported update or rollback path for the exact device and retest before changing system services.',
+        'If one process grows continuously across repeat sessions or the PC begins paging heavily, record the process and timeline before restarting or changing it.'
+      ],
+      table: {
+        caption: 'Interpret high-memory symptoms before choosing a fix',
+        headers: ['What you see', 'What it may mean', 'Next check'],
+        rows: [
+          ['Memory use rises during app launch, then levels off', 'Normal working-set growth or caching may explain it', 'Compare idle and typical workload after a few minutes'],
+          ['Available memory stays low and disk activity rises during app switching', 'Memory pressure and paging may be affecting responsiveness', 'Compare committed memory and the heaviest active apps'],
+          ['dwm.exe grows steadily and desktop glitches accompany it', 'Display composition or graphics-driver behavior may need checking', 'Record display setup and review the supported graphics driver'],
+          ['Search-related activity is brief while indexing runs', 'A temporary search workload may be responsible', 'Compare again after indexing settles; avoid disabling services blindly']
+        ]
+      },
+      relatedLinks: [
+        { label: 'How much RAM do you need for gaming?', href: '/how-much-ram-do-you-need-gaming', description: 'Estimate the capacity needed for your games plus the applications you keep open.' },
+        { label: 'Test RAM for errors on Windows', href: '/how-to-check-ram-for-errors-windows', description: 'Use a memory test when crashes or error results suggest instability.' }
+      ]
     }],
+    faq: [
+      { question: 'Is Desktop Window Manager high memory use always a leak?', answer: 'No. Its working set can change with desktop composition and display workload. A steadily increasing value combined with lag or visual glitches is more useful evidence than a single snapshot; compare the same display setup over time.' },
+      { question: 'How can I tell whether Windows 11 needs more RAM?', answer: 'Look for low available memory and high committed memory during the workload that feels slow, especially when app switching coincides with paging or disk activity. High usage by itself does not prove that a RAM upgrade will help.' }
+    ]
   },
   'how-much-ram-do-you-need-gaming': {
     sections: [{
