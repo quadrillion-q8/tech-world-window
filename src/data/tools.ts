@@ -110,19 +110,21 @@ export const tools: ToolDef[] = [
   {
     id: 'pc-bottleneck-calculator',
     path: '/tools/pc-bottleneck-calculator',
-    title: 'PC Bottleneck Calculator',
+    title: 'PC Bottleneck Calculator: CPU vs GPU',
     group: 'plan',
     kindLabel: 'Calculator',
     status: 'Available now',
-    hubDescription: 'Estimate a possible CPU/GPU limit at 1080p, 1440p, or 4K, then learn how to verify it with real game measurements.',
-    menuDescription: 'Estimate CPU/GPU limits and learn how to verify them.',
-    seoTitle: 'PC Bottleneck Calculator: CPU and GPU Balance by Resolution',
-    metaDescription: 'Estimate possible CPU or GPU limits at 1080p, 1440p and 4K. Learn why bottlenecks vary by game and how to verify performance before upgrading.',
+    hubDescription: 'Compare broad CPU and GPU performance tiers at 1080p, 1440p and 4K, then verify the suspected limit with real game measurements.',
+    menuDescription: 'Compare CPU/GPU tiers and verify a possible gaming limit.',
+    seoTitle: 'PC Bottleneck Calculator: CPU vs GPU',
+    metaDescription: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.',
     faq: [
       { question: 'Does this PC bottleneck calculator give an exact percentage?', answer: 'No. It compares broad CPU and GPU performance tiers with a simple resolution adjustment. It does not measure your PC, query a live benchmark database, or predict exact FPS.' },
       { question: 'Does 100% GPU usage mean my PC has a problem?', answer: 'Not usually. High GPU utilization can mean the game is using the graphics card fully. Check whether performance meets your target and look for abnormal temperatures, falling clocks, instability or frame-time problems.' },
       { question: 'Should I upgrade my CPU or GPU first?', answer: 'Do not decide from this estimate alone. Measure the games and settings you care about, identify the repeatable limit, check compatibility and power/cooling requirements, and compare independent benchmarks for the exact components.' },
       { question: 'Why can the same PC show different bottlenecks in different games?', answer: 'Games use CPU threads, graphics features, memory and engines differently. Resolution, quality settings, ray tracing, upscaling and target frame rate also change the workload, so there is no single bottleneck result for every situation.' },
+      { question: 'What does this PC bottleneck calculator actually compare?', answer: 'It compares broad CPU and GPU performance tiers and adjusts the estimate for resolution. It does not identify an exact model’s performance from a live benchmark database.' },
+      { question: 'How do I confirm a possible CPU or GPU bottleneck?', answer: 'Repeat the same game scene, record FPS and frame times, then lower resolution or one GPU-heavy setting while keeping other variables unchanged. Check CPU-thread activity, clocks, temperatures and memory use before upgrading.' },
     ],
   },
   {
@@ -205,6 +207,12 @@ export const articleToolLinks: Record<string, string[]> = {
 const stripCode = (text: string) => text.replace(/`/g, '');
 
 export function bsodSeo(entry: BsodEntry) {
+  if (entry.slug === 'kernel-security-check-failure') {
+    return {
+      title: 'KERNEL_SECURITY_CHECK_FAILURE (0x139): Safe Fixes',
+      description: 'KERNEL_SECURITY_CHECK_FAILURE (0x139 / 0x00000139) on Windows 11 or 10? Check drivers, unstable RAM settings and low-level software safely.',
+    };
+  }
   return {
     title: `${entry.name} (${shortHex(entry.hex)}): Causes and Fixes`,
     description: `${entry.name} (${entry.hex}) on Windows 11 and 10: what it means, common causes and a safe step-by-step fix order.`,
