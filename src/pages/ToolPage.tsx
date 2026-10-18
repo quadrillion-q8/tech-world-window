@@ -6,7 +6,7 @@ import { trackMonetization } from '../lib/analytics';
 type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
 
 const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
-  bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', description: 'Estimate possible CPU/GPU limits at 1080p, 1440p and 4K. Validate your result with real game FPS and frame-time tests; this tier estimate is not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
+  bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', description: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
   psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'Storage Calculator', description: 'Estimate how much SSD or HDD capacity your games, photos and files can consume.', path: '/tools/storage-calculator' },
