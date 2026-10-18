@@ -4,7 +4,7 @@ import { SEOEngine } from '../seo/SEOEngine';
 import { HUB_SEO_DESCRIPTION, tools, type ToolGroup } from '../data/tools';
 
 const groups: { id: ToolGroup; heading: string; intro: string }[] = [
-  { id: 'diagnose', heading: 'Diagnose and analyze', intro: 'Investigate Windows symptoms, blue-screen codes, laptop battery reports, and gaming performance data.' },
+  { id: 'diagnose', heading: 'Diagnose and analyze', intro: 'Investigate Windows symptoms, analyze crash evidence with AI, look up blue-screen codes, check battery reports, and measure gaming performance.' },
   { id: 'plan', heading: 'Plan a purchase or upgrade', intro: 'Estimate capacity and headroom before you spend money on parts.' },
   { id: 'create', heading: 'Create and publish', intro: 'Generate practical, responsive code snippets for publishing video on your own website.' },
 ];
@@ -38,9 +38,9 @@ export function ToolsHubPage() {
       <div className="category-hero">
         <span className="eyebrow">FREE TECH TOOLS</span>
         <h1>Find what's wrong. Understand why. Choose your next step.</h1>
-        <p>Free browser-based tools for Windows troubleshooting, gaming analysis, PC upgrade planning and responsive video embed code. Every tool explains what its results can—and cannot—tell you.</p>
+        <p>Free interactive tools for Windows troubleshooting, AI-assisted crash analysis, gaming diagnostics, PC upgrade planning and responsive video embed code. Every tool explains what its results can—and cannot—tell you.</p>
         <ul className="tools-hub-proof" aria-label="What to expect from our tools">
-          <li><span className="proof-icon" aria-hidden="true">01</span><span><strong>Browser-first analysis</strong><small>Uploaded diagnostic files are processed locally by supported tools</small></span></li>
+          <li><span className="proof-icon" aria-hidden="true">01</span><span><strong>Browser-first analysis</strong><small>Know what stays local—and what you choose to send for AI review</small></span></li>
           <li><span className="proof-icon" aria-hidden="true">02</span><span><strong>Explainable results</strong><small>Methods, limits, and assumptions stay visible</small></span></li>
           <li><span className="proof-icon" aria-hidden="true">03</span><span><strong>Practical next steps</strong><small>Move from a result to a focused guide</small></span></li>
         </ul>
@@ -54,7 +54,7 @@ export function ToolsHubPage() {
           type="search"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          placeholder="Try: battery health, blue screen, frame-time, PSU, video embed…"
+          placeholder="Try: crash logs, blue screen, battery health, frame-time, PSU…"
           autoComplete="off"
         />
         <div className="tools-filter-row" role="group" aria-label="Filter tools">
@@ -108,7 +108,7 @@ export function ToolsHubPage() {
 
       <div className="editorial-note">
         <strong>Use results as evidence, not a verdict</strong>
-        <p>Battery capacity depends on what Windows and the laptop manufacturer report. Frame-time captures show when frames were slow, not the root cause. Bottleneck, RAM, storage and PSU calculators are planning aids—not live benchmark databases or compatibility guarantees. Follow the linked guide and verify important decisions against the exact device or component specification.</p>
+        <p>AI crash reports are hypotheses, not confirmed diagnoses, and the text you submit is sent to an AI provider. Local analyzers keep supported files in your browser. Battery and frame-time measurements have limits, and hardware calculators are planning aids—not live benchmark databases or compatibility guarantees. Verify important decisions against the exact device or component specification.</p>
       </div>
     </section>
   );
