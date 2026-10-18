@@ -36,7 +36,38 @@ const enhancements: Record<string, Enhancement> = {
       relatedLinks: [
         { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'Measure memory pressure and check upgrade compatibility before buying RAM.' }
       ]
+    }, {
+      heading: 'Check Desktop Window Manager before calling it a memory leak',
+      paragraphs: [
+        'Desktop Window Manager (dwm.exe) composes the Windows desktop. Memory use can change with the display configuration and graphics workload, so one high snapshot is not enough to diagnose a leak. Watch whether use keeps rising over time and whether the same rise coincides with desktop lag, visual glitches, or a recent display-driver or monitor change.',
+        'For a useful comparison, close one known graphics-heavy application, wait for the desktop workload to settle, and capture the process memory again. If the behavior began after a display or graphics-driver change, check the PC maker or GPU vendor’s supported driver and compare the same monitor layout before and after. Do not disable Desktop Window Manager or install a third-party “RAM cleaner” as a blanket fix.'
+      ],
+      steps: [
+        'In Task Manager, open Processes and sort by Memory; note the process name and whether the value keeps climbing or settles after startup.',
+        'Open Task Manager’s Performance > Memory view and compare In use, Available and Committed memory. High cached memory alone is not the same as an application leak.',
+        'If dwm.exe stands out, note the number of displays, resolution, refresh rate, HDR setting and whether a visual problem is present; repeat the observation with the same setup.',
+        'If the change began after a graphics-driver update, use the supported update or rollback path for the exact device and retest before changing system services.',
+        'If one process grows continuously across repeat sessions or the PC begins paging heavily, record the process and timeline before restarting or changing it.'
+      ],
+      table: {
+        caption: 'Interpret high-memory symptoms before choosing a fix',
+        headers: ['What you see', 'What it may mean', 'Next check'],
+        rows: [
+          ['Memory use rises during app launch, then levels off', 'Normal working-set growth or caching may explain it', 'Compare idle and typical workload after a few minutes'],
+          ['Available memory stays low and disk activity rises during app switching', 'Memory pressure and paging may be affecting responsiveness', 'Compare committed memory and the heaviest active apps'],
+          ['dwm.exe grows steadily and desktop glitches accompany it', 'Display composition or graphics-driver behavior may need checking', 'Record display setup and review the supported graphics driver'],
+          ['Search-related activity is brief while indexing runs', 'A temporary search workload may be responsible', 'Compare again after indexing settles; avoid disabling services blindly']
+        ]
+      },
+      relatedLinks: [
+        { label: 'How much RAM do you need for gaming?', href: '/how-much-ram-do-you-need-gaming', description: 'Estimate the capacity needed for your games plus the applications you keep open.' },
+        { label: 'Test RAM for errors on Windows', href: '/how-to-check-ram-for-errors-windows', description: 'Use a memory test when crashes or error results suggest instability.' }
+      ]
     }],
+    faq: [
+      { question: 'Is Desktop Window Manager high memory use always a leak?', answer: 'No. Its working set can change with desktop composition and display workload. A steadily increasing value combined with lag or visual glitches is more useful evidence than a single snapshot; compare the same display setup over time.' },
+      { question: 'How can I tell whether Windows 11 needs more RAM?', answer: 'Look for low available memory and high committed memory during the workload that feels slow, especially when app switching coincides with paging or disk activity. High usage by itself does not prove that a RAM upgrade will help.' }
+    ]
   },
   'how-much-ram-do-you-need-gaming': {
     sections: [{
@@ -238,7 +269,36 @@ const enhancements: Record<string, Enhancement> = {
         { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' },
         { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Determine whether full GPU load is normal rendering or whether temperature, clocks, and frame delivery need investigation.' }
       ]
-    }]
+    }, {
+      heading: 'Run a controlled capture before changing settings',
+      paragraphs: [
+        'A useful capture answers two questions: when did the frame-time spike happen, and what changed at that moment? Start with a repeatable 60-second section of gameplay. Keep the resolution, graphics settings, frame cap, driver, and background applications constant so a before/after comparison has meaning.',
+        'A drop in GPU utilization during a hitch does not automatically mean the graphics card is failing. The GPU may be waiting for a CPU thread, asset streaming, shader work, memory transfers, or another synchronized task. Compare several signals around the same timestamp before deciding which branch to test.'
+      ],
+      steps: [
+        'Record a frame-time capture with the same game scene and settings; mark the time of a visible hitch.',
+        'Compare GPU utilization, core clock, temperature and VRAM use with CPU-thread activity, system memory and disk activity around that timestamp.',
+        'Repeat the same scene without changing settings. If the hitch appears mainly on the first encounter with a new effect or area, test shader or asset preparation before changing the driver.',
+        'Change one plausible variable only, such as one GPU-heavy setting, and compare the frame-time graph—not just average FPS.',
+        'If the event coincides with a sharp clock drop, unusual temperature, artifacts or system instability, stop repetitive stress testing and check the exact hardware’s limits and logs.'
+      ],
+      table: {
+        caption: 'Read a GPU frame-time spike in context',
+        headers: ['Pattern at the hitch', 'Possible direction', 'Next controlled check'],
+        rows: [
+          ['GPU stays heavily loaded while the frame time spikes', 'A graphics-heavy scene or GPU-side limit may be involved', 'Repeat the scene with one GPU-heavy setting reduced'],
+          ['GPU load drops while one CPU thread is saturated', 'CPU-side work or game-engine waiting may be involved', 'Close one known background load and repeat the same scene'],
+          ['The hitch is most prominent on the first encounter', 'Shader compilation or asset preparation may contribute', 'Compare first and repeat runs without clearing caches blindly'],
+          ['Disk activity or VRAM pressure rises at the same time', 'Asset streaming or memory pressure may be involved', 'Compare resource use and the timestamp across repeat captures'],
+          ['Clock falls as temperature rises and frame time worsens', 'Thermal or power limiting is worth checking', 'Compare temperature, fan behavior, power profile and manufacturer guidance']
+        ]
+      }
+    }],
+    faq: [
+      { question: 'What causes GPU frame-time spikes?', answer: 'Possible causes include a heavier rendering workload, a CPU or engine-side wait, shader compilation, asset streaming, memory pressure, background tasks, or thermal and power behavior. The frame-time graph marks the hitch; other measurements help explain it.' },
+      { question: 'Does a GPU frame-time spike mean my graphics card is faulty?', answer: 'No. A single spike is not a hardware diagnosis. Repeat the same scene and compare GPU clocks, temperature, utilization, CPU-thread load, memory and storage activity before deciding what to test next.' },
+      { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' }
+    ]
   },
   'shader-compilation-stutter-pc-games': {
     sections: [{
@@ -1189,7 +1249,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   'ddr4-vs-ddr5-ram-difference': {
     updatedAt: '2026-10-10',
     seoTitle: 'DDR4 vs DDR5 RAM: Differences Explained',
-    metaDescription: 'Compare DDR4 and DDR5 compatibility, bandwidth, latency, platform cost and real workload benefits before buying memory or a new PC.',
+    metaDescription: 'DDR4 vs DDR5: compare compatibility, data rate, CAS latency and platform cost—and when a full platform upgrade is worth it.',
     sources: [
       { label: 'Intel: Extreme Memory Profile (XMP)', url: 'https://www.intel.com/content/www/us/en/gaming/extreme-memory-profile-xmp.html' },
       { label: 'Intel: How to check XMP compatibility', url: 'https://www.intel.com/content/www/us/en/support/articles/000060130/processors.html' }
@@ -1214,7 +1274,27 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Choose a useful capacity for your actual workloads first.' },
         { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check stability after an upgrade or memory-profile change.' }
       ]
-    }]
+    }, {
+      heading: 'Compare CAS latency in nanoseconds, not by the CL number alone',
+      paragraphs: [
+        'A DDR5 kit marked CL30 is not automatically slower to begin a read than a DDR4 kit marked CL16. CAS latency is measured in clock cycles, and the memory clock changes with the data rate. For a rough comparison of the CAS component only, use: latency in nanoseconds ≈ CAS cycles × 2000 ÷ data rate in MT/s.',
+        'For illustration, DDR4-3200 CL16 and DDR5-6000 CL30 both work out to about 10 ns for this CAS-only calculation. That does not make the kits or platforms equivalent: complete system memory latency also depends on other timings, controller behavior, memory configuration, CPU and motherboard. Use repeatable workload measurements rather than treating one timing number as a full performance score.'
+      ],
+      table: {
+        caption: 'How to read a RAM specification line',
+        headers: ['Specification', 'What it tells you', 'What it does not tell you'],
+        rows: [
+          ['DDR4-3200 or DDR5-6000', 'Effective data rate in transfers per second', 'Exact application or game performance'],
+          ['CL16 or CL30', 'CAS delay expressed in memory clock cycles', 'Complete end-to-end memory latency by itself'],
+          ['Dual-channel configuration', 'Available memory-channel bandwidth when the platform is configured correctly', 'A guaranteed FPS increase in every game'],
+          ['XMP or EXPO profile', 'A stored performance profile that may run above baseline defaults', 'Guaranteed stability on every CPU and motherboard']
+        ]
+      }
+    }],
+    faq: [
+      { question: 'Is DDR5 CL30 slower than DDR4 CL16?', answer: 'Not necessarily. CL is measured in clock cycles, and data rate changes the duration of those cycles. A rough CAS-only estimate is CL × 2000 ÷ data rate in MT/s; full memory latency and application performance depend on more than CAS timing.' },
+      { question: 'Should I upgrade from DDR4 to DDR5 only for better FPS?', answer: 'Usually compare the total compatible platform cost first. Moving generations often requires a different motherboard and sometimes a different CPU. Check whether memory is actually limiting the games or applications you use before replacing otherwise healthy parts.' }
+    ]
   },
   'how-much-ram-do-you-need-gaming': {
     updatedAt: '2026-10-10',
@@ -1681,7 +1761,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'windows-11-high-memory-usage-how-to-find-the-cause': {
     seoTitle: 'Windows 11 High RAM Usage: Find the Cause',
-    metaDescription: 'Windows 11 RAM usage high? Learn which Task Manager numbers matter, spot leaks and runaway apps, and know when to test or upgrade RAM.'
+    metaDescription: 'Windows 11 high RAM usage? Find the process, check DWM or SearchHost growth, and separate caching from real memory pressure before upgrading RAM.'
   },
   'windows-11-dns-not-working-how-to-fix': { seoTitle: 'Windows 11 DNS Not Working' },
   'windows-11-network-adapter-reset-guide': {
