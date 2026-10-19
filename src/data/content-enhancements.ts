@@ -1867,7 +1867,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
   'gpu-frame-time-spikes-causes-fix': {
     seoTitle: 'GPU Frametime Spikes: Causes & Fixes',
-    metaDescription: 'PC games stuttering or showing uneven FPS? Diagnose GPU frametime spikes by comparing frame-time captures with GPU load, CPU activity, VRAM, clocks and temperatures.'
+    metaDescription: 'PC games stuttering or uneven FPS? Diagnose frametime spikes by comparing captures with GPU load, CPU activity, VRAM, clocks and temperatures.'
   },
   'shader-compilation-stutter-pc-games': {
     seoTitle: 'Shader Compilation Stutter: PC Games',
