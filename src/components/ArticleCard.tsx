@@ -20,15 +20,17 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
           imageUrl={article.heroImage || (article as Article & { image?: string }).image}
         />
       </Link>
-      <div className="card-topline">
-        <span className="card-category">{article.category}</span>
-        <span className="reading-time">{article.readingTime} min read</span>
+      <div className="article-card-content">
+        <div className="card-topline">
+          <span className="card-category">{article.category}</span>
+          <span className="reading-time">{article.readingTime} min read</span>
+        </div>
+        <h3>
+          <Link to={'/' + article.slug}>{article.title}</Link>
+        </h3>
+        <p className="card-dek">{article.dek}</p>
+        <div className="card-meta">{date}</div>
       </div>
-      <h3>
-        <Link to={'/' + article.slug}>{article.title}</Link>
-      </h3>
-      <p className="card-dek">{article.dek}</p>
-      <div className="card-meta">{date}</div>
     </article>
   );
 }
