@@ -973,7 +973,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 
 /* Small editorial labels are badges, not low-contrast decorative text. */
 .eyebrow, .home-eyebrow, .home-section-kicker, .hero-eyebrow,
-.card-category, .home-page .card-category {
+.card-category, .home-page .card-category, .home-page .home-section-kicker {
   display: inline-flex;
   align-items: center;
   gap: .4rem;
@@ -1406,7 +1406,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 }
 
 @media (min-width: 640px) {
-  body { font-size: 1.0625rem; }
+  body { font-size: 1.125rem; }
 
   body h1, .hero h1, .home-page .hero h1, .category-hero h1,
   .article-head h1, .gallery-page h1, .tools-hub-page .category-hero h1 {
@@ -1421,6 +1421,19 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
     font-size: 1.875rem;
   }
 
+  body h2, .section-heading h2, .home-page .section-heading h2,
+  .article-body h2, .research-connection h2, .sources-section h2,
+  .faq-section h2, .tool-result h2, .tool-banner h2,
+  .home-page .tool-banner h2, .author-strip h2, .home-page .author-strip h2,
+  .ft-results h2, .ft-comparison-copy h2 {
+    font-size: 2.25rem;
+  }
+
+  .eyebrow, .home-eyebrow, .home-section-kicker, .hero-eyebrow,
+  .card-category, .home-page .card-category, .home-page .home-section-kicker {
+    font-size: .875rem;
+  }
+
   body h3, .article-card h3, .home-page .article-card h3,
   .tools-hub-page .article-card h3, .category-tile-title,
   .product-profile-card h3, .product-profile-card h3 a {
@@ -1430,7 +1443,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   body p, .article-body p, .article-body li, .article-page p,
   .article-content p, .guide-page p, .static-page p, .category-page p,
   .tool-page p, .tools-page p, .research-page p, .review-page p {
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
   }
 
   .header-inner, .footer-inner, .hero-inner { padding-inline: 1.5rem; }
@@ -1548,5 +1561,27 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   .category-tile:hover, .windows-symptom-card:hover,
   .category-topic-links > a:hover, .profile-link-grid > a:hover {
     transform: none;
+  }
+}
+
+
+/* Specificity bridge for legacy homepage/tool selectors kept for compatibility. */
+.home-page .article-card .card-dek,
+.home-page .article-card-content .card-dek,
+.tools-hub-page .article-card > p {
+  flex: 1 0 auto;
+  margin: 0 0 1rem;
+  color: var(--wb-muted);
+  font-size: .875rem;
+  line-height: 1.7;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .home-page .article-card .card-dek,
+  .home-page .article-card-content .card-dek,
+  .tools-hub-page .article-card > p {
+    font-size: 1rem;
   }
 }
