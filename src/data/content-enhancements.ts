@@ -370,7 +370,7 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'nvme-ssd-temperature-too-high': {
-    updatedAt: '2026-10-15',
+    updatedAt: '2026-10-19',
     sources: [
       { label: 'NVM Express: NVMe specifications (composite temperature and warning/critical thresholds)', url: 'https://nvmexpress.org/specifications/' },
       { label: 'smartmontools: reading NVMe SMART and temperature data', url: 'https://www.smartmontools.org/' },
@@ -1874,8 +1874,8 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     metaDescription: 'PC game stutters on first use? Learn the signs of shader compilation, compare repeat runs, avoid unnecessary cache clearing, and check other causes of hitches.'
   },
   'nvme-ssd-temperature-too-high': {
-    seoTitle: 'NVMe SSD Temperature: What Is Normal?',
-    metaDescription: 'NVMe SSD temperature varies by model and sensor. Compare idle and load readings, check for throttling, and confirm vendor limits before replacing the drive.'
+    seoTitle: 'NVMe SSD Temperature Too High? Causes & Fixes',
+    metaDescription: "NVMe SSD temperature too high? Learn which readings matter, how to spot thermal throttling, and improve cooling using your drive maker's limits."
   },
   'windows-11-slow-startup-fix': {
     seoTitle: 'Windows 11 Slow Startup: How to Fix It',
