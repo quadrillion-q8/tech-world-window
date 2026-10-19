@@ -18,7 +18,8 @@ export function Header() {
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (target instanceof Node && headerRef.current && !headerRef.current.contains(target)) {
-        closeAll();
+        setOpen(false);
+        setActiveMenu(null);
       }
     };
 
