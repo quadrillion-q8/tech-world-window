@@ -22,6 +22,12 @@ export function Footer() {
               </div>
             ))}
             <div>
+              <strong>Explore more</strong>
+              <Link to="/guides">Guides</Link>
+              <Link to="/reviews">Reviews</Link>
+              <Link to="/best">Buying Guides</Link>
+              <Link to="/research">Research</Link>
+              <Link to="/tools">Free Tools</Link>
               <strong>About</strong>
               <Link to="/about">About TWW</Link>
               <Link to="/editorial-policy">Editorial Policy</Link>
@@ -29,7 +35,6 @@ export function Footer() {
               <Link to="/privacy-policy">Privacy</Link>
               <Link to="/affiliate-disclosure">Affiliate Disclosure</Link>
               <Link to="/testing">Testing Methodology</Link>
-              <Link to="/research">TWW Research</Link>
               <Link to="/gallery">Repair Bench Gallery</Link>
             </div>
           </div>
