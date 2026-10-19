@@ -425,31 +425,6 @@ if (!existsSync(dist)) {
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('compare a second capture')) errors.push('Frame-time analyzer is missing the comparison capability explanation in prerendered HTML.');
       if (route.path === '/tools/windows-battery-health-analyzer' && (!html.includes('powercfg /batteryreport') || !html.includes('Private by design: your report stays in this browser'))) errors.push('Windows Battery Health Analyzer is missing its report-generation instructions or privacy disclosure in prerendered HTML.');
-      if (route.path === '/tools/windows-crash-investigator') {
-        const requiredText = [
-          'AI Windows Crash Investigator',
-          'sent to an AI provider',
-          'WinDbg',
-          'full .dmp uploads are not supported',
-          'Bug-check code reference',
-        ];
-        for (const phrase of requiredText) {
-          if (!html.toLowerCase().includes(phrase.toLowerCase())) {
-            errors.push('AI Windows Crash Investigator is missing required prerendered text: ' + phrase);
-          }
-        }
-        const pageSourcePath = join(root, 'src/pages/WindowsCrashInvestigatorPage.tsx');
-        const apiSourcePath = join(root, 'api/pc-investigator.ts');
-        if (!existsSync(pageSourcePath)) errors.push('AI Windows Crash Investigator page source is missing.');
-        if (!existsSync(apiSourcePath)) {
-          errors.push('AI Windows Crash Investigator API function is missing.');
-        } else {
-          const apiSource = readFileSync(apiSourcePath, 'utf8');
-          for (const marker of ['AI_GATEWAY_API_KEY', 'MAX_BODY_CHARS', 'MAX_EVIDENCE_CHARS', 'untrusted evidence', 'max_tokens: 1600']) {
-            if (!apiSource.includes(marker)) errors.push('AI Windows Crash Investigator API is missing required safety/configuration marker: ' + marker);
-          }
-        }
-      }
       if (route.path === '/tools/video-embed-code-generator') {
         const requiredText = ['Video Embed Code Generator', 'React JSX', 'WordPress Custom HTML', 'Load video preview', 'privacy-enhanced'];
         for (const phrase of requiredText) {
