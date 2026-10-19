@@ -7,7 +7,10 @@ import { SEOEngine } from '../seo/SEOEngine';
 // articles that are not already shown above.
 const pillarArticles = articles.filter(a => a.contentRole === 'pillar').slice(0, 4);
 const shownIds = new Set(pillarArticles.map(a => a.id));
-const latestArticles = articles.filter(a => !shownIds.has(a.id)).slice(0, 6);
+const latestArticles = articles
+  .filter(a => !shownIds.has(a.id))
+  .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+  .slice(0, 6);
 
 export function Home() {
   return (
@@ -40,7 +43,7 @@ export function Home() {
       </section>
 
       {/* 2. Categories: the single entry point to Windows / Gaming / Hardware */}
-      <section className="section section-featured home-topics">
+      <section id="topics" className="section section-featured home-topics">
         <div className="section-heading">
           <div><p className="home-section-kicker">EXPLORE TWW</p><h2>Find the right technology topic.</h2><p className="home-section-intro">Browse practical fixes, complete guides, hardware analysis, reviews and useful tools by category.</p></div>
         </div>
@@ -85,7 +88,7 @@ export function Home() {
       <section className="section latest-section home-latest">
         <div className="section-heading">
           <div><p className="home-section-kicker">LATEST EXPLAINERS</p><h2>Fresh technical answers.</h2></div>
-          <Link className="text-link" to="/guides">View all →</Link>
+          <a className="text-link" href="#topics">Browse by topic ↑</a>
         </div>
         <div className="article-grid">
           {latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}
