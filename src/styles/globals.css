@@ -18,7 +18,7 @@
 .nav-chevron{font-size:.7rem;opacity:.6;transition:transform .2s}
 .nav-group:hover .nav-chevron,.nav-trigger[aria-expanded="true"] .nav-chevron{transform:rotate(180deg)}
 .mega-menu{position:absolute;right:0;top:calc(100% + .75rem);width:min(760px,calc(100vw - 2rem));display:grid;grid-template-columns:.82fr 1.18fr;gap:1rem;padding:1.15rem;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 22px 60px #1722351c;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .16s,transform .16s,visibility .16s;z-index:80}
-.nav-group:hover .mega-menu,.mega-menu.is-open{opacity:1;visibility:visible;transform:none}
+.mega-menu.is-open{opacity:1;visibility:visible;transform:none}
 .mega-intro{padding:1rem;border-radius:12px;background:var(--soft);display:flex;flex-direction:column;gap:.7rem}
 .mega-intro strong{font-family:inherit;font-size:1.02rem;line-height:1.4}
 .mega-intro a{font-weight:800;color:#066a7b;font-size:.85rem}
