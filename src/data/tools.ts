@@ -24,7 +24,7 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free tech tools for Windows troubleshooting, blue-screen code lookup, PC hardware planning, gaming diagnostics and responsive video embeds.';
+export const HUB_SEO_DESCRIPTION = 'Free tech tools for Windows troubleshooting, repair-log analysis, blue-screen code lookup, PC hardware planning, gaming diagnostics and responsive video embeds.';
 
 export const tools: ToolDef[] = [
   {
@@ -52,13 +52,14 @@ export const tools: ToolDef[] = [
     group: 'diagnose',
     kindLabel: 'Analyzer',
     status: 'New',
-    hubDescription: 'Analyze PresentMon, CapFrameX or FrameView captures, compare before/after changes, inspect 1% and 0.1% lows, and download a local report.',
+    hubDescription: 'Analyze PresentMon, CapFrameX or FrameView captures locally. Compare measured before/after results, inspect 1% and 0.1% lows, review stutter events, and export a report without an AI API.',
     menuDescription: 'Find stutter that average FPS hides.',
     seoTitle: 'Frame-Time Analyzer: 1% Lows, Stutter and FPS Graph',
-    metaDescription: 'Analyze PresentMon, CapFrameX or FrameView CSVs for 1% lows and stutter spikes. Compare two captures and download a local report in your browser.',
+    metaDescription: 'Analyze PresentMon, CapFrameX or FrameView CSVs locally. Compare captures, inspect 1% lows and stutter spikes, and export a report without uploading data.',
     faq: [
       { question: 'What is a frame-time analyzer?', answer: 'It reads a capture of how long each frame took to render and reports average FPS, 1% and 0.1% lows, stutter events and a frame-time graph. Frame times reveal stutter that a single average FPS number hides.' },
       { question: 'Is my capture uploaded anywhere?', answer: 'No. The file is read and analyzed in your browser. Nothing is sent to Tech World Window or to any other server.' },
+      { question: 'Does this tool use AI or need an API key?', answer: 'No. Metrics, comparisons and findings are calculated in your browser using the analyzer’s documented rules. No hosted AI model or API key is used.' },
       { question: 'Which capture tools work with this analyzer?', answer: 'Any tool that exports a CSV with a per-frame time in milliseconds works, including PresentMon, CapFrameX and NVIDIA FrameView. The analyzer looks for columns such as MsBetweenPresents or FrameTime. You can also paste one frame time in milliseconds per line.' },
       { question: 'What are 1% lows and 0.1% lows?', answer: 'They describe the slowest frames in a capture. Here the 1% low is the average FPS of the slowest 1% of frames, and the 0.1% low is the same for the slowest 0.1%. Tools define lows in different ways, so compare numbers only when they come from the same method.' },
       { question: 'How long should a capture be?', answer: 'Capture at least 60 seconds of the same gameplay scene. Shorter captures contain few slow frames, which makes 1% and 0.1% lows unreliable.' },
@@ -99,12 +100,32 @@ export const tools: ToolDef[] = [
     faq: [
       { question: 'How do I find my blue screen stop code?', answer: 'Windows shows the stop code as text on the blue screen, for example CRITICAL_PROCESS_DIED. If the PC restarted before you could read it, open Event Viewer, then Windows Logs, then System, and look for a BugCheck event with ID 1001, which records the code. Reliability Monitor also lists critical events.' },
       { question: 'Does the hex code or the name matter more?', answer: 'They identify the same bug check. The name is easier to search and read, while the hex value, for example 0x000000EF, appears in logs and dump files.' },
+      { question: 'Can I scan an Event Viewer export here?', answer: 'Yes. Paste or select a text-based XML, CSV, TXT or LOG export. The lookup searches the supplied text locally for known stop codes and BugCheck clues. Binary .evtx files and full memory dumps are not supported, and your evidence is not uploaded.' },
       { question: 'Can a blue screen be fixed without reinstalling Windows?', answer: 'Often yes. Most stop codes come from drivers, memory, storage or system file problems that can be found and fixed in order. Reinstalling Windows is a last resort, and it does not fix failing hardware.' },
       { question: 'Is the stop code enough to diagnose the problem?', answer: 'Not on its own. A code names the type of failure, and several causes can lead to the same code. Use it to choose the first checks, then look at what changed recently and whether the crash repeats under the same conditions.' },
       { question: 'What should I do first after a blue screen?', answer: 'Record the exact stop code and any “What failed” driver name, note when the crash happened, and back up important files if Windows is stable enough. Undo one recent driver, update or hardware change at a time; avoid changing several things at once.' },
       { question: 'Why does the same stop code have several possible causes?', answer: 'A stop code describes the kind of failure Windows detected, not necessarily the original cause. A driver, unstable memory, storage errors, overheating or damaged system files can sometimes produce related symptoms. Crash dumps and repeatable patterns help narrow it down.' },
       { question: 'Should I use a driver updater or registry cleaner to fix a BSOD?', answer: 'Avoid third-party driver-updater and registry-cleaner utilities as a first response. Use Windows Update and the PC or component manufacturer’s official driver page, change one thing at a time, and keep a recovery path available.' },
       { question: 'When should I stop troubleshooting and get help?', answer: 'Seek qualified help if crashes prevent backups or recovery, storage may be failing, the PC shows signs of electrical or liquid damage, or repeated memory and hardware tests report errors. Do not keep stressing a system that may have a failing drive.' },
+    ],
+  },
+  {
+    id: 'windows-repair-log-analyzer',
+    path: '/tools/windows-repair-log-analyzer',
+    title: 'Windows Repair Log Analyzer',
+    group: 'diagnose',
+    kindLabel: 'Log analyzer',
+    status: 'New',
+    hubDescription: 'Inspect supported CBS, DISM, Windows Update and Event Viewer text exports locally. Find recurring error codes, repair-source problems, permissions issues and useful log excerpts without uploading files.',
+    menuDescription: 'Find Windows servicing and update errors in local log exports.',
+    seoTitle: 'Windows Repair Log Analyzer: CBS, DISM and Update Logs',
+    metaDescription: 'Analyze Windows CBS, DISM, Windows Update and Event Viewer text exports locally. Extract common error codes and useful lines without uploads.',
+    faq: [
+      { question: 'Are my Windows logs uploaded?', answer: 'No. The selected text file is read and analyzed in your browser. The log contents, file name and extracted lines are not sent to Tech World Window. No AI API key is required.' },
+      { question: 'Which files are supported?', answer: 'Use text-based CBS.log, DISM.log, exported WindowsUpdate.log, or Event Viewer XML/CSV/TXT exports. Binary .evtx and .etl traces, ZIP archives and memory dumps are not parsed by this first version.' },
+      { question: 'Does this tool repair Windows automatically?', answer: 'No. It only identifies known text patterns and shows nearby evidence. It does not run commands, change Windows settings, modify files or prove the root cause.' },
+      { question: 'Why might a log contain no findings?', answer: 'The relevant error may be outside the scanned text window, use a pattern not yet recognized, or be stored in a binary trace. A quiet result is not proof that Windows is healthy or that a repair succeeded.' },
+      { question: 'What should I do before trying a repair?', answer: 'Keep important files backed up, note the exact error code and Windows version, and prefer reversible checks. For repair-source errors, confirm that any Windows installation media matches the installed edition, language and release before using it.' },
     ],
   },
   {
@@ -212,7 +233,7 @@ export const articleToolLinks: Record<string, string[]> = {
   'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows-troubleshooting-complete-guide': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
-  'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant'],
+  'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant', '/tools/windows-repair-log-analyzer'],
   'windows-11-high-memory-usage-how-to-find-the-cause': ['/tools/windows-troubleshooting-assistant'],
   'windows-11-disk-100-percent-usage': ['/tools/windows-troubleshooting-assistant'],
   'windows-11-dns-not-working-how-to-fix': ['/tools/windows-troubleshooting-assistant'],

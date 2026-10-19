@@ -48,6 +48,9 @@ function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/tools/windows-battery-health-analyzer') {
     return async () => ({ Component: (await import('./pages/WindowsBatteryHealthAnalyzerPage')).WindowsBatteryHealthAnalyzerPage });
   }
+  if (route.path === '/tools/windows-repair-log-analyzer') {
+    return async () => ({ Component: (await import('./pages/WindowsRepairLogAnalyzerPage')).WindowsRepairLogAnalyzerPage });
+  }
   if (route.path === '/tools/frame-time-analyzer') {
     return async () => ({ Component: (await import('./pages/FrameTimeAnalyzerPage')).FrameTimeAnalyzerPage });
   }

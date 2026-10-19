@@ -108,7 +108,7 @@ export function ToolsHubPage() {
 
       <div className="editorial-note">
         <strong>Use results as evidence, not a verdict</strong>
-        <p>AI crash reports are hypotheses, not confirmed diagnoses, and the text you submit is sent to an AI provider. Local analyzers keep supported files in your browser. Battery and frame-time measurements have limits, and hardware calculators are planning aids—not live benchmark databases or compatibility guarantees. Verify important decisions against the exact device or component specification.</p>
+        <p>Pattern-based log findings and frame-time results are diagnostic leads, not proof of a root cause. Supported log, battery and frame-time files are analyzed in your browser and are not uploaded by these tools. Hardware calculators are planning aids—not live benchmark databases or compatibility guarantees. Verify important decisions against the exact device or component specification.</p>
       </div>
     </section>
   );
