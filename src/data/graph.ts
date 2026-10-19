@@ -71,7 +71,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/how-to-check-ssd-health-windows', kind: 'article', title: 'How to Check SSD Health in Windows', indexable: true },
   { path: '/windows-11-dns-not-working-how-to-fix', kind: 'article', title: 'Windows 11 DNS Not Working: How to Tell If DNS Is the Problem', indexable: true },
   { path: '/windows-11-network-adapter-reset-guide', kind: 'article', title: 'Windows 11 Network Adapter Reset: When to Use It and What It Changes', indexable: true },
-  { path: '/gpu-frame-time-spikes-causes-fix', kind: 'article', title: 'GPU Frame-Time Spikes: Common Causes of Uneven PC Game Performance', indexable: true },
+  { path: '/gpu-frame-time-spikes-causes-fix', kind: 'article', title: 'GPU Frame-Time Spikes: Causes and How to Diagnose Them', indexable: true },
   { path: '/shader-compilation-stutter-pc-games', kind: 'article', title: 'Shader Compilation Stutter in PC Games: Why It Happens and What to Check', indexable: true },
   { path: '/gamebar-presence-writer-fix', kind: 'article', title: 'GameBarPresenceWriter.exe: What It Does and How to Troubleshoot Stutter', indexable: true },
   { path: '/nvme-ssd-temperature-too-high', kind: 'article', title: 'NVMe SSD Temperature Too High: What Is Normal and When It Throttles', indexable: true },

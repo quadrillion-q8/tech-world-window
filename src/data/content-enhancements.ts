@@ -338,7 +338,8 @@ const enhancements: Record<string, Enhancement> = {
       { question: 'What causes GPU frame-time spikes?', answer: 'Possible causes include a heavier rendering workload, a CPU or engine-side wait, shader compilation, asset streaming, memory pressure, background tasks, or thermal and power behavior. The frame-time graph marks the hitch; other measurements help explain it.' },
       { question: 'Does a GPU frame-time spike mean my graphics card is faulty?', answer: 'No. A single spike is not a hardware diagnosis. Repeat the same scene and compare GPU clocks, temperature, utilization, CPU-thread load, memory and storage activity before deciding what to test next.' },
       { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' }
-    ]
+    ],
+    updatedAt: '2026-10-19'
   },
   'shader-compilation-stutter-pc-games': {
     sections: [{
@@ -1865,8 +1866,8 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     metaDescription: 'PC games stuttering despite high FPS? Compare frame-time spikes, shader compilation, CPU/GPU limits, memory, storage, drivers, and temperatures.'
   },
   'gpu-frame-time-spikes-causes-fix': {
-    seoTitle: 'GPU Frame-Time Spikes: Diagnose Stutter',
-    metaDescription: 'Diagnose GPU frame-time spikes with repeatable tests. Compare GPU load, VRAM, clocks, temperatures and CPU activity to find the next check without guessing.'
+    seoTitle: 'GPU Frametime Spikes: Causes & Fixes',
+    metaDescription: 'PC games stuttering or showing uneven FPS? Diagnose GPU frametime spikes by comparing frame-time captures with GPU load, CPU activity, VRAM, clocks and temperatures.'
   },
   'shader-compilation-stutter-pc-games': {
     seoTitle: 'Shader Compilation Stutter: PC Games',
