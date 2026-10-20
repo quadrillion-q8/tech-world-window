@@ -108,7 +108,7 @@ export const october2026Articles: Article[] = [
     excerpt: 'Short runtime does not automatically mean a bad battery. Learn to compare battery-health reports with real use, isolate charger and software causes, and recognize swelling as an urgent safety warning.',
     category: 'Guides',
     subcategory: 'Laptop troubleshooting',
-    relatedArticles: ['laptop-wont-turn-on', 'windows-troubleshooting-complete-guide'],
+    relatedArticles: ['bios-uefi-recovery-guide', 'bitlocker-recovery-key-after-bios-update'],
     authorId: 'imranNatiq',
     publishedAt: '2026-10-15',
     updatedAt: '2026-10-20',
@@ -117,6 +117,7 @@ export const october2026Articles: Article[] = [
     tags: ['Laptop Battery Health', 'Battery Warning Signs', 'Battery Swelling', 'Windows Battery Report', 'MacBook Battery Health', 'Laptop Charging'],
     appliesTo: ['Windows 10 and Windows 11 laptops', 'MacBook models with built-in battery-health reporting', 'Other laptops using manufacturer battery diagnostics'],
     contentRole: 'cluster',
+    pillarPath: '/guides',
     searchIntent: 'informational',
     testing: 'This is a documentation-based troubleshooting guide, not a report of controlled battery tests. Battery telemetry, diagnostic labels, charge limits and service procedures vary by device model and operating-system version. Use the manufacturer’s instructions for the exact model.',
     content: [
