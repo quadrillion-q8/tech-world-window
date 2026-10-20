@@ -24,7 +24,7 @@ export const biosUefiRecoveryGuide: Article = {
   contentRole: 'cluster',
   searchIntent: 'informational',
   testing: 'This is a documentation-based troubleshooting guide, not a report of controlled hardware tests. Recovery behavior differs by exact model, board revision and firmware generation. Confirm procedures and files against the device manufacturer’s current documentation.',
-  relatedArticles: ['windows-11-wont-start-troubleshooting', 'windows-troubleshooting-complete-guide', 'laptop-wont-turn-on'],
+  relatedArticles: ['windows-troubleshooting-universal', 'laptop-wont-turn-on'],
   content: [
     {
       heading: 'Start here: what happened, and what still works?',
