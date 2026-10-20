@@ -1041,7 +1041,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   },
   'gpu-100-percent-usage-gaming': {
     updatedAt: '2026-10-20',
-    seoTitle: 'GPU at 100% While Gaming: Normal or a Problem?',
+    seoTitle: 'GPU at 100% While Gaming: Normal?',
     metaDescription: 'GPU at 100% while gaming is usually normal. Compare FPS, temperature, clocks and frame times to spot overheating, low FPS or unexpected background use.',
     sources: [
       { label: 'NVIDIA FrameView: current performance, frame-time and power measurement tool', url: 'https://www.nvidia.com/en-us/geforce/technologies/frameview/' },
