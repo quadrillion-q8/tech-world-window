@@ -2165,7 +2165,7 @@ export const phase4Articles: Article[] = [
     "id": "gaming-gpu-100-percent",
     "slug": "gpu-100-percent-usage-gaming",
     "title": "GPU at 100% Usage While Gaming: Is That a Problem?",
-    "seoTitle": "GPU at 100% While Gaming: Normal or a Problem?",
+    "seoTitle": "GPU at 100% While Gaming: Normal?",
     "dek": "A GPU running near 100% while gaming is often normal. Compare FPS, temperature, clocks and frame times to see whether the graphics workload is the limit or whether another symptom needs attention.",
     "metaDescription": "GPU at 100% while gaming is usually normal. Compare FPS, temperature, clocks and frame times to spot overheating, low FPS or unexpected background use.",
     "excerpt": "Near-100% GPU usage during a demanding game is usually normal: the graphics card is busy rendering. The percentage alone does not prove a fault; FPS, temperature, clock behavior and frame-time symptoms provide the context.",
