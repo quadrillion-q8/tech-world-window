@@ -4,6 +4,7 @@ import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { october2026Articles } from './october-2026-articles';
+import { biosUefiRecoveryGuide } from './bios-uefi-recovery-guide';
 import { placeGalleryImages } from './article-images';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
@@ -128,6 +129,7 @@ const baseArticles: Article[] = [
   ...researchArticles,
   windows26H2InstallationGuide,
   ...october2026Articles,
+  biosUefiRecoveryGuide,
 
   {
     id: 'windows-wifi-diagnosis',
