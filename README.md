@@ -74,6 +74,17 @@ The project now keeps an entity-first discipline while remaining editorial: grou
 
 Articles live in `src/data/articles.ts`; long pillars may live in their own file (see `src/data/windows-troubleshooting-pillar.ts`). Sections support `paragraphs`, `bullets`, ordered `steps`, and a `table` whose cells can be plain text or internal links (`/route` or `#anchor`). Optional `seoTitle`, `metaDescription` and `appliesTo` control search snippets and version scope. All of it is checked by `scripts/validate-build.ts`.
 
-## Launch gates still outstanding
+## Production maintenance checklist
 
-Before public launch, still verify the final domain, editorial accuracy, article sourcing, author credentials, licensed images, privacy/cookie disclosures, accessibility, Core Web Vitals, redirects, and Search Console ownership.
+The public website is https://www.techworldwindow.com/. Google Search Console and Analytics have previously been configured for the site; re-check account and domain ownership if settings change, rather than treating an earlier verification as a permanent guarantee.
+
+Before and after meaningful production releases, verify:
+
+- **Editorial quality:** technical claims, source links, author attribution, publication/update dates, and version-specific advice.
+- **Image and content rights:** licenses or permissions for screenshots, photographs, quoted material, and embedded media.
+- **Privacy and disclosure:** cookie/privacy information and clear disclosure of third-party services or AI features that submit user-provided text to a provider.
+- **Accessibility and performance:** keyboard navigation, visible focus, form labels, reduced-motion behavior, mobile layouts, and Core Web Vitals on representative pages.
+- **Technical SEO:** canonical URLs, redirects, robots directives, sitemap parity, prerendered HTML, and Search Console indexing reports.
+- **Release health:** required CI/build validations pass, the Vercel production deployment is healthy, and key pages/tools work in a real browser.
+
+These are recurring release checks, not a claim that every item is currently failing or that each has just been independently re-tested.
