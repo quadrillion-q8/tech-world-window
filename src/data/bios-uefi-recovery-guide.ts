@@ -75,6 +75,7 @@ export const biosUefiRecoveryGuide: Article = {
     },
     {
       heading: 'Safe troubleshooting sequence',
+      paragraphs: ['Move from identification and observation to documented recovery. Do not skip directly to chip programming or repeated firmware writes.'],
       steps: [
         'Identify the exact model and revision. Use the full model or board identifier, not just the product family name. Laptop sub-models and regional variants can use different firmware.',
         'Check the manufacturer’s current support page for the exact model. Confirm whether it documents automatic recovery, a recovery USB, a dedicated flashback button, dual-firmware behavior, or another supported process.',
@@ -140,6 +141,7 @@ export const biosUefiRecoveryGuide: Article = {
     },
     {
       heading: 'What to prepare before requesting help',
+      paragraphs: ['These details help support staff or a repair professional identify the correct recovery procedure and avoid repeating risky steps.'],
       bullets: [
         'Exact computer or motherboard model, hardware revision and serial/service identifier where appropriate.',
         'Firmware version before the update, target version, and the official package or support-page URL used.',
