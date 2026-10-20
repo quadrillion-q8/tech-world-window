@@ -16,6 +16,7 @@ export const biosUefiRecoveryGuide: Article = {
   category: 'Guides',
   subcategory: 'PC troubleshooting',
   authorId: 'imranNatiq',
+  relatedArticles: ['bitlocker-recovery-key-after-bios-update', 'laptop-battery-warning-signs'],
   publishedAt: '2026-10-20',
   updatedAt: '2026-10-20',
   readingTime: 12,

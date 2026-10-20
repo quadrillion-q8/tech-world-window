@@ -8,7 +8,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   id: 'bitlocker-recovery-key-after-bios-update',
   slug: 'why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update',
   title: 'BitLocker Recovery Key After a BIOS Update: What to Do',
-  seoTitle: 'BitLocker Recovery Key After BIOS Update: Fix It Safely',
+  seoTitle: 'BitLocker Recovery Key After BIOS Update',
   dek: 'A BIOS or UEFI update can trigger BitLocker recovery even when the update succeeds. Learn why it happens, where to find the key, and how to stop repeat prompts safely.',
   metaDescription: 'BitLocker asks for a recovery key after a BIOS or UEFI update? Find the correct key, protect encrypted files, and troubleshoot repeat prompts safely.',
   excerpt: 'A BitLocker recovery screen after a firmware update does not automatically mean Windows or the firmware is broken. Find the matching recovery key first, then use a cautious sequence to restore normal startup.',
@@ -24,7 +24,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   pillarPath: '/windows-troubleshooting-complete-guide',
   searchIntent: 'informational',
   testing: 'This is a documentation-based troubleshooting guide, not a report of controlled hardware testing. Recovery screens and firmware settings vary by Windows version, device model, and organization policy. Microsoft and the device manufacturer’s current instructions take precedence.',
-  relatedArticles: ['windows-troubleshooting-universal', 'bios-uefi-recovery-guide'],
+  relatedArticles: ['bios-uefi-recovery-guide', 'laptop-battery-warning-signs'],
   content: [
     {
       heading: 'First: do not reset or reinstall Windows',
@@ -63,9 +63,6 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'Another person’s account: if a family member, previous owner, or setup technician configured the PC, ask which account was used. Do not ask them to send the key through a public channel.',
         'Match the key ID: if several entries exist, use the recovery key ID displayed on the locked device to select the corresponding saved key.'
       ],
-      relatedLinks: [
-        { label: 'Microsoft: Find your BitLocker recovery key', href: 'https://support.microsoft.com/windows/find-your-bitlocker-recovery-key', description: 'Official instructions for locating a recovery key.' }
-      ]
     },
     {
       heading: 'After the key unlocks Windows',
@@ -92,10 +89,6 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'Suspend-BitLocker -MountPoint "C:" -RebootCount 0',
         'Resume-BitLocker -MountPoint "C:"'
       ],
-      relatedLinks: [
-        { label: 'Microsoft Learn: BitLocker recovery after UEFI or TPM updates', href: 'https://learn.microsoft.com/en-us/troubleshoot/windows-client/windows-security/bitlocker-recovery-known-issues', description: 'Official troubleshooting guidance, including firmware-update recovery prompts.' },
-        { label: 'Microsoft Learn: Suspend BitLocker protection for non-Microsoft updates', href: 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/suspend-bitlocker-protection-for-non-microsoft-updates', description: 'When and how to suspend and resume protection for supported firmware updates.' }
-      ]
     },
     {
       heading: 'If the correct key is accepted but Windows still will not start',
