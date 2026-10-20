@@ -101,97 +101,199 @@ export const october2026Articles: Article[] = [
   {
     id: 'laptop-battery-warning-signs',
     slug: 'laptop-battery-warning-signs',
-    title: 'Laptop Battery Warning Signs: Swelling, Heat and Sudden Shutdowns',
-    seoTitle: 'Laptop Battery Warning Signs',
-    dek: 'Learn which laptop battery symptoms are urgent, which may have another cause, and how to handle a suspected battery problem safely.',
-    metaDescription: 'Spot laptop battery warning signs including swelling, case lifting, unusual heat and sudden shutdowns. Learn when to stop charging and seek service.',
-    excerpt: 'A lifting trackpad or bulging laptop case can indicate a swollen battery. Stop using and charging the device, do not press the case flat, and arrange safe service.',
-    category: 'Hardware',
-    subcategory: 'Laptop hardware',
-    relatedArticles: ['laptop-wont-turn-on', 'why-8gb-ram-no-longer-enough-windows-11'],
+    title: 'Laptop Battery Health Guide: Warning Signs, Testing and Safety',
+    seoTitle: 'Laptop Battery Health & Warning Signs',
+    dek: 'Learn how to check laptop battery health, distinguish battery wear from charging or software problems, and recognize signs that require immediate safety action.',
+    metaDescription: 'Check laptop battery health on Windows and Mac, diagnose fast drain and charging issues, and learn what to do if a battery swells or overheats.',
+    excerpt: 'Short runtime does not automatically mean a bad battery. Learn to compare battery-health reports with real use, isolate charger and software causes, and recognize swelling as an urgent safety warning.',
+    category: 'Guides',
+    subcategory: 'Laptop troubleshooting',
+    relatedArticles: ['laptop-wont-turn-on', 'windows-troubleshooting-complete-guide'],
     authorId: 'imranNatiq',
     publishedAt: '2026-10-15',
-    readingTime: 8,
+    updatedAt: '2026-10-20',
+    readingTime: 11,
     heroImage: '/images/gallery/dell-grnx5-laptop-battery-replacement.webp',
-    tags: ['Laptop Battery', 'Battery Swelling', 'Battery Replacement', 'Laptop Safety', 'Battery Health'],
+    tags: ['Laptop Battery Health', 'Battery Warning Signs', 'Battery Swelling', 'Windows Battery Report', 'MacBook Battery Health', 'Laptop Charging'],
+    appliesTo: ['Windows 10 and Windows 11 laptops', 'MacBook models with built-in battery-health reporting', 'Other laptops using manufacturer battery diagnostics'],
     contentRole: 'cluster',
-    pillarPath: '/hardware',
     searchIntent: 'informational',
-    testing: 'Safety guidance based on manufacturer and government battery-handling guidance. Battery runtime and wear indicators vary by model, workload, age and temperature; no single software percentage diagnoses every battery fault.',
+    testing: 'This is a documentation-based troubleshooting guide, not a report of controlled battery tests. Battery telemetry, diagnostic labels, charge limits and service procedures vary by device model and operating-system version. Use the manufacturer’s instructions for the exact model.',
     content: [
       {
-        heading: 'Urgent warning signs: stop using and charging the laptop',
+        heading: 'First: check for battery safety warning signs',
         paragraphs: [
-          'A swollen lithium-ion battery can push against the trackpad, keyboard, palm rest or bottom cover. The case may separate, the touchpad may become difficult to click, or the laptop may wobble on a flat surface. Treat new unexplained bulging or case separation as a safety issue, not a cosmetic defect.',
-          'If swelling is suspected, shut the laptop down if you can do so without pressing or bending the case, disconnect the charger if safe, and stop using it. Do not squeeze the case closed, puncture the battery, remove it with improvised tools, or ship it without following the carrier and manufacturer’s battery rules. Arrange service with a qualified repair provider.'
+          'A laptop battery that drains quickly is usually a troubleshooting question. A battery that is physically swollen, leaking, damaged or unusually hot is a safety issue. Do not treat those conditions as ordinary battery wear or keep charging the laptop to collect more data.',
+          'If the case is bulging or separating, the trackpad or keyboard has lifted, the laptop no longer sits flat, or you notice smoke, hissing, leakage or unusual localized heat, stop using the device. Shut it down only if you can do so without pressing or bending the case, disconnect external power if safe, keep it away from combustible materials, and arrange qualified service. Do not puncture, squeeze, bend, open or attempt improvised removal of the battery.'
         ],
         bullets: [
-          'Battery or chassis visibly swollen, warped or separating.',
-          'Trackpad or keyboard suddenly lifted by pressure from underneath.',
-          'Unusual localized heat while idle or charging, especially with a smell, hissing or smoke.',
-          'Battery damage after a drop, crush, puncture or liquid exposure.'
+          'Stop using and charging a visibly swollen, leaking or physically damaged battery.',
+          'Do not press the case flat or force a trackpad, keyboard or cover back into place.',
+          'If there is smoke, fire or an immediate hazard, move away and contact local emergency services.',
+          'Do not mail or transport a damaged battery unless the manufacturer or carrier provides the correct instructions.'
         ]
       },
       {
-        heading: 'Other symptoms that deserve investigation',
+        heading: 'Laptop battery warning signs: what each symptom can mean',
         paragraphs: [
-          'A battery that drains quickly, reports a large capacity loss, shuts the laptop down unexpectedly, or refuses to charge may be worn or faulty. Those symptoms can also come from a high workload, power settings, a charger or charging-port problem, firmware, or inaccurate battery reporting. They warrant diagnosis, but they do not all mean the battery is physically dangerous.',
-          'Compare runtime under a similar workload and brightness setting, check the manufacturer’s battery diagnostic, and note whether the percentage drops suddenly or the laptop turns off while charge remains. Avoid repeatedly draining a battery to zero as a test.'
+          'Look for a repeatable pattern instead of relying on one reading. Battery age, workload, screen brightness, temperature, firmware and charging hardware can all affect the experience. Several consistent symptoms together are more useful than a single percentage.'
         ],
         table: {
-          caption: 'Separate urgent physical signs from performance symptoms',
-          headers: ['Observation', 'What it may indicate', 'Next step'],
+          caption: 'Match the symptom to a sensible first check',
+          headers: ['Symptom', 'Possible explanations', 'First step'],
           rows: [
-            ['Bulging or case lifting', 'Possible physical battery swelling', 'Stop use/charging and arrange safe service'],
-            ['Very hot at idle or unusual smell', 'Possible battery, charging or other hardware fault', 'Disconnect power if safe; stop using and seek assessment'],
-            ['Short runtime only', 'Battery wear, workload, brightness or background activity', 'Run model-specific diagnostics and compare usage'],
-            ['Charge percentage jumps or shutdowns', 'Battery wear, calibration/reporting or power-path issue', 'Check manufacturer diagnostics and charger behavior'],
-            ['Battery not detected', 'Battery connection, firmware, battery or board issue', 'Use manufacturer support guidance; do not open sealed packs']
+            ['Runtime has gradually shortened', 'Normal capacity loss, heavier workload, brightness or background activity', 'Compare use under similar conditions and check the battery report or OEM diagnostic.'],
+            ['Laptop shuts down while charge remains', 'Battery voltage sag, battery wear, power-path fault or inaccurate reporting', 'Save work, record the charge level and run the manufacturer’s battery diagnostic.'],
+            ['Battery percentage jumps or stays fixed', 'Telemetry, firmware, charging-management or battery fault', 'Restart once, check OEM guidance and see whether the symptom repeats.'],
+            ['Laptop will not charge', 'Adapter, cable, port, charge limit, firmware, battery or charging circuitry', 'Check the correct adapter and charging indicator before assuming the battery is bad.'],
+            ['Laptop works only when plugged in', 'Severely degraded battery, battery connection or charging/power circuitry', 'Use model-specific diagnostics; do not buy a battery based on this symptom alone.'],
+            ['Battery drains while asleep', 'Standby mode, wake events, background activity, peripherals or battery wear', 'Compare sleep with hibernate and review recent usage before changing advanced settings.'],
+            ['Bulging case, lifted trackpad or unusual heat', 'Possible physical battery failure or another hardware safety fault', 'Stop using and charging the device; arrange qualified assessment.']
           ]
         }
       },
       {
-        heading: 'Check battery health without opening the pack',
+        heading: 'Battery health vs. battery life: know the difference',
         paragraphs: [
-          'On many Windows laptops, the built-in battery report can provide a useful starting point. Open Terminal or Command Prompt and run the command below, then open the generated report and compare design capacity with full-charge capacity. The report is an estimate from the system’s battery interface; it is not a physical safety inspection.'
+          'Battery health describes the battery’s remaining ability to store energy relative to its original condition. Battery life or runtime describes how long the laptop lasts during your current workload. They are related, but they are not the same measurement.',
+          'A laptop can have reasonable reported capacity and still run down quickly because a game, video call, high-brightness display or background task is consuming more power. A worn battery may also appear acceptable during light use but shut down under a heavier load. Compare health data with your actual usage and the symptoms you can reproduce.'
+        ],
+        bullets: [
+          'Design capacity: the battery’s nominal capacity when new, as reported by the system.',
+          'Full-charge capacity: the system-reported estimate of what the battery can currently hold.',
+          'Cycle count: a usage measure when the device exposes it; availability and definitions vary.',
+          'Health status: a manufacturer or operating-system interpretation, not a physical inspection.'
+        ]
+      },
+      {
+        heading: 'How to check battery health in Windows 11 or Windows 10',
+        paragraphs: [
+          'Windows can generate a battery report on supported systems. It provides estimates and usage history from the battery interface; it cannot prove that a battery is physically safe or identify every charging-circuit fault.',
+          'The command and report sections are documented by Microsoft. Some laptops expose limited or incomplete battery data, and cycle-count reporting is not universal. A report that looks normal does not override physical warning signs such as swelling, leakage or unusual heat.'
+        ],
+        steps: [
+          'Open Windows Terminal or Command Prompt. Administrator access may be requested on some systems.',
+          'Run the command shown below.',
+          'Read the output for the saved HTML report location, then open that file in a browser.',
+          'Compare Design Capacity with Full Charge Capacity and review Installed Battery, Recent Usage and Battery Usage where available.',
+          'Compare the report with your normal runtime and the manufacturer’s diagnostic utility. Do not use a capacity ratio as the only reason to replace—or continue using—a battery.'
         ],
         codeBlocks: ['powercfg /batteryreport'],
-        bullets: [
-          'Use the manufacturer’s own diagnostics when available.',
-          'Compare full-charge capacity with design capacity, but interpret the result alongside actual runtime and shutdown behavior.',
-          'Check the exact laptop model’s battery replacement and warranty guidance.',
-          'Do not use software health numbers as a reason to keep charging a physically swollen or overheating battery.'
+        relatedLinks: [
+          { label: 'Windows Battery Health Analyzer', href: '/tools/windows-battery-health-analyzer', description: 'Privately inspect a saved battery report in your browser and understand its reported capacity figures.' }
         ]
       },
       {
-        heading: 'Why you should not attempt a risky DIY removal',
+        heading: 'How to check battery health on a MacBook',
         paragraphs: [
-          'Internal batteries can be held with adhesive, connected by fragile cables and positioned beside other components. A tool slip or bent pouch cell can damage the pack. If the battery is swollen, the risk is greater: do not press it down to regain access to screws or the bottom cover.',
-          'Use a repair provider that can identify the correct battery part, inspect the charging path, and dispose of the old pack through an appropriate battery collection or recycling channel.'
+          'On supported macOS versions, open the Apple menu, choose System Settings, then Battery, and look for Battery Health. Exact wording and available details vary by Mac model and macOS version. Some systems show a condition such as Normal or Service Recommended; older versions may use different labels.',
+          'Apple explains that Service Recommended can mean the battery holds less charge than when new or is not functioning normally. Maximum Capacity is an estimate relative to when the battery was new, not a promise of exact runtime. If Battery Health is unavailable or the Mac behaves abnormally, use Apple’s current support instructions and diagnostics for that model.'
+        ]
+      },
+      {
+        heading: 'Fast battery drain: rule out software and workload first',
+        paragraphs: [
+          'Before replacing a battery that is not swollen or physically damaged, repeat a simple comparison under similar conditions. Note the starting charge, elapsed time, screen brightness, power mode and the applications in use. A game, video export, video call, many browser tabs, updates or cloud syncing can consume much more energy than light browsing or writing.',
+          'If the drain is sudden, check Task Manager on Windows or Activity Monitor on macOS for an application using unusually high CPU or GPU resources. Install operating-system and manufacturer updates through the supported channels, then compare the same workload again. Change one setting at a time so the result remains interpretable.'
+        ],
+        bullets: [
+          'Reduce unnecessary screen brightness and high refresh rates when battery runtime matters.',
+          'Close or investigate applications that keep using CPU or GPU resources while idle.',
+          'Check recent updates, sync jobs, external displays, USB devices and wireless activity.',
+          'If the drain happens mainly during sleep, review the device’s sleep/standby behavior and test hibernate if supported.',
+          'Do not repeatedly drain the battery to 0% as a routine health test or assume that calibration restores lost physical capacity.'
+        ]
+      },
+      {
+        heading: 'Battery not charging: distinguish battery, adapter and charging port',
+        paragraphs: [
+          'A charging problem does not automatically mean the battery needs replacement. The power adapter may be under-rated, damaged or incompatible; the cable or port may be loose; a manufacturer charge-limit feature may intentionally pause charging; or the fault may involve firmware, the battery or internal charging circuitry.',
+          'Use the adapter and cable specified for the exact model, inspect external connectors for visible damage without inserting tools, and check the manufacturer utility or firmware setup if it reports battery or adapter status. For USB-C laptops, connector shape alone does not establish that a charger provides the required USB Power Delivery profile or wattage. If charging remains intermittent or the port is damaged, stop forcing the connector and seek model-specific diagnosis.'
+        ],
+        table: {
+          caption: 'Charging checks before you order a replacement battery',
+          headers: ['Observation', 'What to check next'],
+          rows: [
+            ['Charging stops at a set percentage', 'Look for an OEM charge limit, conservation mode or optimized charging feature.'],
+            ['Adapter warning appears', 'Confirm the exact adapter model, supported wattage and cable requirements.'],
+            ['Charging changes when the plug moves', 'Stop wiggling the connector; inspect for external damage and arrange port diagnosis.'],
+            ['Known-correct adapter still does not charge', 'Run the manufacturer’s diagnostics; the battery or internal charging path may need assessment.'],
+            ['Battery is swollen or unusually hot', 'Do not continue these tests. Stop using and charging the laptop and follow the safety steps above.']
+          ]
+        }
+      },
+      {
+        heading: 'Battery lifespan: practical habits without rigid percentage rules',
+        paragraphs: [
+          'Rechargeable lithium-ion batteries age with time, temperature and use. There is no single manual charging routine that suits every laptop. Prefer the manufacturer’s built-in charge limit or optimized charging feature when it fits how you use the device, and follow the model’s guidance for long-term storage.',
+          'Avoid leaving a laptop in a hot car or direct sun, keep its vents unobstructed, use the correct charger, and do not deliberately run the battery to empty every day. A common “20–80%” rule is a rough habit some people choose, not a universal requirement; supported charge-limit features are generally a better fit than obsessively managing every percentage point.'
+        ],
+        bullets: [
+          'Avoid prolonged exposure to excessive heat or direct sunlight.',
+          'Use the manufacturer-recommended adapter and cable.',
+          'Enable a supported charge limit or optimized charging feature if appropriate for your routine.',
+          'Keep firmware and the operating system current using official update channels.',
+          'For long storage, follow the manufacturer’s recommended charge level and storage conditions.'
+        ]
+      },
+      {
+        heading: 'Should you replace the battery?',
+        paragraphs: [
+          'Replacement becomes more plausible when the manufacturer diagnostic reports a service condition, full-charge capacity has fallen substantially compared with design capacity, runtime has consistently declined under comparable use, or shutdowns occur under battery load. There is no single percentage threshold that applies to every laptop and warranty policy.',
+          'Do not wait for a health percentage if the battery is swollen, leaking, physically damaged or unusually hot. That is a safety issue and requires stopping use and charging. For a non-urgent capacity issue, verify the exact battery part number, compatibility, service procedure and warranty implications before ordering a replacement.'
+        ],
+        steps: [
+          'Check for physical swelling, damage, leakage or unusual heat first. If present, stop using and charging the device.',
+          'Review the Windows battery report or the manufacturer’s battery-health screen.',
+          'Compare runtime under a similar workload and check for software or standby-related drain.',
+          'Confirm the adapter, cable and port are suitable and functioning.',
+          'Use the exact model’s official diagnostic and replacement guidance before deciding.'
         ],
         relatedLinks: [
-          { label: 'Laptop won’t turn on', href: '/laptop-wont-turn-on', description: 'Use the symptom-led guide for power and startup faults that do not show battery swelling.' },
-          { label: 'Can you upgrade a gaming laptop?', href: '/gaming-laptop-upgradeable-ram-ssd', description: 'Check model-specific upgrade and serviceability limits before opening a laptop.' },
-          { label: 'Repair bench photo gallery', href: '/gallery', description: 'See examples of laptop battery replacement and internal inspection.' }
+          { label: 'Laptop will not turn on', href: '/laptop-wont-turn-on', description: 'Follow the safe startup checks if battery symptoms overlap with a no-power problem.' },
+          { label: 'Windows troubleshooting guide', href: '/windows-troubleshooting-complete-guide', description: 'Continue with a structured diagnostic approach for Windows problems.' }
         ]
       },
       {
-        heading: 'Bottom line',
+        heading: 'Frequently asked questions',
         paragraphs: [
-          'Swelling, case deformation, unusual heat or signs of physical damage mean stop using and charging the laptop and arrange safe service. For battery drain or reduced runtime without physical warning signs, start with the manufacturer’s diagnostics and a consistent usage comparison. Never puncture, compress or try to repair a lithium-ion battery pack yourself.'
+          'Use these quick answers as a starting point. The exact laptop manufacturer’s instructions take priority when the model has a specific battery or charging feature.'
+        ],
+        bullets: [
+          'Is 80% battery health always the replacement point? No. Manufacturer policies, battery design, diagnostics, runtime needs and warranty terms differ. Treat the number as context, not a universal verdict.',
+          'Can a battery report prove a battery is safe? No. It estimates reported capacity and usage; it cannot rule out swelling, cell damage or other physical hazards.',
+          'Why does my laptop stop charging at 80%? A charge limit, conservation mode or optimized charging feature may be working as designed. Check the manufacturer utility before treating it as a fault.',
+          'Can I use the laptop while its battery is swollen? No. Stop using and charging it, avoid pressure on the case and arrange qualified service.',
+          'Will replacing the battery fix fast drain? Only if the battery is the cause. High workload, background tasks, standby behavior, charger problems and charging circuitry can produce similar symptoms.',
+          'Should I calibrate the battery by draining it to zero? Do not make full discharge a routine practice. Follow the manufacturer’s instructions only when a specific supported calibration procedure is recommended.'
         ]
       }
     ],
     sources: [
-      { label: 'Dell Support: battery safety and handling', url: 'https://www.dell.com/support/kbdoc/en-us/000128491/swollen-battery-information-and-guidance' },
-      { label: 'U.S. Consumer Product Safety Commission: lithium-ion battery safety', url: 'https://www.cpsc.gov/Safety-Education/Safety-Guides/Electronics-and-Appliances/Lithium-Ion-Batteries' },
-      { label: 'Microsoft Support: Surface battery and charging support', url: 'https://support.microsoft.com/surface' }
+      { label: 'Microsoft Support: Caring for your battery in Windows and generating a battery report', url: 'https://support.microsoft.com/en-us/windows/experience/power-battery/caring-for-your-battery-in-windows' },
+      { label: 'Apple Support: Check the condition of your Mac laptop battery', url: 'https://support.apple.com/en-ie/guide/mac-help/mh20865/27/mac/27' },
+      { label: 'Apple Support: Battery health management in Mac laptops', url: 'https://support.apple.com/en-asia/102589' },
+      { label: 'Dell Support: Swollen battery information and guidance', url: 'https://www.dell.com/support/kbdoc/en-us/000128491/swollen-battery-information-and-guidance' },
+      { label: 'U.S. Consumer Product Safety Commission: Lithium-ion battery safety', url: 'https://www.cpsc.gov/Safety-Education/Safety-Guides/Electronics-and-Appliances/Lithium-Ion-Batteries' }
     ],
     faq: [
-      { question: 'Can I keep using a laptop with a swollen battery if it still works?', answer: 'No. Stop using and charging it and arrange qualified service. Do not press the case closed or attempt to remove a swollen pack with improvised tools.' },
-      { question: 'Does fast battery drain always mean the battery needs replacement?', answer: 'No. Workload, brightness, background applications, charger problems and reporting errors can also affect runtime. Use model-specific diagnostics unless physical warning signs make continued use unsafe.' },
-      { question: 'Is a battery report enough to prove the battery is safe?', answer: 'No. A battery report estimates capacity and usage history. It cannot rule out swelling, internal damage or another physical safety fault.' }
-    ]
+      { question: 'How do I check laptop battery health in Windows?', answer: 'Run powercfg /batteryreport in Windows Terminal or Command Prompt, open the generated HTML report, and compare Design Capacity with Full Charge Capacity. Treat the result as an estimate and compare it with real runtime and manufacturer diagnostics.' },
+      { question: 'How do I check battery health on a MacBook?', answer: 'On supported macOS versions, open Apple menu > System Settings > Battery > Battery Health. Labels and available details vary by model and macOS version; follow Apple’s current guidance for your Mac.' },
+      { question: 'What battery health percentage means I should replace my laptop battery?', answer: 'There is no universal percentage threshold for every laptop. Consider manufacturer diagnostics, runtime under comparable use, shutdown behavior, warranty terms and the exact model’s guidance.' },
+      { question: 'Why does my laptop battery drain quickly even when health looks normal?', answer: 'High CPU/GPU use, brightness, background applications, updates, connected devices and sleep/standby behavior can shorten runtime even when reported capacity looks reasonable.' },
+      { question: 'Is it safe to use a laptop with a swollen battery?', answer: 'No. Stop using and charging it, avoid pressing or bending the case, disconnect power if safe, and arrange qualified service. Never puncture or attempt improvised removal of the battery.' },
+      { question: 'Why will my laptop not charge even with the charger connected?', answer: 'Possible causes include an incompatible or under-rated adapter, damaged cable or port, a charge-limit feature, firmware, battery wear or an internal charging fault. Check the exact model’s supported power requirements before replacing parts.' }
+    ],
+    howTo: {
+      name: 'Check laptop battery health safely',
+      steps: [
+        'Check for swelling, leakage, physical damage or unusual heat before running any diagnostics.',
+        'If there are no physical safety warnings, generate a Windows battery report or use the manufacturer’s battery-health screen.',
+        'Compare reported capacity with actual runtime under a similar workload.',
+        'Check software activity, sleep behavior, charger compatibility and charging-port symptoms.',
+        'Use the exact model’s official diagnostic and service guidance before deciding whether replacement is appropriate.'
+      ]
+    }
   },
   {
     id: 'why-8gb-ram-no-longer-enough-windows-11',
