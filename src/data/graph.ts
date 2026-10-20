@@ -175,6 +175,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Windows', href: '/windows' },
       { label: 'Gaming', href: '/gaming' },
       { label: 'Hardware', href: '/hardware' },
+      { label: 'BIOS / UEFI Recovery Guide', href: '/bios-uefi-recovery-guide', description: 'Safely diagnose failed firmware updates and choose a model-specific recovery path.' },
     ],
   },
   {
