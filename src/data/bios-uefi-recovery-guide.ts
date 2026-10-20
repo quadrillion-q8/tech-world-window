@@ -9,9 +9,9 @@ export const biosUefiRecoveryGuide: Article = {
   id: 'bios-uefi-recovery-guide',
   slug: 'bios-uefi-recovery-guide',
   title: 'BIOS or UEFI Update Failed? A Safe, Universal Recovery Guide',
-  seoTitle: 'Failed BIOS Update? BIOS & UEFI Recovery Guide',
+  seoTitle: 'Failed BIOS Update? Recovery Guide',
   dek: 'A practical guide to diagnosing a failed BIOS/UEFI update, separating firmware corruption from hardware faults, protecting encrypted data, and choosing a safe recovery path.',
-  metaDescription: 'Computer will not boot after a BIOS or UEFI update? Diagnose symptoms, check manufacturer recovery options, protect BitLocker data, and avoid risky firmware files.',
+  metaDescription: 'PC will not boot after a BIOS or UEFI update? Diagnose symptoms, check official recovery options, protect BitLocker data, and avoid risky firmware files.'
   excerpt: 'A black screen or boot loop after a firmware update can indicate corrupted firmware, but memory training, power delivery and other hardware faults can look similar. Use this evidence-led recovery sequence before attempting a reflash.',
   category: 'Guides',
   subcategory: 'PC troubleshooting',
@@ -21,10 +21,8 @@ export const biosUefiRecoveryGuide: Article = {
   readingTime: 12,
   tags: ['BIOS recovery', 'UEFI', 'failed BIOS update', 'firmware', 'no POST', 'BitLocker', 'motherboard troubleshooting'],
   appliesTo: ['Windows PCs', 'Desktop motherboards', 'Laptops', 'Intel-based Macs (model-specific recovery)', 'Apple silicon Macs (model-specific recovery)'],
-  contentRole: 'cluster',
   searchIntent: 'informational',
   testing: 'This is a documentation-based troubleshooting guide, not a report of controlled hardware tests. Recovery behavior differs by exact model, board revision and firmware generation. Confirm procedures and files against the device manufacturer’s current documentation.',
-  relatedArticles: ['windows-troubleshooting-universal', 'laptop-wont-turn-on'],
   content: [
     {
       heading: 'Start here: what happened, and what still works?',
@@ -101,16 +99,6 @@ export const biosUefiRecoveryGuide: Article = {
         'MSI and Gigabyte: confirm whether the exact motherboard supports a dedicated flashback feature or redundant firmware; these features are not universal.',
         'Apple: Intel and Apple silicon Macs use different firmware-recovery procedures. Follow Apple’s current instructions for the exact model and chip generation.'
       ],
-      relatedLinks: [
-        { label: 'Dell Support', href: 'https://www.dell.com/support/home/', description: 'Find model-specific BIOS and recovery documentation.' },
-        { label: 'HP Support', href: 'https://support.hp.com/', description: 'Check BIOS recovery and platform-specific instructions.' },
-        { label: 'Lenovo Support', href: 'https://support.lenovo.com/', description: 'Search by exact product model for current firmware guidance.' },
-        { label: 'ASUS Support', href: 'https://www.asus.com/support/', description: 'Verify recovery and flashback support for the exact board or system.' },
-        { label: 'Acer Support', href: 'https://www.acer.com/support', description: 'Locate the correct device support page and firmware package.' },
-        { label: 'MSI Support', href: 'https://www.msi.com/support', description: 'Check motherboard features and model-specific instructions.' },
-        { label: 'GIGABYTE Support', href: 'https://www.gigabyte.com/Support', description: 'Confirm supported firmware recovery features for the exact board.' },
-        { label: 'Apple firmware revive or restore', href: 'https://support.apple.com/108900', description: 'Follow Apple’s supported procedure for applicable Mac models.' }
-      ]
     },
     {
       heading: 'BitLocker and TPM: protect access to encrypted data',
@@ -119,10 +107,6 @@ export const biosUefiRecoveryGuide: Article = {
         'Before updating firmware on a Windows device, locate and verify access to the BitLocker recovery key and follow Microsoft’s current guidance about suspending protection for firmware updates. If the recovery screen appears, use the correct key associated with that device. Do not clear the TPM or change Secure Boot settings as a guess; doing so can complicate access and troubleshooting.',
         'Firmware recovery does not decrypt a BitLocker-protected drive and does not retrieve a missing recovery key. Keep the key separate from the device and follow your organization’s policy if the computer is managed.'
       ],
-      relatedLinks: [
-        { label: 'Find your BitLocker recovery key', href: 'https://support.microsoft.com/windows/find-your-bitlocker-recovery-key', description: 'Microsoft guidance for locating a recovery key.' },
-        { label: 'Microsoft BitLocker documentation', href: 'https://learn.microsoft.com/windows/security/operating-system-security/data-protection/bitlocker/', description: 'Technical guidance on BitLocker and recovery behavior.' }
-      ]
     },
     {
       heading: 'When external SPI programming may be appropriate',
