@@ -5,6 +5,7 @@ import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { october2026Articles } from './october-2026-articles';
 import { biosUefiRecoveryGuide } from './bios-uefi-recovery-guide';
+import { bitlockerRecoveryAfterBiosUpdate } from './bitlocker-recovery-key-after-bios-update';
 import { placeGalleryImages } from './article-images';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
@@ -130,6 +131,7 @@ const baseArticles: Article[] = [
   windows26H2InstallationGuide,
   ...october2026Articles,
   biosUefiRecoveryGuide,
+  bitlockerRecoveryAfterBiosUpdate,
 
   {
     id: 'windows-wifi-diagnosis',
