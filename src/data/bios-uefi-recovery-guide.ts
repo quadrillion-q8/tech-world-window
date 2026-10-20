@@ -11,7 +11,7 @@ export const biosUefiRecoveryGuide: Article = {
   title: 'BIOS or UEFI Update Failed? A Safe, Universal Recovery Guide',
   seoTitle: 'Failed BIOS Update? Recovery Guide',
   dek: 'A practical guide to diagnosing a failed BIOS/UEFI update, separating firmware corruption from hardware faults, protecting encrypted data, and choosing a safe recovery path.',
-  metaDescription: 'PC will not boot after a BIOS or UEFI update? Diagnose symptoms, check official recovery options, protect BitLocker data, and avoid risky firmware files.'
+  metaDescription: 'PC will not boot after a BIOS or UEFI update? Diagnose symptoms, check official recovery options, protect BitLocker data, and avoid risky firmware files.',
   excerpt: 'A black screen or boot loop after a firmware update can indicate corrupted firmware, but memory training, power delivery and other hardware faults can look similar. Use this evidence-led recovery sequence before attempting a reflash.',
   category: 'Guides',
   subcategory: 'PC troubleshooting',
