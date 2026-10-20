@@ -1063,7 +1063,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         'If FPS barely changes, check frame caps, CPU-thread activity, synchronization, background tasks and the game engine. If high GPU activity remains after the game closes, identify the process in Task Manager before changing drivers.'
       ]
     }, {
-      heading: 'Interpret GPU utilization alongside FPS, temperature and frame time',
+      heading: 'When high usage needs investigation',
       paragraphs: [
         'Utilization is a measurement of how busy a GPU engine appears during the tool’s sampling interval, not a score for GPU health. NVIDIA documents GPU utilization as the share of the sample period during which one or more kernels were executing; other tools and GPU engines can expose metrics differently. Compare the same metric in the same tool across comparable runs.',
         'Use the pattern across several readings to choose the next check. A utilization value cannot by itself prove overheating, a CPU bottleneck, a defective component or the need to upgrade.'
