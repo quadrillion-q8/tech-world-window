@@ -312,53 +312,69 @@ export const researchArticles: Article[] = [
     slug: 'research/how-ssd-temperature-affects-performance',
     title: 'How SSD Temperature Can Affect Real-World Performance',
     seoTitle: 'How SSD Temperature Affects Performance | TWW Research',
-    dek: 'SSD temperature matters most when heat changes behavior. TWW explains how to distinguish harmless warmth from a thermal-performance problem.',
-    metaDescription: 'How does SSD temperature affect performance? TWW explains the difference between normal heat, thermal throttling and genuine storage faults.',
-    excerpt: 'An SSD being warm is not enough to diagnose a problem. The useful signal is whether temperature changes performance or reliability under the same workload.',
+    dek: 'A repeatable framework for testing whether SSD heat changes sustained performance—and for separating thermal behavior from write-cache limits and other bottlenecks.',
+    metaDescription: 'Learn how to test SSD temperature against sustained performance, interpret NVMe thresholds, control workloads and understand the limits of thermal conclusions.',
+    excerpt: 'This TWW research page explains a repeatable measurement method. It does not claim a universal temperature cutoff or publish an SSD-to-SSD laboratory comparison.',
     category: 'Hardware',
     subcategory: 'Research',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-08',
-    updatedAt: '2026-10-08',
-    readingTime: 8,
+    updatedAt: '2026-10-20',
+    readingTime: 7,
     tags: ['NVMe', 'SSD', 'Thermals', 'Storage', 'Research'],
     relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'ssd-health', 'ssd-full-space'],
     contentRole: 'cluster',
     pillarPath: '/research',
     searchIntent: 'informational',
     content: [
-      { heading: 'Temperature is a condition, not a diagnosis', paragraphs: [
-        'A temperature reading becomes useful when it can be connected to a change in behavior. The same temperature can be harmless in one drive and problematic in another because controllers, NAND, firmware, heatsinks, airflow and workload differ.',
-        'The question TWW asks is simple: does the drive get hotter and then slow down, error, disconnect, or otherwise behave differently under the same workload?'
+      { heading: 'Scope: what this page does—and does not—claim', paragraphs: [
+        'This page sets out a method for testing whether temperature changes storage performance and explains how to interpret the evidence. It does not publish a controlled, side-by-side benchmark of named SSD models or claim new temperature measurements from a TWW lab.',
+        'A model-specific result should be published only with a traceable record of the drive model and firmware, host system, ambient conditions, workload, sensor names, performance timeline and repeat runs. Until that evidence exists, the guidance below is a test framework—not a report of measured results.'
       ] },
-      { heading: 'Short bursts and sustained workloads tell different stories', paragraphs: [
-        'A short file operation may finish before heat becomes limiting. A long transfer, repeated benchmark, large game installation or heavy content-creation workload can expose thermal behavior that a quick test never reaches.',
-        'That is why a single idle temperature or a single short benchmark is weak evidence for a thermal diagnosis.'
+      { heading: 'A temperature number is not a performance diagnosis', paragraphs: [
+        'A temperature reading becomes useful when it can be related to a change in behavior. The same number can mean different things across SSD models, cooling layouts, sensors, firmware and workloads. Composite and auxiliary sensor readings should not be compared as if they were the same measurement.',
+        'The NVMe specification distinguishes warning and critical temperature thresholds from thermal-management behavior. The warning threshold identifies an overheating condition that needs attention; it does not guarantee that throttling starts at that exact temperature. A critical condition can disrupt normal operation, but device behavior and reported thresholds vary.',
+        'Manufacturer operating ranges also differ from the thermal-management thresholds. For example, Samsung lists 0–70°C as the SMART-measured operating temperature for the 990 PRO 2TB. That specification is specific to that model and must not be applied to every NVMe SSD.'
       ] },
-      { heading: 'The TWW thermal test design', paragraphs: ['Run a repeatable storage workload while recording temperature and performance at the same time. The key comparison is not “hot versus cool”; it is performance before, during and after the temperature rise.'], steps: [
-        'Record idle temperature after the system has stabilized.',
-        'Run a repeatable sustained storage workload.',
-        'Log temperature and throughput throughout the run.',
-        'Mark the point at which performance changes, if it changes.',
-        'Repeat after improving cooling, keeping the workload and software environment the same.'
+      { heading: 'A controlled protocol for comparing temperature and throughput', paragraphs: [
+        'The aim is to compare a drive with itself under repeatable conditions. Keep the workload and system configuration as consistent as possible, and record the whole run rather than one peak temperature or average speed.'
+      ], steps: [
+        'Identify the SSD model, firmware, host platform, operating system, power mode, sensor label and any current health warnings.',
+        'Record a baseline after the system has been idle long enough for readings to settle. Include ambient temperature if it can be measured reliably.',
+        'Run a repeatable sustained workload, such as a large copy from a separate fast source drive. Record throughput and temperature on the same timeline.',
+        'Allow the drive to cool near its baseline and repeat the same workload without changing other variables.',
+        'If safe, change one cooling variable and repeat again. Record exactly what changed; do not test a drive that is already reporting critical warnings or read errors before protecting the data.'
       ] },
-      { heading: 'How to separate thermal behavior from a failing SSD', paragraphs: ['Thermal behavior usually follows workload and temperature. A hardware or firmware problem may instead show errors, disappearing devices, inconsistent detection, or failures unrelated to sustained heat. Those symptoms should change the priority from benchmarking to data protection and fault isolation.'] , table: {
-        caption: 'Thermal clue versus broader storage warning',
-        headers: ['Observation', 'Interpretation', 'Priority'],
+      { heading: 'What the observed patterns can—and cannot—tell you', paragraphs: [
+        'A temperature-linked speed drop that improves after cooling supports a thermal explanation. It is stronger evidence than a hot reading by itself, but it still needs to be interpreted alongside write-cache behavior, workload changes and drive health.'
+      ], table: {
+        caption: 'Interpretation framework for an NVMe thermal test',
+        headers: ['Observed pattern', 'What it supports', 'What to check next'],
         rows: [
-          ['Performance drops as temperature rises and recovers after cooling', 'Thermal limitation is plausible', 'Improve cooling and retest'],
-          ['Temperature is high but performance remains stable', 'Heat may be within the device’s operating behavior', 'Monitor'],
-          ['Drive disappears or throws errors', 'Potential hardware/firmware/power issue', 'Back up and investigate first'],
-          ['Slowdown occurs at normal temperature', 'Look beyond thermals', 'Check workload, health and system I/O'],
+          ['Temperature rises as sustained throughput drops, then performance improves after cooling', 'Thermal limiting is plausible.', 'Repeat the workload and compare the sensor timeline with model-specific thresholds.'],
+          ['Temperature rises but throughput remains stable', 'Heat has not shown a clear performance effect in this run.', 'Compare the model’s documented operating range and keep monitoring.'],
+          ['Throughput falls while temperature remains stable', 'Write-cache exhaustion, source-drive speed or background I/O may explain the drop.', 'Check the workload, cache behavior and background disk activity.'],
+          ['Drive disconnects, reports critical warnings or produces read errors', 'Possible reliability, power, firmware or connection issue.', 'Back up first; avoid repeated stress tests and follow vendor diagnostics.']
         ]
       } },
-      { heading: 'Bottom line', paragraphs: [
-        'Do not buy a heatsink because a monitoring application displayed a high number once. First establish whether heat actually changes performance or reliability. When it does, the before/after test becomes much more useful than a generic temperature threshold.'
+      { heading: 'Report the conditions, not just the conclusion', paragraphs: [
+        'A useful report includes the exact drive and firmware, test system, ambient conditions, sensor names, workload and duration, throughput over time, peak and idle readings, cooling configuration, warnings and repeat count. Keep the raw log or a screenshot of the full timeline so another person can inspect how the conclusion was reached.',
+        'One drive tested in one case does not establish a universal normal temperature. Do not generalize from a single run to all controllers, NAND designs, laptops or workloads. A drop in transfer speed alone does not prove thermal throttling, and a temperature value alone cannot predict drive failure or remaining life.'
+      ], relatedLinks: [
+        { label: 'NVMe SSD temperature troubleshooting guide', href: '/nvme-ssd-temperature-too-high', description: 'Use the practical diagnostic sequence, cooling checks and model-specific temperature guidance.' }
+      ] },
+      { heading: 'Sources and interpretation limits', paragraphs: [
+        'The specification and vendor documentation establish the meanings of reported thresholds and operating ranges. Monitoring tools expose only the fields supported by the drive, controller, operating system and driver; missing data should be recorded as unavailable rather than interpreted as a safe temperature.',
+        'TWW will treat a future drive-specific measurement as original evidence only when the test conditions and recorded results are available to support it.'
       ] }
     ],
     sources: [
-      { label: 'Microsoft Learn: Storage optimization', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/optimize-volume' }
+      { label: 'NVM Express Base Specification, Revision 2.3: SMART/Health temperature fields and thresholds', url: 'https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-Revision-2.3-2025.08.01-Ratified.pdf' },
+      { label: 'Samsung 990 PRO 2TB: manufacturer-published operating temperature', url: 'https://www.samsung.com/uk/business/memory-storage/nvme-ssd/990-pro-2tb-nvme-pcie-gen-4-mz-v9p2t0bw/' },
+      { label: 'Microsoft Learn: storage reliability counter property definitions', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/storage/msft-storagereliabilitycounter' },
+      { label: 'nvme-cli: NVMe SMART/Health log command reference', url: 'https://github.com/linux-nvme/nvme-cli/blob/master/Documentation/nvme-smart-log.txt' }
     ],
-    testing: 'TWW research framework. No drive-specific thermal threshold is presented as universal; measured results should be tied to the exact SSD, firmware, workload and environment.'
+    testing: 'Evidence status: this is a testing protocol and interpretation framework, not a published controlled benchmark. No original cross-drive temperature/performance dataset is claimed here. Any future measured result should include the model, firmware, conditions, workload, sensor labels, throughput timeline and repeated runs.'
   }
+
 ];
