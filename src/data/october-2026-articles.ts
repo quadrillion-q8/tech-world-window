@@ -168,7 +168,8 @@ export const october2026Articles: Article[] = [
       {
         heading: 'How to check battery health in Windows 11 or Windows 10',
         paragraphs: [
-          'Windows can generate a battery report on supported systems. It provides estimates and usage history from the battery interface; it cannot prove that a battery is physically safe or identify every charging-circuit fault.'
+          'Windows can generate a battery report on supported systems. It provides estimates and usage history from the battery interface; it cannot prove that a battery is physically safe or identify every charging-circuit fault.',
+          'The command and report sections are documented by Microsoft. Some laptops expose limited or incomplete battery data, and cycle-count reporting is not universal. A report that looks normal does not override physical warning signs such as swelling, leakage or unusual heat.'
         ],
         steps: [
           'Open Windows Terminal or Command Prompt. Administrator access may be requested on some systems.',
@@ -178,9 +179,6 @@ export const october2026Articles: Article[] = [
           'Compare the report with your normal runtime and the manufacturer’s diagnostic utility. Do not use a capacity ratio as the only reason to replace—or continue using—a battery.'
         ],
         codeBlocks: ['powercfg /batteryreport'],
-        paragraphs: [
-          'The command and report sections are documented by Microsoft. Some laptops expose limited or incomplete battery data, and cycle-count reporting is not universal. A report that looks normal does not override physical warning signs such as swelling, leakage or unusual heat.'
-        ],
         relatedLinks: [
           { label: 'Windows Battery Health Analyzer', href: '/tools/windows-battery-health-analyzer', description: 'Privately inspect a saved battery report in your browser and understand its reported capacity figures.' }
         ]
