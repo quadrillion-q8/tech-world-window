@@ -11,7 +11,7 @@ export const biosUefiRecoveryGuide: Article = {
   title: 'BIOS or UEFI Update Failed? A Safe, Universal Recovery Guide',
   seoTitle: 'Failed BIOS Update? Recovery Guide',
   dek: 'A practical guide to diagnosing a failed BIOS/UEFI update, separating firmware corruption from hardware faults, protecting encrypted data, and choosing a safe recovery path.',
-  metaDescription: 'PC will not boot after a BIOS or UEFI update? Diagnose symptoms, check official recovery options, protect BitLocker data, and avoid risky firmware files.'
+  metaDescription: 'PC will not boot after a BIOS or UEFI update? Diagnose symptoms, check official recovery options, protect BitLocker data, and avoid risky firmware files.',
   excerpt: 'A black screen or boot loop after a firmware update can indicate corrupted firmware, but memory training, power delivery and other hardware faults can look similar. Use this evidence-led recovery sequence before attempting a reflash.',
   category: 'Guides',
   subcategory: 'PC troubleshooting',
@@ -40,7 +40,11 @@ export const biosUefiRecoveryGuide: Article = {
           ['Firmware setup opens, but Windows does not start', 'Boot order, storage detection, boot configuration or OS issue may be more likely than corrupted firmware', 'Check whether the drive is detected and use the Windows startup troubleshooting path.'],
           ['BitLocker asks for a recovery key after update', 'TPM/boot measurements may have changed; this does not by itself mean the update failed', 'Find the correct recovery key before changing security settings or attempting recovery.']
         ]
-      }
+      },
+      relatedLinks: [
+        { label: 'Windows will not start', href: '/windows-11-wont-start-troubleshooting', description: 'Use this guide if firmware setup works but Windows cannot complete startup.' },
+        { label: 'Laptop will not turn on', href: '/laptop-wont-turn-on', description: 'Separate a true no-power problem from a no-display or failed-POST symptom.' }
+      ]
     },
     {
       heading: 'Do not make the failure harder to diagnose',
