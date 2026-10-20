@@ -407,148 +407,122 @@ const enhancements: Record<string, Enhancement> = {
     ]
   },
   'nvme-ssd-temperature-too-high': {
-    updatedAt: '2026-10-19',
+    updatedAt: '2026-10-20',
     sources: [
-      { label: 'NVM Express: NVMe specifications (composite temperature and warning/critical thresholds)', url: 'https://nvmexpress.org/specifications/' },
-      { label: 'smartmontools: reading NVMe SMART and temperature data', url: 'https://www.smartmontools.org/' },
-      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' }
+      { label: 'NVM Express Base Specification, Revision 2.3: temperature fields and thresholds', url: 'https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-Revision-2.3-2025.08.01-Ratified.pdf' },
+      { label: 'Samsung 990 PRO 2TB: manufacturer-published operating temperature', url: 'https://www.samsung.com/uk/business/memory-storage/nvme-ssd/990-pro-2tb-nvme-pcie-gen-4-mz-v9p2t0bw/' },
+      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
+      { label: 'Microsoft Learn: storage reliability counter property definitions', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/storage/msft-storagereliabilitycounter' },
+      { label: 'smartmontools: SMART data and drive diagnostics', url: 'https://www.smartmontools.org/' },
+      { label: 'nvme-cli: NVMe SMART/Health log command reference', url: 'https://github.com/linux-nvme/nvme-cli/blob/master/Documentation/nvme-smart-log.txt' }
     ],
     sections: [{
-      heading: 'TWW diagnosis: temperature must be interpreted with workload and throttling',
+      heading: 'Which NVMe temperature reading and threshold are you seeing?',
       paragraphs: [
-        'A high NVMe temperature is not automatically a failure. The important questions are how high it becomes under a repeatable workload, whether performance drops as temperature rises, and whether the drive or system reports thermal throttling.',
-        'Compare idle temperature, sustained transfer temperature and the temperature at which performance changes. Short bursts and long writes can produce very different results.'
-      ],
-      relatedLinks: [
-        { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review health indicators and reliability data if high temperatures coincide with errors or drive disconnects.' },
-        { label: 'Why an SSD can slow down', href: '/why-ssd-is-slowing-down-windows', description: 'Compare thermal throttling with low free space, sustained writes and other causes of slow storage.' },
-        { label: 'SSD temperature research', href: '/research/how-ssd-temperature-affects-performance', description: 'Explore how temperature and workload can affect storage performance.' }
-      ],
-      bullets: [
-        'High temperature with stable performance → monitor airflow and heatsink contact.',
-        'Temperature rises and sustained performance falls → thermal throttling becomes more likely.',
-        'Temperature is normal but errors or disappearing drives occur → investigate firmware, power and drive health instead.'
-      ]
-    }, {
-      heading: 'Which temperature number are you looking at?',
-      paragraphs: [
-        'Most tools show the composite temperature, a single value the drive calculates from its internal sensors. Many drives also expose one or two extra sensors, often near the controller and the flash chips, and these can read several degrees above or below the composite value.',
-        'The NVMe specification gives every drive a warning threshold and a critical threshold. The warning threshold is where the drive starts reducing speed to protect itself. The critical threshold is where it may slow sharply or shut down. The exact values are set by the manufacturer for each model, so read them from your own drive rather than from a general chart.'
+        'NVMe health data can include a composite temperature and additional temperature sensors. They are separate readings, so log the same sensor throughout a test instead of comparing the composite value in one run with a controller sensor in another.',
+        'The NVMe specification distinguishes the Warning Composite Temperature Threshold (WCTEMP), the Critical Composite Temperature Threshold (CCTEMP), and separate thermal-management features. A warning threshold indicates an overheating condition that calls for remediation; it does not, by itself, establish the exact temperature at which a drive starts throttling. A critical condition can compromise normal operation, but the specific response depends on the device and platform.',
+        'Windows Get-StorageReliabilityCounter may report Temperature and TemperatureMax on supported devices. Microsoft defines TemperatureMax as the maximum temperature at which the device is capable of normal operation; it is not necessarily the drive’s exact thermal-throttling trigger. Linux tools such as smartctl and nvme-cli can expose SMART/Health information where the device, tool and permissions support it. Missing telemetry is not proof that the drive is cool.'
       ],
       codeBlocks: [
-        'Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Temperature, TemperatureMax',
-        'smartctl -a /dev/nvme0   # on Linux or with smartmontools installed; look for the warning and critical temperature thresholds'
+        'Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object Temperature, TemperatureMax, Wear',
+        'sudo smartctl -a /dev/nvme0'
+      ],
+      bullets: [
+        'Start with the SSD maker’s utility and documentation for the exact model and firmware.',
+        'On Linux, confirm the correct device path and installed tool version; commands and available fields vary.',
+        'Treat a warning as a reason to reduce sustained load and investigate, not as proof that the drive has already failed.'
       ]
     }, {
-      heading: 'What temperature range to expect',
+      heading: 'What temperature is normal? Use the exact model specification',
       paragraphs: [
-        'These are common patterns rather than limits for any one drive. Your model datasheet is the authority.'
+        'No single idle or load temperature describes every NVMe SSD. Chassis airflow, nearby components, controller and NAND design, firmware, workload, sensor selection and ambient temperature all influence the reading.',
+        'For one concrete example, Samsung lists an operating temperature of 0–70°C for its 990 PRO 2TB, measured by S.M.A.R.T. That is a model-specific operating specification—not a universal NVMe limit and not a statement that throttling always begins at 70°C. Operating range, warning/critical thresholds and thermal-management behavior are different pieces of information.'
       ],
       table: {
-        caption: 'Typical NVMe temperature patterns and what they usually mean',
-        headers: ['Situation', 'What is common', 'What to do'],
+        caption: 'How to interpret an NVMe temperature reading',
+        headers: ['Observation', 'What it tells you', 'Next step'],
         rows: [
-          ['Idle in a desktop with airflow', 'Cool to moderately warm, often well below the warning threshold', 'Nothing. Note the value as your baseline.'],
-          ['Idle in a thin laptop', 'Warmer than a desktop because the drive shares a small heat budget with the CPU', 'Compare with the same laptop after a restart before drawing conclusions.'],
-          ['Short bursts of reads or writes', 'Brief rises that fall again within a minute or two', 'Normal. A short benchmark rarely heats a drive enough to throttle.'],
-          ['Long copy, install or game-library move', 'Steady climb toward the warning threshold on fast PCIe 4.0 and 5.0 drives', 'Watch whether speed drops as the number climbs. That is throttling.'],
-          ['Idle value close to the warning threshold', 'Points to poor airflow, a missing heatsink, or heat from a nearby GPU', 'Fix cooling first. Check the heatsink and thermal pad.']
+          ['A brief rise during a copy or install', 'A snapshot alone cannot identify throttling.', 'Log the same sensor and observe sustained speed.'],
+          ['A sustained reading above the model’s stated operating range', 'The drive is outside its published operating conditions; the consequences depend on the model and system.', 'Reduce sustained load, verify the model and follow manufacturer guidance.'],
+          ['Temperature rises while sustained speed drops, then speed improves after cooling', 'Consistent with thermal limiting, but write-cache exhaustion and workload changes must also be ruled out.', 'Repeat the same workload after cooling and compare the full timeline.'],
+          ['High temperature but stable performance and no warnings', 'It may not be an immediate performance issue, but it still needs to be compared with the model specification.', 'Check airflow and monitor; do not diagnose throttling from temperature alone.'],
+          ['Critical warnings, read errors or a drive that disappears', 'A reliability and data-protection concern takes priority over thermal experiments.', 'Back up important files and stop aggressive benchmarking.']
         ]
       }
     }, {
-      heading: 'How to test whether your drive throttles',
+      heading: 'Run one repeatable test to check for thermal throttling',
       paragraphs: [
-        'A short benchmark will not heat a drive enough to show throttling. You need a sustained write, long enough for the temperature to settle.'
+        'The useful comparison is not simply hot versus cool. It is whether the same drive behaves differently as its temperature changes under a repeatable workload. Do not run this test first if the drive is already reporting errors, critical warnings or repeated disconnects; protect the data first.',
+        'This is a diagnostic procedure, not a claim that TWW has measured every listed SSD. Record what your own system reports, and do not compare raw values from different models as if the conditions were identical.'
       ],
       steps: [
-        'Close background apps and leave the PC idle for a few minutes. Record the idle temperature with a monitoring tool.',
-        'Copy a large set of files (tens of gigabytes, from a different fast drive if possible) onto the NVMe drive while the temperature is being logged.',
-        'Watch the transfer speed and temperature together. Note the temperature at which the speed falls and whether it recovers when the drive cools.',
-        'Let the drive cool, change one thing (heatsink, pad, fan position, laptop stand), and repeat the same copy.',
-        'Compare the two runs. If the speed holds longer at a lower temperature, the change worked.'
-      ]
+        'Record the exact SSD model, firmware, system model, ambient room conditions if known, sensor label, idle temperature and any health warnings.',
+        'Close unnecessary activity, then run one repeatable workload such as a large file copy from a different fast drive. Keep the source, destination, power mode and test procedure the same between runs.',
+        'Log temperature and transfer speed at the same time from the start through the sustained phase. A brief peak or one average value can hide when performance changed.',
+        'Let the drive return near its baseline. Repeat the same workload before changing hardware, then—if safe—change one cooling variable and repeat again.',
+        'Compare the full traces. Temperature-linked speed loss that returns after cooling is evidence consistent with thermal limiting, not conclusive proof on its own.'
+      ],
+      table: {
+        caption: 'Evidence patterns: thermal limiting versus other causes',
+        headers: ['Observed pattern', 'Possible explanation', 'Next check'],
+        rows: [
+          ['Temperature rises as sustained speed falls; speed improves after cooling', 'Thermal limiting is plausible.', 'Repeat with matched conditions and verify model-specific thresholds.'],
+          ['Speed drops after a fast start while temperature remains stable', 'Write-cache exhaustion or a workload/source limitation may be involved.', 'Repeat a comparable transfer and check the drive’s sustained-write behavior.'],
+          ['Disk activity remains high after the temperature stabilizes', 'Background I/O or another bottleneck may be responsible.', 'Identify the active process or workload before testing again.'],
+          ['Errors, critical warnings, read failures or disconnects appear', 'A reliability, firmware, power, controller or connection issue is possible.', 'Back up first; use supported diagnostics and avoid repeated stress tests.']
+        ]
+      }
     }, {
-      heading: 'Cooling fixes that usually matter, in order',
+      heading: 'Cooling fixes, from safest to most involved',
       paragraphs: [
-        'Change one thing at a time so you know which fix helped.'
+        'Change one thing at a time so you can identify what helped. Use the exact laptop or motherboard service documentation before opening hardware or changing an M.2 installation.'
       ],
       bullets: [
-        'Check that the heatsink has made contact. Many drive and motherboard thermal pads ship with a thin plastic film on each side that must be removed before fitting.',
-        'Use the motherboard M.2 heatsink if there is one, and check that its pad is the right thickness for the drive. A pad that is too thin leaves a gap, and one that is too thick can stop the drive sitting flat.',
-        'Look at where the slot sits. A slot directly under a hot graphics card receives that heat. Moving the drive to another slot can lower temperatures without any new parts.',
-        'Add a little airflow across the board. Even a low-speed fan near the drive and VRM area can help a drive in a closed case.',
-        'In a laptop, check clearance before adding a heatsink. A heatsink that is too tall can press on the bottom cover or the drive connector.',
-        'Match the drive to the system. Very fast PCIe 5.0 drives often need more cooling than a thin laptop can provide, and a slower drive can finish a long copy sooner if the fast one throttles.'
-      ]
-    }, {
-      heading: 'Is heat damaging the drive?',
-      paragraphs: [
-        'Short periods near the warning threshold are what the throttling system is designed to handle. The risk is not an immediate failure but long periods of heat, which raise wear and reduce how well flash keeps data over time. If you keep important data on a drive that is always hot, check its health report and keep a backup.',
-        'If the drive disconnects, vanishes from Windows or shows data errors, look at firmware, power and the health report before you blame temperature alone.'
-      ],
-      relatedLinks: [
-        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Read wear, errors and remaining life alongside temperature.' },
-        { label: 'Why an SSD slows down', href: '/why-ssd-is-slowing-down-windows', description: 'Rule out low free space and background activity before blaming heat.' }
-      ]
-    }, {
-      heading: 'A repeatable temperature test that works across systems',
-      paragraphs: [
-        'Use the same workload and measurement method before and after a cooling change. A desktop file copy, a laptop install, a game-library move, and a benchmark do not create identical heat or power conditions, so compare like with like rather than comparing your result with somebody else’s screenshot.',
-        'On Windows, a monitoring utility can show the composite and additional NVMe sensors. PowerShell’s Get-StorageReliabilityCounter may expose temperature fields on supported drives and storage stacks, but not every controller or driver reports every property. On Linux, smartctl -a /dev/nvme0 or nvme smart-log /dev/nvme0 can show NVMe SMART data when smartmontools or nvme-cli is installed and permissions allow access. Device names and supported fields vary.',
-        'Record the exact SSD model and firmware, sensor label, idle temperature after a few minutes, workload, peak temperature, transfer speed over time, and any warning or critical flags. Let the drive cool and repeat once. A repeatable temperature rise that lines up with a sustained speed drop is stronger evidence of throttling than a high reading by itself.'
+        'Check that the installed M.2 heatsink sits flat and its thermal pad contacts the drive. Remove protective film only as directed by the installation instructions.',
+        'Use the motherboard’s supplied M.2 heatsink when compatible. A pad that is too thin may not touch; an overly thick pad can interfere with mounting.',
+        'Check slot location and airflow. A drive near a hot GPU or in a low-airflow pocket may run warmer; move it only if the board manual confirms another slot is compatible.',
+        'Improve case airflow before buying extra cooling hardware. Change fan placement or speed only when you can verify the effect and avoid creating other thermal or noise problems.',
+        'On laptops, do not add a tall aftermarket heatsink unless the service manual confirms physical clearance. Extra thickness can press against the bottom cover or connector.',
+        'For a laptop or compact system that cannot cool a high-power drive adequately, consider a compatible drive designed for the workload rather than assuming the fastest advertised model is always best.'
       ],
       image: {
         src: '/images/gallery/gigabyte-gaming-laptop-internals-dual-fan-cooling-ssd-ram-upgrade.webp',
-        alt: 'Opened gaming laptop showing its internal cooling system and SSD area',
-        caption: 'Real laptop internals from the TWW repair photo gallery. Exact SSD placement and cooling differ by model.'
-      },
-      table: {
-        caption: 'A simple evidence log for comparing NVMe temperatures',
-        headers: ['Record', 'Why it matters'],
-        rows: [
-          ['Drive model and firmware', 'Temperature limits and sensor behavior are model-specific.'],
-          ['Sensor name and temperature', 'Composite, controller, and other sensors may report different values.'],
-          ['Workload and duration', 'A short burst is not comparable to a long sustained write.'],
-          ['Transfer speed over time', 'A repeatable drop as heat rises supports—but does not alone prove—thermal throttling.'],
-          ['Warning flags, errors, or disconnects', 'These justify checking drive health and backing up important data, not just adding cooling.']
-        ]
+        alt: 'Opened gaming laptop showing the cooling fans and internal components around the SSD area',
+        caption: 'TWW repair-gallery photo for hardware orientation only. It is not a thermal test result, and SSD placement differs by model.'
       }
     }, {
-      heading: 'Windows, Linux, laptop and desktop differences',
+      heading: 'When heat is not the main cause—and when to stop testing',
       paragraphs: [
-        'The underlying principle is the same across operating systems, but the available telemetry and cooling options are not. Windows users can start with the SSD maker’s utility or a trusted SMART monitor; Linux users can inspect NVMe SMART logs with the appropriate command-line tools. If the operating system cannot read a sensor, do not treat a missing value as proof that the drive is cool.',
-        'Desktop motherboards may include a removable M.2 cover or heatsink, and some provide multiple slots with different airflow or GPU proximity. Thin laptops may use a thermal shield or chassis contact designed by the manufacturer, with little clearance for aftermarket parts. Do not add a taller heatsink, stack thermal pads, or move a drive to another slot until the model manual confirms fit and compatibility.',
-        'A drive inside a USB enclosure, compact mini PC, or NAS may have different airflow and sensor access from a desktop motherboard. Follow the enclosure or system maker’s cooling guidance and avoid applying desktop-specific advice where the hardware layout is different.'
+        'If temperature stays stable while performance drops, investigate write-cache behavior, low free space, background updates or indexing, power management, firmware, interface limits and drive health. A transfer-rate drop alone does not prove throttling.',
+        'If the drive vanishes, produces repeated I/O errors, reports a critical warning or contains data that is not backed up, stop aggressive benchmarks and prioritize data protection. Temperature alone cannot predict remaining life, and a warm drive does not automatically need replacement. Use the manufacturer’s health guidance and the full symptom pattern.'
+      ],
+      relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review supported health counters and error evidence before deciding that temperature is the only issue.' },
+        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare thermals with free space, background activity, write-cache behavior and other storage bottlenecks.' },
+        { label: 'SSD temperature research: test method and limits', href: '/research/how-ssd-temperature-affects-performance', description: 'See the controlled-test framework and the limits of temperature-based conclusions.' }
+      ]
+    }, {
+      heading: 'Windows, Linux, laptops and desktops report different evidence',
+      paragraphs: [
+        'Temperature telemetry depends on the drive, controller, firmware, driver, operating system and monitoring tool. On Windows, start with the drive maker’s utility and supported storage counters. On Linux, use smartmontools or nvme-cli with the correct device path and sufficient permissions.',
+        'Desktop boards may expose a removable M.2 heatsink and multiple slots with different airflow. Thin laptops may use a thermal shield or chassis contact designed by the manufacturer and have little clearance for extra parts. USB enclosures, mini PCs and NAS devices may have different sensor access and airflow.',
+        'Do not stack thermal pads, add a taller heatsink or move a drive to another slot until the exact system manual confirms fit and compatibility. Power down and disconnect the system, then follow device-specific battery and ESD precautions before opening hardware.'
       ],
       image: {
         src: '/images/gallery/hp-laptop-motherboard-heatsink-m2-ssd-closeup.webp',
-        alt: 'Close-up of a laptop motherboard with the M.2 SSD and nearby heatsink area',
-        caption: 'Use photos as visual orientation only: check your exact model’s service manual before opening or modifying a system.'
+        alt: 'Close-up of a laptop motherboard showing an M.2 SSD and a nearby heatsink area',
+        caption: 'Use the image as general orientation only. Confirm the exact machine’s service manual before opening or modifying it.'
       },
-      bullets: [
-        'Use the manufacturer’s warning and critical thresholds where available; do not apply one temperature cutoff to every NVMe drive.',
-        'Check whether the heatsink pad contacts the drive evenly and whether any protective film was left on the pad.',
-        'Keep the system powered off and disconnected before opening it, and follow the model-specific battery and ESD precautions.',
-        'Do not dismantle a sealed laptop or console merely to fit a heatsink if the manufacturer does not support that service.'
-      ]
-    }, {
-      heading: 'When temperature is probably not the main cause',
-      paragraphs: [
-        'If the drive stays within its documented operating range and performance does not change as temperature rises, investigate other explanations for slow storage: low free space, an exhausted write cache, background updates or indexing, power management, firmware, interface limitations, or drive health. If the drive disappears, reports critical warnings, or produces read errors, prioritize a verified backup and health diagnosis rather than repeatedly stress-testing it.',
-        'Do not use an aggressive benchmark as the first diagnostic step on a drive that is already reporting errors or disconnecting. Preserve data first, then test only when the drive and data are safe to do so.'
-      ],
       relatedLinks: [
-        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review health indicators and error data alongside temperature.' },
-        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Investigate low free space, background activity, write-cache behavior and other causes of slow storage.' },
         { label: 'Laptop NVMe SSD upgrade compatibility', href: '/laptop-nvme-ssd-upgrade-compatibility', description: 'Check form factor, interface and physical clearance before changing a laptop drive.' }
       ]
-
     }],
     faq: [
-      { question: 'Is 80°C too hot for an NVMe SSD?', answer: 'It depends on the drive. Many consumer drives list a warning threshold in the 70s or low 80s °C, so 80°C can be at or near the point where throttling starts. Read your drive\'s warning threshold and check whether speed falls at that temperature.' },
-      { question: 'What is a normal idle temperature for an NVMe SSD?', answer: 'Idle values vary with the case, the slot and whether the drive has a heatsink. A desktop drive with airflow usually idles noticeably cooler than one in a thin laptop. Use your own idle value as the baseline and watch for changes.' },
-      { question: 'Can an NVMe SSD overheat and die?', answer: 'The drive protects itself by reducing speed and, at the critical threshold, may shut down. Brief heat is unlikely to destroy a drive, but long periods of high temperature raise wear. Keep a backup if the drive runs hot all the time.' },
-      { question: 'Why does my NVMe SSD slow down during long copies?', answer: 'There are two common reasons. The drive may be throttling because it is hot, or the faster write cache may be full so the drive drops to its sustained speed. Heat is the cause only if speed falls as temperature climbs and recovers when the drive cools.' }
+      { question: 'Is 80°C too hot for an NVMe SSD?', answer: 'It depends on the exact model and sensor. Samsung publishes a 0–70°C operating range for the 990 PRO 2TB, so 80°C is above that model’s stated range; this is not a universal rule for all NVMe drives. Check your own drive’s documentation and thermal-management data, and do not assume a specific throttling threshold from one reading.' },
+      { question: 'What is a normal idle temperature for an NVMe SSD?', answer: 'There is no universal target. Record a baseline after the system settles, compare the same sensor under similar room and workload conditions, and check the exact model’s operating range. Laptop and desktop temperatures are not directly comparable.' },
+      { question: 'Can an NVMe SSD overheat and fail?', answer: 'Severe overheating can affect normal operation, and NVMe specifications describe critical conditions that may cause major performance reduction or shutdown. A single reading does not predict failure or remaining life. If the drive reports errors or disconnects, back up important data and investigate before stress-testing it.' },
+      { question: 'Why does my NVMe SSD slow down during long copies?', answer: 'Thermal limiting is one possibility, but a fast write cache can also fill and reduce sustained write speed. Compare temperature and speed over the same workload, repeat after cooling, and check whether the slowdown occurs at a stable temperature.' },
+      { question: 'Does a hot SSD automatically need to be replaced?', answer: 'No. Confirm the sensor, exact model specification, health warnings and whether performance or reliability changes with temperature. Replacement decisions should be based on model guidance and the full symptom/health picture, not temperature alone.' }
     ]
   },
   'why-ssd-is-slowing-down-windows': {
