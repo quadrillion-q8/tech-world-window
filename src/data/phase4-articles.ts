@@ -38,7 +38,8 @@ export const phase4Articles: Article[] = [
       "windows-update-stuck",
       "windows-unknown-device",
       "windows-slow-startup",
-      "windows-high-memory"
+      "windows-high-memory",
+      "black-screen-after-login"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -1778,7 +1779,9 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-wont-start"
+      "windows-wont-start",
+      "black-screen-after-login",
+      "usb-device-not-recognized"
     ],
     "contentRole": "cluster",
     "pillarPath": "/windows-troubleshooting-complete-guide",
@@ -2313,7 +2316,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "psu-failure-symptoms",
-      "ram-upgrade-gaming"
+      "ram-upgrade-gaming",
+      "pc-turns-on-but-no-display"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -2381,7 +2385,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "windows-freezing-randomly",
-      "gpu-overheating"
+      "gpu-overheating",
+      "pc-turns-on-but-no-display"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -2693,7 +2698,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "gaming-low-fps",
-      "gaming-crashes-desktop"
+      "gaming-crashes-desktop",
+      "laptop-plugged-in-not-charging"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",

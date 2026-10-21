@@ -151,7 +151,9 @@ const baseArticles: Article[] = [
     readingTime: 16,
     tags: ['Windows 11', 'Windows 10', 'Wi-Fi', 'Ethernet', 'No Internet', 'DNS', 'Networking', 'Troubleshooting'],
     appliesTo: ['Windows 11', 'Windows 10'],
-    relatedArticles: ['windows-troubleshooting-universal', 'windows-dns-not-working', 'windows-network-reset', 'windows-11-26h2-installation-guide'],
+    relatedArticles: ['windows-troubleshooting-universal', 'windows-dns-not-working', 'windows-network-reset', 'windows-11-26h2-installation-guide',
+      'wifi-keeps-disconnecting'
+    ],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
@@ -472,7 +474,9 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 8,
     tags: ['Windows 11', 'DNS', 'Networking', 'Troubleshooting'],
-    relatedArticles: ['windows-troubleshooting-universal', 'windows-wifi-diagnosis', 'windows-network-reset', 'windows-11-26h2-installation-guide'],
+    relatedArticles: ['windows-troubleshooting-universal', 'windows-wifi-diagnosis', 'windows-network-reset', 'windows-11-26h2-installation-guide',
+      'wifi-keeps-disconnecting'
+    ],
     contentRole: 'cluster',
     pillarPath: '/windows-troubleshooting-complete-guide',
     searchIntent: 'informational',
@@ -737,7 +741,9 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-18',
     readingTime: 11,
     tags: ['SSD', 'SMART', 'Storage', 'Windows', 'Drive Health', 'Troubleshooting'],
-    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade',
+      'ssd-not-detected-in-bios-or-windows'
+    ],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -857,7 +863,9 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-06',
     readingTime: 8,
     tags: ['SSD', 'Performance', 'Storage', 'Windows'],
-    relatedArticles: ['ssd-health', 'nvme-temperature', 'check-ram-for-errors', 'ssd-full-space', 'nvme-laptop-upgrade'],
+    relatedArticles: ['ssd-health', 'nvme-temperature', 'check-ram-for-errors', 'ssd-full-space', 'nvme-laptop-upgrade',
+      'ssd-not-detected-in-bios-or-windows'
+    ],
     contentRole: 'cluster',
     pillarPath: '/how-to-check-ssd-health-windows',
     searchIntent: 'informational',

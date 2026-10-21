@@ -12,7 +12,9 @@ export const october2026Articles: Article[] = [
     excerpt: 'First separate a no-power fault from a laptop that powers on without displaying an image. The lights, fan behavior, charger indicator and any recent damage help choose the next test.',
     category: 'Hardware',
     subcategory: 'Laptop troubleshooting',
-    relatedArticles: ['why-8gb-ram-no-longer-enough-windows-11'],
+    relatedArticles: ['why-8gb-ram-no-longer-enough-windows-11',
+      'laptop-plugged-in-not-charging'
+    ],
     authorId: 'imranNatiq',
     publishedAt: '2026-10-15',
     readingTime: 10,
