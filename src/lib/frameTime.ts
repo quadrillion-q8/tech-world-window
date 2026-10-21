@@ -462,7 +462,7 @@ export function spikeEventsCsv(a: FrameAnalysis, label: string): string {
   return [
     'capture_label,event_index,start_time_seconds,slowest_frame_ms,frames_affected,target_refresh_hz,target_frame_budget_ms,slowest_frame_budget_multiple,detection_rule',
     ...rows,
-  ].join('\\n');
+  ].join('\n');
 }
 
 /** Deterministic synthetic capture so visitors can try the tool. It is not a real benchmark. */
