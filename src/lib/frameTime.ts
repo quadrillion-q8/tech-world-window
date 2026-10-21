@@ -3,9 +3,11 @@
  * during SSG, in the browser, and in tests. Nothing here performs network requests.
  */
 
+export type FrameSamples = number[] | Float64Array;
+
 export type ParsedCapture = {
   /** Frame times in milliseconds, in capture order. */
-  frames: number[];
+  frames: FrameSamples;
   /** Name of the column the frame times came from. */
   columnUsed: string;
   /** Application name when the capture contained several and one was selected. */
@@ -236,7 +238,7 @@ export const SPIKE_RULE = {
   budgetTolerance: 1.1,
 };
 
-export function analyzeFrames(frames: number[], targetHz: number): FrameAnalysis {
+export function analyzeFrames(frames: FrameSamples, targetHz: number): FrameAnalysis {
   const n = frames.length;
   const sorted = Float64Array.from(frames).sort();
   let sum = 0;
