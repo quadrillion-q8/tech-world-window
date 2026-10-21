@@ -8,17 +8,24 @@ const headlines: Record<string, string> = {
   windows: 'Fix Windows, step by step.',
   gaming: 'Fix PC gaming performance.',
   hardware: 'Understand your PC hardware.',
-  guides: 'Start here: the complete guides.',
+  guides: 'Practical tech guides for real problems.',
 };
 
 export function CategoryPage() {
   const location = useLocation();
   const categorySlug = location.pathname.replace(/^\//, '').replace(/\/$/, '');
   const category = categories.find(c => c.slug === categorySlug);
-  // /guides is the "start here" hub: only the troubleshooting pillar guides (buying guides live under /best). Topic categories (/windows, /gaming, /hardware) hold the focused fixes, so the two pages never list the same set.
+  // /guides is the full evergreen guide index: include pillar pages and focused cluster articles, while news and reviews stay in their own hubs.
   const isGuidesHub = categorySlug === 'guides';
   const isWindowsHub = categorySlug === 'windows';
-  const matching = isGuidesHub ? articles.filter(a => a.contentRole === 'pillar' && a.category !== 'Reviews') : articles.filter(a => a.category.toLowerCase() === categorySlug && a.contentRole !== 'pillar');
+  const matching = isGuidesHub
+    ? articles
+      .filter(a => a.category !== 'News' && a.category !== 'Reviews')
+      .sort((a, b) =>
+        Number(b.contentRole === 'pillar') - Number(a.contentRole === 'pillar') ||
+        Date.parse(b.updatedAt ?? b.publishedAt) - Date.parse(a.updatedAt ?? a.publishedAt)
+      )
+    : articles.filter(a => a.category.toLowerCase() === categorySlug && a.contentRole !== 'pillar');
   // Topic pages list focused fixes only; their pillar guide is linked once below the intro and listed on /guides.
   // Prefer the practical troubleshooting pillar (the guide people search for) over research write-ups, which are linked as a secondary deep-dive.
   const topicPillars = isGuidesHub ? [] : articles.filter(a => a.category.toLowerCase() === categorySlug && a.contentRole === 'pillar');
