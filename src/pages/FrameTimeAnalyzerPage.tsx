@@ -6,7 +6,7 @@ import { FaqSection } from '../components/FaqSection';
 import { trackMonetization } from '../lib/analytics';
 import {
   buildFindings, buildSampleCsv, spikeEventsCsv, summaryText, SPIKE_RULE,
-  type FrameAnalysis, type ParsedCapture, type ParseResult, type SpikeEvent,
+  type FrameAnalysis, type FrameSamples, type ParsedCapture, type ParseResult, type SpikeEvent,
 } from '../lib/frameTime';
 import type { FrameTimeWorkerMessage, FrameTimeWorkerRequest, FrameTimeWorkerResponse } from '../workers/frameTime.worker';
 
@@ -48,7 +48,7 @@ function sizeBucket(count: number): string {
 }
 
 function FrameTimeChart({ frames, analysis, comparisons }: {
-  frames: number[];
+  frames: FrameSamples;
   analysis: FrameAnalysis;
   comparisons: { frames: number[]; analysis: FrameAnalysis; label: string }[];
 }) {
@@ -60,7 +60,7 @@ function FrameTimeChart({ frames, analysis, comparisons }: {
   const yMax = niceCeil(Math.min(longestMs, Math.max(highestP999 * 1.3, budgetMs * 2.5, 20)));
   const clipped = longestMs > yMax;
   const timelineDurationSec = Math.max(analysis.durationSec, ...comparisons.map(item => item.analysis.durationSec));
-  const downsample = (source: number[]): [number, number][] => {
+  const downsample = (source: FrameSamples): [number, number][] => {
     const out: [number, number][] = [];
     if (source.length <= maxPoints) {
       let elapsed = 0;
