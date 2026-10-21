@@ -250,38 +250,55 @@ export function FrameTimeAnalyzerPage() {
   };
 
   const onDownloadComparisonReport = () => {
-    if (!analysis || !loaded || !comparisonAnalysis || !comparison) return;
-    const rows: [string, number, number, string][] = [
-      ['Average FPS', analysis.avgFps, comparisonAnalysis.avgFps, 'FPS'],
-      ['1% low', analysis.low1Fps, comparisonAnalysis.low1Fps, 'FPS'],
-      ['0.1% low', analysis.low01Fps, comparisonAnalysis.low01Fps, 'FPS'],
-      ['99th percentile frame time', analysis.p99Ms, comparisonAnalysis.p99Ms, 'ms'],
-      ['Detected stutter events per minute', analysis.spikesPerMinute, comparisonAnalysis.spikesPerMinute, '/min'],
-      ['Frames over selected frame-time budget', analysis.overBudgetPct, comparisonAnalysis.overBudgetPct, '%'],
+    if (!analysis || !loaded || comparisons.length === 0 || comparisonAnalyses.length !== comparisons.length) return;
+    const runs = [
+      { capture: loaded, analysis },
+      ...comparisons.map((capture, index) => ({ capture, analysis: comparisonAnalyses[index] })),
     ];
     const report = [
-      'TECH WORLD WINDOW — BEFORE/AFTER FRAME-TIME COMPARISON',
-      '======================================================',
-      `Target refresh rate: ${targetHz} Hz`,
-      `Baseline: ${loaded.isSample ? 'synthetic sample (not a real benchmark)' : loaded.data.application || 'first capture'}`,
-      `Comparison: ${comparison.isSample ? 'synthetic sample (not a real benchmark)' : comparison.data.application || 'second capture'}`,
+      'TECH WORLD WINDOW — MULTI-RUN FRAME-TIME COMPARISON',
+      '===================================================',
+      'Target refresh rate: ' + targetHz + ' Hz',
+      'Captures included: ' + runs.length,
       '',
-      ...rows.map(([label, before, after, unit]) => `${label}: baseline ${before.toFixed(2)} ${unit}; comparison ${after.toFixed(2)} ${unit}; change ${after - before >= 0 ? '+' : ''}${(after - before).toFixed(2)} ${unit}`),
+      ...runs.map((run, index) => {
+        const name = captureLabel(run.capture).replace(/[\r\n]+/g, ' ');
+        return 'RUN ' + (index + 1) + ': ' + name
+          + '\n  Frames: ' + run.analysis.frameCount.toLocaleString('en-US')
+          + '; duration: ' + run.analysis.durationSec.toFixed(2) + ' s'
+          + '; source column: ' + (run.capture.data.columnUsed || 'plain values')
+          + (run.capture.data.application ? '; application: ' + run.capture.data.application : '')
+          + (run.capture.isSample ? '; SYNTHETIC SAMPLE — NOT A REAL BENCHMARK' : '');
+      }),
       '',
-      'Use the same game scene, settings, capture tool and similar capture duration for a fair comparison.',
-      'FPS and low-FPS values are usually better when higher; frame time, stutter rate and over-budget share are usually better when lower.',
-      'A difference does not prove that a driver, setting or component caused the change. Both captures are analyzed locally; no file is uploaded.',
+      'METRICS (all changes are relative to the baseline capture)',
+      '---------------------------------------------------------',
+      ...COMPARISON_METRICS.map(metric => {
+        const values = runs.map(run => metric.value(run.analysis));
+        return metric.label + ': ' + runs.map((run, index) => {
+          const value = values[index].toFixed(metric.decimals) + ' ' + metric.unit;
+          if (index === 0) return captureLabel(run.capture) + ' ' + value;
+          const delta = values[index] - values[0];
+          return captureLabel(run.capture) + ' ' + value + ' (Δ ' + signedValue(delta, metric.decimals, metric.unit) + ' vs baseline)';
+        }).join('; ');
+      }),
+      '',
+      'Use the same game scene, settings, capture tool, hardware, driver and similar capture duration for a fair comparison.',
+      'Higher FPS and low-FPS values are usually favorable; lower frame time, stutter rate and over-budget share are usually favorable.',
+      'Small changes may fall within natural run-to-run variation. A difference does not prove that a driver, setting or component caused it.',
+      'All captures were read and analyzed locally in this browser. No capture file or report data was uploaded.',
     ].join('\n');
     const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
     const objectUrl = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = objectUrl;
-    anchor.download = `frame-time-comparison-${new Date().toISOString().slice(0, 10)}.txt`;
+    anchor.download = 'frame-time-multi-run-comparison-' + new Date().toISOString().slice(0, 10) + '.txt';
     anchor.style.display = 'none';
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
     window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'download_comparison_report', runs: runs.length });
   };
 
   const onDownloadSpikeCsv = () => {
