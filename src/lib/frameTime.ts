@@ -105,7 +105,7 @@ export function parseFrameData(rawText: string): ParseResult {
     const rows: { value: number; app?: string }[] = [];
     for (let i = headerIndex + 1; i < lines.length; i++) {
       const cells = splitLine(lines[i], delimiter);
-      const value = Number.parseFloat(cells[column]);
+      const value = Number(cells[column]);
       if (!Number.isFinite(value) || value <= 0) continue;
       rows.push({ value, app: appColumn !== -1 ? cells[appColumn] : undefined });
     }
@@ -130,7 +130,7 @@ export function parseFrameData(rawText: string): ParseResult {
     const firstDelimiter = detectDelimiter(lines[0]);
     const numeric: number[] = [];
     for (const line of lines) {
-      const value = Number.parseFloat(splitLine(line, firstDelimiter)[0]);
+      const value = Number(splitLine(line, firstDelimiter)[0]);
       if (Number.isFinite(value) && value > 0) numeric.push(value);
     }
     if (numeric.length < Math.min(MIN_FRAMES, lines.length * 0.8)) {
