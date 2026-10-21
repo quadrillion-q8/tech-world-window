@@ -100,7 +100,7 @@ export const octoberTechGuides: Article[] = [
     ],
     sources: [
       { label: "Microsoft Support: Fix Wi-Fi connection issues in Windows", url: "https://support.microsoft.com/en-us/windows/fix-wi-fi-connection-issues-in-windows-9424a1f7-6a3b-65a6-4d78-7f07eee84d2c" },
-      { label: "Microsoft Support: Wi-Fi and your home layout", url: "https://support.microsoft.com/en-us/windows/experience/connectivity-networking/wi-fi-and-your-home-layout" },
+      { label: "Intel: Wireless adapter keeps disconnecting (Intel adapters)", url: "https://www.intel.com/content/www/us/en/support/articles/000088581.html" },
       { label: "Microsoft Support: Update drivers through Device Manager", url: "https://support.microsoft.com/en-us/windows/update-drivers-through-device-manager-in-windows-ec62f46c-ff14-c91d-eead-d7126dc1f7b6" }
     ],
     faq: [
@@ -420,7 +420,7 @@ export const octoberTechGuides: Article[] = [
       }
     ],
     sources: [
-      { label: "Intel Support: How to fix no boot or no display for self-build systems", url: "https://www.intel.com/content/www/us/en/support/articles/000021605/processors.html" },
+      { label: "Intel Support: No-boot/no-display guidance for Intel boxed desktop processors", url: "https://www.intel.com/content/www/us/en/support/articles/000021605/processors.html" },
       { label: "ASUS ROG Support: Motherboard no power, no boot or no display troubleshooting", url: "https://rog.asus.com/support/faq/1042632/" },
       { label: "Microsoft Support: Troubleshooting blank screens in Windows", url: "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshooting-blank-screens-in-windows" }
     ],
@@ -617,7 +617,7 @@ export const octoberTechGuides: Article[] = [
           "For USB-C devices, check the port and cable capability as well as the connector shape. A USB-C port may support a subset of data, display or power features, and a physically compatible cable does not automatically support every mode. Use the device and computer manuals for the exact capabilities."
         ],
         relatedLinks: [
-          { label: "Microsoft's USB-C troubleshooting guidance", href: "/windows-troubleshooting-complete-guide", description: "Use TWW's Windows diagnostic sequence before broader system changes." }
+          { label: "Complete Windows troubleshooting guide", href: "/windows-troubleshooting-complete-guide", description: "Start with the symptom-first workflow if the fault extends beyond USB." }
         ]
       },
       {
