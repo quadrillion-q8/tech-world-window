@@ -404,8 +404,8 @@ export function FrameTimeAnalyzerPage() {
       <section className="ft-comparison-panel" aria-labelledby="ft-comparison-heading">
         <div className="ft-comparison-copy">
           <span className="eyebrow">BEFORE / AFTER</span>
-          <h2 id="ft-comparison-heading">Compare a second capture</h2>
-          <p>The capture already loaded above is the baseline. Choose a second capture to compare averages, low FPS, slow-frame timing, stutter rate, and frames over the selected refresh-rate budget.</p>
+          <h2 id="ft-comparison-heading">Compare up to four captures</h2>
+          <p>Keep the first capture as your baseline, then add up to three more runs. Compare FPS lows, slow-frame timing, stutter rate and over-budget frames together instead of judging a change from average FPS alone.</p>
         </div>
         <div className="ft-input-actions">
           <label className="button button-primary ft-file-button">
@@ -418,7 +418,7 @@ export function FrameTimeAnalyzerPage() {
         {comparisons.map((capture, index) => <div className="ft-loaded-comparison" key={capture.label + '-' + index}>
           <div>
             <strong>Run {index + 2}: {captureLabel(capture)}</strong>
-            <span>{capture.data.frames.length.toLocaleString('en-US')} frames · {capture.data.columnUsed || 'plain values'} · {(capture.data.frames.reduce((sum, value) => sum + value, 0) / 1000).toFixed(1)} s</span>
+            <span>{capture.data.frames.length.toLocaleString('en-US')} frames · {capture.data.columnUsed || 'plain values'} · {comparisonAnalyses[index].durationSec.toFixed(1)} s</span>
             {capture.data.warnings.map(warning => <small className="ft-warning" key={index + '-' + warning}>{warning}</small>)}
           </div>
           <button type="button" className="ft-secondary" onClick={() => onRemoveComparison(index)}>Remove</button>
