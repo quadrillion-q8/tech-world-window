@@ -50,7 +50,7 @@ function sizeBucket(count: number): string {
 function FrameTimeChart({ frames, analysis, comparisons }: {
   frames: FrameSamples;
   analysis: FrameAnalysis;
-  comparisons: { frames: number[]; analysis: FrameAnalysis; label: string }[];
+  comparisons: { frames: FrameSamples; analysis: FrameAnalysis; label: string }[];
 }) {
   const { width, height, left, right, top, bottom, maxPoints } = CHART;
   const plotW = width - left - right, plotH = height - top - bottom;
