@@ -24,6 +24,7 @@ export type BsodStep = { title: string; detail: string };
 export type BsodDeepDive = {
   heading: string;
   paragraphs: string[];
+  subsections?: { heading: string; paragraphs: string[]; steps?: BsodStep[] }[];
   table?: { caption: string; headers: string[]; rows: string[][] };
   faq?: { question: string; answer: string }[];
   sources?: { label: string; url: string }[];
@@ -192,7 +193,7 @@ export const bsodEntries: BsodEntry[] = [
       step.undo('If the blue screen names a driver, record it and check the PC or component maker’s supported version before using driver-cleanup utilities.'),
       { title: 'Check recent memory or hardware changes', detail: 'If the crashes began after adding RAM or enabling XMP/EXPO, return that specific change to its default for a controlled test. If hardware was recently installed, check the exact model’s service guidance instead of changing unrelated firmware settings.' },
       step.memory(),
-      step.sfc(),
+      { title: 'Repair Windows system files', detail: 'Open Terminal (Admin) and run `DISM /Online /Cleanup-Image /RestoreHealth`. When it finishes, run `sfc /scannow`, then restart if repairs were made. These tools address Windows image and protected system-file corruption; they do not prove that corrupted files caused this stop code.' },
       { title: 'Check the file system only when storage evidence points there', detail: 'If Windows logs NTFS or disk errors, or the drive disappears or reports warnings, protect important files before further tests. On a drive without those warning signs, open Terminal (Admin) and run `chkdsk C: /scan`; do not start with a write-heavy repair or repeated benchmark.' },
       { title: 'Inspect or reseat memory only if you are comfortable doing so', detail: 'If a memory test reports errors, shut down, disconnect power, and follow the computer or motherboard maker’s instructions. Testing one module at a time may help distinguish a stick from a slot or unstable setting; otherwise use qualified service.' },
     ],
@@ -204,6 +205,35 @@ export const bsodEntries: BsodEntry[] = [
         'Start with the timeline. Record when the crash began, what changed immediately beforehand, whether the same workload triggers it, and whether the blue screen names a .sys file. A named module is a useful lead, not automatic proof of root cause. If crashes recur, keep the minidump files in C:\\Windows\\Minidump and note the matching BugCheck event (Event ID 1001) in Event Viewer. A debugger-informed dump analysis can be more informative than the stop-code label alone.',
         'Treat test results proportionally. A memory-test error is meaningful evidence of instability, but it may reflect a module, slot, memory controller, or unsupported settings; isolate these possibilities before buying parts. A test that passes lowers suspicion but cannot exclude every intermittent fault. Likewise, check the file system when Windows reports NTFS or disk errors rather than assuming every 0x50 crash is a storage failure.',
         'Change one variable at a time and record the result. This makes the diagnosis reproducible and lets you reverse an unsuccessful change. Avoid registry cleaners, automatic driver-updater utilities, indiscriminate BIOS changes, and reinstalling Windows before you have protected data and collected the basic evidence.'
+      ],
+      subsections: [
+        {
+          heading: "Advanced path: use a minidump to narrow the cause",
+          paragraphs: [
+            "This is an optional step for recurring crashes, not a requirement for every user. Small crash dumps are often stored in `C:\\Windows\\Minidump`; depending on the dump settings, a larger dump may be stored as `C:\\Windows\\MEMORY.DMP`. If neither exists, dump creation may be disabled or configured elsewhere. The absence of a dump does not prove that a crash did not happen.",
+          ],
+          steps: [
+            {
+              title: "Keep the dump and its timestamp",
+              detail: "Copy the file associated with the crash before attempting more fixes. Record the crash time, stop code, any named `.sys` file, and the matching BugCheck event. Keep the original unchanged.",
+            },
+            {
+              title: "Open a copy in Microsoft's WinDbg debugger",
+              detail: "Install WinDbg using Microsoft's official guidance, open the copied `.dmp` file, and run `!analyze -v` in the debugger command window after the dump loads. This is an advanced diagnostic step; you do not need WinDbg to perform the basic checks above.",
+            },
+            {
+              title: "Look for patterns across evidence",
+              detail: "Read the bug-check summary, module or image name, and stack text alongside the crash timestamp and recent changes. Compare more than one dump when available. A named driver or stack frame is an investigative lead, not proof that the module alone caused the crash.",
+            },
+          ],
+        },
+        {
+          heading: "What the 0x50 parameters can tell you",
+          paragraphs: [
+            "A debugger can show the four bug-check parameters. In Microsoft's reference, parameter 1 is the referenced memory address; parameter 2 describes the attempted access, with encodings that vary by Windows version and processor architecture; parameter 3 is the instruction address when known; and parameter 4 describes the page-fault subtype. Do not infer a failed part from the raw numbers alone: interpret them against the matching Microsoft documentation and the full `!analyze -v` output.",
+            "Privacy note: even a small dump can include process details, loaded drivers, and kernel context. Review dump contents before sharing them, and do not post raw crash dumps publicly. Share only with a trusted support channel or technician when needed.",
+          ],
+        },
       ],
       table: {
         caption: 'Use the observed evidence to choose the next test',
@@ -222,12 +252,18 @@ export const bsodEntries: BsodEntry[] = [
         { question: 'What does 0x00000050 mean compared with 0x50?', answer: 'They are two hexadecimal representations of the same bug-check value. PAGE_FAULT_IN_NONPAGED_AREA is the associated stop-code name.' },
         { question: 'Should I run CHKDSK first?', answer: 'Not automatically. First protect important files if storage trouble is plausible. Use chkdsk C: /scan when Windows or Event Viewer provides file-system clues; do not assume the drive is responsible without supporting evidence.' },
         { question: 'What if Windows Memory Diagnostic finds no errors?', answer: 'A clean result is useful but does not rule out every intermittent fault or unstable memory configuration. If crashes continue, preserve the minidump, note the named module and event time, and review recent driver or software changes.' },
-        { question: 'Can I fix this by reinstalling Windows?', answer: 'Reinstallation is not a good first step and will not repair failing hardware. Back up important files, investigate recent changes, run targeted tests, and preserve crash evidence before considering a repair install or reset.' }
+        { question: 'Can I fix this by reinstalling Windows?', answer: 'Reinstallation is not a good first step and will not repair failing hardware. Back up important files, investigate recent changes, run targeted tests, and preserve crash evidence before considering a repair install or reset.' },
+        { question: 'Where are PAGE_FAULT_IN_NONPAGED_AREA minidumps saved?', answer: 'Small dumps are commonly saved in C:\\Windows\\Minidump. Depending on the configured dump type, Windows may save a larger dump as C:\\Windows\\MEMORY.DMP instead. If no file exists, check the system dump settings; the absence of a dump is not proof that no crash occurred.' },
+        { question: 'What does WinDbg !analyze -v tell me?', answer: 'It summarizes the bug check and relevant module and stack information from a dump. The output can narrow the investigation, but a named module is not automatically the root cause. Correlate it with timestamps, recent changes, and other dumps if available.' },
+        { question: 'Is it safe to upload a minidump publicly?', answer: 'Do not post raw crash dumps publicly. Even small dumps can include process details, loaded drivers, and kernel context. Review the file and share it only through a trusted support channel when necessary.' }
       ],
       sources: [
         { label: 'Microsoft Learn: Bug Check 0x50 — PAGE_FAULT_IN_NONPAGED_AREA', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x50--page-fault-in-nonpaged-area' },
         { label: 'Microsoft Support: Use System File Checker to repair missing or corrupted system files', url: 'https://support.microsoft.com/en-us/topic/use-the-system-file-checker-tool-to-repair-missing-or-corrupted-system-files-79aa86cb-ca52-166a-92a3-966e85d4094e' },
-        { label: 'Microsoft Learn: Bug Check Code Reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' }
+        { label: 'Microsoft Learn: Bug Check Code Reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' },
+        { label: 'Microsoft Learn: Analyze a kernel-mode dump file with WinDbg', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/analyzing-a-kernel-mode-dump-file-with-windbg' },
+        { label: 'Microsoft Learn: Read small memory dump files', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file' },
+        { label: 'Microsoft Support: Resolving blue-screen errors in Windows', url: 'https://support.microsoft.com/en-us/windows/resolving-blue-screen-errors-in-windows-60b01860-58f2-be66-7516-5c45a66ae3c6' }
       ]
     },
     related: [GUIDE.decode, GUIDE.ram, GUIDE.ssd],

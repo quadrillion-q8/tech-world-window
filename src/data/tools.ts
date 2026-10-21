@@ -264,8 +264,8 @@ export function bsodSeo(entry: BsodEntry) {
   }
   if (entry.slug === 'page-fault-in-nonpaged-area') {
     return {
-      title: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50): Fix',
-      description: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50 / 0x00000050) on Windows? Check recent drivers, memory stability, and storage evidence without assuming RAM is faulty.',
+      title: 'PAGE_FAULT_IN_NONPAGED_AREA (0x50): Causes & Fixes',
+      description: 'Diagnose PAGE_FAULT_IN_NONPAGED_AREA (0x50 / 0x00000050) on Windows 10 and 11. Check drivers, RAM stability and crash-dump evidence safely.',
     };
   }
   return {
