@@ -4,7 +4,7 @@
  * This worker owns file reading, CSV parsing, and statistical analysis so large
  * captures do not block the page's main thread. No network requests are made.
  */
-import { analyzeFrames, parseFrameData, type FrameAnalysis, type ParseResult } from '../lib/frameTime';
+import { analyzeFrames, parseFrameData, type FrameAnalysis, type ParseResult, type SpikeEvent } from '../lib/frameTime';
 
 export type FrameTimeWorkerMessage =
   | { type: 'parse-text'; text: string }
@@ -15,7 +15,7 @@ export type FrameTimeWorkerRequest = FrameTimeWorkerMessage & { id: number };
 
 export type FrameTimeWorkerResponse =
   | { id: number; type: 'parsed'; result: ParseResult }
-  | { id: number; type: 'analyzed'; analysis: FrameAnalysis }
+  | { id: number; type: 'analyzed'; analysis: FrameAnalysis; worstSpikes: SpikeEvent[] }
   | { id: number; type: 'error'; message: string };
 
 const workerScope = self as unknown as {
@@ -35,7 +35,9 @@ workerScope.onmessage = async (event) => {
     }
 
     const analysis = analyzeFrames(request.frames, request.targetHz);
-    workerScope.postMessage({ id: request.id, type: 'analyzed', analysis });
+    // Keep ranking of the slowest events off the UI thread as captures grow.
+    const worstSpikes = [...analysis.spikes].sort((a, b) => b.worstMs - a.worstMs).slice(0, 5);
+    workerScope.postMessage({ id: request.id, type: 'analyzed', analysis, worstSpikes });
   } catch {
     workerScope.postMessage({
       id: request.id,
