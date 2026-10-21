@@ -1,13 +1,14 @@
-import { useMemo, useRef, useState, type ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { toolByPath } from '../data/tools';
 import { FaqSection } from '../components/FaqSection';
 import { trackMonetization } from '../lib/analytics';
 import {
-  analyzeFrames, buildFindings, buildSampleCsv, parseFrameData, spikeEventsCsv, summaryText, SPIKE_RULE,
-  type FrameAnalysis, type ParsedCapture,
+  buildFindings, buildSampleCsv, spikeEventsCsv, summaryText, SPIKE_RULE,
+  type FrameAnalysis, type ParsedCapture, type ParseResult,
 } from '../lib/frameTime';
+import type { FrameTimeWorkerMessage, FrameTimeWorkerRequest, FrameTimeWorkerResponse } from '../workers/frameTime.worker';
 
 const TOOL_PATH = '/tools/frame-time-analyzer';
 const TARGETS = [30, 50, 60, 75, 90, 100, 120, 144, 165, 180, 200, 240, 280, 300, 360, 480, 500, 540];
@@ -133,15 +134,107 @@ export function FrameTimeAnalyzerPage() {
   const [pasteText, setPasteText] = useState('');
   const [targetHz, setTargetHz] = useState(144);
   const [busy, setBusy] = useState(false);
+  const [analysisBusy, setAnalysisBusy] = useState(false);
   const [copied, setCopied] = useState(false);
   const [comparisons, setComparisons] = useState<Loaded[]>([]);
   const [comparisonError, setComparisonError] = useState('');
   const [comparisonBusy, setComparisonBusy] = useState(false);
+  const [analysis, setAnalysis] = useState<FrameAnalysis | null>(null);
+  const [comparisonAnalyses, setComparisonAnalyses] = useState<FrameAnalysis[]>([]);
+  const [workerError, setWorkerError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
   const comparisonFileRef = useRef<HTMLInputElement>(null);
+  const workerRef = useRef<Worker | null>(null);
+  const nextWorkerRequestId = useRef(0);
+  const pendingWorkerRequests = useRef(new Map<number, {
+    resolve: (response: FrameTimeWorkerResponse) => void;
+    reject: (error: Error) => void;
+  }>());
 
-  const analysis = useMemo(() => (loaded ? analyzeFrames(loaded.data.frames, targetHz) : null), [loaded, targetHz]);
-  const comparisonAnalyses = useMemo(() => comparisons.map(capture => analyzeFrames(capture.data.frames, targetHz)), [comparisons, targetHz]);
+  const runWorker = useCallback((message: FrameTimeWorkerMessage): Promise<FrameTimeWorkerResponse> =>
+    new Promise((resolve, reject) => {
+      const worker = workerRef.current;
+      if (!worker) {
+        reject(new Error('The background processing worker is unavailable.'));
+        return;
+      }
+      const id = ++nextWorkerRequestId.current;
+      pendingWorkerRequests.current.set(id, { resolve, reject });
+      try {
+        worker.postMessage({ ...message, id } as FrameTimeWorkerRequest);
+      } catch {
+        pendingWorkerRequests.current.delete(id);
+        reject(new Error('The request could not be sent to the background processor.'));
+      }
+    }), []);
+
+  useEffect(() => {
+    let worker: Worker;
+    try {
+      worker = new Worker(new URL('../workers/frameTime.worker.ts', import.meta.url), { type: 'module' });
+      workerRef.current = worker;
+      worker.onmessage = (event: MessageEvent<FrameTimeWorkerResponse>) => {
+        const response = event.data;
+        const pending = pendingWorkerRequests.current.get(response.id);
+        if (!pending) return;
+        pendingWorkerRequests.current.delete(response.id);
+        if (response.type === 'error') pending.reject(new Error(response.message));
+        else pending.resolve(response);
+      };
+      worker.onerror = () => {
+        const failure = new Error('Background processing stopped unexpectedly.');
+        setWorkerError('Background processing stopped unexpectedly. Reload this page and retry your capture.');
+        pendingWorkerRequests.current.forEach(request => request.reject(failure));
+        pendingWorkerRequests.current.clear();
+        worker.terminate();
+        if (workerRef.current === worker) workerRef.current = null;
+      };
+    } catch {
+      setWorkerError('This browser could not start background processing. Try a current version of Chrome, Edge, Firefox or Safari.');
+    }
+    return () => {
+      if (workerRef.current) workerRef.current.terminate();
+      workerRef.current = null;
+      const failure = new Error('The page was closed before background processing finished.');
+      pendingWorkerRequests.current.forEach(request => request.reject(failure));
+      pendingWorkerRequests.current.clear();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) {
+      setAnalysis(null);
+      setComparisonAnalyses([]);
+      setAnalysisBusy(false);
+      return;
+    }
+    let cancelled = false;
+    setAnalysis(null);
+    setComparisonAnalyses([]);
+    setAnalysisBusy(true);
+    const jobs = [
+      runWorker({ type: 'analyze', frames: loaded.data.frames, targetHz }),
+      ...comparisons.map(capture => runWorker({ type: 'analyze', frames: capture.data.frames, targetHz })),
+    ];
+    Promise.all(jobs).then(responses => {
+      if (cancelled) return;
+      const baseline = responses[0];
+      if (!baseline || baseline.type !== 'analyzed') throw new Error('The baseline capture could not be analyzed.');
+      const resultComparisons = responses.slice(1).map(response => {
+        if (response.type !== 'analyzed') throw new Error('A comparison capture could not be analyzed.');
+        return response.analysis;
+      });
+      setAnalysis(baseline.analysis);
+      setComparisonAnalyses(resultComparisons);
+      setError('');
+    }).catch(() => {
+      if (cancelled) return;
+      setError('Background analysis failed. Try a smaller capture or reload the page and retry.');
+    }).finally(() => {
+      if (!cancelled) setAnalysisBusy(false);
+    });
+    return () => { cancelled = true; };
+  }, [loaded, comparisons, targetHz, runWorker]);
   const chartComparisons = useMemo(() => comparisons.map((capture, index) => ({ frames: capture.data.frames, analysis: comparisonAnalyses[index], label: captureLabel(capture) })), [comparisons, comparisonAnalyses]);
   const comparisonColumns = useMemo(() => {
     if (!loaded || !analysis) return [];
@@ -150,21 +243,38 @@ export function FrameTimeAnalyzerPage() {
   const findings = useMemo(() => (analysis ? buildFindings(analysis) : []), [analysis]);
   const worstSpikes = useMemo(() => (analysis ? [...analysis.spikes].sort((a, b) => b.worstMs - a.worstMs).slice(0, 5) : []), [analysis]);
 
-  const ingest = (text: string, isSample: boolean, label = 'Pasted frame times') => {
-    const result = parseFrameData(text);
+  const applyParsedResult = (result: ParseResult, isSample: boolean, label: string) => {
     setCopied(false);
     if (!result.ok) {
       setError(result.error);
       setLoaded(null);
       setComparisons([]);
+      setComparisonAnalyses([]);
       setComparisonError('');
       return;
     }
     setError('');
     setLoaded({ data: result.data, isSample, label });
     setComparisons([]);
+    setComparisonAnalyses([]);
     setComparisonError('');
     trackMonetization('tool_completed', { tool: 'frame_time_analyzer', size: sizeBucket(result.data.frames.length), sample: isSample });
+  };
+
+  const ingest = async (text: string, isSample: boolean, label = 'Pasted frame times') => {
+    setBusy(true);
+    try {
+      const response = await runWorker({ type: 'parse-text', text });
+      if (response.type !== 'parsed') throw new Error('Unexpected worker response.');
+      applyParsedResult(response.result, isSample, label);
+    } catch {
+      setError('Background processing failed. Reload the page and try again.');
+      setLoaded(null);
+      setComparisons([]);
+      setComparisonAnalyses([]);
+    } finally {
+      setBusy(false);
+    }
   };
 
   const onFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -173,9 +283,20 @@ export function FrameTimeAnalyzerPage() {
     if (file.size > MAX_FILE_BYTES) { setError('That file is larger than 250 MB. Trim the capture to the part you want to analyze and try again.'); setLoaded(null); setComparisons([]); event.target.value = ''; return; }
     setBusy(true);
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'file' });
-    try { ingest(await file.text(), false, file.name); }
-    catch { setError('The file could not be read. Check that it is a CSV or text file.'); setLoaded(null); setComparisons([]); }
-    finally { setBusy(false); event.target.value = ''; }
+    try {
+      // Pass the File to the worker; its contents are read off the main thread.
+      const response = await runWorker({ type: 'parse-file', file });
+      if (response.type !== 'parsed') throw new Error('Unexpected worker response.');
+      applyParsedResult(response.result, false, file.name);
+    } catch {
+      setError('The file could not be read or processed in the background. Check that it is a CSV or text file, then try again.');
+      setLoaded(null);
+      setComparisons([]);
+      setComparisonAnalyses([]);
+    } finally {
+      setBusy(false);
+      event.target.value = '';
+    }
   };
 
   const onComparisonFiles = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -194,9 +315,14 @@ export function FrameTimeAnalyzerPage() {
     for (const file of files.slice(0, available)) {
       if (file.size > MAX_FILE_BYTES) { problems.push(file.name + ': larger than 250 MB; trim the capture and try again.'); continue; }
       try {
-        const parsed = parseFrameData(await file.text());
-        if (!parsed.ok) problems.push(file.name + ': ' + parsed.error);
-        else additions.push({ data: parsed.data, isSample: false, label: file.name });
+        const response = await runWorker({ type: 'parse-file', file });
+        if (response.type !== 'parsed') {
+          problems.push(file.name + ': the background processor returned an unexpected response.');
+        } else if (!response.result.ok) {
+          problems.push(file.name + ': ' + response.result.error);
+        } else {
+          additions.push({ data: response.result.data, isSample: false, label: file.name });
+        }
       } catch {
         problems.push(file.name + ': the file could not be read as CSV or text.');
       }
@@ -222,12 +348,12 @@ export function FrameTimeAnalyzerPage() {
 
   const onPaste = () => {
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'paste' });
-    ingest(pasteText, false, 'Pasted frame times');
+    void ingest(pasteText, false, 'Pasted frame times');
   };
 
   const onSample = () => {
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'sample' });
-    ingest(buildSampleCsv(), true, 'Synthetic sample data');
+    void ingest(buildSampleCsv(), true, 'Synthetic sample data');
   };
 
   const onClear = () => {
@@ -369,16 +495,16 @@ export function FrameTimeAnalyzerPage() {
     <span className="eyebrow">FREE ANALYSIS TOOL</span>
     <h1>Frame-Time Analyzer</h1>
     <p className="page-intro">Average FPS can look healthy while a game still stutters. Analyze a PresentMon, CapFrameX, NVIDIA FrameView, or compatible frame-time CSV to inspect 1% and 0.1% lows, find stutter spikes, and graph frame pacing. Compare up to four captures on the same axes, then export event data and a multi-run report—all locally in your browser.</p>
-    <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are never uploaded.</p>
+    <p className="ft-privacy"><strong>Private by design.</strong> Choose a local capture to analyze it in your browser. File reading, analysis, comparisons, and report downloads happen on your device; your capture and report are never uploaded.</p>
 
     <div className="ft-input">
       <div className="ft-input-actions">
         <label className="button button-primary ft-file-button">
-          {busy ? 'Reading file…' : 'Choose capture file (CSV)'}
+          {busy ? 'Processing capture…' : 'Choose local capture file (CSV)'}
           <input ref={fileRef} type="file" accept=".csv,.txt,text/csv,text/plain" onChange={onFile} disabled={busy} />
         </label>
-        <button type="button" className="ft-secondary" onClick={onSample}>Try sample data</button>
-        {(loaded || error) && <button type="button" className="ft-secondary" onClick={onClear}>Clear</button>}
+        <button type="button" className="ft-secondary" onClick={onSample} disabled={busy}>Try sample data</button>
+        {(loaded || error) && <button type="button" className="ft-secondary" onClick={onClear} disabled={busy || comparisonBusy}>Clear</button>}
       </div>
       <label className="ft-target-select">Your display refresh rate or FPS target
         <select value={targetHz} onChange={event => setTargetHz(Number(event.target.value))}>
@@ -389,12 +515,14 @@ export function FrameTimeAnalyzerPage() {
         <summary>Paste frame times instead</summary>
         <label htmlFor="ft-paste-box">Paste CSV text, or one frame time in milliseconds per line</label>
         <textarea id="ft-paste-box" rows={6} value={pasteText} onChange={event => setPasteText(event.target.value)} spellCheck={false} />
-        <button type="button" className="ft-secondary" onClick={onPaste} disabled={!pasteText.trim()}>Analyze pasted data</button>
+        <button type="button" className="ft-secondary" onClick={onPaste} disabled={!pasteText.trim() || busy}>Analyze pasted data</button>
       </details>
     </div>
 
     <div aria-live="polite">
       {error && <div className="ft-error" role="alert"><strong>Could not analyze this data.</strong> {error}</div>}
+      {workerError && <div className="ft-error" role="alert"><strong>Background processing unavailable.</strong> {workerError}</div>}
+      {analysisBusy && loaded && <p className="ft-warning" role="status">Analyzing frame times in the background. Large captures may take a little longer.</p>}
     </div>
 
     {loaded && analysis && <div className="ft-results">
