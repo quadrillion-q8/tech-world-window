@@ -446,7 +446,9 @@ export function summaryText(a: FrameAnalysis, label: string): string {
 /** Export every detected event as a standards-friendly CSV generated locally in the browser. */
 export function spikeEventsCsv(a: FrameAnalysis, label: string): string {
   const budgetMs = 1000 / a.targetHz;
-  const capture = label.replace(/"/g, '""');
+  // Neutralize spreadsheet formula prefixes in untrusted metadata from the capture file.
+  const safeLabel = /^[\\s]*[=+\\-@]/.test(label) ? `'${label}` : label;
+  const capture = safeLabel.replace(/"/g, '""');
   const rule = `frame > ${SPIKE_RULE.ratio}x local median and at least ${SPIKE_RULE.minExcessMs} ms above it (${SPIKE_RULE.windowFrames}-frame window)`.replace(/"/g, '""');
   const rows = a.spikes.map((spike, index) => [
     `"${capture}"`,
