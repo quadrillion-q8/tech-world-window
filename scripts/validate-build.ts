@@ -424,6 +424,10 @@ if (!existsSync(dist)) {
       }
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('compare a second capture')) errors.push('Frame-time analyzer is missing the comparison capability explanation in prerendered HTML.');
+      if (route.path === '/tools/frame-time-analyzer') {
+        const requiredFrameTimeText = ['Capture tools and metric definitions', 'PresentMon CSV output documentation', 'Present-to-present intervals and display-change intervals'];
+        for (const phrase of requiredFrameTimeText) if (!html.includes(phrase)) errors.push(`Frame-time analyzer is missing expected source/methodology text: ${phrase}`);
+      }
       if (route.path === '/tools/windows-battery-health-analyzer' && (!html.includes('powercfg /batteryreport') || !html.includes('Private by design: your report stays in this browser'))) errors.push('Windows Battery Health Analyzer is missing its report-generation instructions or privacy disclosure in prerendered HTML.');
       if (route.path === '/tools/windows-repair-log-analyzer') {
         const requiredText = ['Windows Repair Log Analyzer', 'not uploaded', 'no AI API key is used', 'CBS', 'DISM'];
