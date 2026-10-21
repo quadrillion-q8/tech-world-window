@@ -6,7 +6,7 @@ import { FaqSection } from '../components/FaqSection';
 import { trackMonetization } from '../lib/analytics';
 import {
   buildFindings, buildSampleCsv, spikeEventsCsv, summaryText, SPIKE_RULE,
-  type FrameAnalysis, type ParsedCapture, type ParseResult,
+  type FrameAnalysis, type ParsedCapture, type ParseResult, type SpikeEvent,
 } from '../lib/frameTime';
 import type { FrameTimeWorkerMessage, FrameTimeWorkerRequest, FrameTimeWorkerResponse } from '../workers/frameTime.worker';
 
@@ -140,6 +140,7 @@ export function FrameTimeAnalyzerPage() {
   const [comparisonError, setComparisonError] = useState('');
   const [comparisonBusy, setComparisonBusy] = useState(false);
   const [analysis, setAnalysis] = useState<FrameAnalysis | null>(null);
+  const [worstSpikes, setWorstSpikes] = useState<SpikeEvent[]>([]);
   const [comparisonAnalyses, setComparisonAnalyses] = useState<FrameAnalysis[]>([]);
   const [workerError, setWorkerError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
@@ -204,12 +205,14 @@ export function FrameTimeAnalyzerPage() {
   useEffect(() => {
     if (!loaded) {
       setAnalysis(null);
+      setWorstSpikes([]);
       setComparisonAnalyses([]);
       setAnalysisBusy(false);
       return;
     }
     let cancelled = false;
     setAnalysis(null);
+    setWorstSpikes([]);
     setComparisonAnalyses([]);
     setAnalysisBusy(true);
     const jobs = [
@@ -225,6 +228,7 @@ export function FrameTimeAnalyzerPage() {
         return response.analysis;
       });
       setAnalysis(baseline.analysis);
+      setWorstSpikes(baseline.worstSpikes);
       setComparisonAnalyses(resultComparisons);
       setError('');
     }).catch(() => {
@@ -241,7 +245,6 @@ export function FrameTimeAnalyzerPage() {
     return [{ capture: loaded, analysis }, ...comparisons.map((capture, index) => ({ capture, analysis: comparisonAnalyses[index] }))];
   }, [loaded, analysis, comparisons, comparisonAnalyses]);
   const findings = useMemo(() => (analysis ? buildFindings(analysis) : []), [analysis]);
-  const worstSpikes = useMemo(() => (analysis ? [...analysis.spikes].sort((a, b) => b.worstMs - a.worstMs).slice(0, 5) : []), [analysis]);
 
   const applyParsedResult = (result: ParseResult, isSample: boolean, label: string) => {
     setCopied(false);
