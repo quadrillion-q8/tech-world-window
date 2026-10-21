@@ -3,9 +3,11 @@
  * during SSG, in the browser, and in tests. Nothing here performs network requests.
  */
 
+export type FrameSamples = number[] | Float64Array;
+
 export type ParsedCapture = {
   /** Frame times in milliseconds, in capture order. */
-  frames: number[];
+  frames: FrameSamples;
   /** Name of the column the frame times came from. */
   columnUsed: string;
   /** Application name when the capture contained several and one was selected. */
@@ -105,7 +107,7 @@ export function parseFrameData(rawText: string): ParseResult {
     const rows: { value: number; app?: string }[] = [];
     for (let i = headerIndex + 1; i < lines.length; i++) {
       const cells = splitLine(lines[i], delimiter);
-      const value = Number.parseFloat(cells[column]);
+      const value = Number(cells[column]);
       if (!Number.isFinite(value) || value <= 0) continue;
       rows.push({ value, app: appColumn !== -1 ? cells[appColumn] : undefined });
     }
@@ -130,7 +132,7 @@ export function parseFrameData(rawText: string): ParseResult {
     const firstDelimiter = detectDelimiter(lines[0]);
     const numeric: number[] = [];
     for (const line of lines) {
-      const value = Number.parseFloat(splitLine(line, firstDelimiter)[0]);
+      const value = Number(splitLine(line, firstDelimiter)[0]);
       if (Number.isFinite(value) && value > 0) numeric.push(value);
     }
     if (numeric.length < Math.min(MIN_FRAMES, lines.length * 0.8)) {
@@ -236,7 +238,7 @@ export const SPIKE_RULE = {
   budgetTolerance: 1.1,
 };
 
-export function analyzeFrames(frames: number[], targetHz: number): FrameAnalysis {
+export function analyzeFrames(frames: FrameSamples, targetHz: number): FrameAnalysis {
   const n = frames.length;
   const sorted = Float64Array.from(frames).sort();
   let sum = 0;
