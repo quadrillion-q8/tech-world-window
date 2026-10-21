@@ -66,6 +66,13 @@ export function BsodCodePage() {
               : <td key={index}>{cell}</td>)}</tr>)}</tbody>
           </table>
         </div>}
+        {entry.deepDive.subsections?.map(subsection => <div className="bsod-evidence-subsection" key={subsection.heading}>
+          <h3>{subsection.heading}</h3>
+          {subsection.paragraphs.map(text => <p key={text}>{renderInline(text)}</p>)}
+          {subsection.steps && <ol className="article-steps bsod-steps">
+            {subsection.steps.map(item => <li key={item.title}><strong>{item.title}.</strong> {renderInline(item.detail)}</li>)}
+          </ol>}
+        </div>)}
         {entry.deepDive.sources && <p>Source: {entry.deepDive.sources.map(source => <a key={source.url} href={source.url} rel="noopener noreferrer">{source.label} ↗</a>)}</p>}
       </section>}
 
