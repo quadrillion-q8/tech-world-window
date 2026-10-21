@@ -443,6 +443,30 @@ export function summaryText(a: FrameAnalysis, label: string): string {
   return lines.join('\n');
 }
 
+/** Export every detected event as a standards-friendly CSV generated locally in the browser. */
+export function spikeEventsCsv(a: FrameAnalysis, label: string): string {
+  const budgetMs = 1000 / a.targetHz;
+  // Neutralize spreadsheet formula prefixes in untrusted metadata from the capture file.
+  const safeLabel = /^\s*[=+@-]/.test(label) ? `'${label}` : label;
+  const capture = safeLabel.replace(/"/g, '""');
+  const rule = `frame > ${SPIKE_RULE.ratio}x local median and at least ${SPIKE_RULE.minExcessMs} ms above it (${SPIKE_RULE.windowFrames}-frame window)`.replace(/"/g, '""');
+  const rows = a.spikes.map((spike, index) => [
+    `"${capture}"`,
+    index + 1,
+    spike.startSec.toFixed(4),
+    spike.worstMs.toFixed(4),
+    spike.frameCount,
+    a.targetHz,
+    budgetMs.toFixed(4),
+    (spike.worstMs / budgetMs).toFixed(2),
+    `"${rule}"`,
+  ].join(','));
+  return [
+    'capture_label,event_index,start_time_seconds,slowest_frame_ms,frames_affected,target_refresh_hz,target_frame_budget_ms,slowest_frame_budget_multiple,detection_rule',
+    ...rows,
+  ].join('\n');
+}
+
 /** Deterministic synthetic capture so visitors can try the tool. It is not a real benchmark. */
 export function buildSampleCsv(): string {
   let seed = 20260408;
