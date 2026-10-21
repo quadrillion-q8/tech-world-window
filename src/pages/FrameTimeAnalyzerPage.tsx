@@ -13,8 +13,24 @@ const TOOL_PATH = '/tools/frame-time-analyzer';
 const TARGETS = [30, 50, 60, 75, 90, 100, 120, 144, 165, 180, 200, 240, 280, 300, 360, 480, 500, 540];
 const MAX_FILE_BYTES = 250 * 1024 * 1024;
 const CHART = { width: 900, height: 300, left: 52, right: 16, top: 14, bottom: 34, maxPoints: 900 };
+const MAX_COMPARISONS = 3;
 
-type Loaded = { data: ParsedCapture; isSample: boolean };
+type Loaded = { data: ParsedCapture; isSample: boolean; label: string };
+function captureLabel(capture: Loaded): string {
+  if (capture.isSample) return 'Synthetic sample data';
+  return capture.label || capture.data.application || 'Capture';
+}
+const COMPARISON_METRICS: { label: string; unit: string; decimals: number; higherIsBetter: boolean; value: (analysis: FrameAnalysis) => number }[] = [
+  { label: 'Average FPS', unit: 'FPS', decimals: 1, higherIsBetter: true, value: a => a.avgFps },
+  { label: '1% low FPS', unit: 'FPS', decimals: 1, higherIsBetter: true, value: a => a.low1Fps },
+  { label: '0.1% low FPS', unit: 'FPS', decimals: 1, higherIsBetter: true, value: a => a.low01Fps },
+  { label: '99th percentile frame time', unit: 'ms', decimals: 2, higherIsBetter: false, value: a => a.p99Ms },
+  { label: 'Stutter events per minute', unit: '/min', decimals: 1, higherIsBetter: false, value: a => a.spikesPerMinute },
+  { label: 'Frames over budget', unit: 'pp', decimals: 1, higherIsBetter: false, value: a => a.overBudgetPct },
+];
+function signedValue(value: number, decimals: number, unit: string): string {
+  return (value > 0 ? '+' : '') + value.toFixed(decimals) + ' ' + unit;
+}
 
 const levelLabel = { good: 'Looks fine', watch: 'Worth a look', problem: 'Needs attention' } as const;
 
@@ -30,84 +46,54 @@ function sizeBucket(count: number): string {
   return '100k+';
 }
 
-function FrameTimeChart({ frames, analysis, comparisonFrames, comparisonAnalysis }: {
+function FrameTimeChart({ frames, analysis, comparisons }: {
   frames: number[];
   analysis: FrameAnalysis;
-  comparisonFrames?: number[];
-  comparisonAnalysis?: FrameAnalysis | null;
+  comparisons: { frames: number[]; analysis: FrameAnalysis; label: string }[];
 }) {
   const { width, height, left, right, top, bottom, maxPoints } = CHART;
-  const plotW = width - left - right;
-  const plotH = height - top - bottom;
+  const plotW = width - left - right, plotH = height - top - bottom;
   const budgetMs = 1000 / analysis.targetHz;
-  const longestMs = Math.max(analysis.maxMs, comparisonAnalysis?.maxMs ?? 0);
-  const highestP999 = Math.max(analysis.p999Ms, comparisonAnalysis?.p999Ms ?? 0);
+  const longestMs = Math.max(analysis.maxMs, ...comparisons.map(item => item.analysis.maxMs));
+  const highestP999 = Math.max(analysis.p999Ms, ...comparisons.map(item => item.analysis.p999Ms));
   const yMax = niceCeil(Math.min(longestMs, Math.max(highestP999 * 1.3, budgetMs * 2.5, 20)));
   const clipped = longestMs > yMax;
-  const timelineDurationSec = Math.max(analysis.durationSec, comparisonAnalysis?.durationSec ?? 0);
-
-  const points = useMemo(() => {
-    const n = frames.length;
-    const total = analysis.durationSec * 1000;
+  const timelineDurationSec = Math.max(analysis.durationSec, ...comparisons.map(item => item.analysis.durationSec));
+  const downsample = (source: number[]): [number, number][] => {
     const out: [number, number][] = [];
-    if (n <= maxPoints) {
-      let t = 0;
-      for (let i = 0; i < n; i++) { out.push([t, frames[i]]); t += frames[i]; }
+    if (source.length <= maxPoints) {
+      let elapsed = 0;
+      for (let i = 0; i < source.length; i++) { out.push([elapsed, source[i]]); elapsed += source[i]; }
       return out;
     }
-    const bucketSize = n / maxPoints;
-    let t = 0;
-    let cursor = 0;
-    for (let b = 0; b < maxPoints; b++) {
-      const end = Math.min(n, Math.round((b + 1) * bucketSize));
-      let peak = 0;
-      const startT = t;
-      for (; cursor < end; cursor++) { if (frames[cursor] > peak) peak = frames[cursor]; t += frames[cursor]; }
-      if (peak > 0) out.push([startT, peak]);
+    const bucketSize = source.length / maxPoints;
+    let elapsed = 0, cursor = 0;
+    for (let bucket = 0; bucket < maxPoints; bucket++) {
+      const end = Math.min(source.length, Math.round((bucket + 1) * bucketSize));
+      const startTime = elapsed; let peak = 0;
+      for (; cursor < end; cursor++) { if (source[cursor] > peak) peak = source[cursor]; elapsed += source[cursor]; }
+      if (peak > 0) out.push([startTime, peak]);
     }
-    return total > 0 ? out : [];
-  }, [frames, analysis.durationSec, maxPoints]);
-
-  const comparisonPoints = useMemo(() => {
-    if (!comparisonFrames || !comparisonAnalysis) return [];
-    const n = comparisonFrames.length;
-    const out: [number, number][] = [];
-    if (n <= maxPoints) {
-      let t = 0;
-      for (let i = 0; i < n; i++) { out.push([t, comparisonFrames[i]]); t += comparisonFrames[i]; }
-      return out;
-    }
-    const bucketSize = n / maxPoints;
-    let t = 0;
-    let cursor = 0;
-    for (let b = 0; b < maxPoints; b++) {
-      const end = Math.min(n, Math.round((b + 1) * bucketSize));
-      let peak = 0;
-      const startT = t;
-      for (; cursor < end; cursor++) { if (comparisonFrames[cursor] > peak) peak = comparisonFrames[cursor]; t += comparisonFrames[cursor]; }
-      if (peak > 0) out.push([startT, peak]);
-    }
-    return comparisonAnalysis.durationSec > 0 ? out : [];
-  }, [comparisonFrames, comparisonAnalysis, maxPoints]);
-
+    return out;
+  };
+  const points = useMemo(() => downsample(frames), [frames, maxPoints]);
+  const comparisonPoints = useMemo(() => comparisons.map(item => downsample(item.frames)), [comparisons, maxPoints]);
   const x = (ms: number) => left + (ms / (timelineDurationSec * 1000)) * plotW;
   const y = (ms: number) => top + plotH - (Math.min(ms, yMax) / yMax) * plotH;
-  const line = points.map(([t, v]) => `${x(t).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-  const comparisonLine = comparisonPoints.map(([t, v]) => `${x(t).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const line = points.map(([time, value]) => x(time).toFixed(1) + ',' + y(value).toFixed(1)).join(' ');
+  const comparisonLines = comparisonPoints.map(series => series.map(([time, value]) => x(time).toFixed(1) + ',' + y(value).toFixed(1)).join(' '));
   const ticks = [0, 1, 2, 3, 4].map(i => (yMax / 4) * i);
   const markers = analysis.spikes.slice(0, 100);
-  const comparisonMarkers = comparisonAnalysis?.spikes.slice(0, 100) ?? [];
+  const comparisonMarkers = comparisons.map(item => item.analysis.spikes.slice(0, 100));
   const downsampled = frames.length > maxPoints;
-  const comparisonDownsampled = Boolean(comparisonFrames && comparisonFrames.length > maxPoints);
-
+  const comparisonDownsampled = comparisons.some(item => item.frames.length > maxPoints);
+  const lineClasses = ['ft-line-compare', 'ft-line-compare-two', 'ft-line-compare-three'];
+  const spikeClasses = ['ft-spike-compare', 'ft-spike-compare-two', 'ft-spike-compare-three'];
   return <figure className="ft-chart">
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      role="img"
-      aria-label={comparisonAnalysis
-        ? `Frame-time overlay. Baseline average ${analysis.avgFps.toFixed(1)} FPS and comparison average ${comparisonAnalysis.avgFps.toFixed(1)} FPS. Shared time and millisecond axes.`
-        : `Frame time over the capture. Average ${analysis.avgFps.toFixed(0)} FPS, worst frame ${analysis.maxMs.toFixed(0)} milliseconds, ${analysis.spikes.length} stutter events.`}
-    >
+    <svg viewBox={'0 0 ' + width + ' ' + height} role="img"
+      aria-label={comparisons.length
+        ? 'Frame-time overlay with baseline average ' + analysis.avgFps.toFixed(1) + ' FPS and ' + comparisons.length + ' comparison capture(s). Shared elapsed-time and millisecond axes.'
+        : 'Frame time over the capture. Average ' + analysis.avgFps.toFixed(0) + ' FPS, worst frame ' + analysis.maxMs.toFixed(0) + ' milliseconds, ' + analysis.spikes.length + ' stutter events.'}>
       {ticks.map(tick => <g key={tick}>
         <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="ft-grid" />
         <text x={left - 8} y={y(tick) + 4} textAnchor="end" className="ft-axis">{Number.isInteger(tick) ? tick : tick.toFixed(1)}</text>
@@ -117,24 +103,25 @@ function FrameTimeChart({ frames, analysis, comparisonFrames, comparisonAnalysis
         <text x={width - right - 4} y={y(budgetMs) - 5} textAnchor="end" className="ft-axis">{analysis.targetHz} Hz frame time ({budgetMs.toFixed(1)} ms)</text>
       </g>}
       <polyline points={line} className="ft-line" fill="none" />
-      {comparisonAnalysis && <polyline points={comparisonLine} className="ft-line ft-line-compare" fill="none" />}
-      {markers.map(spike => <circle key={`baseline-${spike.startIndex}`} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike" />)}
-      {comparisonMarkers.map(spike => <circle key={`comparison-${spike.startIndex}`} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike ft-spike-compare" />)}
+      {comparisonLines.map((series, index) => <polyline key={'line-' + index} points={series} className={'ft-line ' + lineClasses[index]} fill="none" />)}
+      {markers.map(spike => <circle key={'baseline-' + spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike" />)}
+      {comparisonMarkers.map((series, runIndex) => series.map(spike => <circle key={'comparison-' + runIndex + '-' + spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className={'ft-spike ' + spikeClasses[runIndex]} />))}
       <text x={left} y={height - 10} className="ft-axis">0 s</text>
       <text x={left + plotW / 2} y={height - 10} textAnchor="middle" className="ft-axis">{(timelineDurationSec / 2).toFixed(0)} s</text>
       <text x={width - right} y={height - 10} textAnchor="end" className="ft-axis">{timelineDurationSec.toFixed(0)} s</text>
-      <text x={12} y={top + plotH / 2} className="ft-axis" transform={`rotate(-90 12 ${top + plotH / 2})`} textAnchor="middle">Frame time (ms)</text>
+      <text x={12} y={top + plotH / 2} className="ft-axis" transform={'rotate(-90 12 ' + (top + plotH / 2) + ')'} textAnchor="middle">Frame time (ms)</text>
     </svg>
-    {comparisonAnalysis && <div className="ft-chart-legend" aria-label="Chart legend">
-      <span><i className="ft-legend-swatch" /> Baseline capture</span>
-      <span><i className="ft-legend-swatch ft-legend-comparison" /> Comparison capture</span>
+    {comparisons.length > 0 && <div className="ft-chart-legend" aria-label="Chart legend">
+      <span><i className="ft-legend-swatch" /> Baseline: {analysis.avgFps.toFixed(1)} FPS</span>
+      {comparisons.map((item, index) => {
+        const label = item.label.length > 24 ? item.label.slice(0, 21) + '…' : item.label;
+        return <span key={'legend-' + index}><i className={'ft-legend-swatch ' + lineClasses[index]} /> {label}</span>;
+      })}
     </div>}
     <figcaption>
-      {comparisonAnalysis
-        ? 'Both captures share the same millisecond and elapsed-time axes. The comparison line stops at the end of its capture; use the same scene and similar duration for a fair visual comparison.'
-        : 'Lower is better. Dots mark detected stutter events.'}
+      {comparisons.length ? 'All captures share the same millisecond and elapsed-time axes. A trace ends when its capture ends; compare runs made in the same scene with similar durations.' : 'Lower is better. Dots mark detected stutter events.'}
       {downsampled || comparisonDownsampled ? ' Long captures are drawn using the slowest frame in each small time slice, so spikes stay visible.' : ''}
-      {clipped ? ` The axis stops at ${yMax} ms; slower frames in either capture are drawn at the top edge.` : ''}
+      {clipped ? ' The axis stops at ' + yMax + ' ms; slower frames in any capture are drawn at the top edge.' : ''}
     </figcaption>
   </figure>;
 }
@@ -147,30 +134,35 @@ export function FrameTimeAnalyzerPage() {
   const [targetHz, setTargetHz] = useState(144);
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [comparison, setComparison] = useState<Loaded | null>(null);
+  const [comparisons, setComparisons] = useState<Loaded[]>([]);
   const [comparisonError, setComparisonError] = useState('');
   const [comparisonBusy, setComparisonBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const comparisonFileRef = useRef<HTMLInputElement>(null);
 
   const analysis = useMemo(() => (loaded ? analyzeFrames(loaded.data.frames, targetHz) : null), [loaded, targetHz]);
-  const comparisonAnalysis = useMemo(() => (comparison ? analyzeFrames(comparison.data.frames, targetHz) : null), [comparison, targetHz]);
+  const comparisonAnalyses = useMemo(() => comparisons.map(capture => analyzeFrames(capture.data.frames, targetHz)), [comparisons, targetHz]);
+  const chartComparisons = useMemo(() => comparisons.map((capture, index) => ({ frames: capture.data.frames, analysis: comparisonAnalyses[index], label: captureLabel(capture) })), [comparisons, comparisonAnalyses]);
+  const comparisonColumns = useMemo(() => {
+    if (!loaded || !analysis) return [];
+    return [{ capture: loaded, analysis }, ...comparisons.map((capture, index) => ({ capture, analysis: comparisonAnalyses[index] }))];
+  }, [loaded, analysis, comparisons, comparisonAnalyses]);
   const findings = useMemo(() => (analysis ? buildFindings(analysis) : []), [analysis]);
   const worstSpikes = useMemo(() => (analysis ? [...analysis.spikes].sort((a, b) => b.worstMs - a.worstMs).slice(0, 5) : []), [analysis]);
 
-  const ingest = (text: string, isSample: boolean) => {
+  const ingest = (text: string, isSample: boolean, label = 'Pasted frame times') => {
     const result = parseFrameData(text);
     setCopied(false);
     if (!result.ok) {
       setError(result.error);
       setLoaded(null);
-      setComparison(null);
+      setComparisons([]);
       setComparisonError('');
       return;
     }
     setError('');
-    setLoaded({ data: result.data, isSample });
-    setComparison(null);
+    setLoaded({ data: result.data, isSample, label });
+    setComparisons([]);
     setComparisonError('');
     trackMonetization('tool_completed', { tool: 'frame_time_analyzer', size: sizeBucket(result.data.frames.length), sample: isSample });
   };
@@ -178,56 +170,69 @@ export function FrameTimeAnalyzerPage() {
   const onFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    if (file.size > MAX_FILE_BYTES) { setError('That file is larger than 250 MB. Trim the capture to the part you want to analyze and try again.'); setLoaded(null); return; }
+    if (file.size > MAX_FILE_BYTES) { setError('That file is larger than 250 MB. Trim the capture to the part you want to analyze and try again.'); setLoaded(null); setComparisons([]); event.target.value = ''; return; }
     setBusy(true);
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'file' });
-    try { ingest(await file.text(), false); }
-    catch { setError('The file could not be read. Check that it is a CSV or text file.'); setLoaded(null); }
+    try { ingest(await file.text(), false, file.name); }
+    catch { setError('The file could not be read. Check that it is a CSV or text file.'); setLoaded(null); setComparisons([]); }
     finally { setBusy(false); event.target.value = ''; }
   };
 
-  const onComparisonFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setComparison(null);
-    setComparisonError('');
-    if (file.size > MAX_FILE_BYTES) {
-      setComparisonError('That file is larger than 250 MB. Trim the capture to the section you want to compare and try again.');
-      event.target.value = '';
+  const onComparisonFiles = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = '';
+    if (!files.length) return;
+    const available = MAX_COMPARISONS - comparisons.length;
+    if (available <= 0) {
+      setComparisonError('You can compare up to four captures total. Remove a comparison or clear the current comparisons before adding another.');
       return;
     }
     setComparisonBusy(true);
-    try {
-      const parsed = parseFrameData(await file.text());
-      if (!parsed.ok) setComparisonError(parsed.error);
-      else setComparison({ data: parsed.data, isSample: false });
-    } catch {
-      setComparisonError('The file could not be read. Choose a CSV or text file containing per-frame time data.');
-    } finally {
-      setComparisonBusy(false);
-      event.target.value = '';
+    setComparisonError('');
+    const additions: Loaded[] = [];
+    const problems: string[] = [];
+    for (const file of files.slice(0, available)) {
+      if (file.size > MAX_FILE_BYTES) { problems.push(file.name + ': larger than 250 MB; trim the capture and try again.'); continue; }
+      try {
+        const parsed = parseFrameData(await file.text());
+        if (!parsed.ok) problems.push(file.name + ': ' + parsed.error);
+        else additions.push({ data: parsed.data, isSample: false, label: file.name });
+      } catch {
+        problems.push(file.name + ': the file could not be read as CSV or text.');
+      }
     }
+    setComparisons(current => [...current, ...additions].slice(0, MAX_COMPARISONS));
+    if (files.length > available) problems.push('Only the first ' + available + ' comparison file(s) were considered because the limit is four captures total.');
+    setComparisonError(problems.join(' '));
+    if (additions.length) trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'comparison_files', count: additions.length });
+    setComparisonBusy(false);
+  };
+
+  const onRemoveComparison = (index: number) => {
+    setComparisons(current => current.filter((_, currentIndex) => currentIndex !== index));
+    setComparisonError('');
+    if (comparisonFileRef.current) comparisonFileRef.current.value = '';
   };
 
   const onClearComparison = () => {
-    setComparison(null);
+    setComparisons([]);
     setComparisonError('');
     if (comparisonFileRef.current) comparisonFileRef.current.value = '';
   };
 
   const onPaste = () => {
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'paste' });
-    ingest(pasteText, false);
+    ingest(pasteText, false, 'Pasted frame times');
   };
 
   const onSample = () => {
     trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'sample' });
-    ingest(buildSampleCsv(), true);
+    ingest(buildSampleCsv(), true, 'Synthetic sample data');
   };
 
   const onClear = () => {
     setLoaded(null);
-    setComparison(null);
+    setComparisons([]);
     setComparisonError('');
     setError('');
     setPasteText('');
@@ -281,7 +286,7 @@ export function FrameTimeAnalyzerPage() {
 
   const onDownloadSpikeCsv = () => {
     if (!analysis || !loaded || analysis.spikes.length === 0) return;
-    const label = loaded.isSample ? 'synthetic sample data' : loaded.data.application || 'local capture';
+    const label = captureLabel(loaded);
     const blob = new Blob([spikeEventsCsv(analysis, label)], { type: 'text/csv;charset=utf-8' });
     const objectUrl = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
@@ -297,7 +302,7 @@ export function FrameTimeAnalyzerPage() {
 
   const onDownloadReport = () => {
     if (!analysis || !loaded) return;
-    const label = loaded.isSample ? 'synthetic sample data' : loaded.data.application || 'local capture';
+    const label = captureLabel(loaded);
     const spikeRows = worstSpikes.length
       ? worstSpikes.map((spike, index) => `${index + 1}. ${spike.startSec.toFixed(2)} s — ${spike.worstMs.toFixed(2)} ms; ${spike.frameCount} frame(s) affected`).join('\n')
       : 'No spikes met this analyzer’s detection rule.';
@@ -346,7 +351,7 @@ export function FrameTimeAnalyzerPage() {
     <SEOEngine title={tool.seoTitle} description={tool.metaDescription} path={TOOL_PATH} />
     <span className="eyebrow">FREE ANALYSIS TOOL</span>
     <h1>Frame-Time Analyzer</h1>
-    <p className="page-intro">Average FPS can look healthy while a game still stutters. Upload a frame-time capture to see 1% and 0.1% lows, inspect detected spikes, read the graph, and download a plain-text report—all in your browser. After the first run, compare a second capture to see whether frame pacing improved or worsened.</p>
+    <p className="page-intro">Average FPS can look healthy while a game still stutters. Analyze a PresentMon, CapFrameX, NVIDIA FrameView, or compatible frame-time CSV to inspect 1% and 0.1% lows, find stutter spikes, and graph frame pacing. Compare up to four captures on the same axes, then export event data and a multi-run report—all locally in your browser.</p>
     <p className="ft-privacy"><strong>Private by design.</strong> Your capture is analyzed in your browser, and the copy/download actions happen locally. The file and report are never uploaded.</p>
 
     <div className="ft-input">
@@ -387,33 +392,48 @@ export function FrameTimeAnalyzerPage() {
         </div>
         <div className="ft-input-actions">
           <label className="button button-primary ft-file-button">
-            {comparisonBusy ? 'Reading comparison…' : 'Choose comparison capture (CSV)'}
-            <input ref={comparisonFileRef} type="file" accept=".csv,.txt,text/csv,text/plain" onChange={onComparisonFile} disabled={comparisonBusy} />
+            {comparisonBusy ? 'Reading comparison captures…' : comparisons.length >= MAX_COMPARISONS ? 'Four captures loaded' : 'Choose comparison captures (up to 3 CSVs)'}
+            <input ref={comparisonFileRef} type="file" accept=".csv,.txt,text/csv,text/plain" multiple onChange={onComparisonFiles} disabled={comparisonBusy || comparisons.length >= MAX_COMPARISONS} />
           </label>
-          {comparison && <button type="button" className="ft-secondary" onClick={onClearComparison}>Clear comparison</button>}
+          {comparisons.length > 0 && <button type="button" className="ft-secondary" onClick={onClearComparison}>Clear comparisons</button>}
         </div>
-        {comparisonError && <div className="ft-error" role="alert"><strong>Could not compare that capture.</strong> {comparisonError}</div>}
-        {comparison && loaded.data.columnUsed.trim().toLowerCase() !== comparison.data.columnUsed.trim().toLowerCase() && <p className="ft-warning">These captures use different source columns (<code>{loaded.data.columnUsed}</code> versus <code>{comparison.data.columnUsed}</code>). They may measure different timing events. Confirm both columns represent the same metric before interpreting the difference; present-to-present and display-change intervals are not interchangeable.</p>}
-        {comparison?.data.warnings.map(warning => <p className="ft-warning" key={warning}>{warning}</p>)}
-        {comparison && comparisonAnalysis && <div className="ft-comparison-results">
+        <p className="ft-note">Keep the first capture as your baseline. Select up to three additional CSV or text files at once, or add more later. Four captures total can be compared locally.</p>
+        {comparisons.map((capture, index) => <div className="ft-loaded-comparison" key={capture.label + '-' + index}>
+          <div>
+            <strong>Run {index + 2}: {captureLabel(capture)}</strong>
+            <span>{capture.data.frames.length.toLocaleString('en-US')} frames · {capture.data.columnUsed || 'plain values'} · {(capture.data.frames.reduce((sum, value) => sum + value, 0) / 1000).toFixed(1)} s</span>
+            {capture.data.warnings.map(warning => <small className="ft-warning" key={index + '-' + warning}>{warning}</small>)}
+          </div>
+          <button type="button" className="ft-secondary" onClick={() => onRemoveComparison(index)}>Remove</button>
+        </div>)}
+        {comparisonError && <div className="ft-error" role="alert"><strong>Some comparison files could not be added.</strong> {comparisonError}</div>}
+        {comparisons.some(capture => loaded.data.columnUsed.trim().toLowerCase() !== capture.data.columnUsed.trim().toLowerCase()) && <p className="ft-warning">At least one comparison uses a different source column from the baseline. Present-to-present and display-change intervals can measure different timing events; confirm that every run measures the same metric before interpreting differences.</p>}
+        {comparisons.length > 0 && <div className="ft-comparison-results">
           {loaded.isSample && <p className="ft-warning">The baseline is synthetic sample data. This comparison demonstrates the calculation and must not be treated as a real benchmark result.</p>}
           <p className="ft-note">Compare like with like: use the same game scene, settings, capture tool, hardware, driver, and target refresh rate, with similar capture lengths. Different runs naturally vary.</p>
-          <div className="table-wrap" tabIndex={0} role="region" aria-label="Before and after frame-time metrics">
-            <table className="article-table">
-              <caption>Baseline versus comparison capture</caption>
-              <thead><tr><th scope="col">Metric</th><th scope="col">Baseline</th><th scope="col">Comparison</th><th scope="col">Change</th></tr></thead>
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Multi-run frame-time metrics">
+            <table className="article-table ft-multi-run-table">
+              <caption>Baseline and comparison captures; deltas are relative to the baseline</caption>
+              <thead><tr><th scope="col">Metric</th>{comparisonColumns.map((run, index) => <th scope="col" key={'head-' + index}>{index === 0 ? 'Baseline' : 'Run ' + (index + 1)}<small className="ft-run-name">{captureLabel(run.capture)}</small></th>)}</tr></thead>
               <tbody>
-                <tr><th scope="row">Average FPS</th><td>{analysis.avgFps.toFixed(1)}</td><td>{comparisonAnalysis.avgFps.toFixed(1)}</td><td>{comparisonAnalysis.avgFps - analysis.avgFps >= 0 ? '+' : ''}{(comparisonAnalysis.avgFps - analysis.avgFps).toFixed(1)} FPS</td></tr>
-                <tr><th scope="row">1% low FPS</th><td>{analysis.low1Fps.toFixed(1)}</td><td>{comparisonAnalysis.low1Fps.toFixed(1)}</td><td>{comparisonAnalysis.low1Fps - analysis.low1Fps >= 0 ? '+' : ''}{(comparisonAnalysis.low1Fps - analysis.low1Fps).toFixed(1)} FPS</td></tr>
-                <tr><th scope="row">0.1% low FPS</th><td>{analysis.low01Fps.toFixed(1)}</td><td>{comparisonAnalysis.low01Fps.toFixed(1)}</td><td>{comparisonAnalysis.low01Fps - analysis.low01Fps >= 0 ? '+' : ''}{(comparisonAnalysis.low01Fps - analysis.low01Fps).toFixed(1)} FPS</td></tr>
-                <tr><th scope="row">99th percentile frame time</th><td>{analysis.p99Ms.toFixed(2)} ms</td><td>{comparisonAnalysis.p99Ms.toFixed(2)} ms</td><td>{comparisonAnalysis.p99Ms - analysis.p99Ms >= 0 ? '+' : ''}{(comparisonAnalysis.p99Ms - analysis.p99Ms).toFixed(2)} ms</td></tr>
-                <tr><th scope="row">Stutter events per minute</th><td>{analysis.spikesPerMinute.toFixed(1)}</td><td>{comparisonAnalysis.spikesPerMinute.toFixed(1)}</td><td>{comparisonAnalysis.spikesPerMinute - analysis.spikesPerMinute >= 0 ? '+' : ''}{(comparisonAnalysis.spikesPerMinute - analysis.spikesPerMinute).toFixed(1)}</td></tr>
-                <tr><th scope="row">Frames over budget</th><td>{analysis.overBudgetPct.toFixed(1)}%</td><td>{comparisonAnalysis.overBudgetPct.toFixed(1)}%</td><td>{comparisonAnalysis.overBudgetPct - analysis.overBudgetPct >= 0 ? '+' : ''}{(comparisonAnalysis.overBudgetPct - analysis.overBudgetPct).toFixed(1)} percentage points</td></tr>
+                {COMPARISON_METRICS.map(metric => <tr key={metric.label}>
+                  <th scope="row">{metric.label}</th>
+                  {comparisonColumns.map((run, index) => {
+                    const value = metric.value(run.analysis);
+                    const delta = index === 0 ? 0 : value - metric.value(comparisonColumns[0].analysis);
+                    const isBetter = metric.higherIsBetter ? delta > 0 : delta < 0;
+                    const isWorse = metric.higherIsBetter ? delta < 0 : delta > 0;
+                    return <td key={metric.label + '-' + index}>
+                      <strong>{value.toFixed(metric.decimals)} {metric.unit === 'pp' ? '%' : metric.unit}</strong>
+                      {index > 0 && <small className={'ft-run-delta ' + (isBetter ? 'ft-run-better' : isWorse ? 'ft-run-worse' : 'ft-run-neutral')}>Δ {signedValue(delta, metric.decimals, metric.unit)} vs baseline</small>}
+                    </td>;
+                  })}
+                </tr>)}
               </tbody>
             </table>
           </div>
-          <p className="ft-note">Higher FPS and low-FPS values are usually favorable; lower frame time, stutter rate, and over-budget share are usually favorable. These changes do not prove what caused the difference.</p>
-          <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onDownloadComparisonReport}>Download comparison report (.txt)</button></p>
+          <p className="ft-note">Higher FPS and low-FPS values are usually favorable; lower frame time, stutter rate, and over-budget share are usually favorable. A green or red delta only describes direction—not statistical significance or root cause. “Frames over budget” changes are shown in percentage points.</p>
+          <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onDownloadComparisonReport}>Download multi-run report (.txt)</button></p>
         </div>}
       </section>
 
@@ -435,13 +455,8 @@ export function FrameTimeAnalyzerPage() {
         </li>)}
       </ul>
 
-      <h2>{comparison && comparisonAnalysis ? 'Frame-time overlay: baseline vs comparison' : 'Frame time over the capture'}</h2>
-      <FrameTimeChart
-        frames={loaded.data.frames}
-        analysis={analysis}
-        comparisonFrames={comparison?.data.frames}
-        comparisonAnalysis={comparisonAnalysis}
-      />
+      <h2>{comparisons.length ? 'Frame-time overlay: baseline and comparison runs' : 'Frame time over the capture'}</h2>
+      <FrameTimeChart frames={loaded.data.frames} analysis={analysis} comparisons={chartComparisons} />
 
       <h2>How frames were spread</h2>
       <div className="ft-histogram">
