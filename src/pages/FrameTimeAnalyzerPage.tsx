@@ -5,12 +5,12 @@ import { toolByPath } from '../data/tools';
 import { FaqSection } from '../components/FaqSection';
 import { trackMonetization } from '../lib/analytics';
 import {
-  analyzeFrames, buildFindings, buildSampleCsv, parseFrameData, summaryText, SPIKE_RULE,
+  analyzeFrames, buildFindings, buildSampleCsv, parseFrameData, spikeEventsCsv, summaryText, SPIKE_RULE,
   type FrameAnalysis, type ParsedCapture,
 } from '../lib/frameTime';
 
 const TOOL_PATH = '/tools/frame-time-analyzer';
-const TARGETS = [60, 75, 120, 144, 165, 240];
+const TARGETS = [30, 50, 60, 75, 90, 100, 120, 144, 165, 180, 200, 240, 280, 300, 360, 480, 500, 540];
 const MAX_FILE_BYTES = 250 * 1024 * 1024;
 const CHART = { width: 900, height: 300, left: 52, right: 16, top: 14, bottom: 34, maxPoints: 900 };
 
@@ -30,13 +30,21 @@ function sizeBucket(count: number): string {
   return '100k+';
 }
 
-function FrameTimeChart({ frames, analysis }: { frames: number[]; analysis: FrameAnalysis }) {
+function FrameTimeChart({ frames, analysis, comparisonFrames, comparisonAnalysis }: {
+  frames: number[];
+  analysis: FrameAnalysis;
+  comparisonFrames?: number[];
+  comparisonAnalysis?: FrameAnalysis | null;
+}) {
   const { width, height, left, right, top, bottom, maxPoints } = CHART;
   const plotW = width - left - right;
   const plotH = height - top - bottom;
   const budgetMs = 1000 / analysis.targetHz;
-  const yMax = niceCeil(Math.min(analysis.maxMs, Math.max(analysis.p999Ms * 1.3, budgetMs * 2.5, 20)));
-  const clipped = analysis.maxMs > yMax;
+  const longestMs = Math.max(analysis.maxMs, comparisonAnalysis?.maxMs ?? 0);
+  const highestP999 = Math.max(analysis.p999Ms, comparisonAnalysis?.p999Ms ?? 0);
+  const yMax = niceCeil(Math.min(longestMs, Math.max(highestP999 * 1.3, budgetMs * 2.5, 20)));
+  const clipped = longestMs > yMax;
+  const timelineDurationSec = Math.max(analysis.durationSec, comparisonAnalysis?.durationSec ?? 0);
 
   const points = useMemo(() => {
     const n = frames.length;
@@ -60,18 +68,45 @@ function FrameTimeChart({ frames, analysis }: { frames: number[]; analysis: Fram
     return total > 0 ? out : [];
   }, [frames, analysis.durationSec, maxPoints]);
 
-  const x = (ms: number) => left + (ms / (analysis.durationSec * 1000)) * plotW;
+  const comparisonPoints = useMemo(() => {
+    if (!comparisonFrames || !comparisonAnalysis) return [];
+    const n = comparisonFrames.length;
+    const out: [number, number][] = [];
+    if (n <= maxPoints) {
+      let t = 0;
+      for (let i = 0; i < n; i++) { out.push([t, comparisonFrames[i]]); t += comparisonFrames[i]; }
+      return out;
+    }
+    const bucketSize = n / maxPoints;
+    let t = 0;
+    let cursor = 0;
+    for (let b = 0; b < maxPoints; b++) {
+      const end = Math.min(n, Math.round((b + 1) * bucketSize));
+      let peak = 0;
+      const startT = t;
+      for (; cursor < end; cursor++) { if (comparisonFrames[cursor] > peak) peak = comparisonFrames[cursor]; t += comparisonFrames[cursor]; }
+      if (peak > 0) out.push([startT, peak]);
+    }
+    return comparisonAnalysis.durationSec > 0 ? out : [];
+  }, [comparisonFrames, comparisonAnalysis, maxPoints]);
+
+  const x = (ms: number) => left + (ms / (timelineDurationSec * 1000)) * plotW;
   const y = (ms: number) => top + plotH - (Math.min(ms, yMax) / yMax) * plotH;
   const line = points.map(([t, v]) => `${x(t).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const comparisonLine = comparisonPoints.map(([t, v]) => `${x(t).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
   const ticks = [0, 1, 2, 3, 4].map(i => (yMax / 4) * i);
   const markers = analysis.spikes.slice(0, 100);
+  const comparisonMarkers = comparisonAnalysis?.spikes.slice(0, 100) ?? [];
   const downsampled = frames.length > maxPoints;
+  const comparisonDownsampled = Boolean(comparisonFrames && comparisonFrames.length > maxPoints);
 
   return <figure className="ft-chart">
     <svg
       viewBox={`0 0 ${width} ${height}`}
       role="img"
-      aria-label={`Frame time over the capture. Average ${analysis.avgFps.toFixed(0)} FPS, worst frame ${analysis.maxMs.toFixed(0)} milliseconds, ${analysis.spikes.length} stutter events.`}
+      aria-label={comparisonAnalysis
+        ? `Frame-time overlay. Baseline average ${analysis.avgFps.toFixed(1)} FPS and comparison average ${comparisonAnalysis.avgFps.toFixed(1)} FPS. Shared time and millisecond axes.`
+        : `Frame time over the capture. Average ${analysis.avgFps.toFixed(0)} FPS, worst frame ${analysis.maxMs.toFixed(0)} milliseconds, ${analysis.spikes.length} stutter events.`}
     >
       {ticks.map(tick => <g key={tick}>
         <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="ft-grid" />
@@ -82,16 +117,24 @@ function FrameTimeChart({ frames, analysis }: { frames: number[]; analysis: Fram
         <text x={width - right - 4} y={y(budgetMs) - 5} textAnchor="end" className="ft-axis">{analysis.targetHz} Hz frame time ({budgetMs.toFixed(1)} ms)</text>
       </g>}
       <polyline points={line} className="ft-line" fill="none" />
+      {comparisonAnalysis && <polyline points={comparisonLine} className="ft-line ft-line-compare" fill="none" />}
       {markers.map(spike => <circle key={spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike" />)}
+      {comparisonMarkers.map(spike => <circle key={spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike ft-spike-compare" />)}
       <text x={left} y={height - 10} className="ft-axis">0 s</text>
-      <text x={left + plotW / 2} y={height - 10} textAnchor="middle" className="ft-axis">{(analysis.durationSec / 2).toFixed(0)} s</text>
-      <text x={width - right} y={height - 10} textAnchor="end" className="ft-axis">{analysis.durationSec.toFixed(0)} s</text>
+      <text x={left + plotW / 2} y={height - 10} textAnchor="middle" className="ft-axis">{(timelineDurationSec / 2).toFixed(0)} s</text>
+      <text x={width - right} y={height - 10} textAnchor="end" className="ft-axis">{timelineDurationSec.toFixed(0)} s</text>
       <text x={12} y={top + plotH / 2} className="ft-axis" transform={`rotate(-90 12 ${top + plotH / 2})`} textAnchor="middle">Frame time (ms)</text>
     </svg>
+    {comparisonAnalysis && <div className="ft-chart-legend" aria-label="Chart legend">
+      <span><i className="ft-legend-swatch" /> Baseline capture</span>
+      <span><i className="ft-legend-swatch ft-legend-comparison" /> Comparison capture</span>
+    </div>}
     <figcaption>
-      Lower is better. Dots mark detected stutter events.
-      {downsampled ? ' Long captures are drawn as the slowest frame in each small time slice, so spikes stay visible.' : ''}
-      {clipped ? ` The axis stops at ${yMax} ms; slower frames are drawn at the top edge.` : ''}
+      {comparisonAnalysis
+        ? 'Both captures share the same millisecond and elapsed-time axes. The comparison line stops at the end of its capture; use the same scene and similar duration for a fair visual comparison.'
+        : 'Lower is better. Dots mark detected stutter events.'}
+      {downsampled || comparisonDownsampled ? ' Long captures are drawn using the slowest frame in each small time slice, so spikes stay visible.' : ''}
+      {clipped ? ` The axis stops at ${yMax} ms; slower frames in either capture are drawn at the top edge.` : ''}
     </figcaption>
   </figure>;
 }
@@ -236,6 +279,22 @@ export function FrameTimeAnalyzerPage() {
     window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
   };
 
+  const onDownloadSpikeCsv = () => {
+    if (!analysis || !loaded || analysis.spikes.length === 0) return;
+    const label = loaded.isSample ? 'synthetic sample data' : loaded.data.application || 'local capture';
+    const blob = new Blob([spikeEventsCsv(analysis, label)], { type: 'text/csv;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = `frame-time-stutter-events-${new Date().toISOString().slice(0, 10)}.csv`;
+    anchor.style.display = 'none';
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    trackMonetization('tool_used', { tool: 'frame_time_analyzer', method: 'download_event_csv', sample: loaded.isSample, events: analysis.spikes.length });
+  };
+
   const onDownloadReport = () => {
     if (!analysis || !loaded) return;
     const label = loaded.isSample ? 'synthetic sample data' : loaded.data.application || 'local capture';
@@ -334,6 +393,7 @@ export function FrameTimeAnalyzerPage() {
           {comparison && <button type="button" className="ft-secondary" onClick={onClearComparison}>Clear comparison</button>}
         </div>
         {comparisonError && <div className="ft-error" role="alert"><strong>Could not compare that capture.</strong> {comparisonError}</div>}
+        {comparison && loaded.data.columnUsed.trim().toLowerCase() !== comparison.data.columnUsed.trim().toLowerCase() && <p className="ft-warning">These captures use different source columns (<code>{loaded.data.columnUsed}</code> versus <code>{comparison.data.columnUsed}</code>). They may measure different timing events. Confirm both columns represent the same metric before interpreting the difference; present-to-present and display-change intervals are not interchangeable.</p>}
         {comparison?.data.warnings.map(warning => <p className="ft-warning" key={warning}>{warning}</p>)}
         {comparison && comparisonAnalysis && <div className="ft-comparison-results">
           {loaded.isSample && <p className="ft-warning">The baseline is synthetic sample data. This comparison demonstrates the calculation and must not be treated as a real benchmark result.</p>}
@@ -375,8 +435,13 @@ export function FrameTimeAnalyzerPage() {
         </li>)}
       </ul>
 
-      <h2>Frame time over the capture</h2>
-      <FrameTimeChart frames={loaded.data.frames} analysis={analysis} />
+      <h2>{comparison && comparisonAnalysis ? 'Frame-time overlay: baseline vs comparison' : 'Frame time over the capture'}</h2>
+      <FrameTimeChart
+        frames={loaded.data.frames}
+        analysis={analysis}
+        comparisonFrames={comparison?.data.frames}
+        comparisonAnalysis={comparisonAnalysis}
+      />
 
       <h2>How frames were spread</h2>
       <div className="ft-histogram">
@@ -397,6 +462,7 @@ export function FrameTimeAnalyzerPage() {
           </tr>)}</tbody>
         </table>
       </div>}
+      {analysis.spikes.length > 0 && <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onDownloadSpikeCsv}>Download all detected stutter events (.csv)</button><span className="ft-note">{analysis.spikes.length.toLocaleString('en-US')} events; generated locally with the rule described below.</span></p>}
 
       <p className="ft-input-actions"><button type="button" className="ft-secondary" onClick={onCopy}>{copied ? 'Copied' : 'Copy summary'}</button><button type="button" className="ft-secondary" onClick={onDownloadReport}>Download report (.txt)</button></p>
     </div>}
@@ -410,6 +476,17 @@ export function FrameTimeAnalyzerPage() {
           <li>Start the capture with the tool&apos;s hotkey, play for at least 60 seconds, then stop it.</li>
           <li>Find the exported CSV and choose it above. The analyzer looks for a MsBetweenPresents or FrameTime column and ignores the rest.</li>
         </ol>
+      </section>
+
+      <section>
+        <h2>Capture tools and metric definitions</h2>
+        <p>This page analyzes exported frame-time samples; it does not record gameplay or prove why a hitch happened. Use the capture software's own documentation to understand which timing metric its CSV contains.</p>
+        <ul>
+          <li><a href="https://github.com/GameTechDev/PresentMon/blob/main/README-ConsoleApplication.md" rel="noopener noreferrer">PresentMon CSV output documentation ↗</a> — describes fields such as <code>MsBetweenPresents</code> and <code>MsBetweenDisplayChange</code>.</li>
+          <li><a href="https://www.capframex.com/features" rel="noopener noreferrer">CapFrameX features and analysis ↗</a> — documents capture, frame-time analysis and comparison workflows.</li>
+          <li><a href="https://www.nvidia.com/en-us/geforce/technologies/frameview/" rel="noopener noreferrer">NVIDIA FrameView ↗</a> — records frame-time and performance metrics.</li>
+        </ul>
+        <p>For before-and-after comparisons, use the same source column in both files. Present-to-present intervals and display-change intervals can measure different parts of frame delivery. A graph makes patterns easier to inspect, but it cannot isolate a CPU, GPU, driver, shader, storage or thermal cause on its own.</p>
       </section>
 
       <section>
@@ -440,6 +517,7 @@ export function FrameTimeAnalyzerPage() {
           <li><Link className="text-link" to="/gpu-frame-time-spikes-causes-fix">GPU frame-time spikes: common causes</Link></li>
           <li><Link className="text-link" to="/shader-compilation-stutter-pc-games">Shader compilation stutter in PC games</Link></li>
           <li><Link className="text-link" to="/pc-game-low-fps-how-to-find-the-cause">Low FPS in PC games: find the real bottleneck</Link></li>
+          <li><Link className="text-link" to="/research/what-actually-causes-pc-game-stuttering">Frame-time research: what causes PC game stuttering?</Link></li>
         </ul>
       </section>
     </div>
