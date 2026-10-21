@@ -196,7 +196,40 @@ export const bsodEntries: BsodEntry[] = [
       { title: 'Check the file system only when storage evidence points there', detail: 'If Windows logs NTFS or disk errors, or the drive disappears or reports warnings, protect important files before further tests. On a drive without those warning signs, open Terminal (Admin) and run `chkdsk C: /scan`; do not start with a write-heavy repair or repeated benchmark.' },
       { title: 'Inspect or reseat memory only if you are comfortable doing so', detail: 'If a memory test reports errors, shut down, disconnect power, and follow the computer or motherboard maker’s instructions. Testing one module at a time may help distinguish a stick from a slot or unstable setting; otherwise use qualified service.' },
     ],
-    escalate: 'If a memory test reports errors, preserve the result and identify whether the fault follows a module, slot, or memory setting before replacing parts. If tests pass but the crash continues, preserve any minidump and use the named driver plus same-time Event Viewer records to guide the next diagnosis.',
+    escalate: 'If a memory test reports errors, preserve the result and identify whether the fault follows a module, slot, or memory setting before replacing parts. If tests pass but the crash continues, preserve any minidump and use the named driver plus same-time Event Viewer records to guide the next diagnosis. If Windows cannot stay running long enough to protect important files, stop repeated repair attempts and prioritize data recovery or qualified support.',
+    deepDive: {
+      heading: 'How to interpret PAGE_FAULT_IN_NONPAGED_AREA evidence',
+      paragraphs: [
+        'Microsoft documents bug check 0x50 as an invalid system-memory reference. The name describes the failure Windows detected; it does not identify the part that caused it. Drivers, memory instability, storage or file-system problems, and other system changes can lead to similar symptoms, so replacing RAM based on the code alone is not a reliable diagnosis.',
+        'Start with the timeline. Record when the crash began, what changed immediately beforehand, whether the same workload triggers it, and whether the blue screen names a .sys file. A named module is a useful lead, not automatic proof of root cause. If crashes recur, keep the minidump files in C:\\Windows\\Minidump and note the matching BugCheck event (Event ID 1001) in Event Viewer. A debugger-informed dump analysis can be more informative than the stop-code label alone.',
+        'Treat test results proportionally. A memory-test error is meaningful evidence of instability, but it may reflect a module, slot, memory controller, or unsupported settings; isolate these possibilities before buying parts. A test that passes lowers suspicion but cannot exclude every intermittent fault. Likewise, check the file system when Windows reports NTFS or disk errors rather than assuming every 0x50 crash is a storage failure.',
+        'Change one variable at a time and record the result. This makes the diagnosis reproducible and lets you reverse an unsuccessful change. Avoid registry cleaners, automatic driver-updater utilities, indiscriminate BIOS changes, and reinstalling Windows before you have protected data and collected the basic evidence.'
+      ],
+      table: {
+        caption: 'Use the observed evidence to choose the next test',
+        headers: ['Evidence', 'What it can suggest', 'Next action'],
+        rows: [
+          ['Crash started after a driver, Windows update, VPN or security-tool change', 'A recent software or kernel-driver change may be involved', 'Roll back or remove that one change, then retest'],
+          ['The blue screen or dump repeatedly points to the same .sys module', 'That module or its interaction with another component deserves investigation', 'Identify its publisher and use the PC or device maker’s supported driver'],
+          ['Memory testing reports errors', 'The memory subsystem is unstable; the cause is not necessarily one RAM stick', 'Save the result and test supported settings, modules and slots using the device manual'],
+          ['Crashes began after enabling XMP/EXPO or an overclock', 'The configuration may be unstable at the selected settings', 'Return only that setting to a supported default and compare'],
+          ['NTFS or disk errors appear at the same time, or the drive reports warnings', 'Storage or file-system trouble needs separate investigation', 'Back up important files first, then check drive health and file-system evidence'],
+          ['Several unrelated stop codes occur, or the named module changes each time', 'A shared instability may be corrupting different operations', 'Preserve all dumps and event times; test memory and review recent system changes']
+        ]
+      },
+      faq: [
+        { question: 'Does PAGE_FAULT_IN_NONPAGED_AREA mean my RAM is broken?', answer: 'No. Faulty or unstable RAM is one possibility, but the stop code alone does not prove a failed memory module. Drivers, low-level security software, unstable memory settings, and file-system or hardware issues can also contribute. Test memory and use crash evidence before replacing parts.' },
+        { question: 'What does 0x00000050 mean compared with 0x50?', answer: 'They are two hexadecimal representations of the same bug-check value. PAGE_FAULT_IN_NONPAGED_AREA is the associated stop-code name.' },
+        { question: 'Should I run CHKDSK first?', answer: 'Not automatically. First protect important files if storage trouble is plausible. Use chkdsk C: /scan when Windows or Event Viewer provides file-system clues; do not assume the drive is responsible without supporting evidence.' },
+        { question: 'What if Windows Memory Diagnostic finds no errors?', answer: 'A clean result is useful but does not rule out every intermittent fault or unstable memory configuration. If crashes continue, preserve the minidump, note the named module and event time, and review recent driver or software changes.' },
+        { question: 'Can I fix this by reinstalling Windows?', answer: 'Reinstallation is not a good first step and will not repair failing hardware. Back up important files, investigate recent changes, run targeted tests, and preserve crash evidence before considering a repair install or reset.' }
+      ],
+      sources: [
+        { label: 'Microsoft Learn: Bug Check 0x50 — PAGE_FAULT_IN_NONPAGED_AREA', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x50--page-fault-in-nonpaged-area' },
+        { label: 'Microsoft Support: Use System File Checker to repair missing or corrupted system files', url: 'https://support.microsoft.com/en-us/topic/use-the-system-file-checker-tool-to-repair-missing-or-corrupted-system-files-79aa86cb-ca52-166a-92a3-966e85d4094e' },
+        { label: 'Microsoft Learn: Bug Check Code Reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' }
+      ]
+    },
     related: [GUIDE.decode, GUIDE.ram, GUIDE.ssd],
   },
   {
