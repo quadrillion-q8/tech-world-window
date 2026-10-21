@@ -54,7 +54,7 @@ export const tools: ToolDef[] = [
     status: 'New',
     hubDescription: 'Analyze frame-time captures locally, compare two runs on a shared-axis graph, inspect 1% and 0.1% lows, and export every detected stutter event as CSV.',
     menuDescription: 'Measure frame pacing, compare runs and export stutter events.',
-    seoTitle: 'Frame Time Analyzer for Gaming: Stutter & 1% Lows',
+    seoTitle: 'Frame Time Analyzer: 1% Lows & Stutter',
     metaDescription: 'Free frame time analyzer for gaming. Compare capture graphs, find stutter spikes, inspect 1% lows and export detected events to CSV. Runs locally.',
     faq: [
       { question: 'What is a frame-time analyzer?', answer: 'It analyzes per-frame timing data and reports average FPS, 1% and 0.1% lows, frame-time percentiles, detected stutter events and a graph. Frame-time intervals can reveal uneven delivery that average FPS hides.' },
