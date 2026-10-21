@@ -102,6 +102,12 @@ export const routeGraph: RouteNode[] = [
   { path: '/laptop-battery-warning-signs', kind: 'article', title: 'Laptop Battery Health Guide: Warning Signs, Testing and Safety', indexable: true },
   { path: '/why-8gb-ram-is-no-longer-enough-for-windows-11', kind: 'article', title: 'Why 8GB RAM Can Feel Limiting on Windows 11', indexable: true },
   { path: '/windows-11-26h2-iso-released', kind: 'article', title: 'Windows 11 26H2 Is Available: What to Know About the ISO', indexable: true },
+  { path: '/windows-11-wifi-keeps-disconnecting', kind: 'article', title: 'Windows 11 Wi-Fi Keeps Disconnecting: Find the Real Cause', indexable: true },
+  { path: '/windows-11-black-screen-after-login', kind: 'article', title: 'Windows 11 Black Screen After Login: Safe Troubleshooting', indexable: true },
+  { path: '/laptop-plugged-in-not-charging', kind: 'article', title: 'Laptop Plugged In but Not Charging: What to Check', indexable: true },
+  { path: '/pc-turns-on-but-no-display', kind: 'article', title: 'PC Turns On but Has No Display: A Safe Diagnostic Guide', indexable: true },
+  { path: '/ssd-not-detected-in-bios-or-windows', kind: 'article', title: 'SSD Not Detected in BIOS or Windows: Find the Failure Point', indexable: true },
+  { path: '/windows-11-usb-device-not-recognized', kind: 'article', title: 'USB Device Not Recognized in Windows: A Diagnostic Guide', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -179,6 +185,12 @@ export const menuGroups: MenuGroup[] = [
       { label: 'BIOS / UEFI Recovery Guide', href: '/bios-uefi-recovery-guide', description: 'Safely diagnose failed firmware updates and choose a model-specific recovery path.' },
       { label: 'BitLocker Recovery After BIOS Update', href: '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update', description: 'Find the recovery key and resolve firmware-triggered prompts without risking encrypted data.' },
       { label: 'Laptop Battery Health & Safety', href: '/laptop-battery-warning-signs', description: 'Check battery health, troubleshoot fast drain, and recognize urgent battery warning signs.' },
+      { label: 'Wi-Fi Keeps Disconnecting', href: '/windows-11-wifi-keeps-disconnecting', description: 'Separate device, signal and router problems before resetting the network.' },
+      { label: 'Black Screen After Login', href: '/windows-11-black-screen-after-login', description: 'Recover a black desktop by checking display output, the shell and drivers.' },
+      { label: 'Laptop Plugged In but Not Charging', href: '/laptop-plugged-in-not-charging', description: 'Check power delivery, charge limits and battery safety before replacing parts.' },
+      { label: 'PC Turns On but Has No Display', href: '/pc-turns-on-but-no-display', description: 'Separate monitor issues from failed POST and hardware initialization.' },
+      { label: 'SSD Not Detected', href: '/ssd-not-detected-in-bios-or-windows', description: 'Distinguish firmware detection from Windows mounting without risking data.' },
+      { label: 'USB Device Not Recognized', href: '/windows-11-usb-device-not-recognized', description: 'Isolate the device, cable, port, power path and Windows driver.' },
     ],
   },
   {

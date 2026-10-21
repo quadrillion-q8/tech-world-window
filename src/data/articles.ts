@@ -4,6 +4,7 @@ import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { october2026Articles } from './october-2026-articles';
+import { octoberTechGuides } from './october-tech-guides';
 import { biosUefiRecoveryGuide } from './bios-uefi-recovery-guide';
 import { bitlockerRecoveryAfterBiosUpdate } from './bitlocker-recovery-key-after-bios-update';
 import { placeGalleryImages } from './article-images';
@@ -130,6 +131,7 @@ const baseArticles: Article[] = [
   ...researchArticles,
   windows26H2InstallationGuide,
   ...october2026Articles,
+  ...octoberTechGuides,
   biosUefiRecoveryGuide,
   bitlockerRecoveryAfterBiosUpdate,
 
