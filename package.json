@@ -14,10 +14,11 @@
     "generate:rss": "tsx scripts/generate-rss.ts",
     "validate:content": "tsx scripts/audit-content-integrity.ts",
     "audit:gallery": "tsx scripts/audit-gallery-coverage.ts",
-    "validate": "tsx scripts/validate-build.ts && npm run validate:content && npm run audit:gallery && npm run audit:links",
+    "validate": "tsx scripts/validate-build.ts && npm run validate:content && npm run audit:gallery && npm run audit:links && npm run audit:frame-time",
     "build": "npm run generate:sitemap && npm run generate:rss && npm run typecheck && vite-react-ssg build && npm run validate",
     "preview": "vite preview",
     "audit:links": "tsx scripts/audit-link-topology.ts",
+    "audit:frame-time": "tsx scripts/audit-frame-time.ts",
     "report:bundle": "node scripts/report-bundle-sizes.mjs"
   },
   "dependencies": {
