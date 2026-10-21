@@ -118,8 +118,8 @@ function FrameTimeChart({ frames, analysis, comparisonFrames, comparisonAnalysis
       </g>}
       <polyline points={line} className="ft-line" fill="none" />
       {comparisonAnalysis && <polyline points={comparisonLine} className="ft-line ft-line-compare" fill="none" />}
-      {markers.map(spike => <circle key={spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike" />)}
-      {comparisonMarkers.map(spike => <circle key={spike.startIndex} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike ft-spike-compare" />)}
+      {markers.map(spike => <circle key={`baseline-${spike.startIndex}`} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike" />)}
+      {comparisonMarkers.map(spike => <circle key={`comparison-${spike.startIndex}`} cx={x(spike.startSec * 1000)} cy={y(spike.worstMs)} r={3.5} className="ft-spike ft-spike-compare" />)}
       <text x={left} y={height - 10} className="ft-axis">0 s</text>
       <text x={left + plotW / 2} y={height - 10} textAnchor="middle" className="ft-axis">{(timelineDurationSec / 2).toFixed(0)} s</text>
       <text x={width - right} y={height - 10} textAnchor="end" className="ft-axis">{timelineDurationSec.toFixed(0)} s</text>
