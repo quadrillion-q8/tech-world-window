@@ -242,7 +242,7 @@ export const octoberTechGuides: Article[] = [
     readingTime: 10,
     tags: ["Laptop", "Battery", "Not Charging", "USB-C", "Power Adapter", "Battery Health", "Hardware Troubleshooting"],
     appliesTo: ["Windows laptops; exact charging behavior depends on device model"],
-    relatedArticles: ["laptop-wont-turn-on", "gaming-laptop-upgrade-check"],
+    relatedArticles: ["laptop-wont-turn-on", "nvme-laptop-upgrade"],
     contentRole: "cluster",
     pillarPath: "/hardware",
     searchIntent: "informational",

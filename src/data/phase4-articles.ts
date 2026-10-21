@@ -2483,7 +2483,8 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "ssd-health",
-      "ssd-slowdown"
+      "ssd-slowdown",
+      "laptop-plugged-in-not-charging"
     ],
     "contentRole": "cluster",
     "pillarPath": "/hardware",
@@ -2698,8 +2699,7 @@ export const phase4Articles: Article[] = [
     ],
     "relatedArticles": [
       "gaming-low-fps",
-      "gaming-crashes-desktop",
-      "laptop-plugged-in-not-charging"
+      "gaming-crashes-desktop"
     ],
     "contentRole": "cluster",
     "pillarPath": "/gaming",
