@@ -1,0 +1,265 @@
+.support-lifecycle-page {
+  --lifecycle-border: #d9d2c5;
+  --lifecycle-ink: #1c1913;
+  --lifecycle-body: #3a3428;
+  --lifecycle-muted: #5a5243;
+  --lifecycle-teal: #0a6573;
+  --lifecycle-teal-wash: #e2eeeb;
+  --lifecycle-paper: #fffdf8;
+  --lifecycle-amber: #fbefd3;
+}
+.support-lifecycle-page .lifecycle-privacy,
+.support-lifecycle-page .lifecycle-selector-card,
+.support-lifecycle-page .lifecycle-result-card {
+  border: 1px solid var(--lifecycle-border);
+  border-radius: 16px;
+  margin: 1.4rem 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+.support-lifecycle-page .lifecycle-privacy {
+  background: var(--lifecycle-teal-wash);
+  border-color: #b4d1cc;
+  color: var(--lifecycle-ink);
+}
+.support-lifecycle-page .lifecycle-privacy strong {
+  color: #074a55;
+  display: block;
+  margin-bottom: .35rem;
+}
+.support-lifecycle-page .lifecycle-privacy p,
+.support-lifecycle-page .lifecycle-selector-card > p,
+.support-lifecycle-page .lifecycle-small-note,
+.support-lifecycle-page .lifecycle-record-note,
+.support-lifecycle-page .lifecycle-esu-note p {
+  color: var(--lifecycle-body);
+  margin-bottom: 0;
+}
+.support-lifecycle-page .lifecycle-selector-card,
+.support-lifecycle-page .lifecycle-result-card {
+  background: var(--lifecycle-paper);
+  color: var(--lifecycle-body);
+  box-shadow: 0 7px 24px rgba(38, 30, 16, .045);
+}
+.support-lifecycle-page .lifecycle-selector-card h2,
+.support-lifecycle-page .lifecycle-result-card h2,
+.support-lifecycle-page .lifecycle-next-step h3 {
+  color: var(--lifecycle-ink);
+  margin-top: 0;
+}
+.support-lifecycle-page .lifecycle-select-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.support-lifecycle-page .lifecycle-select-grid label {
+  color: var(--lifecycle-ink);
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  font-size: .95rem;
+  font-weight: 650;
+  min-width: 0;
+}
+.support-lifecycle-page .lifecycle-select-grid select {
+  appearance: auto;
+  background: #fff;
+  border: 1px solid #817867;
+  border-radius: 9px;
+  color: #1c1913;
+  font: inherit;
+  font-weight: 450;
+  min-height: 46px;
+  padding: .68rem .75rem;
+  width: 100%;
+}
+.support-lifecycle-page .lifecycle-select-grid select:focus-visible,
+.support-lifecycle-page a:focus-visible {
+  outline: 3px solid #0a6573;
+  outline-offset: 3px;
+}
+.support-lifecycle-page .lifecycle-small-note {
+  border-top: 1px solid var(--lifecycle-border);
+  font-size: .84rem;
+  margin-top: 1.15rem;
+  padding-top: .9rem;
+}
+.support-lifecycle-page .lifecycle-result-card {
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.support-lifecycle-page .lifecycle-result-head {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.support-lifecycle-page .lifecycle-result-head h2 {
+  margin: .25rem 0;
+}
+.support-lifecycle-page .lifecycle-result-head p {
+  color: var(--lifecycle-muted);
+  margin: 0;
+}
+.support-lifecycle-page .lifecycle-status {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #a4c8c1;
+  background: var(--lifecycle-teal-wash);
+  color: #074a55;
+  font-size: .83rem;
+  font-weight: 750;
+  line-height: 1.35;
+  max-width: 100%;
+  padding: .42rem .7rem;
+}
+.support-lifecycle-page .lifecycle-status.is-ended {
+  background: #f9e8df;
+  border-color: #d8aa95;
+  color: #702e16;
+}
+.support-lifecycle-page .lifecycle-status.is-ending {
+  background: var(--lifecycle-amber);
+  border-color: #ddc17e;
+  color: #60420a;
+}
+.support-lifecycle-page .lifecycle-status.is-esu {
+  background: #e7eaf9;
+  border-color: #b9c2ea;
+  color: #253571;
+}
+.support-lifecycle-page .lifecycle-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .8rem;
+  margin: 1.25rem 0;
+}
+.support-lifecycle-page .lifecycle-fact {
+  background: #f5f0e6;
+  border: 1px solid var(--lifecycle-border);
+  border-radius: 12px;
+  min-width: 0;
+  padding: 1rem;
+}
+.support-lifecycle-page .lifecycle-fact span,
+.support-lifecycle-page .lifecycle-fact small {
+  color: var(--lifecycle-muted);
+  display: block;
+}
+.support-lifecycle-page .lifecycle-fact span {
+  font-size: .83rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.support-lifecycle-page .lifecycle-fact strong {
+  color: var(--lifecycle-ink);
+  display: block;
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+  line-height: 1.25;
+  margin: .55rem 0;
+  overflow-wrap: anywhere;
+}
+.support-lifecycle-page .lifecycle-fact-date strong {
+  color: #074a55;
+}
+.support-lifecycle-page .lifecycle-fact small {
+  font-size: .78rem;
+  line-height: 1.45;
+}
+.support-lifecycle-page .lifecycle-record-note,
+.support-lifecycle-page .lifecycle-esu-note {
+  border-left: 4px solid var(--lifecycle-teal);
+  margin: 1rem 0;
+  padding: .2rem 0 .2rem .9rem;
+}
+.support-lifecycle-page .lifecycle-esu-note {
+  background: #f0effb;
+  border: 1px solid #c8c5e8;
+  border-left: 4px solid #4f4a91;
+  border-radius: 8px;
+  color: #29264d;
+  padding: .85rem 1rem;
+}
+.support-lifecycle-page .lifecycle-esu-note strong {
+  display: block;
+  margin-bottom: .3rem;
+}
+.support-lifecycle-page .lifecycle-esu-note p {
+  color: #29264d;
+}
+.support-lifecycle-page .lifecycle-next-step {
+  border-top: 1px solid var(--lifecycle-border);
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+}
+.support-lifecycle-page .lifecycle-next-step h3 {
+  margin-bottom: .7rem;
+}
+.support-lifecycle-page .lifecycle-next-step ol {
+  padding-left: 1.3rem;
+}
+.support-lifecycle-page .lifecycle-next-step li {
+  margin-bottom: .5rem;
+  padding-left: .15rem;
+}
+.support-lifecycle-page .lifecycle-source-row {
+  align-items: center;
+  border-top: 1px solid var(--lifecycle-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.25rem;
+  margin-top: 1.3rem;
+  padding-top: 1rem;
+}
+.support-lifecycle-page .lifecycle-source-row a,
+.support-lifecycle-page .lifecycle-explainer a {
+  color: #074a55;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.support-lifecycle-page .lifecycle-explainer {
+  margin-top: 2rem;
+}
+.support-lifecycle-page .lifecycle-explainer section {
+  margin: 1.5rem 0;
+}
+.support-lifecycle-page .lifecycle-method-note {
+  background: #f5f0e6;
+  border: 1px solid var(--lifecycle-border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+.support-lifecycle-page .lifecycle-method-note p:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 740px) {
+  .support-lifecycle-page .lifecycle-select-grid,
+  .support-lifecycle-page .lifecycle-facts-grid {
+    grid-template-columns: 1fr;
+  }
+  .support-lifecycle-page .lifecycle-result-head {
+    display: block;
+  }
+  .support-lifecycle-page .lifecycle-status {
+    margin-top: .8rem;
+    border-radius: 10px;
+  }
+  .support-lifecycle-page .lifecycle-fact strong {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 390px) {
+  .support-lifecycle-page .lifecycle-privacy,
+  .support-lifecycle-page .lifecycle-selector-card,
+  .support-lifecycle-page .lifecycle-result-card {
+    border-radius: 12px;
+    padding: .9rem;
+  }
+  .support-lifecycle-page .lifecycle-source-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
