@@ -23,8 +23,6 @@ export const secureBootCertificateGuide: Article = {
     "Windows 10 and Windows 11 devices that support UEFI Secure Boot",
     "Status labels and update requirements can vary by device, firmware and management policy"
   ],
-  contentRole: "cluster",
-  pillarPath: "/windows-troubleshooting-complete-guide",
   searchIntent: "informational",
   testing: "This guide follows Microsoft’s published certificate status and PowerShell guidance. The linked checker interprets only text the reader pastes; it does not query firmware or modify the PC.",
   content: [
