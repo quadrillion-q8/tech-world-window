@@ -395,7 +395,7 @@ select, .tools-search-input, .tools-filter-row select,
     overflow-x: hidden;
   }
   .site-header .nav-group { min-width: 0; }
-  .site-header .mega-menu { width: 100%; box-sizing: border-box; }
+  .site-header .mega-menu { box-sizing: border-box; }
   .site-header .mega-links { min-width: 0; }
   .site-header .mega-links a { min-width: 0; }
   .site-header .mega-links small { overflow-wrap: anywhere; }
