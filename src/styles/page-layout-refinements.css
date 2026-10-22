@@ -284,8 +284,8 @@
 .home-page .article-card .card-meta { margin-top: auto; }
 .home-page .tool-banner {
   box-sizing: border-box;
-  width: calc(100% - (2 * var(--tww-shell-gutter)));
-  max-width: calc(var(--tww-shell-width) - (2 * var(--tww-shell-gutter)));
+  width: 100%;
+  max-width: var(--tww-shell-width);
   margin: 0 auto clamp(2rem, 4vw, 3.5rem);
   padding: clamp(1.3rem, 3vw, 2.25rem);
   gap: 1.5rem;
@@ -296,8 +296,8 @@
 .home-page .tool-banner p:not(.home-section-kicker) { max-width: 70ch; line-height: 1.7; }
 .home-page .author-strip {
   box-sizing: border-box;
-  width: calc(100% - (2 * var(--tww-shell-gutter)));
-  max-width: calc(var(--tww-shell-width) - (2 * var(--tww-shell-gutter)));
+  width: 100%;
+  max-width: var(--tww-shell-width);
   margin: 0 auto clamp(2.25rem, 4vw, 4rem);
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -897,7 +897,7 @@
 /* Review detail images align to their heading; comparison pairs remain equal. */
 .product-hero-image {
   box-sizing: border-box;
-  width: calc(100% - (2 * var(--tww-shell-gutter)));
+  width: calc(100% - 2rem);
   max-width: var(--tww-shell-width);
   margin: 0 auto 1.5rem;
 }
