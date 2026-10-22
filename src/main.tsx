@@ -4,6 +4,7 @@ import './styles/globals.css';
 import './styles/visual-refresh.css';
 import './styles/workbench.css';
 import './styles/editorial-article-refresh.css';
+import './styles/sitewide-ui-polish.css';
 
 export const createRoot = ViteReactSSG({
   routes,

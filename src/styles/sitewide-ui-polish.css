@@ -1,0 +1,439 @@
+/* TWW site-wide UI polish pass.
+   Keep this file last in the CSS import order so shared rules beat legacy cascades.
+   Page-specific visual systems and all route/content/SEO behavior remain unchanged. */
+
+:root {
+  --tww-content-width: 80rem;
+  --tww-page-gutter: clamp(1rem, 2.6vw, 2rem);
+  --tww-control-radius: .7rem;
+  --tww-card-radius: 1rem;
+  --tww-control-min-height: 2.75rem;
+}
+
+#main-content, #main-content > *, .home-page, .article-page, .static-page,
+.tool-page, .category-page, .tools-hub-page, .gallery-page, .commercial-hub,
+.bsod-page, .research-page, .review-page {
+  min-width: 0;
+}
+
+img, video, iframe, canvas, svg {
+  max-width: 100%;
+}
+
+img { height: auto; }
+button, input, select, textarea { max-width: 100%; }
+:where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+.commercial-hub, .bsod-page, .research-page, .review-page) {
+  overflow-wrap: anywhere;
+}
+
+:where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+.commercial-hub, .bsod-page, .research-page, .review-page).section {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 3.8vw, 3.25rem) var(--tww-page-gutter);
+}
+
+:where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+.commercial-hub, .bsod-page, .research-page, .review-page) h1 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+:where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+.commercial-hub, .bsod-page, .research-page, .review-page) .breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .45rem .6rem;
+  color: var(--wb-subtle);
+  font-size: .76rem;
+  line-height: 1.45;
+  margin-bottom: 1.15rem;
+}
+
+:where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+.commercial-hub, .bsod-page, .research-page, .review-page) .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .105em;
+  line-height: 1.45;
+}
+
+:where(.static-page, .tool-page, .gallery-page, .commercial-hub,
+.bsod-page, .research-page, .review-page) > h1 {
+  margin: .55rem 0 1rem;
+  max-width: 24ch;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+
+:where(.static-page, .tool-page, .gallery-page, .commercial-hub,
+.bsod-page, .research-page, .review-page) > .page-intro,
+:where(.static-page, .tool-page, .gallery-page, .commercial-hub,
+.bsod-page, .research-page, .review-page) > p {
+  max-width: 72ch;
+  margin-block: .75rem 1.15rem;
+  line-height: 1.75;
+}
+
+.category-hero {
+  box-sizing: border-box;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--tww-card-radius);
+  padding: clamp(1.35rem, 3.2vw, 2.3rem);
+  margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
+  background: linear-gradient(145deg, rgba(255,255,255,.93), rgba(237,244,246,.9));
+}
+.category-hero h1 {
+  margin: .55rem 0 .7rem;
+  max-width: 24ch;
+  font-size: clamp(2rem, 4.3vw, 3.1rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.category-hero .page-intro, .category-hero > p {
+  max-width: 70ch;
+  margin: .55rem 0 0;
+  font-size: clamp(.98rem, 1.3vw, 1.08rem);
+  line-height: 1.72;
+}
+
+.section-heading {
+  min-width: 0;
+}
+.section-heading > * { min-width: 0; }
+.section-heading h2 { text-wrap: balance; }
+.section-heading > p, .section-heading .home-section-intro {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.article-grid, .category-grid, .bsod-grid, .review-category-grid,
+.comparison-products, .profile-link-grid, .windows-symptom-grid {
+  min-width: 0;
+}
+.article-grid > *, .category-grid > *, .bsod-grid > *,
+.review-category-grid > *, .comparison-products > *,
+.profile-link-grid > *, .windows-symptom-grid > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+:where(.article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
+.research-card, .review-card, .content-card, .info-card, .related-card,
+.product-profile-card, .category-tile, .windows-symptom-card) {
+  border-radius: var(--tww-card-radius);
+}
+:where(.article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
+.research-card, .review-card, .content-card, .info-card, .related-card,
+.product-profile-card, .category-tile, .windows-symptom-card) :where(h2, h3, h4, p, a, small, span) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+:where(.article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
+.research-card, .review-card, .content-card, .info-card, .related-card,
+.product-profile-card, .category-tile) img {
+  max-width: 100%;
+}
+.article-card .card-thumbnail-link img,
+.article-card .article-thumbnail img,
+.category-tile-image {
+  width: 100%;
+  object-fit: cover;
+}
+.article-card .card-topline { align-items: center; }
+.card-meta { line-height: 1.55; }
+.article-card .text-link { line-height: 1.45; }
+
+:where(.tool-controls, .tool-result, .ft-input, .ft-results, .ft-comparison-panel,
+.ve-panel, .ve-output, .ve-preview-panel, .battery-tool-panel,
+.battery-results, .wta-step, .wta-result, .bsod-search,
+.comparison-product, .comparison-shelf, .product-comparison-card,
+.product-review-page .product-testing-status, .product-independent-review,
+.tools-discovery, .tools-filter, .gallery-note) {
+  box-sizing: border-box;
+  min-width: 0;
+  border-radius: var(--tww-card-radius);
+}
+
+:where(.tool-controls, .ft-input, .ve-panel, .battery-tool-panel,
+.wta-step, .bsod-search, .tools-discovery, .tools-filter) {
+  border-color: var(--wb-line);
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select, textarea, button, .button, .ft-primary, .ft-secondary, .ft-file-button,
+.battery-file-button, .ve-copy) {
+  box-sizing: border-box;
+  font: inherit;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select, textarea, .tools-search-input, .tools-filter-row select,
+.ft-target-select, .ft-paste, .ve-field input, .ve-field select,
+.ve-field textarea, .battery-tool-panel input, .battery-tool-panel select,
+.battery-tool-panel textarea, .wta-radio) {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--wb-line-strong);
+  border-radius: var(--tww-control-radius);
+  color: var(--wb-ink);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(20, 40, 50, .035);
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select, .tools-search-input, .tools-filter-row select,
+.ft-target-select, .ve-field input, .ve-field select,
+.battery-tool-panel input, .battery-tool-panel select) {
+  min-height: var(--tww-control-min-height);
+  padding: .65rem .8rem;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(textarea, .ft-paste,
+.ve-field textarea, .battery-tool-panel textarea) {
+  min-height: 7.5rem;
+  padding: .75rem .85rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(input, select, textarea):focus-visible {
+  border-color: var(--wb-teal);
+  outline: 3px solid rgba(8, 101, 117, .18);
+  outline-offset: 1px;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) label,
+.ve-field label, .ft-input label, .tools-search-label {
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(.button, .ft-primary, .ft-secondary,
+.ft-file-button, .battery-file-button, .ve-copy, .wta-actions button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: var(--tww-control-min-height);
+  max-width: 100%;
+  border-radius: var(--tww-control-radius);
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+:where(.tool-page, .tools-hub-page, .bsod-page) :where(.button, .ft-primary, .ft-secondary,
+.ft-file-button, .battery-file-button, .ve-copy, .wta-actions button):disabled {
+  cursor: not-allowed;
+  opacity: .58;
+  transform: none;
+}
+
+.tool-panel { align-items: stretch; }
+.tool-controls, .tool-result { min-width: 0; }
+.tool-controls { align-content: start; }
+.tool-result { overflow-wrap: anywhere; }
+.ft-error, .ft-warning, .ve-error, .ve-valid, .battery-safety-note,
+.wta-caution, .tools-empty {
+  border-radius: .7rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  margin-block: 1.1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border: 1px solid var(--wb-line);
+  border-radius: .85rem;
+  background: var(--wb-card);
+}
+.article-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.55;
+}
+.article-table caption {
+  padding: .8rem 1rem;
+  text-align: start;
+  font-weight: 750;
+  color: var(--wb-ink);
+  background: var(--wb-paper-2);
+}
+.article-table th, .article-table td {
+  padding: .75rem .85rem;
+  text-align: start;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.article-table thead th {
+  color: var(--wb-ink);
+  background: var(--wb-paper-2);
+  font-weight: 800;
+}
+.article-table tbody tr:nth-child(even) { background: rgba(237, 244, 246, .55); }
+.article-table tr + tr > * { border-top: 1px solid var(--wb-line-soft); }
+
+:where(.article-body, .static-page, .tool-page, .category-page,
+.tools-hub-page, .gallery-page, .research-page, .review-page) :where(figure, pre, table, nav) {
+  max-width: 100%;
+}
+:where(.article-body, .static-page, .tool-page, .category-page,
+.tools-hub-page, .gallery-page, .research-page, .review-page) pre {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border-radius: .85rem;
+}
+.article-body figure img, .product-hero-image img,
+.gallery-grid img { max-width: 100%; }
+.article-body figcaption { text-wrap: pretty; }
+
+:where(.quick-answer, .editorial-note, .article-disclaimer,
+.commercial-intro, .gallery-note, .ve-privacy-note,
+.battery-privacy, .ft-privacy, .wta-privacy) {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+:where(.quick-answer, .editorial-note, .article-disclaimer,
+.commercial-intro) :where(p, a, li) {
+  line-height: 1.65;
+}
+
+:where(.faq-section, .sources-section, .research-connection) {
+  min-width: 0;
+}
+:where(.faq-section, .sources-section, .research-connection) li {
+  overflow-wrap: anywhere;
+}
+.faq-section details {
+  padding: .9rem 0;
+}
+.faq-section summary {
+  padding: .15rem 0;
+  line-height: 1.5;
+}
+.faq-section summary:focus-visible {
+  outline-offset: 4px;
+  border-radius: .25rem;
+}
+
+.site-footer .footer-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding: clamp(2rem, 4vw, 3.5rem) var(--tww-page-gutter);
+}
+.site-footer .footer-links { min-width: 150px; }
+.site-footer a { overflow-wrap: anywhere; }
+.site-footer .copyright { line-height: 1.6; }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-offset: 3px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: .8rem;
+  z-index: 200;
+  border-radius: .5rem;
+  box-shadow: 0 6px 20px rgba(10, 32, 43, .18);
+}
+
+/* Article-like pages without the full right rail keep a balanced two-column layout. */
+.article-page:not(:has(.article-right-rail)) .article-layout,
+.product-review-page .article-layout {
+  grid-template-columns: minmax(145px, 190px) minmax(0, 1fr);
+}
+.article-page:not(:has(.article-right-rail)) .article-body,
+.product-review-page .article-body { min-width: 0; }
+.article-page:not(:has(.article-right-rail)) .article-aside,
+.product-review-page .article-aside { max-width: 100%; }
+
+/* Prevent wide diagnostic interfaces from forcing the document viewport to overflow. */
+.ft-grid, .ft-comparison-results, .ft-loaded-comparison,
+.ve-builder, .ve-output, .battery-results, .wta-result,
+.wta-step, .bsod-grid, .tools-filter-row, .tools-discovery,
+.gallery-grid, .comparison-products {
+  min-width: 0;
+  max-width: 100%;
+}
+.ft-hist-row > *, .ft-stats > *, .battery-capacity-grid > *,
+.wta-symptom-grid > *, .ve-options > *, .ve-builder > *,
+.comparison-products > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1100px) {
+  .article-grid, .category-grid { gap: clamp(.85rem, 1.8vw, 1.25rem); }
+  .site-footer .footer-inner { gap: 1.5rem; }
+}
+
+@media (max-width: 900px) {
+  .site-header .main-nav.is-open {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  .site-header .nav-group { min-width: 0; }
+  .site-header .mega-menu { width: 100%; box-sizing: border-box; }
+  .site-header .mega-links { min-width: 0; }
+  .site-header .mega-links a { min-width: 0; }
+  .site-header .mega-links small { overflow-wrap: anywhere; }
+  .tool-panel { grid-template-columns: minmax(0, 1fr); }
+  .site-footer .footer-inner { grid-template-columns: minmax(0, 1fr) auto; }
+}
+
+@media (max-width: 639px) {
+  :where(.static-page, .tool-page, .category-page, .tools-hub-page, .gallery-page,
+  .commercial-hub, .bsod-page, .research-page, .review-page).section {
+    padding-top: 1.35rem;
+    padding-bottom: 2.25rem;
+  }
+  .category-hero {
+    padding: 1.25rem;
+    border-radius: .85rem;
+    margin-bottom: 1.25rem;
+  }
+  .category-hero h1 { font-size: clamp(1.9rem, 8vw, 2.45rem); }
+  .section-heading { margin-bottom: 1.2rem; }
+  .tool-controls, .tool-result, .ft-input, .ft-results,
+  .ve-panel, .ve-output, .battery-tool-panel, .wta-step {
+    padding: 1rem;
+  }
+  .article-table { min-width: 560px; }
+  .site-footer .footer-inner { grid-template-columns: minmax(0, 1fr); }
+  .site-footer .copyright { grid-column: auto; }
+  .article-page:not(:has(.article-right-rail)) .article-layout,
+  .product-review-page .article-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
