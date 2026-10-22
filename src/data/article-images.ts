@@ -119,10 +119,19 @@ export const articleImagePlacements: Record<string, Placement[]> = {
   ],
   'research/does-more-ram-make-windows-faster': [
     { after: 'More RAM or faster RAM: which upgrade matters?', id: 'samsung-16gb-ddr4-3200-laptop-ram-sodimm-upgrade', alt: 'Samsung 16GB DDR4-3200 laptop SODIMM memory module', caption: `${bench}: a laptop SODIMM. Capacity is only one part of memory behavior.` },
-  ],
+  ],,
+  'windows-11-8gb-ram-update-october-2026': [
+    {
+      after: 'The 200MB and 2GB figures describe different things',
+      id: '8gb-ddr4-ram-memory-upgrade',
+      alt: 'An 8GB DDR4 RAM module from the TWW repair-bench gallery',
+      caption: 'A physical 8GB DDR4 memory module from the TWW gallery. Windows memory-efficiency changes do not add installed RAM; upgrade options depend on the exact device.',
+    },
+  ]
 };
 
-/** Photos for static pages, rendered after the page text. */
+/**
+ * Photos for static pages, rendered after the page text. */
 export const staticPageFigures: Record<string, { id: string; alt: string; caption: string }[]> = {
   '/about': [
     { id: 'laptop-internal-cleaning-dust-removal-service', alt: 'Laptop opened on the bench during internal dust cleaning', caption: 'Photo from the TWW repair bench: internal cleaning on a laptop.' },

@@ -1,4 +1,5 @@
 import type { Article } from './articles';
+import { windows11EightGbRamUpdate } from './windows-11-8gb-ram-update';
 
 /** October 2026 editorial additions: repair-first guides, measured RAM advice, and a sourced release note. */
 export const october2026Articles: Article[] = [
@@ -465,4 +466,5 @@ export const october2026Articles: Article[] = [
       { question: 'Where should I download Windows 11 installation media?', answer: 'Start with Microsoft’s official Windows 11 download page and follow the option documented for your device and task. Avoid unofficial mirrors.' }
     ]
   }
+  windows11EightGbRamUpdate,
 ];
