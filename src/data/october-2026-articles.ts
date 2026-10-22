@@ -309,7 +309,7 @@ export const october2026Articles: Article[] = [
     excerpt: '8GB is not a universal failure point. The practical question is whether your normal workload causes sustained memory pressure, paging and slow application switching.',
     category: 'Hardware',
     subcategory: 'Memory and upgrades',
-    relatedArticles: ['laptop-wont-turn-on', 'ram-upgrade-gaming'],
+    relatedArticles: ['laptop-wont-turn-on', 'ram-upgrade-gaming', 'research-ram-ssd-upgrade-now-or-wait'],
     authorId: 'imranNatiq',
     publishedAt: '2026-10-15',
     readingTime: 9,
