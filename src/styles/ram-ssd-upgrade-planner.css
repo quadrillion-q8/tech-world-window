@@ -1,0 +1,144 @@
+.ram-ssd-planner {
+  --rsp-ink: #1c1913;
+  --rsp-body: #3a3428;
+  --rsp-muted: #5a5243;
+  --rsp-border: #d9d2c5;
+  --rsp-paper: #fffdf8;
+  --rsp-wash: #e2eeeb;
+  --rsp-teal: #074a55;
+  border: 1px solid var(--rsp-border);
+  border-radius: 16px;
+  background: var(--rsp-paper);
+  color: var(--rsp-body);
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(34, 27, 17, .05);
+}
+.ram-ssd-planner-header {
+  padding: clamp(1rem, 2.6vw, 1.5rem);
+  background: var(--rsp-wash);
+  border-bottom: 1px solid #b4d1cc;
+}
+.ram-ssd-planner .eyebrow {
+  color: var(--rsp-teal);
+}
+.ram-ssd-planner-header h2 {
+  color: var(--rsp-ink);
+  margin: .25rem 0 .55rem;
+}
+.ram-ssd-planner-header p {
+  color: var(--rsp-body);
+  margin: 0;
+  max-width: 70ch;
+}
+.ram-ssd-planner-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: clamp(1rem, 2.6vw, 1.5rem);
+  border-bottom: 1px solid var(--rsp-border);
+}
+.ram-ssd-planner-fields label {
+  color: var(--rsp-ink);
+  display: flex;
+  flex-direction: column;
+  font-size: .94rem;
+  font-weight: 650;
+  gap: .5rem;
+  min-width: 0;
+}
+.ram-ssd-planner-fields select {
+  background: #fff;
+  border: 1px solid #817867;
+  border-radius: 9px;
+  color: var(--rsp-ink);
+  font: inherit;
+  font-weight: 450;
+  line-height: 1.4;
+  min-height: 48px;
+  padding: .65rem .7rem;
+  width: 100%;
+}
+.ram-ssd-planner-fields select:focus-visible,
+.ram-ssd-planner a:focus-visible {
+  outline: 3px solid #0a6573;
+  outline-offset: 3px;
+}
+.ram-ssd-planner-result {
+  margin: clamp(1rem, 2.6vw, 1.5rem);
+  border: 1px solid var(--rsp-border);
+  border-left: 5px solid #0a6573;
+  border-radius: 12px;
+  background: #f5f0e6;
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+}
+.ram-ssd-planner-result.is-urgent {
+  background: #f9e8df;
+  border-color: #d8aa95;
+  border-left-color: #702e16;
+}
+.ram-ssd-planner-result.is-optional {
+  background: #e2eeeb;
+  border-color: #b4d1cc;
+  border-left-color: #074a55;
+}
+.ram-ssd-planner-label {
+  display: inline-flex;
+  color: var(--rsp-ink);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ram-ssd-planner-result h3 {
+  color: var(--rsp-ink);
+  font-size: 1.22rem;
+  line-height: 1.35;
+  margin: .45rem 0 .7rem;
+}
+.ram-ssd-planner-result p,
+.ram-ssd-planner-result li {
+  color: var(--rsp-body);
+}
+.ram-ssd-planner-result ol {
+  padding-left: 1.25rem;
+}
+.ram-ssd-planner-result li {
+  margin: .4rem 0;
+  padding-left: .15rem;
+}
+.ram-ssd-planner-result nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.1rem;
+  margin-top: .9rem;
+}
+.ram-ssd-planner-result nav a {
+  color: var(--rsp-teal);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ram-ssd-planner-disclaimer {
+  color: var(--rsp-muted);
+  font-size: .83rem;
+  margin: 0;
+  padding: 0 clamp(1rem, 2.6vw, 1.5rem) clamp(1rem, 2.6vw, 1.5rem);
+}
+@media (max-width: 780px) {
+  .ram-ssd-planner-fields {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 390px) {
+  .ram-ssd-planner {
+    border-radius: 12px;
+  }
+  .ram-ssd-planner-result {
+    border-radius: 10px;
+  }
+  .ram-ssd-planner-result nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
