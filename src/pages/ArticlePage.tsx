@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
@@ -27,6 +28,115 @@ function ArticleTableView({ table }: { table: ArticleTable }) {
         : <td key={cellIndex}>{renderCell(cell)}</td>)}</tr>)}</tbody>
     </table>
   </div>;
+}
+
+type GpuSymptom = 'smooth' | 'low-fps' | 'stutter' | 'desktop';
+type GpuThermalPattern = 'stable' | 'rising-clock-drop' | 'unknown';
+type GpuCheckResult = {
+  title: string;
+  body: string;
+  actions: string[];
+  href?: string;
+  linkLabel?: string;
+};
+
+function GpuUsageQuickCheck() {
+  const [symptom, setSymptom] = useState<GpuSymptom>('smooth');
+  const [thermalPattern, setThermalPattern] = useState<GpuThermalPattern>('unknown');
+
+  let result: GpuCheckResult;
+  if (symptom === 'desktop') {
+    result = {
+      title: 'Identify the process before changing drivers',
+      body: 'GPU activity outside a game can come from normal browser, video, recording or overlay work. The useful first step is to find which process and engine are active.',
+      actions: [
+        'Open Task Manager with Ctrl+Shift+Esc and sort Processes by GPU.',
+        'Inspect GPU Engine where available, then close one known graphics-heavy app and check whether activity changes.',
+        'If the reading still looks implausible, cross-check with your GPU vendor’s monitoring tool before assuming a hardware fault.'
+      ]
+    };
+  } else if (thermalPattern === 'rising-clock-drop') {
+    result = {
+      title: 'Investigate temperature and clock behavior together',
+      body: 'A rising temperature combined with falling clocks and worsening performance is more informative than high utilization alone. The relevant limits depend on the exact GPU and system.',
+      actions: [
+        'Repeat the same scene once and record temperature, clock speed and FPS at the point performance changes.',
+        'Check fan behavior, unobstructed airflow and the system’s power mode; on a laptop, verify its supported AC adapter and performance profile.',
+        'Compare the pattern with the exact GPU or system manufacturer’s guidance. Stop repeated stress testing if artifacts, driver resets or shutdowns appear.'
+      ],
+      href: '/gpu-overheating-gaming-pc-causes-fix',
+      linkLabel: 'Read the GPU overheating diagnostic guide'
+    };
+  } else if (symptom === 'low-fps') {
+    result = {
+      title: 'Test whether graphics workload is limiting FPS',
+      body: 'Near-100% utilization with lower-than-expected FPS can be normal for demanding settings, but it is not enough to diagnose a fault. Use a controlled comparison.',
+      actions: [
+        'Repeat the same game scene and lower only resolution, render scale or ray tracing one step.',
+        'If FPS improves meaningfully, graphics workload is relevant; check temperature, clocks and frame times before changing hardware.',
+        'If FPS barely changes, check frame caps, V-Sync, the busiest CPU thread, background tasks and memory pressure.'
+      ],
+      href: '/pc-game-low-fps-how-to-find-the-cause',
+      linkLabel: 'Follow the low-FPS diagnostic guide'
+    };
+  } else if (symptom === 'stutter') {
+    result = {
+      title: 'Capture the hitch instead of guessing from average FPS',
+      body: 'Stutter can occur with high or low GPU utilization. The useful evidence is what changed at the exact moment of the hitch.',
+      actions: [
+        'Capture frame times during a repeatable scene and note when the hitch occurs.',
+        'Compare the same timestamp with GPU clocks, temperature, VRAM, CPU-thread activity and storage activity where available.',
+        'Repeat without changing settings; if the hitch is mainly on first encounters with effects or areas, shader or asset preparation may be involved.'
+      ],
+      href: '/tools/frame-time-analyzer',
+      linkLabel: 'Open the Frame-Time Analyzer'
+    };
+  } else {
+    result = {
+      title: 'High utilization with smooth, expected performance is usually normal',
+      body: 'If the game reaches your target FPS, clocks behave normally for the workload, temperatures stay within manufacturer guidance and no stutter or artifacts appear, there is no reason to reduce utilization just to chase a lower number.',
+      actions: [
+        'Keep the same scene and settings for a repeatable comparison.',
+        'Use a frame cap only if you want to reduce noise, heat, power use or latency—not because 100% utilization is inherently harmful.',
+        'Revisit the diagnosis if FPS drops, clocks fall, unusual temperatures, artifacts or instability appear.'
+      ]
+    };
+  }
+
+  return <section className="gpu-usage-check" aria-labelledby="gpu-usage-check-title">
+    <div className="gpu-usage-check-heading">
+      <span className="eyebrow">TWW QUICK DIAGNOSTIC</span>
+      <h2 id="gpu-usage-check-title">What should you check next?</h2>
+      <p>Choose the closest symptom to get a sensible next test. This is a troubleshooting guide, not a hardware-fault verdict.</p>
+    </div>
+    <div className="gpu-usage-fields">
+      <div className="gpu-usage-field">
+        <label htmlFor="gpu-check-symptom">What are you experiencing?</label>
+        <select id="gpu-check-symptom" value={symptom} onChange={event => setSymptom(event.target.value as GpuSymptom)}>
+          <option value="smooth">Game is smooth and FPS is expected</option>
+          <option value="low-fps">High GPU usage but low FPS</option>
+          <option value="stutter">Stutter or sudden FPS drops</option>
+          <option value="desktop">GPU stays busy on the desktop</option>
+        </select>
+      </div>
+      <div className="gpu-usage-field">
+        <label htmlFor="gpu-check-thermals">What happens to temperature and clocks?</label>
+        <select id="gpu-check-thermals" value={thermalPattern} onChange={event => setThermalPattern(event.target.value as GpuThermalPattern)}>
+          <option value="unknown">Not checked yet / readings unavailable</option>
+          <option value="stable">No unusual rise or clock drop observed</option>
+          <option value="rising-clock-drop">Temperature rises while core clock falls</option>
+        </select>
+      </div>
+    </div>
+    <div className="gpu-usage-result" aria-live="polite" aria-atomic="true">
+      <span className="eyebrow">YOUR NEXT CHECK</span>
+      <h3>{result.title}</h3>
+      <p>{result.body}</p>
+      <ol>{result.actions.map((action, index) => <li key={`${index}-${action}`}>{action}</li>)}</ol>
+      {result.href && result.linkLabel ? <p className="gpu-usage-result-link"><Link to={result.href}>{result.linkLabel} →</Link></p> : null}
+    </div>
+    <p className="gpu-usage-check-note">Compare the same metric in the same monitoring tool. There is no universal temperature cutoff for every GPU model and system design.</p>
+  </section>;
 }
 
 export function ArticlePage() {
@@ -102,6 +212,7 @@ export function ArticlePage() {
       </aside>
       <div className="article-body">
         <div className="quick-answer"><strong>Quick answer</strong><p>{article.excerpt}</p></div>
+        {article.slug === 'gpu-100-percent-usage-gaming' ? <GpuUsageQuickCheck /> : null}
         <ToolCallout slug={article.slug} />
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}

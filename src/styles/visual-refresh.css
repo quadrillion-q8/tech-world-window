@@ -653,3 +653,46 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
 .comparison-product img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 .comparison-product span { display: block; padding: .7rem .9rem; font-weight: 700; font-size: .9rem; color: #1d2733; }
 @media (max-width: 560px) { .comparison-products { grid-template-columns: 1fr; } }
+
+
+/* Purpose-built diagnostic selector for the GPU utilization guide. */
+.gpu-usage-check {
+  margin: 1.25rem 0 1.6rem;
+  padding: clamp(1rem, 2.3vw, 1.5rem);
+  border: 1px solid rgba(103, 232, 249, .24);
+  border-radius: 16px;
+  background: radial-gradient(ellipse at top right, rgba(14, 116, 144, .15), transparent 52%), #0d1d2e;
+  color: #edf4fb;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .12);
+}
+.gpu-usage-check-heading { max-width: 760px; }
+.gpu-usage-check-heading .eyebrow,
+.gpu-usage-result > .eyebrow { display: inline-block; margin-bottom: .45rem; color: var(--accent-strong); font-size: .7rem; font-weight: 800; letter-spacing: .11em; }
+.gpu-usage-check-heading h2 { margin: 0 0 .55rem; font-size: clamp(1.28rem, 2.15vw, 1.7rem); line-height: 1.25; }
+.gpu-usage-check-heading p { margin: 0 0 1.1rem; color: #b8c8d8; font-size: .94rem; line-height: 1.65; }
+.gpu-usage-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+.gpu-usage-field { display: flex; min-width: 0; flex-direction: column; gap: .45rem; }
+.gpu-usage-field label { color: #e6f0f8; font-size: .88rem; font-weight: 750; line-height: 1.45; }
+.gpu-usage-field select {
+  width: 100%; min-height: 46px; padding: .7rem .8rem;
+  border: 1px solid rgba(157, 181, 202, .34); border-radius: 10px;
+  color: #eef6fc; background: #081725; font: inherit; font-size: .9rem;
+}
+.gpu-usage-field select:focus-visible { outline: 3px solid var(--accent-strong); outline-offset: 2px; }
+.gpu-usage-result {
+  margin-top: 1rem; padding: 1rem 1.05rem;
+  border: 1px solid rgba(157, 181, 202, .16); border-left: 3px solid var(--accent);
+  border-radius: 12px; background: rgba(4, 17, 29, .7);
+}
+.gpu-usage-result h3 { margin: 0 0 .45rem; color: #f1f7fc; font-size: 1.08rem; line-height: 1.4; }
+.gpu-usage-result p { margin: 0 0 .65rem; color: #bdccda; line-height: 1.68; }
+.gpu-usage-result ol { margin: .55rem 0 .2rem; padding-left: 1.35rem; }
+.gpu-usage-result li { margin: .35rem 0; color: #c6d3df; line-height: 1.65; }
+.gpu-usage-result .gpu-usage-result-link { margin-top: .75rem; font-weight: 750; }
+.gpu-usage-result .gpu-usage-result-link a { color: var(--accent-strong); }
+.gpu-usage-check .gpu-usage-check-note { margin: .85rem 0 0; color: #95aabd; font-size: .82rem; line-height: 1.55; }
+@media (max-width: 620px) {
+  .gpu-usage-fields { grid-template-columns: minmax(0, 1fr); }
+  .gpu-usage-check { padding: 1rem; border-radius: 13px; }
+  .gpu-usage-result { padding: .9rem; }
+}
