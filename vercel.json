@@ -1,6 +1,17 @@
 {
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "techworldwindow.com"
+        }
+      ],
+      "destination": "https://www.techworldwindow.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
