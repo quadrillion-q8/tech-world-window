@@ -642,6 +642,19 @@ export function FrameTimeAnalyzerPage() {
       </section>
 
       <section>
+        <h2>Make before-and-after tests reproducible</h2>
+        <p>A useful comparison records more than an FPS number. Keep the scene, graphics settings, game build, driver, power mode, capture tool and source timing column consistent. Warm up in the same way, preserve every run, and record interruptions rather than quietly discarding an inconvenient result.</p>
+        <ul>
+          <li>Capture at least 60 seconds when the scene allows; very short samples make 1% and especially 0.1% lows less stable.</li>
+          <li>Collect at least three runs per condition when practical, then compare the set rather than the single best run.</li>
+          <li>Use the same timing metric throughout. Present-to-present and display-change intervals are not interchangeable; document frame generation settings too.</li>
+          <li>Report results as observations, not proof of a cause. One change in one test does not establish a universal result.</li>
+        </ul>
+        <p><a className="text-link" href="/downloads/tww-frame-time-test-log.csv" download>Download the blank CSV test-log template</a> · <a className="text-link" href="/downloads/tww-frame-time-test-protocol.md" download>Download the full test protocol</a>.</p>
+        <p>The template contains fields only—no benchmark results. Review local paths, usernames and identifiers before publishing any capture, screenshot or log.</p>
+      </section>
+
+      <section>
         <h2>Capture tools and metric definitions</h2>
         <p>This page analyzes exported frame-time samples; it does not record gameplay or prove why a hitch happened. Use the capture software's own documentation to understand which timing metric its CSV contains.</p>
         <ul>
