@@ -7,6 +7,7 @@ import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
 import { galleryImageUrl, galleryImages } from '../data/gallery';
 import { ArticleCard } from '../components/ArticleCard';
 import { ToolCallout } from '../components/ToolCallout';
+import { RamSsdUpgradePlanner } from '../components/RamSsdUpgradePlanner';
 import { getRelatedArticles, getResearchForArticle } from '../lib/contentRelationships';
 
 /** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
@@ -229,6 +230,7 @@ export function ArticlePage() {
       </aside>
       <div className="article-body">
         {article.slug === 'gpu-100-percent-usage-gaming' ? <GpuUsageQuickCheck /> : null}
+        {article.slug === 'research/upgrade-ram-ssd-now-or-wait' ? <RamSsdUpgradePlanner /> : null}
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
