@@ -64,6 +64,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/research/what-actually-causes-pc-game-stuttering', kind: 'article', title: 'What Actually Causes PC Game Stuttering? A Frame-Time Investigation', indexable: true },
   { path: '/research/does-more-ram-make-windows-faster', kind: 'article', title: 'Does More RAM Actually Make Windows Faster? What to Measure Before Upgrading', indexable: true },
   { path: '/research/how-ssd-temperature-affects-performance', kind: 'article', title: 'How SSD Temperature Can Affect Real-World Performance', indexable: true },
+  { path: '/research/upgrade-ram-ssd-now-or-wait', kind: 'article', title: 'Should You Upgrade RAM or SSD Now—or Wait? A 2026 Decision Guide', indexable: true },
   { path: '/windows-troubleshooting-complete-guide', kind: 'article', title: 'Windows Troubleshooting: Complete Guide to Diagnosing and Fixing Windows Problems', indexable: true },
   { path: '/windows-11-26h2-installation-guide', kind: 'article', title: 'Windows 11 26H2 Installation Guide: Upgrade, ISO and Fixes', indexable: true },
   { path: '/windows-11-8gb-ram-update-october-2026', kind: 'article', title: 'Windows 11’s 8GB RAM Update: What Changed in October 2026', indexable: true },
@@ -226,6 +227,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'PC Game Stuttering', href: '/research/what-actually-causes-pc-game-stuttering' },
       { label: 'More RAM', href: '/research/does-more-ram-make-windows-faster' },
       { label: 'SSD Temperature', href: '/research/how-ssd-temperature-affects-performance' },
+      { label: 'RAM/SSD Upgrade Timing', href: '/research/upgrade-ram-ssd-now-or-wait', description: 'Measure the bottleneck and compare dated market evidence before buying.' },
     ],
   },
   {
