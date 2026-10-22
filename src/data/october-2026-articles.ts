@@ -465,6 +465,6 @@ export const october2026Articles: Article[] = [
       { question: 'Should I install 26H2 from an ISO if Windows Update does not offer it?', answer: 'Not automatically. First check eligibility and Microsoft’s current release-health information. A safeguard hold may be intentional, and forcing an update can create compatibility problems.' },
       { question: 'Where should I download Windows 11 installation media?', answer: 'Start with Microsoft’s official Windows 11 download page and follow the option documented for your device and task. Avoid unofficial mirrors.' }
     ]
-  }
+  },
   windows11EightGbRamUpdate,
 ];
