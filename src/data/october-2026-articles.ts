@@ -450,8 +450,6 @@ export const october2026Articles: Article[] = [
         heading: 'Official Microsoft links',
         paragraphs: [
           'Use Microsoft’s own pages for the latest availability, download options and known issues. This article is a short release note; the installation guide above contains the longer step-by-step workflow.'
-        ],
-        relatedLinks: [
         ]
       }
     ],
