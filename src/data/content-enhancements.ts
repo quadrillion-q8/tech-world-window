@@ -168,6 +168,9 @@ const enhancements: Record<string, Enhancement> = {
         'Repeated rollback or recovery → investigate the update, system files, storage and recent drivers.',
         'Same error after every retry → stop repeating the same installation and diagnose the error code.',
         'Multiple PCs fail on the same network → consider service, policy or network causes rather than one damaged Windows installation.'
+      ],
+      relatedLinks: [
+        { label: 'Windows Patch Tuesday: October 2026', href: '/windows-patch-tuesday', description: 'Check the current month’s KBs, support warnings and known issues before repeating update repairs.' }
       ]
     }],
     faq: [{ question: 'Should I force-restart a PC when Windows Update looks stuck?', answer: 'Not immediately. If Windows is still responsive or showing installation activity, an interruption can create a second problem. If the machine is genuinely unresponsive for an extended period, use the least disruptive recovery path and document what happened first.' }]
