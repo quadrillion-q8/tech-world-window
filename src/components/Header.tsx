@@ -88,11 +88,11 @@ export function Header() {
                 className="nav-group"
                 key={group.label}
                 onMouseEnter={() => {
-                  if (window.matchMedia('(min-width: 901px)').matches) setActiveMenu(group.label);
+                  if (window.matchMedia('(min-width: 1041px)').matches) setActiveMenu(group.label);
                 }}
                 onMouseLeave={event => {
                   if (
-                    window.matchMedia('(min-width: 901px)').matches &&
+                    window.matchMedia('(min-width: 1041px)').matches &&
                     !event.currentTarget.contains(document.activeElement)
                   ) {
                     setActiveMenu(current => current === group.label ? null : current);
@@ -111,7 +111,7 @@ export function Header() {
                   className={({ isActive }) => isActive ? 'nav-trigger active' : 'nav-trigger'}
                   onClick={event => {
                     if (group.links.length) {
-                      if (window.matchMedia('(max-width: 900px)').matches) {
+                      if (window.matchMedia('(max-width: 1040px)').matches) {
                         event.preventDefault();
                         setActiveMenu(current => current === group.label ? null : group.label);
                       } else {
@@ -124,7 +124,7 @@ export function Header() {
                       suppressFocusOpenRef.current = false;
                       return;
                     }
-                    if (window.matchMedia('(min-width: 901px)').matches) setActiveMenu(group.label);
+                    if (window.matchMedia('(min-width: 1041px)').matches) setActiveMenu(group.label);
                   }}
                   aria-haspopup="true"
                   aria-controls={menuId}
