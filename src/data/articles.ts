@@ -7,6 +7,7 @@ import { october2026Articles } from './october-2026-articles';
 import { octoberTechGuides } from './october-tech-guides';
 import { biosUefiRecoveryGuide } from './bios-uefi-recovery-guide';
 import { bitlockerRecoveryAfterBiosUpdate } from './bitlocker-recovery-key-after-bios-update';
+import { secureBootCertificateGuide } from './secure-boot-certificate-guide';
 import { placeGalleryImages } from './article-images';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
@@ -134,6 +135,7 @@ const baseArticles: Article[] = [
   ...octoberTechGuides,
   biosUefiRecoveryGuide,
   bitlockerRecoveryAfterBiosUpdate,
+  secureBootCertificateGuide,
 
   {
     id: 'windows-wifi-diagnosis',
