@@ -8,7 +8,7 @@ export const secureBootCertificateGuide: Article = {
   id: "windows-secure-boot-certificate-update",
   slug: "windows-secure-boot-certificate-update",
   title: "Windows Secure Boot Certificate Update: How to Check Status Safely",
-  seoTitle: "Secure Boot Certificate Update: Check Windows Status",
+  seoTitle: "Secure Boot Certificate Status",
   dek: "The 2011 Secure Boot certificates began expiring in 2026. Check Windows status, understand the 2023 certificate update signal, and avoid risky firmware changes.",
   metaDescription: "Check Windows Secure Boot certificate status safely. Learn what Updated means, how to use read-only PowerShell checks, and when OEM firmware guidance matters.",
   excerpt: "Windows devices missing the 2023 Secure Boot certificates can continue to start and receive standard updates, but may miss future early-boot protections. Check the status before changing firmware settings.",
@@ -27,11 +27,6 @@ export const secureBootCertificateGuide: Article = {
   pillarPath: "/windows-troubleshooting-complete-guide",
   searchIntent: "informational",
   testing: "This guide follows Microsoft’s published certificate status and PowerShell guidance. The linked checker interprets only text the reader pastes; it does not query firmware or modify the PC.",
-  relatedArticles: [
-    "bitlocker-recovery-key-after-bios-update",
-    "bios-uefi-recovery-guide",
-    "windows-troubleshooting-universal"
-  ],
   content: [
     {
       heading: "What changed with Secure Boot certificates in 2026",
