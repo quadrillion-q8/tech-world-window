@@ -19,10 +19,6 @@ export const windows11EightGbRamUpdate: Article = {
   updatedAt: '2026-10-22',
   readingTime: 7,
   tags: ['Windows 11', '8GB RAM', 'Memory Usage', 'Windows 11 26H2', 'Microsoft', 'PC Performance'],
-  relatedArticles: [
-    'why-8gb-ram-no-longer-enough-windows-11',
-    'how-much-ram-do-you-need-gaming'
-  ],
   searchIntent: 'informational',
   testing: 'This is a sourced news explainer based on Microsoft’s public announcement and independent reporting. Tech World Window did not run its own before-and-after benchmark, and the reported test results should not be treated as a controlled comparison across all PCs.',
   content: [
