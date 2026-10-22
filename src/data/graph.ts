@@ -100,6 +100,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/laptop-wont-turn-on', kind: 'article', title: 'Laptop Won’t Turn On: Safe Checks Before You Need a Repair', indexable: true },
   { path: '/bios-uefi-recovery-guide', kind: 'article', title: 'BIOS or UEFI Update Failed? A Safe, Universal Recovery Guide', indexable: true },
   { path: '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update', kind: 'article', title: 'BitLocker Recovery Key After a BIOS Update: What to Do', indexable: true },
+  { path: '/windows-secure-boot-certificate-update', kind: 'article', title: 'Windows Secure Boot Certificate Update: How to Check Status Safely', indexable: true },
   { path: '/laptop-battery-warning-signs', kind: 'article', title: 'Laptop Battery Health Guide: Warning Signs, Testing and Safety', indexable: true },
   { path: '/why-8gb-ram-is-no-longer-enough-for-windows-11', kind: 'article', title: 'Why 8GB RAM Can Feel Limiting on Windows 11', indexable: true },
   { path: '/windows-11-26h2-iso-released', kind: 'article', title: 'Windows 11 26H2 Is Available: What to Know About the ISO', indexable: true },

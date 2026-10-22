@@ -45,6 +45,9 @@ function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/tools/video-embed-code-generator') {
     return async () => ({ Component: (await import('./pages/VideoEmbedCodeGeneratorPage')).VideoEmbedCodeGeneratorPage });
   }
+  if (route.path === '/tools/secure-boot-status-checker') {
+    return async () => ({ Component: (await import('./pages/SecureBootStatusCheckerPage')).SecureBootStatusCheckerPage });
+  }
   if (route.path === '/tools/windows-battery-health-analyzer') {
     return async () => ({ Component: (await import('./pages/WindowsBatteryHealthAnalyzerPage')).WindowsBatteryHealthAnalyzerPage });
   }

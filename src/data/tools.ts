@@ -24,7 +24,7 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free tech tools for Windows troubleshooting, repair-log analysis, blue-screen code lookup, PC hardware planning, gaming diagnostics and responsive video embeds.';
+export const HUB_SEO_DESCRIPTION = 'Free Windows and PC tools for Secure Boot status checks, Windows troubleshooting, repair logs, blue screens, gaming diagnostics and hardware planning.';
 
 export const tools: ToolDef[] = [
   {
@@ -44,6 +44,25 @@ export const tools: ToolDef[] = [
       { question: 'Should I reinstall Windows if the first check does not work?', answer: 'Usually not as a first step. Record the exact symptom and error, protect important files, and follow the focused guide before trying destructive recovery steps.' },
       { question: 'What should I do if I suspect a failing drive or electrical damage?', answer: 'Stop repeated power-on attempts if you hear unusual drive noises, smell burning, see liquid damage or a swollen battery, or suspect electrical damage. Protect important data and seek qualified repair help rather than opening a power supply or forcing a repair.' },
     ],
+  },
+  {
+    id: 'secure-boot-status-checker',
+    path: '/tools/secure-boot-status-checker',
+    title: 'Secure Boot Status Checker',
+    group: 'diagnose',
+    kindLabel: 'Checker',
+    status: 'New',
+    hubDescription: 'Check whether Secure Boot is enabled and whether Windows reports the 2023 certificate update as Updated using a read-only local PowerShell script.',
+    menuDescription: 'Check Secure Boot and certificate-update status safely.',
+    seoTitle: 'Secure Boot Status Checker: Certificate Update',
+    metaDescription: 'Check Windows Secure Boot and 2023 certificate status with read-only PowerShell output. Analyze results in-browser; nothing is uploaded or changed.',
+    faq: [
+      { question: 'Can this checker inspect my PC automatically?', answer: 'No. Run the read-only PowerShell script on your Windows PC and paste the output. The browser cannot access UEFI firmware directly.' },
+      { question: 'Does the script change Secure Boot or firmware settings?', answer: 'No. It reads the Secure Boot state and the UEFICA2023Status value. It does not write registry values, change firmware keys, update the BIOS, or alter BitLocker.' },
+      { question: 'Does Secure Boot enabled mean the 2023 certificates are installed?', answer: 'No. Confirm-SecureBootUEFI reports whether Secure Boot is enabled. UEFICA2023Status is a separate status value, and Windows Security should also be checked.' },
+      { question: 'What if the certificate status is missing or not Updated?', answer: 'That output does not prescribe a firmware change by itself. Check Windows Security > Device security > Secure Boot, install supported Windows updates, and follow Microsoft or exact-model OEM guidance if action is needed.' },
+      { question: 'Does the tool upload the pasted output?', answer: 'No. The output is interpreted in your browser tab and is not submitted by this tool. Nothing is scanned or changed automatically.' }
+    ]
   },
   {
     id: 'frame-time-analyzer',
@@ -236,6 +255,7 @@ export const articleToolLinks: Record<string, string[]> = {
   'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
   'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows-troubleshooting-complete-guide': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
+  'windows-secure-boot-certificate-update': ['/tools/secure-boot-status-checker'],
   'windows-11-wont-start-troubleshooting': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows/windows-update-stuck': ['/tools/windows-troubleshooting-assistant', '/tools/windows-repair-log-analyzer'],
   'windows-11-high-memory-usage-how-to-find-the-cause': ['/tools/windows-troubleshooting-assistant'],
