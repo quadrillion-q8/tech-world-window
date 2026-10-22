@@ -146,10 +146,16 @@ function assessOutput(output: string): Assessment | null {
   };
 }
 
+function resultLabel(level: Assessment['level']): string {
+  if (level === 'ok') return 'Positive status signal';
+  if (level === 'warning') return 'Needs closer attention';
+  return 'Could not fully confirm';
+}
+
 export function SecureBootStatusCheckerPage() {
   const [output, setOutput] = useState('');
   const [copyMessage, setCopyMessage] = useState('');
-  const assessment = assessOutput(output);
+  const [assessment, setAssessment] = useState<Assessment | null>(null);
 
   async function copyScript() {
     try {
@@ -160,62 +166,104 @@ export function SecureBootStatusCheckerPage() {
     }
   }
 
-  return <section className="section tool-page">
+  function checkOutput() {
+    setAssessment(assessOutput(output));
+  }
+
+  function clearOutput() {
+    setOutput('');
+    setAssessment(null);
+  }
+
+  return <section className="section tool-page secure-boot-page">
     <SEOEngine
       title={TOOL?.seoTitle ?? 'Secure Boot Status Checker'}
       description={TOOL?.metaDescription ?? 'Check Windows Secure Boot and 2023 certificate status using read-only PowerShell output.'}
       path={TOOL_PATH}
     />
-    <span className="eyebrow">FREE WINDOWS SECURITY TOOL</span>
+    <span className="eyebrow secure-boot-page-kicker">FREE WINDOWS SECURITY TOOL</span>
     <h1>Secure Boot Status Checker</h1>
     <p className="page-intro">Check whether Windows reports Secure Boot enabled and whether the 2023 certificate-update status is marked Updated. You run a read-only command on your own PC; this page cannot inspect firmware directly.</p>
 
-    <div className="tool-result">
-      <span className="eyebrow">PRIVACY & SAFETY</span>
-      <h2>Read-only. No upload. No setting changes.</h2>
-      <p>The script reads the Secure Boot state and one Windows status value. It does not enable or disable Secure Boot, write firmware keys, update the BIOS, suspend BitLocker, or send the pasted output to Tech World Window.</p>
-    </div>
+    <aside className="secure-boot-privacy" aria-labelledby="secure-boot-privacy-title">
+      <div className="secure-boot-privacy-mark" aria-hidden="true">LOCAL<br />ONLY</div>
+      <div className="secure-boot-privacy-copy">
+        <span className="eyebrow">PRIVACY &amp; SAFETY</span>
+        <h2 id="secure-boot-privacy-title">Read-only by design</h2>
+        <p>The script reads the Secure Boot state and one Windows status value. It does not enable or disable Secure Boot, write firmware keys, update the BIOS, suspend BitLocker, or send the pasted output to Tech World Window.</p>
+      </div>
+    </aside>
 
-    <div className="tool-panel">
-      <h2>1. Run the local check</h2>
-      <ol>
-        <li>On the Windows PC, open Start and search for Windows Terminal.</li>
-        <li>Choose Run as administrator. The Secure Boot cmdlet may require elevated privileges.</li>
+    <section className="secure-boot-step-card" aria-labelledby="secure-boot-run-title">
+      <div className="secure-boot-step-heading">
+        <span className="secure-boot-step-number" aria-hidden="true">01</span>
+        <div>
+          <h2 id="secure-boot-run-title">Run the local check</h2>
+          <p>Run this read-only script on the Windows PC you want to check.</p>
+        </div>
+      </div>
+      <ol className="secure-boot-instructions">
+        <li>Open Start and search for <strong>Windows Terminal</strong>.</li>
+        <li>Choose <strong>Run as administrator</strong>. The Secure Boot cmdlet may require elevated privileges.</li>
         <li>Copy the script below, paste it into PowerShell, and press Enter.</li>
       </ol>
-      <pre className="tool-code"><code>{CHECK_SCRIPT}</code></pre>
-      <button type="button" className="button button-primary" onClick={copyScript}>Copy read-only PowerShell check</button>
-      <p aria-live="polite">{copyMessage}</p>
-    </div>
+      <div className="secure-boot-code-block">
+        <div className="secure-boot-code-heading">
+          <span>POWERSHELL</span>
+          <span>READ-ONLY CHECK</span>
+        </div>
+        <pre className="secure-boot-code" tabIndex={0} role="region" aria-label="Read-only PowerShell script"><code>{CHECK_SCRIPT}</code></pre>
+      </div>
+      <div className="secure-boot-action-row">
+        <button type="button" className="button button-primary" onClick={copyScript}>Copy read-only PowerShell check</button>
+      </div>
+      <p className="secure-boot-copy-status" role="status" aria-live="polite">{copyMessage}</p>
+    </section>
 
-    <div className="tool-panel">
-      <h2>2. Interpret the result</h2>
-      <p>Paste the complete output here. The text is analyzed in this browser tab only; the tool does not submit it to a server.</p>
-      <label htmlFor="secure-boot-output">PowerShell output</label>
-      <textarea
-        id="secure-boot-output"
-        rows={8}
-        spellCheck={false}
-        value={output}
-        onChange={event => setOutput(event.target.value)}
-        placeholder={'SecureBootEnabled : True\nUEFICA2023Status : Updated'}
-      />
-      <button type="button" className="button button-primary" onClick={() => setOutput('')}>Clear pasted output</button>
-      {assessment && <div className="tool-result" role="status" aria-live="polite" data-level={assessment.level}>
-        <span className="eyebrow">CHECK RESULT</span>
+    <section className="secure-boot-step-card" aria-labelledby="secure-boot-interpret-title">
+      <div className="secure-boot-step-heading">
+        <span className="secure-boot-step-number" aria-hidden="true">02</span>
+        <div>
+          <h2 id="secure-boot-interpret-title">Interpret the result</h2>
+          <p>Paste the complete output from PowerShell. It is interpreted locally in this browser tab.</p>
+        </div>
+      </div>
+      <div className="secure-boot-output-field">
+        <label htmlFor="secure-boot-output">PowerShell output</label>
+        <textarea
+          id="secure-boot-output"
+          className="secure-boot-output"
+          rows={8}
+          spellCheck={false}
+          value={output}
+          onChange={event => {
+            setOutput(event.target.value);
+            setAssessment(null);
+          }}
+          aria-describedby="secure-boot-output-help"
+          placeholder={'SecureBootEnabled : True\nUEFICA2023Status : Updated'}
+        />
+        <p id="secure-boot-output-help" className="secure-boot-field-help">Include both fields if available. The checker cannot read firmware directly and does not upload the text you paste.</p>
+      </div>
+      <div className="secure-boot-output-actions">
+        <button type="button" className="button button-primary" onClick={checkOutput} disabled={!output.trim()}>Check my result</button>
+        <button type="button" className="button button-secondary secure-boot-clear" onClick={clearOutput} disabled={!output}>Clear output</button>
+      </div>
+      {assessment && <div className="secure-boot-result" data-level={assessment.level} role="status" aria-live="polite">
+        <span className="secure-boot-status-label" data-level={assessment.level}>{resultLabel(assessment.level)}</span>
         <h3>{assessment.title}</h3>
         <p>{assessment.summary}</p>
-        <h4>What to do next</h4>
+        <h4>Recommended next steps</h4>
         <ol>{assessment.nextSteps.map(step => <li key={step}>{step}</li>)}</ol>
       </div>}
-    </div>
+    </section>
 
-    <div className="editorial-note">
-      <h2>What this checker can and cannot prove</h2>
-      <p>Confirm-SecureBootUEFI reports whether Secure Boot is enabled; it does not by itself prove that all replacement certificates are installed. The UEFICA2023Status value is a separate Windows-reported update signal. For the device’s full status and recommended action, cross-check Windows Security and Microsoft’s current guidance.</p>
+    <section className="secure-boot-reference" aria-labelledby="secure-boot-reference-title">
+      <h2 id="secure-boot-reference-title">What this checker can and cannot prove</h2>
+      <p><code>Confirm-SecureBootUEFI</code> reports whether Secure Boot is enabled; it does not by itself prove that all replacement certificates are installed. The <code>UEFICA2023Status</code> value is a separate Windows-reported update signal. Cross-check Windows Security for the device’s current status and recommended action.</p>
       <p>Microsoft says devices missing replacement certificates can continue to start and receive standard Windows updates, while missing future protections for early-boot components. The safe response is to check status and apply supported Windows or OEM guidance—not to disable Secure Boot.</p>
       <p>Read the <Link to="/windows-secure-boot-certificate-update">Secure Boot certificate update guide</Link> for interpretation, BitLocker precautions and next steps. For official instructions, see <a href="https://support.microsoft.com/en-us/servicing/os/secure-boot/2026/03/secure-boot-certificate-update-status-in-the-windows-security-app" target="_blank" rel="noreferrer">Microsoft’s Secure Boot status guidance</a>.</p>
-    </div>
+    </section>
 
     <FaqSection items={TOOL?.faq ?? []} />
   </section>;
