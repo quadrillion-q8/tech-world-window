@@ -13,7 +13,7 @@ export const ramSsdUpgradeDecisionGuide: Article = {
   metaDescription: 'Should you upgrade RAM or an SSD now or wait? Check the real bottleneck, compatibility, dated 2026 price evidence and the safest next step before buying.',
   excerpt: 'Do not buy RAM or an SSD because prices are rising—or wait just because they might fall. Measure the problem, confirm the upgrade path, then decide whether the benefit justifies the current price.',
   category: 'Hardware',
-  subcategory: 'Research and upgrade decisions',
+  subcategory: 'Research',
   authorId: 'imranNatiq',
   publishedAt: '2026-10-22',
   updatedAt: '2026-10-22',
