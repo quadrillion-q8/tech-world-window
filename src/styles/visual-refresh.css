@@ -696,3 +696,39 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .search-input:fo
   .gpu-usage-check { padding: 1rem; border-radius: 13px; }
   .gpu-usage-result { padding: .9rem; }
 }
+
+
+/* Contrast correction: keep the GPU diagnostic readable even when legacy
+   article typography rules are loaded later in the stylesheet stack. */
+.article-page .article-body .gpu-usage-check .gpu-usage-check-heading h2 {
+  color: #f1f7fc !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-check-heading p {
+  color: #c5d4e2 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-check-heading .eyebrow,
+.article-page .article-body .gpu-usage-check .gpu-usage-result > .eyebrow {
+  color: #67e8f9 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-field label {
+  color: #edf4fb !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-field select {
+  color: #f4f8fc !important;
+  background-color: #081725 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-result h3 {
+  color: #f1f7fc !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-result p {
+  color: #d0dce7 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-result li {
+  color: #d0dce7 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-result .gpu-usage-result-link a {
+  color: #67e8f9 !important;
+}
+.article-page .article-body .gpu-usage-check .gpu-usage-check-note {
+  color: #b7c9d9 !important;
+}
