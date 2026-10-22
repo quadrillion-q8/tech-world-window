@@ -120,6 +120,11 @@ export const articleImagePlacements: Record<string, Placement[]> = {
   'research/does-more-ram-make-windows-faster': [
     { after: 'More RAM or faster RAM: which upgrade matters?', id: 'samsung-16gb-ddr4-3200-laptop-ram-sodimm-upgrade', alt: 'Samsung 16GB DDR4-3200 laptop SODIMM memory module', caption: `${bench}: a laptop SODIMM. Capacity is only one part of memory behavior.` },
   ],
+  'research/upgrade-ram-ssd-now-or-wait': [
+    { after: 'When more RAM is the right upgrade', id: 'samsung-16gb-ddr4-3200-laptop-ram-sodimm-upgrade', alt: 'Samsung 16GB DDR4-3200 laptop SODIMM memory module', caption: `${bench}: confirm module type and supported capacity before purchasing laptop RAM.` },
+    { after: 'When an SSD upgrade is justified—and when it is not', id: 'hp-laptop-motherboard-heatsink-m2-ssd-closeup', alt: 'Close-up of a laptop motherboard with the M.2 SSD and nearby heatsink', caption: `${bench}: M.2 clearance and the fitted interface are model-specific; verify the service manual before replacing storage.` },
+  ],
+
   'windows-11-8gb-ram-update-october-2026': [
     {
       after: 'The 200MB and 2GB figures describe different things',

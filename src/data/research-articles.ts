@@ -208,7 +208,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-17',
     readingTime: 9,
     tags: ['RAM', 'Windows 11', 'Memory', 'PC Upgrades', 'Research'],
-    relatedArticles: ['ram-upgrade-gaming', 'check-ram-for-errors', 'ddr4-vs-ddr5'],
+    relatedArticles: ['ram-upgrade-gaming', 'check-ram-for-errors', 'ddr4-vs-ddr5', 'research-ram-ssd-upgrade-now-or-wait'],
     contentRole: 'pillar',
     pillarPath: '/research',
     searchIntent: 'informational',
@@ -289,6 +289,8 @@ export const researchArticles: Article[] = [
       { heading: 'Bottom line', paragraphs: [
         'More RAM makes Windows faster when memory capacity is holding back the workload. Before upgrading, measure memory behavior during the slowdown, correlate it with responsiveness and storage activity, and verify that the proposed kit is compatible. When those signals do not point to memory pressure, investigate the real bottleneck first.',
         'TWW has not published a controlled in-house RAM-capacity benchmark in this article. This page presents a diagnostic framework and summarizes clearly attributed outside evidence; it does not claim a percentage speed-up that has not been measured by TWW.'
+      ], relatedLinks: [
+        { label: 'Should you upgrade RAM or SSD now—or wait?', href: '/research/upgrade-ram-ssd-now-or-wait', description: 'Combine symptom evidence, part compatibility and dated market signals before committing to a purchase.' }
       ] }
     ],
     sources: [

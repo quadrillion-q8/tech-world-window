@@ -273,6 +273,7 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 /** Articles that should point readers at a tool (slug without leading slash -> tool paths). */
 export const articleToolLinks: Record<string, string[]> = {
   'research/does-more-ram-make-windows-faster': ['/tools/ram-calculator'],
+  'research/upgrade-ram-ssd-now-or-wait': ['/tools/ram-calculator', '/tools/storage-calculator'],
   'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
   'windows-11-blue-screen-stop-code-how-to-read': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant'],
   'windows-troubleshooting-complete-guide': [BSOD_BASE_PATH, '/tools/windows-troubleshooting-assistant', '/tools/windows-support-lifecycle-checker'],
