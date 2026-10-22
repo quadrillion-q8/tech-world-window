@@ -1319,3 +1319,42 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+
+/* Gallery-sourced imagery for topic hubs with a matching real diagnostic photo. */
+.category-page .category-hero.category-hero-has-image {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(240px, .88fr);
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+.category-page .category-hero-copy { min-width: 0; }
+.category-page .category-hero-copy > .eyebrow { display: inline-flex; margin-bottom: .45rem; }
+.category-page .category-hero-copy > h1 {
+  max-width: 24ch; margin: .3rem 0 .7rem;
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.12;
+}
+.category-page .category-hero-copy > p {
+  max-width: 72ch; margin: .5rem 0 0; line-height: 1.72;
+}
+.category-page .category-hero-photo {
+  min-width: 0; margin: 0; overflow: hidden;
+  border: 1px solid var(--wb-line-strong); border-radius: .85rem;
+  background: var(--wb-photo-bg); box-shadow: 5px 5px 0 var(--wb-line-strong);
+}
+.category-page .category-hero-photo img {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover;
+}
+.category-page .category-hero-photo figcaption {
+  padding: .6rem .75rem; color: var(--wb-muted); font-size: .72rem; line-height: 1.5;
+  background: var(--wb-card);
+}
+@media (max-width: 900px) {
+  .category-page .category-hero.category-hero-has-image { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .category-page .category-hero-photo { max-width: 680px; width: 100%; }
+}
+@media (max-width: 639px) {
+  .category-page .category-hero.category-hero-has-image { gap: 1rem; }
+  .category-page .category-hero-photo { box-shadow: 3px 3px 0 var(--wb-line-strong); }
+  .category-page .category-hero-photo figcaption { font-size: .69rem; }
+}

@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
+import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
+import { galleryImageUrl, galleryImages } from '../data/gallery';
 import { ArticleCard } from '../components/ArticleCard';
 import { ToolCallout } from '../components/ToolCallout';
 import { getRelatedArticles, getResearchForArticle } from '../lib/contentRelationships';
@@ -145,6 +147,15 @@ export function ArticlePage() {
   const article = articles.find(a => a.slug === slug);
   if (!article) return <section className="section"><h1>Article not found</h1><Link to="/">Return home</Link></section>;
 
+  const assignedGalleryImageId = articleThumbnailImageBySlug[article.slug];
+  const explicitGalleryImageId = article.heroImage?.includes('/images/gallery/')
+    ? article.heroImage.split('/images/gallery/')[1]?.split(/[?#]/)[0]?.split('.webp')[0]
+    : undefined;
+  const heroImageId = explicitGalleryImageId || assignedGalleryImageId;
+  const heroImage = article.heroImage || (assignedGalleryImageId ? galleryImageUrl(assignedGalleryImageId) : undefined);
+  const heroGalleryImage = heroImageId ? galleryImages.find(image => image.id === heroImageId) : undefined;
+  const heroImageAlt = heroGalleryImage?.title || article.title;
+
   const author = authors[article.authorId];
   const related = getRelatedArticles(article, articles, 4);
   const research = getResearchForArticle(article, articles, 2);
@@ -159,7 +170,7 @@ export function ArticlePage() {
       type="article"
       publishedAt={article.publishedAt}
       updatedAt={article.updatedAt}
-      image={article.heroImage || '/og-default.png'}
+      image={heroImage || '/og-default.png'}
     />
     <BreadcrumbStructuredData items={[
       { name: 'Home', path: '/' },
@@ -174,7 +185,7 @@ export function ArticlePage() {
       updatedAt={article.updatedAt}
       authorName={author?.name || 'Tech World Window Editorial Team'}
       category={article.category}
-      image={article.heroImage || '/og-default.png'}
+      image={heroImage || '/og-default.png'}
       keywords={article.tags}
       wordCount={articleWordCount(article)}
       authorUrl={author?.url}
@@ -183,7 +194,7 @@ export function ArticlePage() {
     {article.howTo?.steps.length ? <HowToStructuredData name={article.howTo.name} steps={article.howTo.steps} /> : null}
     {article.faq?.length ? <FAQStructuredData items={article.faq} /> : null}
 
-    <div className={article.heroImage ? "article-top-grid has-hero" : "article-top-grid no-hero"}>
+    <div className={heroImage ? "article-top-grid has-hero" : "article-top-grid no-hero"}>
     <div className="article-head">
       <div className="breadcrumbs">
         <Link to="/">Home</Link><span>/</span><Link to={breadcrumbPath}>{article.category}</Link>
@@ -202,9 +213,9 @@ export function ArticlePage() {
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
     </div>
-    {article.heroImage ? <figure className="article-hero-media">
-      <img src={article.heroImage} alt={article.title} width={1400} height={788} loading="eager" decoding="async" />
-      <figcaption>Featured visual · {article.category}</figcaption>
+    {heroImage ? <figure className="article-hero-media">
+      <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
+      <figcaption>{heroGalleryImage ? `Photo from the TWW repair bench: ${heroGalleryImage.title}. Illustrative hardware context, not a performance test.` : `Featured visual · ${article.category}`}</figcaption>
     </figure> : null}
     </div>
 

@@ -17,8 +17,14 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
   // Every article in the editorial data has a site-wide unique assignment.
   // The stable fallback only covers components rendered without a known slug.
   const assignedImageId = slug ? articleThumbnailImageBySlug[slug] : undefined;
+  const imageIdFromUrl = imageUrl?.includes('/images/gallery/')
+    ? imageUrl.split('/images/gallery/')[1]?.split(/[?#]/)[0]?.replace('.w640', '').split('.webp')[0]
+    : undefined;
   const fallbackImageId = galleryImages[0]?.id;
+  const displayedImageId = imageIdFromUrl || assignedImageId || fallbackImageId;
+  const displayedGalleryImage = galleryImages.find(item => item.id === displayedImageId);
   const image = imageUrl || '/images/gallery/' + (assignedImageId || fallbackImageId) + '.w640.webp';
+  const imageAlt = displayedGalleryImage?.title || title;
 
   return (
     <div
@@ -34,7 +40,7 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
     >
       <img
         src={image}
-        alt={title}
+        alt={imageAlt}
         loading="lazy"
         decoding="async"
         width="640"
