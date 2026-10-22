@@ -183,6 +183,7 @@ export function ArticlePage() {
     {article.howTo?.steps.length ? <HowToStructuredData name={article.howTo.name} steps={article.howTo.steps} /> : null}
     {article.faq?.length ? <FAQStructuredData items={article.faq} /> : null}
 
+    <div className={article.heroImage ? "article-top-grid has-hero" : "article-top-grid no-hero"}>
     <div className="article-head">
       <div className="breadcrumbs">
         <Link to="/">Home</Link><span>/</span><Link to={breadcrumbPath}>{article.category}</Link>
@@ -200,7 +201,11 @@ export function ArticlePage() {
       </div>
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
-      {article.pillarPath && <div className="article-pillar"><span>PART OF THIS TOPIC</span><Link to={article.pillarPath}>Explore the {article.category} hub →</Link></div>}
+    </div>
+    {article.heroImage ? <figure className="article-hero-media">
+      <img src={article.heroImage} alt={article.title} width={1400} height={788} loading="eager" decoding="async" />
+      <figcaption>Featured visual · {article.category}</figcaption>
+    </figure> : null}
     </div>
 
     <div className="article-layout">
@@ -209,11 +214,10 @@ export function ArticlePage() {
         <ol>{article.content.filter(section => section.heading && section.toc !== false).map(section => (
           <li key={section.heading}><a href={`#${headingId(section.heading!)}`}>{section.heading}</a></li>
         ))}</ol>
+        {article.pillarPath && <div className="article-pillar article-pillar-rail"><span>PART OF THIS TOPIC</span><Link to={article.pillarPath}>Explore the {article.category} hub →</Link></div>}
       </aside>
       <div className="article-body">
-        <div className="quick-answer"><strong>Quick answer</strong><p>{article.excerpt}</p></div>
         {article.slug === 'gpu-100-percent-usage-gaming' ? <GpuUsageQuickCheck /> : null}
-        <ToolCallout slug={article.slug} />
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
@@ -259,6 +263,28 @@ export function ArticlePage() {
           <p className="editorial-links"><Link to="/authors/imran-natiq">Meet the author</Link><span>·</span><Link to="/testing">See our testing methodology</Link><span>·</span><Link to="/editorial-policy">Read our editorial policy</Link></p>
         </div>
       </div>
+      <aside className="article-right-rail" aria-label="Article resources">
+        <section className="rail-card topic-rail-card">
+          <span className="rail-kicker">IN THIS TOPIC</span>
+          <strong>{article.pillarPath ? `${article.category} hub` : `${article.category} stories`}</strong>
+          <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
+          <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
+        </section>
+        <section className="quick-answer rail-quick-answer">
+          <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
+          <p>{article.excerpt}</p>
+        </section>
+        <ToolCallout slug={article.slug} />
+        {related.length > 0 ? <section className="rail-related">
+          <h2>Related articles</h2>
+          <div className="rail-related-list">{related.slice(0, 3).map(item => (
+            <Link className="rail-related-item" to={`/${item.slug}`} key={item.id}>
+              <span className="rail-related-thumb">{item.heroImage ? <img src={item.heroImage} alt="" loading="lazy" decoding="async" /> : <span aria-hidden="true">TWW</span>}</span>
+              <span className="rail-related-copy"><strong>{item.title}</strong><small>{item.dek}</small></span>
+            </Link>
+          ))}</div>
+        </section> : null}
+      </aside>
     </div>
 
     {author && <section className="section article-author-section">
