@@ -129,6 +129,16 @@
   border-color: #b9c2ea;
   color: #253571;
 }
+.support-lifecycle-page .lifecycle-status.is-esu.is-ended {
+  background: #f9e8df;
+  border-color: #d8aa95;
+  color: #702e16;
+}
+.support-lifecycle-page .lifecycle-status.is-esu.is-ending {
+  background: var(--lifecycle-amber);
+  border-color: #ddc17e;
+  color: #60420a;
+}
 .support-lifecycle-page .lifecycle-facts-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
