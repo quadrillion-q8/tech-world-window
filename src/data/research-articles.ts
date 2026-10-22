@@ -23,7 +23,7 @@ export const researchArticles: Article[] = [
     updatedAt: '2026-10-08',
     readingTime: 8,
     tags: ['SSD', 'NVMe', 'Windows', 'Storage', 'Research'],
-    relatedArticles: ['ssd-full-space', 'ssd-slowdown', 'ssd-health', 'nvme-temperature'],
+    relatedArticles: ['ssd-full-space', 'ssd-slowdown', 'ssd-health', 'nvme-temperature', 'research-ram-ssd-upgrade-now-or-wait'],
     contentRole: 'cluster',
     pillarPath: '/research',
     searchIntent: 'informational',
