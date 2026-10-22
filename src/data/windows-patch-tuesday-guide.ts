@@ -33,10 +33,10 @@ export const windowsPatchTuesdayGuide: Article = {
         caption: 'October 2026 Windows client security updates',
         headers: ['Your Windows release', 'October KB / build', 'What to know'],
         rows: [
-          ['Windows 11 26H2, 25H2 or 24H2', { text: 'KB5127648 — builds 26300.9711 / 26200.9711 / 26100.9711', href: 'https://support.microsoft.com/en-us/servicing/os/windows-11/2026/10/kb5127648-windows-11-24h2-25h2-26h2-security-update' }, 'The same cumulative update covers these release lines. Windows 11 24H2 Home/Pro reached end of standard updates with this October release.'],
-          ['Windows 11 26H1', { text: 'KB5127646 — build 28000.3231', href: 'https://support.microsoft.com/en-us/servicing/os/windows-11/2026/10/kb5127646-windows-11-26h1-security-update' }, '26H1 is a device-specific release for supported newer devices, not a general in-place feature update from 24H2 or 25H2.'],
-          ['Windows 11 23H2', { text: 'KB5126653 — build 22631.7652', href: 'https://support.microsoft.com/en-us/servicing/os/windows-11/2026/10/kb5126653-windows-11-23h2-security-update' }, 'The remaining 23H2 Enterprise/Education servicing window ends on 10 November 2026; the November security update is scheduled to be the last for these editions.'],
-          ['Windows 10 22H2 on valid ESU; Windows 10 Enterprise LTSC 2021; Windows 10 IoT Enterprise LTSC 2021', { text: 'KB5126657 — builds 19045.7807 / 19044.7807', href: 'https://support.microsoft.com/en-us/servicing/os/windows-10/2026/10/kb5126657-windows-10-21h2-22h2-security-update' }, 'This is not a return to standard support for Windows 10 Home/Pro. Check ESU enrollment or the exact LTSC product.']
+          ['Windows 11 26H2, 25H2 or 24H2', 'KB5127648 — builds 26300.9711 / 26200.9711 / 26100.9711', 'The same cumulative update covers these release lines. Windows 11 24H2 Home/Pro reached end of standard updates with this October release.'],
+          ['Windows 11 26H1', 'KB5127646 — build 28000.3231', '26H1 is a device-specific release for supported newer devices, not a general in-place feature update from 24H2 or 25H2.'],
+          ['Windows 11 23H2', 'KB5126653 — build 22631.7652', 'The remaining 23H2 Enterprise/Education servicing window ends on 10 November 2026; the November security update is scheduled to be the last for these editions.'],
+          ['Windows 10 22H2 on valid ESU; Windows 10 Enterprise LTSC 2021; Windows 10 IoT Enterprise LTSC 2021', 'KB5126657 — builds 19045.7807 / 19044.7807', 'This is not a return to standard support for Windows 10 Home/Pro. Check ESU enrollment or the exact LTSC product.']
         ]
       },
       relatedLinks: [
