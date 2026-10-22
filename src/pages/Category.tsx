@@ -2,6 +2,26 @@ import { Link, useLocation } from 'react-router-dom';
 import { articles, categories } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
 import { SEOEngine } from '../seo/SEOEngine';
+import { galleryImageUrl, galleryImages } from '../data/gallery';
+
+const categoryGalleryVisuals: Record<string, { id: string; caption: string }> = {
+  windows: {
+    id: 'hp-all-in-one-bios-no-disks-connected-intel-rst-vmd-error',
+    caption: 'A BIOS storage-detection screen captured during diagnosis; firmware checks can help explain some startup and drive-detection problems.',
+  },
+  gaming: {
+    id: 'zotac-gaming-geforce-rtx-graphics-card-side-view',
+    caption: 'A graphics card from the TWW repair bench. The photo illustrates hardware, not a benchmark or performance result.',
+  },
+  hardware: {
+    id: 'hp-laptop-motherboard-heatsink-m2-ssd-closeup',
+    caption: 'A close-up of an M.2 SSD and nearby cooling hardware inside a laptop.',
+  },
+  guides: {
+    id: 'dell-vostro-laptop-open-chassis-motherboard-removed',
+    caption: 'An opened laptop during component-level inspection; procedures vary by model.',
+  },
+};
 
 const headlines: Record<string, string> = {
   news: 'Tech news with context.',
@@ -18,6 +38,10 @@ export function CategoryPage() {
   // /guides is the full evergreen guide index: include pillar pages and focused cluster articles, while news and reviews stay in their own hubs.
   const isGuidesHub = categorySlug === 'guides';
   const isWindowsHub = categorySlug === 'windows';
+  const categoryVisualConfig = categoryGalleryVisuals[categorySlug];
+  const categoryVisual = categoryVisualConfig
+    ? galleryImages.find(image => image.id === categoryVisualConfig.id)
+    : undefined;
   const matching = isGuidesHub
     ? articles
       .filter(a => a.category !== 'News' && a.category !== 'Reviews')
@@ -34,7 +58,18 @@ export function CategoryPage() {
   if (!category) return <section className="section"><h1>Category not found</h1><Link to="/">Return home</Link></section>;
   return <section className="section category-page">
     <SEOEngine title={isWindowsHub ? 'Windows Troubleshooting & Windows 11 Fixes' : category.name} description={isWindowsHub ? 'Fix Windows 11 and Windows 10 problems with practical, step-by-step guides for startup failures, blue screens, slow performance, updates, Wi-Fi, DNS and drivers.' : category.description} path={`/${category.slug}`} />
-    <div className={`category-hero${isWindowsHub ? ' windows-category-hero' : ''}`}><span className="eyebrow">{isWindowsHub ? 'WINDOWS HELP · WINDOWS 11 & WINDOWS 10' : `EXPLORE ${category.name.toUpperCase()}`}</span><h1>{headlines[category.slug] ?? `${category.name}, made useful.`}</h1><p>{isWindowsHub ? 'Find the symptom, run the safest useful check, and follow the evidence. Practical troubleshooting guides that help you fix Windows without jumping straight to resets or reinstallations.' : category.description}</p>{isWindowsHub && <div className="windows-hub-actions"><Link className="windows-hub-primary" to="/windows-troubleshooting-complete-guide">Start the complete troubleshooting guide <span aria-hidden="true">→</span></Link><Link className="windows-hub-secondary" to="/tools/windows-troubleshooting-assistant">Use the free troubleshooting assistant</Link></div>}</div>
+    <div className={`category-hero${isWindowsHub ? " windows-category-hero" : ""}${categoryVisual ? " category-hero-has-image" : ""}`}>
+      <div className="category-hero-copy">
+        <span className="eyebrow">{isWindowsHub ? "WINDOWS HELP · WINDOWS 11 & WINDOWS 10" : `EXPLORE ${category.name.toUpperCase()}`}</span>
+        <h1>{headlines[category.slug] ?? `${category.name}, made useful.`}</h1>
+        <p>{isWindowsHub ? "Find the symptom, run the safest useful check, and follow the evidence. Practical troubleshooting guides that help you fix Windows without jumping straight to resets or reinstallations." : category.description}</p>
+        {isWindowsHub && <div className="windows-hub-actions"><Link className="windows-hub-primary" to="/windows-troubleshooting-complete-guide">Start the complete troubleshooting guide <span aria-hidden="true">→</span></Link><Link className="windows-hub-secondary" to="/tools/windows-troubleshooting-assistant">Use the free troubleshooting assistant</Link></div>}
+      </div>
+      {categoryVisual && categoryVisualConfig ? <figure className="category-hero-photo">
+        <img src={galleryImageUrl(categoryVisual.id)} alt={categoryVisual.title} width={1400} height={1400} loading="lazy" decoding="async" />
+        <figcaption>{categoryVisualConfig.caption}</figcaption>
+      </figure> : null}
+    </div>
     {isWindowsHub && <div className="windows-symptom-hub"><div className="windows-symptom-heading"><span className="eyebrow">QUICK DIAGNOSIS</span><h2>What is going wrong?</h2><p>Pick the symptom that best matches your PC. Start with one focused check—no guesswork or unnecessary resets.</p></div><div className="windows-symptom-grid">
       <Link to="/windows-troubleshooting-complete-guide" className="windows-symptom-card"><span className="symptom-index">01</span><span className="symptom-copy"><strong>Startup & boot</strong><small>Won’t start, boot loops or recovery screens</small></span><span className="symptom-arrow" aria-hidden="true">↗</span></Link>
       <Link to="/windows-11-blue-screen-stop-code-how-to-read" className="windows-symptom-card"><span className="symptom-index">02</span><span className="symptom-copy"><strong>Blue screen (BSOD)</strong><small>Read the stop code and narrow the cause</small></span><span className="symptom-arrow" aria-hidden="true">↗</span></Link>
