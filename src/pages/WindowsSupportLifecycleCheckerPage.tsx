@@ -59,9 +59,13 @@ export function WindowsSupportLifecycleCheckerPage() {
   const availableVersions = useMemo(() => optionsFor(family, edition), [family, edition]);
   const record = availableVersions.find(item => item.version === version) ?? availableVersions[0];
   const isStandardWindows10 = family === 'Windows 10' && (edition === 'homePro' || edition === 'enterpriseEducation');
+  const isCommercialEsuSelected = family === 'Windows 10'
+    && (edition === 'homePro' || edition === 'enterpriseEducation')
+    && esuMode.startsWith('commercial')
+    && esuMode !== 'none';
   const selectedEsu = family === 'Windows 10' && edition === 'homePro' && esuMode === 'consumer'
     ? esuRecords.consumer
-    : family === 'Windows 10' && edition === 'enterpriseEducation' && esuMode.startsWith('commercial') && esuMode !== 'none'
+    : isCommercialEsuSelected
       ? esuRecords[esuMode as Exclude<EsuMode, 'none' | 'consumer'>]
       : null;
 
@@ -69,8 +73,6 @@ export function WindowsSupportLifecycleCheckerPage() {
   const status = resultEndDate ? statusFor(resultEndDate) : { label: 'Select a Windows release', className: 'is-neutral' };
   const supportLabel = selectedEsu ? 'ESU coverage end date' : (record?.dateLabel ?? 'End of updates');
   const currentKb = record?.latestKb;
-  const isConsumerEsuSelected = family === 'Windows 10' && edition === 'homePro' && esuMode === 'consumer';
-  const isCommercialEsuSelected = family === 'Windows 10' && edition === 'enterpriseEducation' && esuMode.startsWith('commercial') && esuMode !== 'none';
 
   const onFamilyChange = (value: OsFamily) => {
     const firstEdition: EditionGroup = 'homePro';
@@ -133,7 +135,12 @@ export function WindowsSupportLifecycleCheckerPage() {
         {isStandardWindows10 && <label htmlFor="lifecycle-esu">Windows 10 ESU enrollment (optional)
           <select id="lifecycle-esu" value={esuMode} onChange={event => setEsuMode(event.target.value as EsuMode)}>
             <option value="none">Not enrolled / not sure</option>
-            {edition === 'homePro' && <option value="consumer">Personal device: Consumer ESU enrolled</option>}
+            {edition === 'homePro' && <>
+              <option value="consumer">Personal device: Consumer ESU enrolled</option>
+              <option value="commercial1">Commercial ESU: Year 1 (eligible Pro only)</option>
+              <option value="commercial2">Commercial ESU: Year 2 (eligible Pro only)</option>
+              <option value="commercial3">Commercial ESU: Year 3 (eligible Pro only)</option>
+            </>}
             {edition === 'enterpriseEducation' && <>
               <option value="commercial1">Commercial ESU: Year 1</option>
               <option value="commercial2">Commercial ESU: Year 2</option>
@@ -154,7 +161,7 @@ export function WindowsSupportLifecycleCheckerPage() {
         </div>
         <span className={'lifecycle-status ' + (selectedEsu ? 'is-esu ' : '') + status.className}>{selectedEsu ? 'ESU scenario selected' : status.label}</span>
       </div>
-      {selectedEsu && <div className="lifecycle-esu-note"><strong>{selectedEsu.label}</strong><p>{selectedEsu.note}</p></div>}
+      {selectedEsu && <div className="lifecycle-esu-note"><strong>{selectedEsu.label}</strong><p>{selectedEsu.note}</p>{isCommercialEsuSelected && edition === 'homePro' && <p><strong>Edition check:</strong> this selector groups Home and Pro together. Commercial ESU is not a general Home entitlement; verify that the device is an eligible Pro edition with valid commercial licensing. Personal Home devices should use the Consumer ESU route if eligible.</p>}</div>}
       {!selectedEsu && record.note && <p className="lifecycle-record-note">{record.note}</p>}
       <div className="lifecycle-facts-grid">
         <div className="lifecycle-fact lifecycle-fact-date">
@@ -169,7 +176,7 @@ export function WindowsSupportLifecycleCheckerPage() {
         </div>
         <div className="lifecycle-fact">
           <span>What this result means</span>
-          <strong>{selectedEsu ? 'Security-only extension' : status.label}</strong>
+          <strong>{selectedEsu ? status.label + ' (ESU)' : status.label}</strong>
           <small>{selectedEsu ? 'ESU is not a full product-support extension and does not provide new features.' : 'The tool reports published servicing dates; it cannot confirm installed updates or local policy.'}</small>
         </div>
       </div>
