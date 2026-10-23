@@ -23,7 +23,7 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
   const date = formatPublicationDate(article.publishedAt);
 
   return (
-    <article className={featured ? 'article-card article-card-featured' : 'article-card'}>
+    <article className={featured ? 'article-card tww-card article-card-featured' : 'article-card tww-card'}>
       {/* The title link below is the accessible link; this one is a duplicate click target for the image. */}
       <Link to={'/' + article.slug} className="card-thumbnail-link" tabIndex={-1} aria-hidden="true">
         <ArticleThumbnail
@@ -33,16 +33,16 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
           imageUrl={article.heroImage || (article as Article & { image?: string }).image}
         />
       </Link>
-      <div className="article-card-content">
-        <div className="card-topline">
+      <div className="article-card-content tww-card-content">
+        <div className="card-topline tww-card-topline">
           <span className="card-category">{article.category}</span>
           <span className="reading-time">{article.readingTime} min read</span>
         </div>
-        <h3>
+        <h3 className="tww-card-title">
           <Link to={'/' + article.slug}>{article.title}</Link>
         </h3>
-        <p className="card-dek">{article.dek}</p>
-        <div className="card-meta">
+        <p className="card-dek tww-card-description">{article.dek}</p>
+        <div className="card-meta tww-card-footer">
           <time dateTime={article.publishedAt}>{date}</time>
         </div>
       </div>
