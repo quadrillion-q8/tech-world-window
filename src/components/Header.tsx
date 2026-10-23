@@ -245,7 +245,7 @@ export function Header() {
                   role="menu"
                   aria-label={`${group.label} navigation`}
                 >
-                  <div className="mega-intro">
+                  <div className="mega-intro" role="group" aria-label={`${group.label} overview`}>
                     <span className="eyebrow">EXPLORE {group.label.toUpperCase()}</span>
                     <strong>{group.description}</strong>
                     {group.href && (
@@ -254,7 +254,7 @@ export function Header() {
                       </Link>
                     )}
                   </div>
-                  <div className="mega-links">
+                  <div className="mega-links" role="group" aria-label={`${group.label} links`}>
                     {group.links.map(link => (
                       <Link
                         key={link.href + link.label}
