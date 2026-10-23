@@ -232,22 +232,22 @@ const comparisonDefs: ComparisonDef[] = [
     a: 'nvidia-geforce-rtx-5070-ti', b: 'amd-radeon-rx-9070-xt',
     eyebrow: 'GPU COMPARISON',
     dek: 'Two 16GB graphics cards aimed at high-refresh 1440p gaming, compared on manufacturer specifications and what independent reviewers have published.',
-    metaDescription: 'GeForce RTX 5070 Ti vs Radeon RX 9070 XT: memory type, shader hardware, clocks, power and linked independent review findings side by side.',
-    quickAnswer: 'Both cards carry 16GB of video memory on a 256-bit interface. The RTX 5070 Ti uses GDDR7 and lists a 300W total graphics power, while the RX 9070 XT uses GDDR6 with a rated 640GB/s of bandwidth. The two were reviewed separately, so there is no head-to-head result to quote.',
+    metaDescription: 'Compare the RTX 5070 Ti and RX 9070 XT: 16GB memory, architectures, specifications, power connectors and independent review evidence.' ,
+    quickAnswer: 'Both cards have 16GB of memory on a 256-bit interface. The RTX 5070 Ti uses GDDR7 and has a listed 300W total graphics power rating; the RX 9070 XT uses GDDR6 with 640GB/s rated bandwidth. Those specifications do not establish which card is faster, and the cited reviews are not a direct head-to-head test.',
     rows: [
       ['GPU architecture', 'GPU architecture', 'GPU architecture'],
       ['Shader hardware', 'CUDA cores', 'Compute units'],
       ['Memory', 'Memory', 'Memory'],
       ['Memory interface', 'Memory interface', 'Memory interface'],
       ['Clock rating', 'Boost clock', 'Game / boost frequency'],
-      ['Power', 'Total graphics power', 'Power connector'],
+      ['Power connector / interface', 'Interface / power connector', 'Power connector'],
     ],
     sections: [
       {
         heading: 'What the specifications show',
         paragraphs: [
           'Both cards list 16GB of video memory on a 256-bit interface. The RTX 5070 Ti uses GDDR7 on NVIDIA’s Blackwell architecture, while the RX 9070 XT uses GDDR6 on AMD’s RDNA 4 architecture with a rated 640GB/s of bandwidth.',
-          'CUDA cores and AMD compute units are different building blocks, and each vendor defines its clock ratings differently. Treat the shader and clock rows as context rather than a score, because they do not predict relative game performance. The power row also mixes two kinds of figure: NVIDIA’s total graphics power rating and AMD’s reference power connectors.',
+          'CUDA cores and AMD compute units are different building blocks, and each vendor defines its clock ratings differently. Treat the shader and clock rows as context rather than a score, because they do not predict relative game performance. The power specifications need particular care: NVIDIA lists 300W total graphics power, while the product data available here lists AMD’s reference connector configuration rather than a matching board-power figure. The table therefore compares connector/interface information in this row, not power consumption. Check the exact partner card’s manufacturer specification before choosing a PSU.',
         ],
       },
       {
@@ -267,7 +267,7 @@ const comparisonDefs: ComparisonDef[] = [
     faq: [
       { question: 'Do the RTX 5070 Ti and RX 9070 XT have the same VRAM?', answer: 'Both list 16GB on a 256-bit interface. The RTX 5070 Ti uses GDDR7 and the RX 9070 XT uses GDDR6.' },
       { question: 'Which is better for 1440p gaming?', answer: 'Tom’s Hardware called the RTX 5070 Ti a great 1440p native card, and independent reviews found the RX 9070 XT strong for its segment. TWW has no head-to-head test, so compare the exact games you play and current local prices.' },
-      { question: 'How much power does each card use?', answer: 'NVIDIA lists 300W total graphics power for the RTX 5070 Ti. AMD’s reference RX 9070 XT specification lists two 8-pin power connectors. These are different kinds of figure, so check the exact partner card’s requirements.' },
+      { question: 'How should I compare power requirements?', answer: 'NVIDIA lists 300W total graphics power for the RTX 5070 Ti, while the AMD reference specification recorded here lists two 8-pin connectors rather than a directly comparable board-power figure. Do not treat these as equivalent measurements. Check the exact partner card and PSU guidance before buying.' },
       { question: 'Is this a TWW benchmark?', answer: 'No. The page uses manufacturer specifications and attributed findings from outside reviewers. TWW has not tested either card.' },
     ],
     evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either card.',
