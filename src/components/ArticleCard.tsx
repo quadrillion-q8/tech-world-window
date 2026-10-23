@@ -2,12 +2,25 @@ import { Link } from 'react-router-dom';
 import type { Article } from '../data/articles';
 import { ArticleThumbnail } from './ArticleThumbnail';
 
+const publicationMonths = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+];
+
+function formatPublicationDate(value: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return value;
+
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const monthLabel = publicationMonths[month - 1];
+
+  if (!monthLabel || day < 1 || day > 31) return value;
+  return `${monthLabel} ${day}, ${match[1]}`;
+}
+
 export function ArticleCard({ article, featured = false }: { article: Article; featured?: boolean }) {
-  const date = new Date(article.publishedAt + 'T12:00:00').toLocaleDateString('en', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const date = formatPublicationDate(article.publishedAt);
 
   return (
     <article className={featured ? 'article-card article-card-featured' : 'article-card'}>
@@ -29,7 +42,9 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
           <Link to={'/' + article.slug}>{article.title}</Link>
         </h3>
         <p className="card-dek">{article.dek}</p>
-        <div className="card-meta">{date}</div>
+        <div className="card-meta">
+          <time dateTime={article.publishedAt}>{date}</time>
+        </div>
       </div>
     </article>
   );
