@@ -77,7 +77,7 @@ export function Home() {
                 />
               </span>
               <div className="category-tile-content tww-card-content">
-                <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">↗</span></div>
+                <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">→</span></div>
                 <h3 className="category-tile-title tww-card-title">{category.name}</h3>
                 <p className="category-tile-description tww-card-description">{category.description}</p>
               </div>
@@ -101,7 +101,7 @@ export function Home() {
       <section className="section latest-section home-latest">
         <div className="section-heading">
           <div><p className="home-section-kicker">LATEST EXPLAINERS</p><h2>Fresh technical answers.</h2></div>
-          <a className="text-link" href="#topics">Browse by topic ↑</a>
+          <a className="text-link" href="#topics">Browse by topic →</a>
         </div>
         <div className="article-grid">
           {latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}
