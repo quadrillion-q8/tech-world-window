@@ -188,7 +188,7 @@ export function ToolPage() {
         <label>Average game size (GB)<input type="number" min="1" max="500" value={gameSize} onChange={e=>setGameSize(boundedNumber(e.target.value, 1, 500, 100))}/></label>
         <label>Other files/apps (GB)<input type="number" min="0" max="10000" value={otherStorage} onChange={e=>setOtherStorage(boundedNumber(e.target.value, 0, 10000, 200))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
+      <div className="tool-result" aria-live="polite" aria-atomic="true"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
     </div>}
 
     {kind === 'storage' && <div className="editorial-note">
