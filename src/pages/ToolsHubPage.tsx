@@ -84,14 +84,14 @@ export function ToolsHubPage() {
           <p>{group.intro}</p>
           <div className="article-grid">
             {group.tools.map(tool => (
-              <article className="article-card" key={tool.path}>
-                <div className="card-topline">
+              <article className="article-card tww-card" key={tool.path}>
+                <div className="card-topline tww-card-topline">
                   <span className="eyebrow">{tool.status}</span>
                   <span className="reading-time">{tool.kindLabel}</span>
                 </div>
-                <h3>{tool.title}</h3>
-                <p>{tool.hubDescription}</p>
-                <Link className="text-link" to={tool.path} aria-label={`Open ${tool.title}`}>Open tool <span aria-hidden="true">→</span></Link>
+                <h3 className="tww-card-title">{tool.title}</h3>
+                <p className="tww-card-description">{tool.hubDescription}</p>
+                <Link className="text-link tww-card-cta" to={tool.path} aria-label={`Open ${tool.title}`}>Open tool <span aria-hidden="true">→</span></Link>
               </article>
             ))}
           </div>
