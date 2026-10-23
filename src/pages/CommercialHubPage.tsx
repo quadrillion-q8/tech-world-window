@@ -88,18 +88,18 @@ const categoryByPath: Record<string, ProductCategory | undefined> = {
 function ProfileCard({ product }: { product: Product }) {
   const externalCount = product.sources.filter(source => source.kind === 'independent-review').length;
   const image = productImage(product);
-  return <article className="article-card product-profile-card" key={product.id}>
+  return <article className="article-card tww-card product-profile-card" key={product.id}>
     {image && <Link className="product-card-image" to={productPath(product)} tabIndex={-1} aria-hidden="true">
       <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 360px" alt="" width={image.width} height={image.height} loading="lazy" decoding="async" />
     </Link>}
-    <div className="card-topline">
+    <div className="card-topline tww-card-topline">
       <span className="eyebrow">{externalCount ? 'SPEC PROFILE · EXTERNAL TESTS LINKED' : 'SPECIFICATION PROFILE'}</span>
       <span className="reading-time">{product.category}</span>
     </div>
-    <h3><Link to={productPath(product)}>{product.brand} {product.model}</Link></h3>
-    <p>{product.summary}</p>
-    <div className="card-meta">{externalCount ? (externalCount + ' independent review source' + (externalCount === 1 ? '' : 's') + ' linked') : 'Manufacturer sources only; no TWW benchmark claim'}</div>
-    <Link className="text-link" to={productPath(product)}>Read specifications & evidence →</Link>
+    <h3 className="tww-card-title"><Link to={productPath(product)}>{product.brand} {product.model}</Link></h3>
+    <p className="tww-card-description">{product.summary}</p>
+    <div className="card-meta tww-card-footer">{externalCount ? (externalCount + ' independent review source' + (externalCount === 1 ? '' : 's') + ' linked') : 'Manufacturer sources only; no TWW benchmark claim'}</div>
+    <Link className="text-link tww-card-cta" to={productPath(product)}>Read specifications & evidence →</Link>
   </article>;
 }
 
@@ -116,11 +116,11 @@ function ComparisonShelf({ category }: { category?: ProductCategory }) {
   if (!items.length) return null;
   return <section className="product-library-section comparison-shelf">
     <div className="section-heading"><div><p className="eyebrow">HEAD-TO-HEAD</p><h2>{category ? 'Product comparisons' : 'Popular product comparisons'}</h2></div></div>
-    <div className="article-grid">{items.map(item => <article className="article-card" key={item.path}>
-      <div className="card-topline"><span className="eyebrow">{item.eyebrow}</span></div>
-      <h3><Link to={item.path}>{item.title}</Link></h3>
-      <p>{item.dek}</p>
-      <Link className="text-link" to={item.path}>Compare specifications →</Link>
+    <div className="article-grid">{items.map(item => <article className="article-card tww-card" key={item.path}>
+      <div className="card-topline tww-card-topline"><span className="eyebrow">{item.eyebrow}</span></div>
+      <h3 className="tww-card-title"><Link to={item.path}>{item.title}</Link></h3>
+      <p className="tww-card-description">{item.dek}</p>
+      <Link className="text-link tww-card-cta" to={item.path}>Compare specifications →</Link>
     </article>)}</div>
   </section>;
 }
@@ -154,9 +154,9 @@ export function CommercialHubPage() {
       <Link className="standards-link" to={location.pathname === '/best' ? '/affiliate-disclosure' : '/testing'}>{location.pathname === '/best' ? 'Affiliate policy' : 'Testing methodology'} <span aria-hidden="true">↗</span></Link>
     </aside>
 
-    {isReviewIndex && hub.cards.length > 0 && <div className="article-grid review-category-grid">{hub.cards.map(card => <article className="article-card" key={card.href}>
-      <div className="card-topline"><span className="eyebrow">{card.label}</span></div>
-      <h3><Link to={card.href}>{card.title}</Link></h3><p>{card.description}</p><Link className="text-link" to={card.href}>Explore category →</Link>
+    {isReviewIndex && hub.cards.length > 0 && <div className="article-grid review-category-grid">{hub.cards.map(card => <article className="article-card tww-card" key={card.href}>
+      <div className="card-topline tww-card-topline"><span className="eyebrow">{card.label}</span></div>
+      <h3 className="tww-card-title"><Link to={card.href}>{card.title}</Link></h3><p className="tww-card-description">{card.description}</p><Link className="text-link tww-card-cta" to={card.href}>Explore category →</Link>
     </article>)}</div>}
 
     <ProductShelf items={categoryProducts} title={heading} />
@@ -164,9 +164,9 @@ export function CommercialHubPage() {
 
     {hub.cards.length > 0 && !isReviewIndex && <section className="related-review-guides">
       <div className="section-heading"><div><p className="eyebrow">{isReviewsPage ? 'RELATED GUIDES' : 'MORE TO EXPLORE'}</p><h2>{isReviewsPage ? 'Useful diagnostics and buying guides' : 'Related guides and resources'}</h2></div></div>
-      <div className="article-grid">{hub.cards.map(card => <article className="article-card" key={card.href + '-' + card.title}>
-        <div className="card-topline"><span className="eyebrow">{card.label}</span></div>
-        <h3><Link to={card.href}>{card.title}</Link></h3><p>{card.description}</p><Link className="text-link" to={card.href}>Explore →</Link>
+      <div className="article-grid">{hub.cards.map(card => <article className="article-card tww-card" key={card.href + '-' + card.title}>
+        <div className="card-topline tww-card-topline"><span className="eyebrow">{card.label}</span></div>
+        <h3 className="tww-card-title"><Link to={card.href}>{card.title}</Link></h3><p className="tww-card-description">{card.description}</p><Link className="text-link tww-card-cta" to={card.href}>Explore →</Link>
       </article>)}</div>
     </section>}
   </section>;

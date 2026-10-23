@@ -49,7 +49,7 @@ export function Home() {
         </div>
         <div className="category-grid">
           {categories.map((category, index) => (
-            <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}>
+            <Link className={`category-tile tww-card category-${index}`} to={`/${category.slug}`} key={category.slug}>
               <span className="category-tile-image-wrap" aria-hidden="true">
                 <img
                   className="category-tile-image"
@@ -63,10 +63,10 @@ export function Home() {
                   decoding="async"
                 />
               </span>
-              <div className="category-tile-content">
+              <div className="category-tile-content tww-card-content">
                 <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">↗</span></div>
-                <h3 className="category-tile-title">{category.name}</h3>
-                <p className="category-tile-description">{category.description}</p>
+                <h3 className="category-tile-title tww-card-title">{category.name}</h3>
+                <p className="category-tile-description tww-card-description">{category.description}</p>
               </div>
             </Link>
           ))}
