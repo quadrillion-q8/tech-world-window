@@ -1,23 +1,137 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { menuGroups } from '../data/graph';
+
+const HOVER_INTENT_DELAY_MS = 175;
+
+function getMenuId(label: string) {
+  return 'mega-menu-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const menuToggleRef = useRef<HTMLButtonElement | null>(null);
-  const suppressFocusOpenRef = useRef(false);
+  const hoverTimerRef = useRef<number | null>(null);
+  const location = useLocation();
+
+  const cancelHoverTimer = () => {
+    if (hoverTimerRef.current !== null) {
+      window.clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
 
   const closeAll = () => {
+    cancelHoverTimer();
     setOpen(false);
     setActiveMenu(null);
+  };
+
+  const scheduleOpen = (label: string) => {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+    cancelHoverTimer();
+    hoverTimerRef.current = window.setTimeout(() => {
+      setActiveMenu(label);
+      hoverTimerRef.current = null;
+    }, HOVER_INTENT_DELAY_MS);
+  };
+
+  const scheduleClose = (label: string) => {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+    cancelHoverTimer();
+    hoverTimerRef.current = window.setTimeout(() => {
+      const group = headerRef.current?.querySelector<HTMLElement>(
+        `[data-nav-group="${getMenuId(label)}"]`,
+      );
+      if (!group?.contains(document.activeElement)) {
+        setActiveMenu(current => current === label ? null : current);
+      }
+      hoverTimerRef.current = null;
+    }, HOVER_INTENT_DELAY_MS);
+  };
+
+  const focusMenuItem = (menuId: string, edge: 'first' | 'last') => {
+    window.requestAnimationFrame(() => {
+      const items = Array.from(
+        document.getElementById(menuId)?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? [],
+      );
+      const target = edge === 'last' ? items[items.length - 1] : items[0];
+      target?.focus();
+    });
+  };
+
+  const focusAdjacentTrigger = (menuId: string, direction: 'next' | 'previous') => {
+    const triggers = Array.from(
+      headerRef.current?.querySelectorAll<HTMLButtonElement>('[data-nav-trigger]') ?? [],
+    );
+    const currentIndex = triggers.findIndex(trigger => trigger.getAttribute('aria-controls') === menuId);
+    if (currentIndex < 0 || triggers.length < 2) return;
+
+    cancelHoverTimer();
+    setActiveMenu(null);
+    const offset = direction === 'next' ? 1 : -1;
+    const nextIndex = (currentIndex + offset + triggers.length) % triggers.length;
+    triggers[nextIndex]?.focus();
+  };
+
+  const handleTriggerKeyDown = (
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    label: string,
+    menuId: string,
+  ) => {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      cancelHoverTimer();
+      setActiveMenu(label);
+      focusMenuItem(menuId, event.key === 'ArrowDown' ? 'first' : 'last');
+      return;
+    }
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      focusAdjacentTrigger(menuId, event.key === 'ArrowRight' ? 'next' : 'previous');
+    }
+  };
+
+  const handleMenuItemKeyDown = (
+    event: ReactKeyboardEvent<HTMLAnchorElement>,
+    menuId: string,
+  ) => {
+    const items = Array.from(
+      document.getElementById(menuId)?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? [],
+    );
+    const currentIndex = items.indexOf(event.currentTarget);
+    if (currentIndex < 0 || items.length === 0) return;
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const offset = event.key === 'ArrowDown' ? 1 : -1;
+      const nextIndex = (currentIndex + offset + items.length) % items.length;
+      items[nextIndex]?.focus();
+      return;
+    }
+
+    if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      const target = event.key === 'Home' ? items[0] : items[items.length - 1];
+      target?.focus();
+      return;
+    }
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      focusAdjacentTrigger(menuId, event.key === 'ArrowRight' ? 'next' : 'previous');
+    }
   };
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (target instanceof Node && headerRef.current && !headerRef.current.contains(target)) {
+        cancelHoverTimer();
         setOpen(false);
         setActiveMenu(null);
       }
@@ -27,21 +141,19 @@ export function Header() {
       if (event.key !== 'Escape') return;
 
       if (activeMenu) {
-        const trigger = headerRef.current?.querySelector<HTMLAnchorElement>(
-          '.nav-trigger[aria-expanded="true"]',
+        const trigger = headerRef.current?.querySelector<HTMLButtonElement>(
+          '[data-nav-trigger][aria-expanded="true"]',
         );
         const focusWasInActiveGroup = trigger?.closest('.nav-group')?.contains(document.activeElement) ?? false;
+        cancelHoverTimer();
         setActiveMenu(null);
 
-        if (trigger && focusWasInActiveGroup && document.activeElement !== trigger) {
-          // Restoring focus must not immediately reopen the disclosure.
-          suppressFocusOpenRef.current = true;
-          trigger.focus();
-        }
+        if (trigger && focusWasInActiveGroup) trigger.focus();
         return;
       }
 
       if (open) {
+        cancelHoverTimer();
         setOpen(false);
         menuToggleRef.current?.focus();
       }
@@ -54,6 +166,10 @@ export function Header() {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeMenu, open]);
+
+  useEffect(() => () => {
+    if (hoverTimerRef.current !== null) window.clearTimeout(hoverTimerRef.current);
+  }, []);
 
   return (
     <header ref={headerRef} className="site-header">
@@ -76,78 +192,79 @@ export function Header() {
           aria-label={open ? 'Close navigation' : 'Open navigation'}
           onClick={() => {
             if (open) setActiveMenu(null);
-            setOpen(!open);
+            setOpen(current => !current);
           }}
+          type="button"
         >
           {open ? 'Close' : 'Menu'}
         </button>
 
         <nav id="main-navigation" className={open ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
           {menuGroups.map(group => {
-            const menuId = 'mega-menu-' + group.label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const menuId = getMenuId(group.label);
+            const isOpen = activeMenu === group.label;
+            const isCurrent = Boolean(
+              group.href &&
+              (location.pathname === group.href || location.pathname.startsWith(`${group.href}/`)),
+            );
 
             return (
               <div
                 className="nav-group"
+                data-nav-group={menuId}
                 key={group.label}
-                onMouseEnter={() => {
-                  if (window.matchMedia('(min-width: 1041px)').matches) setActiveMenu(group.label);
-                }}
-                onMouseLeave={event => {
-                  if (
-                    window.matchMedia('(min-width: 1041px)').matches &&
-                    !event.currentTarget.contains(document.activeElement)
-                  ) {
-                    setActiveMenu(current => current === group.label ? null : current);
-                  }
-                }}
+                onMouseEnter={() => scheduleOpen(group.label)}
+                onMouseLeave={() => scheduleClose(group.label)}
                 onBlur={event => {
                   const nextTarget = event.relatedTarget;
                   if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) return;
-                  if (!event.currentTarget.matches(':hover')) {
-                    setActiveMenu(current => current === group.label ? null : current);
-                  }
+                  if (!event.currentTarget.matches(':hover')) scheduleClose(group.label);
                 }}
               >
-                <NavLink
-                  to={group.href || '#'}
-                  className={({ isActive }) => isActive ? 'nav-trigger active' : 'nav-trigger'}
-                  onClick={event => {
-                    if (group.links.length) {
-                      if (window.matchMedia('(max-width: 1040px)').matches) {
-                        event.preventDefault();
-                        setActiveMenu(current => current === group.label ? null : group.label);
-                      } else {
-                        closeAll();
-                      }
-                    }
-                  }}
-                  onFocus={() => {
-                    if (suppressFocusOpenRef.current) {
-                      suppressFocusOpenRef.current = false;
-                      return;
-                    }
-                    if (window.matchMedia('(min-width: 1041px)').matches) setActiveMenu(group.label);
-                  }}
+                <button
+                  type="button"
+                  className={isCurrent ? 'nav-trigger is-current' : 'nav-trigger'}
+                  data-nav-trigger="true"
                   aria-haspopup="true"
                   aria-controls={menuId}
-                  aria-expanded={activeMenu === group.label}
+                  aria-expanded={isOpen}
+                  aria-label={isOpen ? `Close ${group.label} menu` : `Open ${group.label} menu`}
+                  onClick={() => {
+                    cancelHoverTimer();
+                    setActiveMenu(current => current === group.label ? null : group.label);
+                  }}
+                  onKeyDown={event => handleTriggerKeyDown(event, group.label, menuId)}
                 >
-                  {group.label}<span className="nav-chevron" aria-hidden="true">⌄</span>
-                </NavLink>
-                <div id={menuId} className={'mega-menu' + (activeMenu === group.label ? ' is-open' : '')}>
+                  {group.label}
+                  <span className="nav-chevron" aria-hidden="true">⌄</span>
+                </button>
+
+                <div
+                  id={menuId}
+                  className={'mega-menu' + (isOpen ? ' is-open' : '')}
+                  role="menu"
+                  aria-label={`${group.label} navigation`}
+                >
                   <div className="mega-intro">
                     <span className="eyebrow">EXPLORE {group.label.toUpperCase()}</span>
                     <strong>{group.description}</strong>
-                    {group.href && <Link to={group.href} onClick={closeAll}>View {group.label} →</Link>}
+                    {group.href && (
+                      <Link to={group.href} role="menuitem" onClick={closeAll} onKeyDown={event => handleMenuItemKeyDown(event, menuId)}>
+                        View {group.label} →
+                      </Link>
+                    )}
                   </div>
                   <div className="mega-links">
                     {group.links.map(link => (
-                      <Link key={link.href + link.label} to={link.href} onClick={closeAll}>
-                        <span className="mega-link-copy">
-                          <strong>{link.label}</strong>
-                          {link.description && <small>{link.description}</small>}
-                        </span>
+                      <Link
+                        key={link.href + link.label}
+                        to={link.href}
+                        role="menuitem"
+                        onClick={closeAll}
+                        onKeyDown={event => handleMenuItemKeyDown(event, menuId)}
+                      >
+                        <span className="mega-link-title">{link.label}</span>
+                        {link.description && <small>{link.description}</small>}
                       </Link>
                     ))}
                   </div>
