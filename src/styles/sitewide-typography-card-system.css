@@ -1200,3 +1200,109 @@ body li,
     transform: none;
   }
 }
+
+/* Targeted homepage text-separation and category-tag accessibility refinements.
+   Keep this block at the end: it intentionally overrides legacy microcopy sizes. */
+.site-header .brand {
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.site-header .brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+  min-width: 0;
+}
+
+.site-header .brand-copy .brand-name {
+  display: block;
+  font-size: .75rem;
+  line-height: 1.25;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+.site-header .brand-copy .brand-tagline {
+  display: block;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.site-header .mega-link-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.site-header .mega-link-copy > strong {
+  display: block;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.site-header .mega-link-copy > small {
+  display: block;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Explicit wrappers prevent title/description text from relying on text-node spacing. */
+.home-page .hero-proof .hero-proof-title {
+  display: block;
+  margin: 0 0 .22rem;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+
+.home-page .hero-proof .hero-proof-description {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: .75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* All article category badges use the same tested, high-contrast palette.
+   Foreground #064b57 on #e5f2f3 has an 8.52:1 contrast ratio. */
+.article-card .card-category.tag-windows,
+.article-card .card-category.tag-gaming,
+.article-card .card-category.tag-default {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  max-width: 100%;
+  margin: 0;
+  padding: .3rem .55rem;
+  border: 1px solid #b6d2d5;
+  border-radius: 999px;
+  background: #e5f2f3;
+  color: #064b57;
+  font-size: .75rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+/* The child span is a real content wrapper, so no adjacent text nodes are needed. */
+.site-header .brand-copy .brand-tagline,
+.site-header .mega-link-copy > small,
+.home-page .hero-proof .hero-proof-title,
+.home-page .hero-proof .hero-proof-description {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+

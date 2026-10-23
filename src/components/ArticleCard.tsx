@@ -19,8 +19,17 @@ function formatPublicationDate(value: string): string {
   return `${monthLabel} ${day}, ${match[1]}`;
 }
 
+function categoryTagClass(category: string): "tag-windows" | "tag-gaming" | "tag-default" {
+  const normalized = category.toLowerCase();
+
+  if (normalized.includes("windows")) return "tag-windows";
+  if (normalized.includes("gaming")) return "tag-gaming";
+  return "tag-default";
+}
+
 export function ArticleCard({ article, featured = false }: { article: Article; featured?: boolean }) {
   const date = formatPublicationDate(article.publishedAt);
+  const categoryClass = categoryTagClass(article.category);
 
   return (
     <article className={featured ? 'article-card tww-card article-card-featured' : 'article-card tww-card'}>
@@ -35,7 +44,7 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
       </Link>
       <div className="article-card-content tww-card-content">
         <div className="card-topline tww-card-topline">
-          <span className="card-category">{article.category}</span>
+          <span className={`card-category ${categoryClass}`}>{article.category}</span>
           <span className="reading-time">{article.readingTime} min read</span>
         </div>
         <h3 className="tww-card-title">

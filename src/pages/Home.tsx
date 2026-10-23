@@ -32,7 +32,20 @@ export function Home() {
               <Link className="button button-primary" to="/guides">Explore practical guides <span>→</span></Link>
               <Link className="button button-secondary" to="/tools/pc-bottleneck-calculator">Try a free tool</Link>
             </div>
-            <div className="hero-proof" aria-label="Our editorial approach"><span><b>01 / Diagnose</b>Symptom-first guidance</span><span><b>02 / Verify</b>Evidence-led explanations</span><span><b>03 / Disclose</b>Transparent testing limits</span></div>
+            <div className="hero-proof" aria-label="Our editorial approach">
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">01 / Diagnose</b>
+                <span className="hero-proof-description">Symptom-first guidance</span>
+              </span>
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">02 / Verify</b>
+                <span className="hero-proof-description">Evidence-led explanations</span>
+              </span>
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">03 / Disclose</b>
+                <span className="hero-proof-description">Transparent testing limits</span>
+              </span>
+            </div>
           </div>
           <div className="hero-art" aria-label="Tech World Window technology illustration" role="img">
             <div className="orb orb-one" />

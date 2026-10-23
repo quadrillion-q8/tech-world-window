@@ -62,7 +62,10 @@ export function Header() {
           <span className="brand-mark" aria-hidden="true">
             <img src="/tech-world-window-mark.webp" width="240" height="123" alt="" decoding="async" />
           </span>
-          <span className="brand-copy"><strong>TECH WORLD WINDOW</strong><small>Your Window Into Technology</small></span>
+          <span className="brand-copy">
+            <strong className="brand-name">TECH WORLD WINDOW</strong>
+            <small className="brand-tagline">Your Window Into Technology</small>
+          </span>
         </Link>
 
         <button
@@ -141,8 +144,10 @@ export function Header() {
                   <div className="mega-links">
                     {group.links.map(link => (
                       <Link key={link.href + link.label} to={link.href} onClick={closeAll}>
-                        <strong>{link.label}</strong>
-                        {link.description && <small>{link.description}</small>}
+                        <span className="mega-link-copy">
+                          <strong>{link.label}</strong>
+                          {link.description && <small>{link.description}</small>}
+                        </span>
                       </Link>
                     ))}
                   </div>
