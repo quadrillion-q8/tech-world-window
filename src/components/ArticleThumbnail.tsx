@@ -27,17 +27,7 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
   const imageAlt = displayedGalleryImage?.title || title;
 
   return (
-    <div
-      className="article-thumbnail"
-      style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: '16 / 9',
-        overflow: 'hidden',
-        backgroundColor: '#0f172a',
-        display: 'block',
-      }}
-    >
+    <div className="article-thumbnail">
       <img
         src={image}
         alt={imageAlt}
@@ -45,7 +35,6 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
         decoding="async"
         width="640"
         height="640"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
       />
     </div>
   );
