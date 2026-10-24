@@ -79,7 +79,7 @@ export function SearchDialog({ onClose }: Props) {
 
   useEffect(() => {
     let cancelled = false;
-    import('../data/articles')
+    import('../data/generated/article-index')
       .then(({ articles }) => {
         if (cancelled) return;
         setArticleDocuments(articles.map(article => ({
