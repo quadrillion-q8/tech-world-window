@@ -173,16 +173,16 @@ export function SearchDialog({ onClose }: Props) {
 
   const trimmedQuery = query.trim();
   const normalizedQuery = normalize(trimmedQuery);
-  const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
   const results = useMemo(() => {
     if (!normalizedQuery) return [];
+    const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
     return documents
       .map(document => ({ document, score: scoreDocument(document, normalizedQuery, tokens) }))
       .filter(result => result.score >= 0)
       .sort((a, b) => b.score - a.score || a.document.title.localeCompare(b.document.title))
       .slice(0, 8)
       .map(result => result.document);
-  }, [documents, normalizedQuery, trimmedQuery]);
+  }, [documents, normalizedQuery]);
 
   const focusFirstResult = () => {
     dialogRef.current?.querySelector<HTMLAnchorElement>('.site-search-result')?.focus();
