@@ -300,6 +300,8 @@ const enhancements: Record<string, Enhancement> = {
     ]
   },
   'pc-game-stuttering-fix-frame-time': {
+    updatedAt: '2026-10-25',
+    relatedArticles: ['gaming-gpu-100-percent', 'gaming-crashes-desktop'],
     sections: [{
       heading: 'TWW diagnosis: stutter is a timing problem',
       paragraphs: [
