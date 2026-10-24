@@ -2,8 +2,10 @@ import type { RouteRecord } from 'vite-react-ssg';
 import { routeGraph, type RouteNode } from './data/graph';
 import { RootLayout } from './layouts/RootLayout';
 import { BSOD_BASE_PATH } from './data/bsod';
+import type { Article } from './data/articles';
 
 type LazyPage = NonNullable<RouteRecord['lazy']>;
+const articleContentLoaders = import.meta.glob<{ default: Article }>('./data/generated/article-content/*.json');
 
 /**
  * Load route page families on demand.
@@ -64,7 +66,19 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
     return async () => ({ Component: (await import('./pages/Home')).Home });
   }
   if (route.kind === 'article') {
-    return async () => ({ Component: (await import('./pages/ArticlePage')).ArticlePage });
+    const fileName = \`\${route.path.slice(1).replace(/\//g, '--')}.json\`;
+    const contentKey = \`./data/generated/article-content/\${fileName}\`;
+    const loadArticle = articleContentLoaders[contentKey];
+    if (!loadArticle) {
+      throw new Error(\`No generated article content module for route: \${route.path} (expected \${contentKey})\`);
+    }
+    return async () => {
+      const [{ ArticlePage }, contentModule] = await Promise.all([
+        import('./pages/ArticlePage'),
+        loadArticle(),
+      ]);
+      return { Component: () => <ArticlePage article={contentModule.default} /> };
+    };
   }
   if (route.kind === 'category') {
     if (route.path.startsWith('/reviews') || route.path.startsWith('/best')) {
