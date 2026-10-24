@@ -7,8 +7,12 @@
     "node": "22.x"
   },
   "scripts": {
+    "predev": "npm run generate:article-data",
     "dev": "vite-react-ssg dev",
+    "predev:csr": "npm run generate:article-data",
     "dev:csr": "vite",
+    "generate:article-data": "tsx scripts/generate-article-data.ts",
+    "pretypecheck": "npm run generate:article-data",
     "typecheck": "tsc --noEmit",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts",
     "generate:rss": "tsx scripts/generate-rss.ts",
