@@ -438,7 +438,7 @@ const enhancements: Record<string, Enhancement> = {
         'This is not a universal Windows switch and it does not eliminate every kind of stutter. If a title does not support ASD in the store you use, ordinary shader-cache behavior and in-game precompilation remain relevant. Check Microsoft’s current DirectX announcement and the game’s own update notes rather than assuming a particular game has enabled the feature.'
       ],
       relatedLinks: [
-        { label: 'Microsoft DirectX: Advanced Shader Delivery availability and requirements', href: 'https://devblogs.microsoft.com/directx/advanced-shader-delivery-is-available-now-across-hardware/', description: 'Check the current Windows, hardware, driver and storefront requirements before assuming the feature applies to a game.' },
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the broader diagnostic when hitches persist after checking game-specific shader-precompilation support.' },
         { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the general diagnostic when hitches persist outside first-run shader compilation.' }
       ]
     }, {
@@ -458,7 +458,7 @@ const enhancements: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
-        { label: 'NVIDIA support: deleting NVIDIA Shader Cache files', href: 'https://nvidia.custhelp.com/app/answers/detail/a_id/5735/kw/max/related/1', description: 'Use the vendor’s documented cache-removal procedure only when its stated conditions fit the symptom.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare first-run and repeat captures to see whether the hitch pattern actually changes.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare first-run and repeat captures to see whether the hitch pattern actually changes.' }
       ]
     }]
@@ -1271,7 +1271,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         'Do not enable advanced crash dumps or run registry commands just to begin diagnosis. Start with the built-in history and escalate only when the basic record does not answer the question.'
       ],
       relatedLinks: [
-        { label: 'Microsoft crash-event troubleshooting guidance', href: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior', description: 'Learn what Windows application crash records contain and how to read the faulting application and module carefully.' }
+        { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use the Windows-specific diagnostic path if the crash ends in a blue screen rather than only closing the game.' }
       ]
     }, {
       heading: 'Choose the next test from the type of failure',
