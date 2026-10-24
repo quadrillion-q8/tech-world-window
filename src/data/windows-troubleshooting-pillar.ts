@@ -25,7 +25,7 @@ export const windowsTroubleshootingPillar: Article = {
   readingTime: 26,
   appliesTo: ['Windows 11', 'Windows 10'],
   tags: ['Windows Troubleshooting', 'Windows 11', 'Windows 10', 'Windows Problems', 'PC Troubleshooting', 'Windows Repair', 'Blue Screen', 'Safe Mode', 'SFC and DISM'],
-  relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset', 'windows-11-26h2-installation-guide', 'windows-wont-start', 'windows-update-stuck', 'windows-high-memory', 'windows-unknown-device', 'windows-disk-100-percent', 'windows-slow-startup', 'usb-device-not-recognized', 'windows-bluetooth-not-working', 'windows-no-sound', 'windows-camera-not-working', 'windows-second-monitor-not-detected', 'windows-file-explorer-not-responding', 'windows-printer-offline', 'windows-search-not-working', 'windows-touchpad-not-working', 'windows-keyboard-mouse-not-working', 'wifi-keeps-disconnecting', 'black-screen-after-login', 'bitlocker-recovery-key-after-bios-update'],
+  relatedArticles: ['windows-wifi-diagnosis', 'windows-dns-not-working', 'windows-network-reset', 'windows-11-26h2-installation-guide', 'windows-wont-start', 'windows-update-stuck', 'windows-high-memory', 'windows-unknown-device', 'windows-disk-100-percent', 'windows-slow-startup', 'usb-device-not-recognized', 'windows-bluetooth-not-working', 'windows-no-sound', 'windows-camera-not-working', 'windows-second-monitor-not-detected', 'windows-file-explorer-not-responding', 'windows-printer-offline', 'windows-search-not-working', 'windows-touchpad-not-working', 'windows-keyboard-mouse-not-working', 'wifi-keeps-disconnecting', 'black-screen-after-login'],
   contentRole: 'pillar',
   pillarPath: '/windows',
   searchIntent: 'informational',
