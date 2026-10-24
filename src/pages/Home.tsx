@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { articles, categories } from '../data/articles';
+import { articles, categories } from '../data/generated/article-index';
 import { ArticleCard } from '../components/ArticleCard';
 import { SEOEngine } from '../seo/SEOEngine';
 
