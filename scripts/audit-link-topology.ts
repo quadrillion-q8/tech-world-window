@@ -43,8 +43,12 @@ for (const article of articles) {
       // include the rendered navigation path in topology counts.
       outgoing.get(article.id)?.add(pillar.id);
       incoming.get(pillar.id)?.add(article.id);
-      if (!(pillar.relatedArticles ?? []).includes(article.id)) {
-        warnings.push(`Explicit pillar edge missing: /${article.slug} points to ${article.pillarPath}; ArticlePage supplies a rendered pillar fallback, but consider adding a reviewed reciprocal relatedArticles edge if appropriate.`);
+      if (article.category !== pillar.category) {
+        // Related-article validation requires same-category links, so do not
+        // recommend a reciprocal edge that the content validator would reject.
+        warnings.push(`Pillar category mismatch: /${article.slug} (${article.category}) references /${pillar.slug} (${pillar.category}); ArticlePage supplies a rendered fallback, but a relatedArticles edge would violate same-category validation. Review the category assignment if this is unintended.`);
+      } else if (!(pillar.relatedArticles ?? []).includes(article.id)) {
+        warnings.push(`Explicit pillar edge missing: /${article.slug} points to ${article.pillarPath}; add a reciprocal relatedArticles edge in the same category.`);
       }
     }
   }
@@ -59,7 +63,7 @@ for (const [slug, paths] of Object.entries(articleToolLinks)) {
 
 const pillars = articles.filter(article => article.contentRole === 'pillar');
 for (const pillar of pillars) {
-  const expectedClusters = articles.filter(article => article.pillarPath === `/${pillar.slug}`);
+  const expectedClusters = articles.filter(article => article.pillarPath === `/${pillar.slug}` && article.category === pillar.category);
   const linked = new Set(pillar.relatedArticles ?? []);
   const missing = expectedClusters.filter(article => !linked.has(article.id));
   if (missing.length) warnings.push(`Pillar /${pillar.slug} is missing ${missing.length} explicit cluster link(s): ${missing.map(article => `/${article.slug}`).join(', ')}`);
