@@ -24,5 +24,5 @@ export function articleWordCount(article: Article): number {
     ]),
     ...(article.faq ?? []).flatMap(item => [item.question, item.answer]),
   ].join(' ');
-  return text.split(/\\s+/).filter(Boolean).length;
+  return text.split(/\s+/).filter(Boolean).length;
 }
