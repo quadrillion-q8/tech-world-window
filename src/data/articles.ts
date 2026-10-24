@@ -5,6 +5,7 @@ import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
 import { october2026Articles } from './october-2026-articles';
 import { octoberTechGuides } from './october-tech-guides';
+import { universalPcIssueGuides } from './universal-pc-issue-guides';
 import { biosUefiRecoveryGuide } from './bios-uefi-recovery-guide';
 import { bitlockerRecoveryAfterBiosUpdate } from './bitlocker-recovery-key-after-bios-update';
 import { secureBootCertificateGuide } from './secure-boot-certificate-guide';
@@ -137,6 +138,7 @@ const baseArticles: Article[] = [
   windows26H2InstallationGuide,
   ...october2026Articles,
   ...octoberTechGuides,
+  ...universalPcIssueGuides,
   biosUefiRecoveryGuide,
   bitlockerRecoveryAfterBiosUpdate,
   secureBootCertificateGuide,
