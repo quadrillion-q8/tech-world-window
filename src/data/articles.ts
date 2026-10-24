@@ -562,87 +562,533 @@ const baseArticles: Article[] = [
   },
 
   {
-    id: 'gaming-stutter',
-    slug: 'pc-game-stuttering-fix-frame-time',
-    title: 'PC Game Stuttering: How to Diagnose Frame-Time Spikes, Microstutter & FPS Drops',
-    seoTitle: "PC Game Stuttering? Diagnose Frame-Time Spikes",
-    metaDescription: "Fix PC game stuttering by checking frame-time spikes, shader compilation, CPU and GPU limits, RAM, storage, drivers and temperatures in order.",
-    dek: 'A diagnostic guide to PC game stutter that separates frame-time spikes from low average FPS and works through shaders, CPU and GPU limits, memory, storage, drivers, and thermals.',
-    excerpt: 'Smooth play depends on even frame delivery, not just a high average FPS. Classify the stutter first, then test the likely cause.',
-    category: 'Gaming',
-    subcategory: 'Performance',
-    authorId: 'imranNatiq',
-    publishedAt: '2026-10-06',
-    updatedAt: '2026-10-18',
-    readingTime: 15,
-    tags: ['PC Gaming', 'Stutter', 'Frame Time', 'FPS', 'Performance', 'Microstutter', 'Troubleshooting'],
-    relatedArticles: ['gpu-frame-time-spikes', 'shader-compilation-stutter', 'gaming-low-fps', 'gamebar-presence-writer-fix'],
-    contentRole: 'pillar',
-    pillarPath: '/gaming',
-    searchIntent: 'informational',
-    content: [
-      { heading: 'Frame time versus average FPS', paragraphs: [
-        'Average FPS hides spikes. A game can average 100 FPS and still stutter if a few frames take far longer than the rest. Frame time, the milliseconds each frame takes, shows those spikes directly, and 1% lows describe the worst frames more honestly than the average.'
-      ] },
-      { heading: 'Capture evidence first', paragraphs: [
-        'Use an overlay or capture tool that shows frame time, CPU and GPU usage, VRAM, clocks, and temperatures. Reproduce the stutter in the same place and note whether it happens once, repeatedly, or only on first visit to an area. A frame-time trace is more useful than a single average-FPS number.',
-        'For a clean comparison, keep the same resolution, graphics preset, route through the game, and background apps. Capture one run before changing anything, then change one variable and repeat the same scene.'
-      ], bullets: [
-        'Record settings, resolution, driver version, and the exact scene.',
-        'Check whether frame-time spikes coincide with CPU/GPU load, temperature, clock drops, VRAM pressure, or disk activity.',
-        'Compare a first run with a repeat run; first-visit-only stutter can point toward shader compilation or asset loading.',
-        'Use the Frame-Time Analyzer tool to inspect a capture, and treat any single overlay reading as a clue rather than proof.'
-      ], relatedLinks: [
-        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect frame-time samples and compare before-and-after captures.' },
-        { label: 'Low FPS in PC games', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Find the actual CPU, GPU, memory, or power limit before upgrading.' }
-      ] },
-      { heading: 'Classify the stutter pattern', paragraphs: [
-        'The pattern points at the cause.'
-      ], bullets: [
-        'Only the first time in an area → shader compilation or asset loading.',
-        'Regular, rhythmic spikes → background tasks, overlays, or polling.',
-        'Spikes when turning or moving fast → streaming from storage or CPU limits.',
-        'Spikes after a few minutes → thermals or power limits.',
-        'Everything slows together → GPU or CPU saturation.'
-      ] },
-      { heading: 'CPU, GPU, and memory limits', paragraphs: [
-        'If GPU usage stays near full while frame times rise, the GPU may be the limit; test a lower resolution or GPU-heavy setting and see whether frame times improve. If GPU usage falls while one or a few CPU threads are saturated, investigate CPU-side limits, simulation load, background tasks, and game-engine behavior.',
-        'If dedicated VRAM is at its limit, texture streaming and memory transfers can cause hitching. System RAM pressure can also trigger paging, so check committed memory and background applications before assuming a CPU or GPU upgrade is necessary. A “bottleneck” calculator is only a rough estimate; real gameplay measurements should decide the upgrade.'
-      ], relatedLinks: [
-        { label: 'PC bottleneck calculator', href: '/tools/pc-bottleneck-calculator', description: 'Use a rough CPU/GPU balance estimate as a starting point, not a measured FPS prediction.' },
-        { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Understand when full GPU utilization is normal and when it accompanies a problem.' }
-      ] },
-      { heading: 'Storage, background software, and drivers', paragraphs: [
-        'Games installed on a hard drive can hitch when streaming assets. Background updaters, overlays, and recorders can cause periodic spikes. A recent graphics driver change that lines up with new stutter is worth rolling back to test.'
-      ], relatedLinks: [
-        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'If hitches appear while a game streams from an SSD, check free space, background activity and drive condition first.' },
-        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Rule out drive errors and wear before blaming the game or the GPU.' }
-      ] },
-      { heading: 'Thermals, power, and laptops', paragraphs: [
-        'Throttled clocks reduce performance and can cause uneven frames. Check temperatures and clocks during play. On laptops, confirm the power mode and use the charger, since battery operation often limits performance.'
-      ], relatedLinks: [
-        { label: 'NVMe SSD temperature too high', href: '/nvme-ssd-temperature-too-high', description: 'A hot NVMe drive can throttle during long game loads and installs; see what is normal and when it throttles.' },
-        { label: 'GPU frame-time spikes: common causes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU thermal and VRAM limits from other causes of uneven frames.' }
-      ] },
-      { heading: 'Network lag is different', paragraphs: [
-        'Online latency and packet loss produce rubber-banding, not local rendering stutter. If frame-time graphs are smooth while the game still feels uneven, test network conditions separately.'
-      ] },
-      { heading: 'A controlled fix order', paragraphs: [
-        'Work from least to most invasive and retest after each change.'
-      ], bullets: [
-        'Close overlays and background software.',
-        'Lower the most demanding settings, usually textures, shadows, and ray tracing.',
-        'Update or roll back the graphics driver.',
-        'Move the game to an SSD if it is on a hard drive.',
-        'Check thermals and power limits.',
-        'Repair game files or reinstall only if the issue is specific to that game.'
-      ] }
+    "id": "gaming-stutter",
+    "slug": "pc-game-stuttering-fix-frame-time",
+    "title": "PC Game Stuttering: How to Diagnose Frame-Time Spikes, Microstutter & FPS Drops",
+    "seoTitle": "PC Game Stuttering? Diagnose Frame-Time Spikes",
+    "metaDescription": "Diagnose PC game stutter with repeatable frame-time captures. Separate shader, CPU, GPU, memory, storage, thermal and network causes before changing settings.",
+    "dek": "A measurement-first guide to PC game stutter: classify the symptom, capture repeatable frame-time evidence, isolate CPU/GPU, shader, memory, storage, driver and thermal limits, then verify the fix.",
+    "excerpt": "A high average FPS can hide severe frame-time spikes. Follow a repeatable diagnostic sequence to identify the likely cause before lowering every setting or buying new hardware.",
+    "category": "Gaming",
+    "subcategory": "Performance",
+    "authorId": "imranNatiq",
+    "publishedAt": "2026-10-06",
+    "updatedAt": "2026-10-25",
+    "readingTime": 22,
+    "tags": [
+      "PC Gaming",
+      "Game Stutter",
+      "Frame Time",
+      "FPS Drops",
+      "Microstutter",
+      "Shader Compilation",
+      "GPU",
+      "CPU",
+      "Troubleshooting"
     ],
-    faq: [
-      { question: 'Why does my game stutter even with high FPS?', answer: 'Average FPS hides frame-time spikes. Uneven frame delivery feels like stutter even when the average looks high.' },
-      { question: 'Will more RAM or a new GPU fix stutter?', answer: 'Only if that component is the measured limit. Check frame times, memory pressure, GPU load, temperatures, and clocks first.' },
-      { question: 'Why does a game stutter only the first time I enter an area?', answer: 'Shader compilation or asset loading can cause first-visit hitches. If repeat runs are consistently smoother, this pattern is useful evidence; persistent spikes need separate diagnosis.' },
-      { question: 'Is 100% GPU usage a bad sign?', answer: 'Usually not by itself. Full GPU utilization often means the game is using the GPU efficiently. Investigate if it coincides with overheating, falling clocks, severe frame-time spikes, or unexpectedly low performance.' }
+    "relatedArticles": [
+      "gpu-frame-time-spikes",
+      "shader-compilation-stutter",
+      "gaming-low-fps",
+      "gamebar-presence-writer-fix"
+    ],
+    "contentRole": "pillar",
+    "pillarPath": "/gaming",
+    "searchIntent": "informational",
+    "content": [
+      {
+        "heading": "Start here: identify the type of problem",
+        "paragraphs": [
+          "“Stutter” can describe several different problems: a short hitch, a sustained drop in frame rate, uneven frame pacing, delayed input, or an online character that jumps across the map. They can feel similar, but they do not have the same cause. Start by noting exactly what happens and whether a frame-time trace shows a matching spike.",
+          "This guide uses a simple rule: observe the same scene, change one variable, then repeat the same test. A symptom that improves once is a clue, not proof. If possible, capture two or three comparable runs before drawing a conclusion."
+        ],
+        "table": {
+          "caption": "Choose the first diagnostic path from the symptom",
+          "headers": [
+            "What you notice",
+            "First thing to check",
+            "Best next step"
+          ],
+          "rows": [
+            [
+              "Brief hitch, but average FPS is high",
+              "Frame-time trace and repeatability",
+              "Capture a run and compare the same scene again"
+            ],
+            [
+              "Low FPS throughout a demanding scene",
+              "GPU load, per-core CPU activity and settings",
+              "Change one render-heavy setting and compare"
+            ],
+            [
+              "Hitches only the first time effects or areas appear",
+              "Shader compilation or asset streaming",
+              "Compare first and repeat visits; see the shader guide"
+            ],
+            [
+              "Smooth local motion, but other players teleport or actions arrive late",
+              "Latency, packet loss or server conditions",
+              "Test the network separately; a local FPS counter cannot diagnose it"
+            ],
+            [
+              "Performance deteriorates after several minutes",
+              "Temperatures, clocks, power and laptop mode",
+              "Monitor telemetry during the slowdown, not only at idle"
+            ],
+            [
+              "Game closes, freezes or the driver resets",
+              "Crash timing, logs, recent updates and stability",
+              "Follow the game-crash guide before treating it as ordinary stutter"
+            ]
+          ]
+        },
+        "relatedLinks": [
+          {
+            "label": "Low FPS in PC games",
+            "href": "/pc-game-low-fps-how-to-find-the-cause",
+            "description": "Use the focused guide when the main problem is sustained low frame rate rather than intermittent hitches."
+          },
+          {
+            "label": "PC games crashing to desktop",
+            "href": "/pc-games-crashing-to-desktop-troubleshooting",
+            "description": "Switch to crash diagnosis when the game exits, freezes or produces an error."
+          }
+        ]
+      },
+      {
+        "heading": "Why average FPS is not enough",
+        "paragraphs": [
+          "Average frames per second compresses an entire capture into one number. It does not show when a frame took much longer than the surrounding frames. Those long frames can be felt as a hitch even while average FPS looks strong. Frame time records the interval associated with individual frames, making it easier to locate uneven delivery.",
+          "FPS and frame time are related, but the instantaneous conversion is not a diagnosis. A perfectly regular 60 FPS sequence is about 16.67 milliseconds per frame; a sudden 50 ms frame is a noticeable delay compared with that cadence. Percentile metrics and 1% lows can summarize a run, but different capture tools may calculate low FPS differently. Compare methods consistently and inspect the trace when possible."
+        ],
+        "table": {
+          "caption": "Frame-time budgets at common FPS targets",
+          "headers": [
+            "Target frame rate",
+            "Approximate time per frame",
+            "Use it as"
+          ],
+          "rows": [
+            [
+              "30 FPS",
+              "33.33 ms",
+              "A slower cadence; spikes above this budget can still be noticeable"
+            ],
+            [
+              "60 FPS",
+              "16.67 ms",
+              "A common baseline for even frame delivery"
+            ],
+            [
+              "90 FPS",
+              "11.11 ms",
+              "A tighter budget for high-refresh or VR-related contexts"
+            ],
+            [
+              "120 FPS",
+              "8.33 ms",
+              "A high-refresh target that leaves less time for each frame"
+            ],
+            [
+              "144 FPS",
+              "6.94 ms",
+              "A 144 Hz target, if the game and display can sustain it"
+            ],
+            [
+              "165 FPS",
+              "6.06 ms",
+              "A tighter high-refresh budget"
+            ],
+            [
+              "240 FPS",
+              "4.17 ms",
+              "A very short budget; small variations become proportionally more important"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Capture a useful baseline before changing settings",
+        "paragraphs": [
+          "Choose a repeatable scene that normally shows the problem: the same save, route, camera movement, benchmark sequence or multiplayer practice area. A busy hub and an empty corridor are not interchangeable tests. Avoid comparing a loading screen with active gameplay, and do not use a single short clip to make confident claims about rare spikes.",
+          "Use a capture tool that records per-frame timing. PresentMon-compatible capture applications, CapFrameX and NVIDIA FrameView can expose useful timing data; the exact GPU, CPU, power and latency fields depend on the application, hardware and driver. If a sensor is unavailable, do not infer its value from another metric. TWW’s Frame-Time Analyzer can inspect compatible CSV captures locally in the browser."
+        ],
+        "steps": [
+          "Record the game title, game version, Windows build, GPU driver version, resolution, render scale, graphics preset, display refresh rate and frame cap.",
+          "Warm the game up to a consistent state. Note whether this is the first run after a game or graphics-driver update, because caches may still be rebuilding.",
+          "Capture at least 60 seconds of repeatable gameplay when possible. Longer captures are more useful for rare hitches and make the slowest 0.1% statistic less fragile.",
+          "Save the baseline before editing settings. Record frame times plus the telemetry actually available: GPU load or GPU busy time, GPU and CPU clocks, temperatures, VRAM, system-memory pressure and disk activity.",
+          "Change exactly one setting or condition. Repeat the same scene, capture duration and route. Restore the original condition before testing a different hypothesis."
+        ],
+        "bullets": [
+          "Do not compare different game patches, locations, weather, player counts or shader-cache states and attribute every difference to a setting.",
+          "Keep the capture tool and measurement column consistent across runs; presented frames, displayed frames and GPU execution time are not identical metrics.",
+          "Monitoring overlays have some overhead. Keep the setup as light and consistent as practical, and close duplicate monitoring tools if they compete for the same telemetry."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Open the Frame-Time Analyzer",
+            "href": "/tools/frame-time-analyzer",
+            "description": "Inspect compatible PresentMon, CapFrameX or FrameView captures, compare up to four runs and export detected events without uploading the file."
+          }
+        ]
+      },
+      {
+        "heading": "Read the measurements without over-interpreting them",
+        "paragraphs": [
+          "No single percentage identifies a root cause. High GPU utilization can be entirely normal when the graphics card is the component doing the work. Low GPU utilization during a hitch can mean the GPU is waiting for CPU work, data or another stage; it does not by itself prove a CPU bottleneck. Match measurements to the same timestamp as the hitch and compare them with a controlled run."
+        ],
+        "table": {
+          "caption": "What common gaming metrics can and cannot tell you",
+          "headers": [
+            "Metric",
+            "Useful clue",
+            "What it does not prove by itself"
+          ],
+          "rows": [
+            [
+              "Frame-time trace",
+              "When a long frame or repeated pacing pattern occurs",
+              "Which component caused the long frame"
+            ],
+            [
+              "Average FPS",
+              "Overall throughput for the whole capture",
+              "That delivery was smooth throughout the run"
+            ],
+            [
+              "1% / 0.1% lows or high frame-time percentiles",
+              "The slower tail of the capture",
+              "The cause of every hitch; definitions also vary by tool"
+            ],
+            [
+              "GPU utilization or GPU busy time",
+              "Whether the graphics workload is keeping the GPU occupied",
+              "That the GPU is faulty or that 99–100% usage is harmful"
+            ],
+            [
+              "Per-core CPU activity and CPU-side timing",
+              "Whether game-thread or CPU work coincides with stalls",
+              "A definitive CPU limit from one task-manager snapshot"
+            ],
+            [
+              "Dedicated VRAM and shared GPU memory",
+              "Whether graphics memory pressure could be involved",
+              "That every memory allocation shown is actively causing stutter"
+            ],
+            [
+              "Committed memory, RAM use and paging activity",
+              "Whether physical-memory pressure may be forcing data movement",
+              "That adding RAM will help if the workload is not memory-limited"
+            ],
+            [
+              "GPU/CPU temperature, clock and power telemetry",
+              "Whether performance changes as heat or power limits are reached",
+              "That one temperature number is unsafe without the chip/model limit"
+            ],
+            [
+              "Disk activity and asset-load timing",
+              "Whether storage access overlaps with traversal hitches",
+              "That the SSD is failing or needs replacement"
+            ],
+            [
+              "Ping, packet loss and server response",
+              "Network problems in online play",
+              "Local rendering performance; a smooth frame-time trace can coexist with network lag"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Recognize the pattern of the hitch",
+        "paragraphs": [
+          "Timing and repeatability are often more useful than a long list of generic fixes. Treat the patterns below as hypotheses to test, not a lookup table where one symptom guarantees one cause."
+        ],
+        "table": {
+          "caption": "Stutter patterns and the next controlled test",
+          "headers": [
+            "Pattern",
+            "Possible explanation",
+            "Next test"
+          ],
+          "rows": [
+            [
+              "First visit is rough; the same route is smoother next time",
+              "Shader compilation or first-time asset loading",
+              "Repeat the same route and note whether the hitch returns after a game or driver update"
+            ],
+            [
+              "Hitches when entering new areas or turning quickly",
+              "Asset streaming, CPU-side preparation, VRAM pressure or storage access",
+              "Compare the same traversal with disk and memory telemetry; lower texture quality only as a test"
+            ],
+            [
+              "Long frames repeat at a regular interval",
+              "Background tasks, polling, capture/overlay interactions or a game-specific loop",
+              "Inspect the trace and background activity at the exact timestamps"
+            ],
+            [
+              "A short warm-up looks good, then performance falls",
+              "Thermal or power limits, memory growth or a changing workload",
+              "Watch clocks, temperatures, power and memory until the slowdown starts"
+            ],
+            [
+              "GPU busy time is high through sustained low FPS",
+              "GPU-limited rendering is plausible",
+              "Lower one GPU-heavy setting or render scale while keeping the scene fixed"
+            ],
+            [
+              "GPU becomes idle around the spikes",
+              "CPU work, driver scheduling, storage, data waits or a limit elsewhere",
+              "Compare CPU-side timing, per-core load, memory and storage; do not infer from total CPU usage alone"
+            ],
+            [
+              "The issue started immediately after a game/driver update",
+              "Changed game code, graphics pipeline or cache state",
+              "Check release notes and known issues, then compare a repeat run before rolling back"
+            ],
+            [
+              "Only online opponents jump while local camera motion stays smooth",
+              "Network, server or simulation synchronization issue",
+              "Check latency and packet loss independently of frame-time capture"
+            ]
+          ]
+        }
+      },
+      {
+        "heading": "Separate a GPU limit from a CPU-side limit",
+        "paragraphs": [
+          "A GPU limit is plausible when the graphics card remains busy and frame rate improves as you reduce rendering work. Test one clearly GPU-heavy variable—render scale, resolution, ray tracing or a demanding visual effect—while keeping the route and other settings fixed. If the frame times improve materially, the workload is likely graphics-bound in that scene. The trade-off may be image quality, so use the smallest change that reaches your target.",
+          "A CPU-side limit is more plausible when the GPU is not consistently busy while frames are delayed, especially if one or a few game threads are heavily occupied. Total CPU utilization can hide a saturated thread on a many-core processor. Game simulation, draw-call submission, AI, physics, background processes and engine behavior can all constrain throughput. Do not buy a faster CPU based only on a low overall GPU percentage; compare a repeatable test and actual per-core or CPU-timing evidence first."
+        ],
+        "steps": [
+          "Set a repeatable scene and note the baseline frame-time trace.",
+          "Reduce only render scale or another GPU-heavy setting. If performance improves, record how much and whether stutter events also decline.",
+          "Restore the setting, then test a lower CPU-heavy scene setting such as crowd density or simulation detail, if the game offers one.",
+          "Compare frame time with GPU busy/utilization, per-core activity and any CPU/GPU timing metrics your capture tool exposes.",
+          "Keep the limitation label provisional unless multiple readings point the same way. Mixed CPU/GPU bottlenecks and engine-level stalls are possible."
+        ],
+        "relatedLinks": [
+          {
+            "label": "GPU at 100% usage while gaming",
+            "href": "/gpu-100-percent-usage-gaming",
+            "description": "Learn when high GPU utilization is expected and which accompanying signs deserve investigation."
+          },
+          {
+            "label": "PC bottleneck calculator",
+            "href": "/tools/pc-bottleneck-calculator",
+            "description": "Use a specification-based estimate only as background; measured behavior in your own games matters more."
+          }
+        ]
+      },
+      {
+        "heading": "Shader compilation and cache behavior",
+        "paragraphs": [
+          "Some games compile graphics shaders at launch or while playing. When that work happens just in time during gameplay, it can create a long frame and a visible hitch. A common clue is that the same effect or area stutters on first use and becomes smoother when repeated. It is not the only explanation: asset loading, traversal and CPU-side work can have similar patterns.",
+          "Let the game complete its own shader-precompilation step where available. After a game or driver update, give caches time to rebuild and compare repeated runs before deciding the update reduced performance. Avoid repeatedly clearing shader caches as a general-purpose fix; it can force the same work to happen again. Follow the specific game or GPU vendor’s instructions if you have evidence of a corrupted cache or a documented issue.",
+          "Microsoft’s Advanced Shader Delivery is a developer/storefront-integrated Windows 11 Direct3D 12 technology intended to precompile supported game shaders ahead of time. It is not a universal Windows toggle and should not be presented as a fix for every stuttering title. For ordinary troubleshooting, first establish whether the hitch is first-run-only and whether it persists after the cache has been rebuilt."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Shader compilation stutter: causes and checks",
+            "href": "/shader-compilation-stutter-pc-games",
+            "description": "Follow a focused guide for first-visit hitches, shader caches and repeat-run comparisons."
+          }
+        ]
+      },
+      {
+        "heading": "Check VRAM, system RAM and storage pressure",
+        "paragraphs": [
+          "Graphics memory pressure can cause texture streaming, transfers or sudden changes in frame delivery, especially when a high-resolution texture pack exceeds what a particular scene can comfortably keep resident. Test a lower texture setting first, then retest the same scene. A change in the displayed VRAM allocation is not conclusive on its own; games and drivers may reserve memory proactively.",
+          "System RAM pressure is a different issue. If the game and background applications compete for physical memory, Windows may move memory pages or other data more aggressively, which can coincide with hitches. Check committed memory, available memory and paging activity during the problem. Close one obvious memory-heavy background task as a controlled test; do not disable the page file or use an optimizer to clear memory.",
+          "Storage can matter when the game streams world data, shaders or textures, but high disk activity alone does not mean the drive is failing. Test whether spikes line up with loading or traversal, check free space and drive health if the evidence suggests a storage issue, and avoid moving or replacing a drive merely because a game stutters. A hard drive may be a limiting factor for some modern asset-streaming workloads, but the game, platform and scene matter."
+        ],
+        "relatedLinks": [
+          {
+            "label": "How much RAM do you need for gaming?",
+            "href": "/how-much-ram-do-you-need-gaming",
+            "description": "Assess memory capacity against the game and multitasking workload rather than assuming a universal minimum."
+          },
+          {
+            "label": "How to check SSD health in Windows",
+            "href": "/how-to-check-ssd-health-windows",
+            "description": "Use health indicators and backup-first precautions if storage evidence warrants a drive check."
+          },
+          {
+            "label": "NVMe SSD temperature too high",
+            "href": "/nvme-ssd-temperature-too-high",
+            "description": "Investigate drive temperature only when thermal or storage evidence points there."
+          }
+        ]
+      },
+      {
+        "heading": "Drivers, overlays and background software",
+        "paragraphs": [
+          "If stutter began after a specific game patch, graphics-driver update, overlay change or recording-software installation, that timing is useful evidence. Check the game’s patch notes, the GPU vendor’s driver notes and known-issue pages. Test one change at a time: close a nonessential overlay, pause a background recording feature or compare the previous driver only when the timing of the regression supports that hypothesis.",
+          "Install graphics drivers from the GPU or PC manufacturer’s official source. If you use a laptop with switchable graphics, check the laptop vendor’s support guidance too; a desktop reference driver is not always the complete system-specific package. Avoid third-party driver-updater utilities and broad registry changes. If you roll a driver back, record the version and make sure you can reverse the change.",
+          "A monitoring overlay or capture tool may itself add overhead or conflict with another hook. Use a consistent capture setup, close duplicate overlays, and repeat the same scene without optional overlays as a controlled test. Do not treat a process name or an elevated background CPU reading as proof that it caused the hitch."
+        ],
+        "relatedLinks": [
+          {
+            "label": "GameBarPresenceWriter.exe and game stutter",
+            "href": "/gamebar-presence-writer-fix",
+            "description": "Test Xbox Game Bar involvement with reversible changes instead of assuming the process is responsible."
+          }
+        ]
+      },
+      {
+        "heading": "Thermals, power limits and gaming laptops",
+        "paragraphs": [
+          "Thermal or power behavior becomes a stronger candidate when performance is initially stable and then falls as the machine warms up, or when clocks decline at the same time as frame times grow. Capture telemetry during the slowdown. A temperature must be compared with the exact component’s specification and sensor type; there is no single safe temperature cutoff for every GPU, CPU, laptop or hotspot sensor.",
+          "For a laptop, repeat the test plugged into its intended power adapter and use the manufacturer’s normal performance mode. Battery operation, quiet profiles, blocked vents, dust and aggressive fan curves can alter sustained performance. Make sure vents are unobstructed and do not use the laptop on bedding. Avoid disabling thermal or power protections to chase a higher frame rate.",
+          "For a desktop, check whether fan behavior, airflow or a recent case/driver/overclock change correlates with the issue. Restore stock clocks and memory settings as a test if instability began after overclocking or enabling XMP/EXPO. Do not raise voltage or change firmware settings without a specific, qualified reason."
+        ]
+      },
+      {
+        "heading": "Frame caps, refresh rate, sync and frame pacing",
+        "paragraphs": [
+          "An uncapped game may drive the GPU to full utilization, produce changing frame times and increase heat or power draw. A frame cap can smooth delivery and make performance more consistent when the system can sustain the chosen limit, but the best setting depends on the game, display, VRR range, latency goal and available headroom. There is no one cap that is right for every PC.",
+          "Test frame cap, V-Sync and variable refresh rate (VRR) settings separately. Keep one configuration as the baseline and measure the same scene with one change. A cap that is too high for the slowest part of the game may still allow hitches; a very low cap can reduce responsiveness. V-Sync can change tearing and latency characteristics, while VRR can help the display follow fluctuating frame rates within its supported range. Confirm your monitor and driver actually have the intended mode enabled.",
+          "For competitive play, do not assume the smoothest-looking setting is automatically the lowest-latency configuration. Frame time, input latency and displayed-frame behavior are related but distinct. Choose based on the behavior you are trying to improve and use matching measurement methods."
+        ]
+      },
+      {
+        "heading": "Distinguish rendering stutter from network lag and input delay",
+        "paragraphs": [
+          "Local rendering stutter affects how consistently frames arrive at the display. Network lag affects the timing or reliability of information exchanged with a server. You can experience packet loss or a server-side problem while your frame-time graph remains smooth; conversely, a local frame hitch can happen in an offline game with no network connection.",
+          "If the camera and local animation hitch, inspect frame times. If local movement stays smooth but other players teleport, actions register late or the server state jumps, examine ping variation, packet loss, Wi-Fi interference, routing and the game server. If the screen looks smooth but mouse response feels delayed, investigate latency, frame cap, sync and display settings separately. Do not change graphics settings to fix a network problem unless measurements show both are involved."
+        ]
+      },
+      {
+        "heading": "Use this low-risk fix order",
+        "paragraphs": [
+          "Once the capture suggests a likely cause, move from reversible checks to more disruptive changes. Stop when the original symptom is fixed and verified; do not apply every item simply because it appears on a checklist."
+        ],
+        "steps": [
+          "Repeat the baseline and confirm the pattern is reproducible.",
+          "Close one nonessential overlay or recorder and retest; restore it if there is no clear improvement.",
+          "Check the game patch notes and GPU-driver notes for the exact version and known issue.",
+          "Test one relevant graphics or frame-pacing setting based on the evidence, not every setting at once.",
+          "If the problem is first-run-only, allow shader/precompile work to finish and compare repeat runs before clearing caches.",
+          "Check RAM/VRAM pressure, drive activity, clocks, temperatures and power during the actual hitch.",
+          "If timing points to a recent update, test a supported rollback or previous known-good configuration and record the result.",
+          "Verify game files only when the problem is specific to that title or the evidence suggests corrupted game data; reinstall the game last, not first."
+        ],
+        "bullets": [
+          "Create a restore point or preserve the original driver/settings information before making a system-level change.",
+          "Back up important files before storage diagnostics or major repair work.",
+          "Never disable thermal protections, permanently disable security software, download unofficial driver packages or run registry scripts from an untrusted post."
+        ]
+      },
+      {
+        "heading": "Verify the fix with a fair A/B comparison",
+        "paragraphs": [
+          "After changing a setting, replay the same scene with comparable game state, resolution, cap, capture tool and duration. Compare the frame-time trace, the number and severity of long frames, average FPS and the slower-tail metrics. Check whether the original hitch disappears, merely moves to another point, or becomes less frequent.",
+          "Small changes across short captures may be ordinary run-to-run variation. Repeat the test before declaring a winner, especially when comparing 0.1% lows or very rare events. If the baseline and test use different timing columns, driver versions, scenes or capture durations, label the comparison as imperfect rather than reporting a precise causal result.",
+          "The goal is not to make every metric green. The goal is to remove the symptom under the conditions that triggered it, with a setting you can keep and an explanation supported by the evidence."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Compare up to four frame-time captures",
+            "href": "/tools/frame-time-analyzer",
+            "description": "Overlay baseline and follow-up runs, compare frame-time summaries and export detected events for your notes."
+          }
+        ]
+      },
+      {
+        "heading": "Keep a short gaming troubleshooting log",
+        "paragraphs": [
+          "A compact log makes the test repeatable and prevents cycling through the same fixes. Keep a copy with your game notes or support ticket."
+        ],
+        "bullets": [
+          "Game title, patch/version, save or test scene, date and time.",
+          "CPU, GPU, RAM, VRAM capacity, storage type, Windows build and graphics-driver version.",
+          "Resolution, render scale, graphics preset, frame cap, V-Sync/VRR state and power mode.",
+          "Capture tool, timing column, capture length and whether this was a first or repeat run.",
+          "Observed symptom, frame-time timestamps and the telemetry that changed at those timestamps.",
+          "One setting changed, expected result, actual result, and whether the original behavior was restored."
+        ]
+      },
+      {
+        "heading": "When to investigate beyond game settings",
+        "paragraphs": [
+          "Stop treating the issue as an ordinary graphics-tuning problem when there are signs of broader instability: repeated driver resets, visual artifacts, sudden power-offs, crashes across multiple games, memory-test errors, drive warnings, burning smells or unusual electrical noise. Save important data before intensive storage testing if a drive may be failing.",
+          "If a system became unstable after an overclock, undervolt or memory-profile change, return to the last known-stable settings and retest. If several unrelated games fail under load, compare hardware telemetry and system logs rather than reinstalling each game. Seek qualified service for electrical damage, liquid exposure, a swollen battery or persistent hardware faults."
+        ],
+        "relatedLinks": [
+          {
+            "label": "How much RAM do you need for gaming?",
+            "href": "/how-much-ram-do-you-need-gaming",
+            "description": "Check whether memory capacity fits your game and background workload."
+          },
+          {
+            "label": "Check RAM for errors on Windows",
+            "href": "/how-to-check-ram-for-errors-windows",
+            "description": "Use a memory-test workflow if crashes and errors point beyond ordinary frame pacing."
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "Microsoft Learn: Top issues for Windows game titles",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/dxtecharts/top-issues-for-windows-titles"
+      },
+      {
+        "label": "Microsoft Learn: Advanced Shader Delivery",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/advanced-shader-delivery"
+      },
+      {
+        "label": "Intel GameTechDev: PresentMon capture metrics",
+        "url": "https://github.com/GameTechDev/PresentMon/blob/main/README-CaptureApplication.md"
+      },
+      {
+        "label": "NVIDIA: FrameView performance and frame-time metrics",
+        "url": "https://www.nvidia.com/en-eu/geforce/technologies/frameview/"
+      },
+      {
+        "label": "AMD Support: Radeon settings and shader cache",
+        "url": "https://www.amd.com/en/resources/support-articles/faqs/dh-012.html"
+      }
+    ],
+    "testing": "This is a measurement-led troubleshooting framework, not a claim that every symptom was reproduced across every game or hardware configuration. Metric names and availability vary by capture tool, GPU, driver and game engine. Use repeatable captures and change one variable at a time; do not infer a root cause from one utilization percentage or a single short run. Updated 25 October 2026 to reflect current public documentation and TWW's browser-based frame-time analysis workflow.",
+    "faq": [
+      {
+        "question": "Why does my game stutter even when FPS is high?",
+        "answer": "Average FPS can hide a small number of long frames. Capture frame-time data and check whether the hitch repeats at the same place or time before changing settings."
+      },
+      {
+        "question": "What is a good frame time for 144 FPS?",
+        "answer": "At 144 frames per second, the average frame-time budget is about 6.94 milliseconds. That is a useful target reference, not a rule that every frame must be identical or a universal pass/fail threshold."
+      },
+      {
+        "question": "Does 100% GPU usage mean my graphics card is struggling?",
+        "answer": "Not by itself. An uncapped game often uses the available GPU capacity. Investigate when full utilization coincides with unexpectedly low performance, thermal or clock changes, or frame-time spikes."
+      },
+      {
+        "question": "Why does stutter happen only the first time I enter an area?",
+        "answer": "Shader compilation or asset loading can cause first-visit hitches. Compare the same route again; if the problem returns after updates or persists on repeat visits, check the other causes in this guide."
+      },
+      {
+        "question": "Will more RAM or a new GPU fix game stutter?",
+        "answer": "Only if the relevant component or resource limit is causing the problem. Check frame times, GPU busy time, per-core CPU activity, VRAM, committed memory and temperatures before spending money."
+      },
+      {
+        "question": "Should I clear the shader cache or reinstall my graphics driver?",
+        "answer": "Neither should be an automatic first step. Shader caches may be rebuilding after an update, and clearing them can force compilation again. Check known issues, repeat the same test and use the vendor's documented remedy when evidence supports it."
+      },
+      {
+        "question": "How can I tell network lag from rendering stutter?",
+        "answer": "A local frame-time capture can reveal rendering hitches. If local camera motion remains smooth while other players teleport or actions arrive late, investigate latency, packet loss and server conditions separately."
+      },
+      {
+        "question": "Does the TWW Frame-Time Analyzer upload my capture?",
+        "answer": "No. Compatible capture files are processed in the browser, and comparisons and exports happen locally. The tool does not upload the selected capture file to Tech World Window."
+      },
+      {
+        "question": "How long should I capture gameplay?",
+        "answer": "Use at least about 60 seconds of a repeatable scene when possible, and longer for rare events. Very short captures make the slowest 1% and especially 0.1% figures less stable."
+      }
     ]
   },
 
