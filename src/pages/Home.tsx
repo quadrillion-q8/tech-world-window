@@ -3,9 +3,19 @@ import { articles, categories } from '../data/generated/article-index';
 import { ArticleCard } from '../components/ArticleCard';
 import { SEOEngine } from '../seo/SEOEngine';
 
-// Each article appears once on the page: pillars first, then the latest
-// articles that are not already shown above.
-const pillarArticles = articles.filter(a => a.contentRole === 'pillar').slice(0, 4);
+// Feature one deliberate cornerstone article for each of TWW's three primary
+// pillars. Do not let registry order decide which topics represent the site.
+function getPrimaryPillarArticle(slug: string) {
+  const article = articles.find(candidate => candidate.slug === slug);
+  if (!article) throw new Error(`Missing primary pillar article: /${slug}`);
+  return article;
+}
+
+const pillarArticles = [
+  getPrimaryPillarArticle('windows-troubleshooting-complete-guide'),
+  getPrimaryPillarArticle('pc-game-stuttering-fix-frame-time'),
+  getPrimaryPillarArticle('research/does-more-ram-make-windows-faster'),
+];
 const shownIds = new Set(pillarArticles.map(a => a.id));
 const latestArticles = articles
   .filter(a => !shownIds.has(a.id))
@@ -89,7 +99,7 @@ export function Home() {
       {/* 3. Pillar guides: strongest topics, 4 cards */}
       <section className="section authority-section home-authorities">
         <div className="section-heading">
-          <div><p className="home-section-kicker">TWW AUTHORITIES</p><h2>Deep guides for the problems people actually search.</h2><p className="home-section-intro">Connected, evidence-led guides for understanding the cause before changing settings or replacing hardware.</p></div>
+          <div><p className="home-section-kicker">THREE PRIMARY PILLARS</p><h2>Go deeper into Windows, Gaming and Hardware.</h2><p className="home-section-intro">Start with one cornerstone guide from each core topic. Each opens a path to focused fixes, technical explainers and evidence-led research.</p></div>
           <Link className="text-link" to="/guides">Browse all guides →</Link>
         </div>
         <div className="article-grid">
