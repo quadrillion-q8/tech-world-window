@@ -39,7 +39,8 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-no-sound"
     ],
     "testing": "This symptom-led guide is based on Microsoft's published Windows Bluetooth troubleshooting guidance. It does not claim that every cause was reproduced on one PC; Bluetooth hardware, driver packages and accessory behavior vary by model. Prefer the PC or accessory manufacturer's instructions for model-specific steps.",
     "sources": [
@@ -190,7 +191,10 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-bluetooth-not-working",
+      "windows-camera-not-working",
+      "windows-second-monitor-not-detected"
     ],
     "testing": "This guide summarizes Microsoft's Windows audio and microphone troubleshooting workflows. It is not a claim of a universal fix or a reproduced failure on every sound card. Menu names and driver options differ by device, Windows version and audio software.",
     "sources": [
@@ -356,7 +360,8 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-no-sound"
     ],
     "testing": "The steps follow Microsoft's published Windows camera guidance. Camera shutters, function-key controls, driver extensions and firmware vary by manufacturer, so this article does not claim that one menu path or setting applies to every laptop or webcam.",
     "sources": [
@@ -477,7 +482,7 @@ export const universalPcIssueGuides: Article[] = [
     "dek": "A second screen can show No Signal, stay black, or never appear in Display settings. Isolate the monitor, cable, input, adapter, dock, GPU port and Windows display mode in that order.",
     "metaDescription": "Fix a second monitor not detected in Windows 11 or 10 with safe tests for power, input source, cable, display mode, ports, docks and graphics drivers.",
     "excerpt": "Start with the monitor's own input and a known-good cable. If Windows cannot detect the screen, simplify the connection before changing resolution or reinstalling graphics drivers.",
-    "category": "Hardware",
+    "category": "Windows",
     "subcategory": "Displays and connectivity",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-24",
@@ -502,7 +507,8 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-no-sound"
     ],
     "testing": "This guide uses Microsoft's documented multiple-display workflow and common connection-isolation principles. Display output support depends on the specific GPU, port, cable, dock and computer model. It does not claim that every USB-C port carries video or that every dock supports every display configuration.",
     "sources": [
@@ -663,7 +669,8 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-printer-offline"
     ],
     "testing": "This troubleshooting workflow is informed by Microsoft's File Explorer guidance and TWW's existing Windows storage diagnostic material. It does not claim that one Explorer restart, system command or cache action fixes all hangs. Back up important files before investigating a drive that reports errors.",
     "sources": [
@@ -825,7 +832,8 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-file-explorer-not-responding"
     ],
     "testing": "This guide is based on Microsoft's documented printer-connection and print-queue troubleshooting. Printer menus, driver packages and network setup differ by manufacturer. The print-spooler queue-clearing procedure removes queued documents, so it is not presented as an early or consequence-free step.",
     "sources": [
