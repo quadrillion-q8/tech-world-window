@@ -1,0 +1,209 @@
+diff --git a/scripts/generate-sitemap.ts b/scripts/generate-sitemap.ts
+index c3ae2e0..a936195 100644
+--- a/scripts/generate-sitemap.ts
++++ b/scripts/generate-sitemap.ts
+@@ -1,6 +1,6 @@
+ import { mkdirSync, writeFileSync } from 'node:fs';
+ import { resolve } from 'node:path';
+-import { articles } from '../src/data/articles';
++import { articles, categories } from '../src/data/articles';
+ import { routeGraph, SITE_URL } from '../src/data/graph';
+ import { getProductByPath, productImage } from '../src/data/products';
+ import { getComparisonByPath } from '../src/data/comparisons';
+@@ -12,12 +12,30 @@ const articleByPath = new Map<string, (typeof articles)[number]>(
+   articles.map(article => [`/${article.slug}`, article]),
+ );
+ 
++const latestDate = (items: typeof articles) =>
++  items.map(item => item.updatedAt || item.publishedAt).filter(Boolean).sort().slice(-1)[0];
++
++/** Hub pages inherit the newest real article date inside them. Pages with no real date get no lastmod (an invented one would be ignored). */
++function hubLastmod(path: string): string | undefined {
++  if (path === '/') return latestDate(articles);
++  const slug = path.replace(/^\//, '');
++  const category = categories.find(item => item.slug === slug);
++  if (!category) return undefined;
++  const name = category.name;
++  const inHub = slug === 'research'
++    ? articles.filter(item => item.slug.startsWith('research/'))
++    : slug === 'best'
++      ? articles.filter(item => item.slug.startsWith('best-'))
++      : articles.filter(item => item.category === name);
++  return inHub.length ? latestDate(inHub) : undefined;
++}
++
+ const urls = routeGraph
+   .filter(route => route.indexable)
+   .map(route => {
+     const loc = new URL(route.path, SITE_URL).toString();
+     const article = articleByPath.get(route.path);
+-    const lastmod = article?.updatedAt || article?.publishedAt;
++    const lastmod = article?.updatedAt || article?.publishedAt || hubLastmod(route.path);
+     const imagePath = (getProductByPath(route.path) ?? getComparisonByPath(route.path)?.productA);
+     const imageSrc = imagePath ? productImage(imagePath)?.src : undefined;
+     const image = imageSrc ? new URL(imageSrc, SITE_URL).toString() : undefined;
+@@ -48,5 +66,30 @@ writeFileSync(
+   'utf8',
+ );
+ 
++// llms.txt: a plain-text map of the site for AI assistants and crawlers, built from real data so it cannot drift.
++const llmsLines = [
++  '# Tech World Window',
++  '',
++  '> Practical Windows troubleshooting, PC gaming performance guides, hardware analysis and free tools, written from real repair-bench experience.',
++  '',
++  '## Start here',
++  ...articles
++    .filter(item => item.contentRole === 'pillar')
++    .map(item => `- [${item.title}](${new URL('/' + item.slug, SITE_URL)}): ${item.dek}`),
++  '',
++  '## Sections',
++  ...categories.map(item => `- [${item.name}](${new URL('/' + item.slug, SITE_URL)}): ${item.description}`),
++  '',
++  '## Tools',
++  `- [Free PC and Windows tools](${new URL('/tools', SITE_URL)})`,
++  `- [BSOD error code lookup](${new URL('/tools/bsod-error-code-lookup', SITE_URL)})`,
++  '',
++  '## Trust',
++  `- [Editorial policy](${new URL('/editorial-policy', SITE_URL)})`,
++  `- [Testing methodology](${new URL('/testing', SITE_URL)})`,
++  '',
++];
++writeFileSync(resolve(publicDir, 'llms.txt'), llmsLines.join('\n'), 'utf8');
++
+ console.log(`Generated sitemap with ${urls.length} URLs at ${sitemapPath}`);
+ console.log(`Generated robots.txt with sitemap reference at ${robotsPath}`);
+diff --git a/src/data/authors.ts b/src/data/authors.ts
+index d26e16d..46cbf49 100644
+--- a/src/data/authors.ts
++++ b/src/data/authors.ts
+@@ -5,8 +5,13 @@ export type Author = {
+   bio: string;
+   url: string;
+   expertise: string[];
++  /** Real public profile URLs (LinkedIn, GitHub, YouTube...). Leave empty until they exist; never invent them. */
++  sameAs?: string[];
+ };
+ 
++/** Real public brand profiles for the Organization schema. Leave empty until they exist. */
++export const ORGANIZATION_SAME_AS: string[] = [];
++
+ export const authors: Record<string, Author> = {
+   imranNatiq: {
+     id: 'imran-natiq',
+@@ -14,6 +19,7 @@ export const authors: Record<string, Author> = {
+     role: 'Hardware Repair Engineer & Technology Writer',
+     bio: 'A hands-on hardware repair engineer focused on PC and laptop troubleshooting, Windows diagnostics, gaming performance, storage health and practical technology education.',
+     url: '/authors/imran-natiq',
++    sameAs: [],
+     expertise: [
+       'PC and laptop hardware troubleshooting',
+       'Windows diagnostics and recovery',
+diff --git a/src/seo/ssgSeo.ts b/src/seo/ssgSeo.ts
+index b6fa6ed..31f2aaf 100644
+--- a/src/seo/ssgSeo.ts
++++ b/src/seo/ssgSeo.ts
+@@ -1,6 +1,10 @@
+ import { articles, articleWordCount, categories } from '../data/articles';
+ import { hubSeo } from '../data/hubs';
+-import { authors } from '../data/authors';
++import { authors, ORGANIZATION_SAME_AS } from '../data/authors';
++import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
++import { galleryImageUrl } from '../data/gallery';
++import { existsSync, readFileSync } from 'node:fs';
++import { resolve } from 'node:path';
+ import { BSOD_BASE_PATH } from '../data/bsod';
+ import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
+ import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
+@@ -66,6 +70,26 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
+   },
+ };
+ 
++/** Real pixel size of a local WebP so og:image width/height are truthful (gallery photos are square). */
++function localImageSize(urlPath: string): { width: number; height: number } | undefined {
++  try {
++    const file = resolve('public', urlPath.replace(/^\//, ''));
++    if (!existsSync(file) || !file.endsWith('.webp')) return undefined;
++    const d = readFileSync(file).subarray(0, 40);
++    const kind = d.toString('ascii', 12, 16);
++    if (kind === 'VP8 ') return { width: d.readUInt16LE(26) & 0x3fff, height: d.readUInt16LE(28) & 0x3fff };
++    if (kind === 'VP8L') { const b = d.readUInt32LE(21); return { width: (b & 0x3fff) + 1, height: ((b >> 14) & 0x3fff) + 1 }; }
++    if (kind === 'VP8X') return { width: d.readUIntLE(24, 3) + 1, height: d.readUIntLE(27, 3) + 1 };
++  } catch { /* fall back to default dimensions */ }
++  return undefined;
++}
++
++/** Explicit hero, else the photo the article page actually shows, else the default card. */
++function articleShareImage(article: { slug: string; heroImage?: string }) {
++  const assigned = articleThumbnailImageBySlug[article.slug];
++  return article.heroImage || (assigned ? galleryImageUrl(assigned) : DEFAULT_OG_IMAGE);
++}
++
+ function absoluteUrl(path: string) {
+   return new URL(path, SITE_URL).toString();
+ }
+@@ -93,7 +117,8 @@ function buildSeoData(path: string): SeoData {
+       publishedAt: article.publishedAt,
+       updatedAt: article.updatedAt,
+       authorName: authors[article.authorId]?.name || 'Tech World Window Editorial Team',
+-      image: article.heroImage || DEFAULT_OG_IMAGE,
++      image: articleShareImage(article),
++      ...(localImageSize(articleShareImage(article)) ? { imageWidth: localImageSize(articleShareImage(article))!.width, imageHeight: localImageSize(articleShareImage(article))!.height } : {}),
+     };
+   }
+ 
+@@ -270,7 +295,28 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
+     description: siteEntity.description,
+     slogan: SITE_TAGLINE,
+     logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') },
++    ...(ORGANIZATION_SAME_AS.length ? { sameAs: ORGANIZATION_SAME_AS } : {}),
+   });
++  // The component-level ProfilePage JSON-LD is stripped by this injector, so it is emitted here.
++  const profileAuthor = Object.values(authors).find(item => item.url === path);
++  if (profileAuthor) {
++    schemas.push({
++      '@context': 'https://schema.org',
++      '@type': 'ProfilePage',
++      name: `${profileAuthor.name} — Tech World Window`,
++      url: absoluteUrl(profileAuthor.url),
++      mainEntity: {
++        '@type': 'Person',
++        name: profileAuthor.name,
++        jobTitle: profileAuthor.role,
++        description: profileAuthor.bio,
++        url: absoluteUrl(profileAuthor.url),
++        knowsAbout: profileAuthor.expertise,
++        ...(profileAuthor.sameAs?.length ? { sameAs: profileAuthor.sameAs } : {}),
++        worksFor: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
++      },
++    });
++  }
+   if (article) {
+     schemas.push({
+       '@context': 'https://schema.org',
+@@ -288,10 +334,10 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
+       author: {
+         '@type': 'Person',
+         name: seo.authorName || 'Tech World Window Editorial Team',
+-        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role } : {}),
++        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role, ...(author.sameAs?.length ? { sameAs: author.sameAs } : {}) } : {}),
+       },
+       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
+-      image: [absoluteUrl(article.heroImage || DEFAULT_OG_IMAGE)],
++      image: [absoluteUrl(articleShareImage(article))],
+     });
+     if (article.howTo?.steps.length) {
+       schemas.push({
+diff --git a/vercel.json b/vercel.json
+index 73ef499..07c3a2c 100644
+--- a/vercel.json
++++ b/vercel.json
+@@ -63,7 +63,7 @@
+         },
+         {
+           "key": "Content-Security-Policy",
+-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
++          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src https://www.youtube-nocookie.com; frame-ancestors 'none'; upgrade-insecure-requests"
+         }
+       ]
+     },
