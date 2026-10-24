@@ -34,7 +34,7 @@ export function Header() {
   };
 
   const scheduleOpen = (label: string) => {
-    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+    if (!window.matchMedia('(min-width: 1120px)').matches) return;
     cancelHoverTimer();
     hoverTimerRef.current = window.setTimeout(() => {
       setActiveMenu(label);
@@ -43,7 +43,7 @@ export function Header() {
   };
 
   const scheduleClose = (label: string) => {
-    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+    if (!window.matchMedia('(min-width: 1120px)').matches) return;
     cancelHoverTimer();
     hoverTimerRef.current = window.setTimeout(() => {
       const group = headerRef.current?.querySelector<HTMLElement>(
