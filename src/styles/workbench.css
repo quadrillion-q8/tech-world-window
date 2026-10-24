@@ -646,23 +646,23 @@ tr:nth-child(even) { background: rgba(120, 90, 40, .035); }
 .wta-page .wta-reset:hover { background: var(--wb-teal-wash) !important; }
 
 /* ----------------------------------------- 11. Hubs */
-.windows-symptom-hub {
+.pillar-symptom-hub {
   border: 1px solid var(--wb-line); background: var(--wb-card); box-shadow: var(--wb-shadow-s);
 }
-.windows-symptom-card { border: 1px solid var(--wb-line); background: var(--wb-paper); }
-.windows-symptom-card:hover, .windows-symptom-card:focus-visible {
+.pillar-symptom-card { border: 1px solid var(--wb-line); background: var(--wb-paper); }
+.pillar-symptom-card:hover, .pillar-symptom-card:focus-visible {
   background: var(--wb-teal-wash); border-color: var(--wb-teal);
 }
 .symptom-index { background: var(--wb-card); border: 1px solid var(--wb-ink); color: var(--wb-ink); }
-.windows-symptom-card > span { color: var(--wb-teal-strong); }
+.pillar-symptom-card > span { color: var(--wb-teal-strong); }
 .symptom-copy strong { color: var(--wb-ink); }
 .symptom-copy small { color: var(--wb-muted); }
-.symptom-arrow, .windows-assistant-link { color: var(--wb-teal); }
-.windows-hub-note { border-top: 1px solid var(--wb-line); color: var(--wb-muted); background: var(--wb-teal-wash); }
-.windows-hub-note strong { color: var(--wb-ink); }
-.windows-hub-primary { background: var(--wb-teal); color: #fff; border: 1px solid var(--wb-teal-strong); }
-.windows-hub-primary:hover { background: var(--wb-teal-strong); }
-.windows-hub-secondary { background: var(--wb-card); color: var(--wb-ink); border-color: var(--wb-line-strong); }
+.symptom-arrow, .pillar-hub-link { color: var(--wb-teal); }
+.pillar-hub-note { border-top: 1px solid var(--wb-line); color: var(--wb-muted); background: var(--wb-teal-wash); }
+.pillar-hub-note strong { color: var(--wb-ink); }
+.pillar-hub-primary { background: var(--wb-teal); color: #fff; border: 1px solid var(--wb-teal-strong); }
+.pillar-hub-primary:hover { background: var(--wb-teal-strong); }
+.pillar-hub-secondary { background: var(--wb-card); color: var(--wb-ink); border-color: var(--wb-line-strong); }
 .category-topics { background: transparent; border-top: 1px solid var(--wb-line); border-bottom: 1px solid var(--wb-line); }
 .category-topic-links a { border: 1px solid var(--wb-line); background: var(--wb-card); }
 .category-topic-links a:hover { border-color: var(--wb-teal); background: var(--wb-teal-wash); }
@@ -682,19 +682,19 @@ tr:nth-child(even) { background: rgba(120, 90, 40, .035); }
 .tools-hub-proof strong { color: var(--wb-ink); }
 .tools-hub-proof small { color: var(--wb-muted); }
 
-.category-page .windows-symptom-hub {
+.category-page .pillar-symptom-hub {
   background: var(--wb-card) !important; border: 1px solid var(--wb-line) !important;
 }
-.category-page .windows-symptom-grid .windows-symptom-card {
+.category-page .pillar-symptom-grid .pillar-symptom-card {
   background: var(--wb-paper) !important; border: 1px solid var(--wb-line) !important;
   box-shadow: var(--wb-shadow-s);
 }
-.category-page .windows-symptom-grid .windows-symptom-card:hover,
-.category-page .windows-symptom-grid .windows-symptom-card:focus-visible {
+.category-page .pillar-symptom-grid .pillar-symptom-card:hover,
+.category-page .pillar-symptom-grid .pillar-symptom-card:focus-visible {
   background: var(--wb-teal-wash) !important; border-color: var(--wb-teal) !important;
   box-shadow: var(--wb-shadow-m);
 }
-.category-page .windows-hub-note { background: var(--wb-teal-wash); border: 1px solid var(--wb-line); }
+.category-page .pillar-hub-note { background: var(--wb-teal-wash); border: 1px solid var(--wb-line); }
 .category-page .category-topic-links a {
   background: var(--wb-card) !important; border-color: var(--wb-line) !important; box-shadow: var(--wb-shadow-s);
 }
@@ -1285,12 +1285,12 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .article-card-featured { border-top: 3px solid var(--wb-teal); }
 .authority-section .article-card-featured { border-top-color: var(--wb-teal); }
 
-.windows-symptom-grid, .category-topic-links, .profile-link-grid {
+.pillar-symptom-grid, .category-topic-links, .profile-link-grid {
   align-items: stretch;
   gap: 1rem;
 }
 
-.windows-symptom-card, .category-topic-links > a, .profile-link-grid > a {
+.pillar-symptom-card, .category-topic-links > a, .profile-link-grid > a {
   min-width: 0;
   height: 100%;
   border: 1px solid var(--wb-line);
@@ -1300,14 +1300,14 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
 
-.windows-symptom-card:hover, .category-topic-links > a:hover, .profile-link-grid > a:hover {
+.pillar-symptom-card:hover, .category-topic-links > a:hover, .profile-link-grid > a:hover {
   transform: translateY(-2px);
   border-color: #a2c3c8;
   background: var(--wb-teal-wash);
   box-shadow: var(--wb-shadow-m);
 }
 
-.windows-symptom-card strong, .category-topic-links > a span,
+.pillar-symptom-card strong, .category-topic-links > a span,
 .profile-link-grid > a strong {
   color: var(--wb-ink);
   font-size: 1rem;
@@ -1316,7 +1316,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   text-align: start;
 }
 
-.windows-symptom-card small, .category-topic-links > a small,
+.pillar-symptom-card small, .category-topic-links > a small,
 .profile-link-grid > a small {
   color: var(--wb-muted);
   font-size: .875rem;
@@ -1551,14 +1551,14 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
   .research-card, .review-card, .content-card, .info-card, .related-card,
-  .category-tile, .windows-symptom-card, .category-topic-links > a,
+  .category-tile, .pillar-symptom-card, .category-topic-links > a,
   .profile-link-grid > a {
     transition: none !important;
   }
   .article-card:hover, .tool-card:hover, .tool-tile:hover, .guide-card:hover,
   .hub-card:hover, .research-card:hover, .review-card:hover,
   .content-card:hover, .info-card:hover, .related-card:hover,
-  .category-tile:hover, .windows-symptom-card:hover,
+  .category-tile:hover, .pillar-symptom-card:hover,
   .category-topic-links > a:hover, .profile-link-grid > a:hover {
     transform: none;
   }

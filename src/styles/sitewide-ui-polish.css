@@ -116,24 +116,24 @@ button, input, select, textarea { max-width: 100%; }
 }
 
 .article-grid, .category-grid, .bsod-grid, .review-category-grid,
-.comparison-products, .profile-link-grid, .windows-symptom-grid {
+.comparison-products, .profile-link-grid, .pillar-symptom-grid {
   min-width: 0;
 }
 .article-grid > *, .category-grid > *, .bsod-grid > *,
 .review-category-grid > *, .comparison-products > *,
-.profile-link-grid > *, .windows-symptom-grid > * {
+.profile-link-grid > *, .pillar-symptom-grid > * {
   min-width: 0;
   max-width: 100%;
 }
 
 :where(.article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
 .research-card, .review-card, .content-card, .info-card, .related-card,
-.product-profile-card, .category-tile, .windows-symptom-card) {
+.product-profile-card, .category-tile, .pillar-symptom-card) {
   border-radius: var(--tww-card-radius);
 }
 :where(.article-card, .tool-card, .tool-tile, .guide-card, .hub-card,
 .research-card, .review-card, .content-card, .info-card, .related-card,
-.product-profile-card, .category-tile, .windows-symptom-card) :where(h2, h3, h4, p, a, small, span) {
+.product-profile-card, .category-tile, .pillar-symptom-card) :where(h2, h3, h4, p, a, small, span) {
   min-width: 0;
   overflow-wrap: anywhere;
 }
