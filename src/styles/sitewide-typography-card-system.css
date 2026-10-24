@@ -444,7 +444,7 @@ body li,
 .review-category-grid,
 .bsod-grid,
 .profile-link-grid,
-.windows-symptom-grid {
+.pillar-symptom-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: 1fr;
@@ -466,7 +466,7 @@ body li,
 .review-category-grid > *,
 .bsod-grid > *,
 .profile-link-grid > *,
-.windows-symptom-grid > * {
+.pillar-symptom-grid > * {
   box-sizing: border-box;
   min-width: 0;
   max-width: 100%;
@@ -704,11 +704,11 @@ body li,
 }
 
 /* Symptom/topic links keep their purposeful horizontal information layout. */
-.windows-symptom-grid {
+.pillar-symptom-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.windows-symptom-card,
+.pillar-symptom-card,
 .category-topic-links > a,
 .profile-link-grid > a {
   box-sizing: border-box;
@@ -725,7 +725,7 @@ body li,
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
 }
 
-.windows-symptom-card strong,
+.pillar-symptom-card strong,
 .category-topic-links > a span,
 .profile-link-grid > a strong {
   color: var(--tww-type-ink);
@@ -735,7 +735,7 @@ body li,
   text-align: start;
 }
 
-.windows-symptom-card small,
+.pillar-symptom-card small,
 .category-topic-links > a small,
 .profile-link-grid > a small {
   color: var(--tww-type-muted);
@@ -756,7 +756,7 @@ body li,
 .related-card:hover,
 .product-profile-card:hover,
 .category-tile:hover,
-.windows-symptom-card:hover,
+.pillar-symptom-card:hover,
 .category-topic-links > a:hover,
 .profile-link-grid > a:hover {
   transform: translateY(-3px);
@@ -793,9 +793,9 @@ body li,
 
 .tww-card-cta,
 .button,
-.windows-hub-primary,
-.windows-hub-secondary,
-.windows-assistant-link,
+.pillar-hub-primary,
+.pillar-hub-secondary,
+.pillar-hub-link,
 .tile-arrow,
 .symptom-arrow {
   display: inline-flex;
@@ -1008,7 +1008,7 @@ body li,
   .review-category-grid,
   .bsod-grid,
   .profile-link-grid,
-  .windows-symptom-grid,
+  .pillar-symptom-grid,
   .home-page .category-grid,
   .home-page .home-authorities .article-grid,
   .home-page .home-latest .article-grid {
@@ -1022,7 +1022,7 @@ body li,
   .review-category-grid,
   .bsod-grid,
   .profile-link-grid,
-  .windows-symptom-grid,
+  .pillar-symptom-grid,
   .home-page .category-grid,
   .home-page .home-authorities .article-grid,
   .home-page .home-latest .article-grid {
@@ -1047,7 +1047,7 @@ body li,
   .review-category-grid,
   .bsod-grid,
   .profile-link-grid,
-  .windows-symptom-grid,
+  .pillar-symptom-grid,
   .home-page .category-grid,
   .home-page .home-authorities .article-grid,
   .home-page .home-latest .article-grid {
@@ -1176,7 +1176,7 @@ body li,
   .related-card,
   .product-profile-card,
   .category-tile,
-  .windows-symptom-card,
+  .pillar-symptom-card,
   .category-topic-links > a,
   .profile-link-grid > a {
     transition: none !important;
@@ -1194,7 +1194,7 @@ body li,
   .related-card:hover,
   .product-profile-card:hover,
   .category-tile:hover,
-  .windows-symptom-card:hover,
+  .pillar-symptom-card:hover,
   .category-topic-links > a:hover,
   .profile-link-grid > a:hover {
     transform: none;
