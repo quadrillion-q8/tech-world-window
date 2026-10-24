@@ -129,7 +129,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/news',
     description: 'Technology updates with context, not just headlines.',
     links: [
-      { label: 'Latest Technology News', href: '/news', description: 'What matters and why.' },
+      
       { label: 'Windows and Surface Event', href: '/microsoft-windows-surface-event-october-7-what-to-watch', description: 'What is confirmed and what to watch.' },
     ],
   },
@@ -138,7 +138,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/windows',
     description: 'Fixes, settings, updates and practical Windows help.',
     links: [
-      { label: 'Windows Hub', href: '/windows' },
+      
       { label: 'Universal Windows Troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Start with the symptom and diagnose Windows problems systematically.' },
       { label: 'Windows 11 26H2 Installation Guide', href: '/windows-11-26h2-installation-guide', description: 'Choose an upgrade or clean-install path and troubleshoot setup safely.' },
       { label: 'Windows Update Stuck', href: '/windows/windows-update-stuck', description: 'How long to wait, how to test activity, and the safest repair order.' },
@@ -155,7 +155,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/gaming',
     description: 'Performance, frame-time, stability and gaming hardware.',
     links: [
-      { label: 'Gaming Hub', href: '/gaming' },
+      
       { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
       { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU workload from other causes.' },
       { label: 'Shader Stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize shader compilation behavior.' },
@@ -168,7 +168,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/hardware',
     description: 'PC parts, laptops, storage, cooling and displays.',
     links: [
-      { label: 'Hardware Hub', href: '/hardware' },
+      
       { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
       { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
       { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
@@ -183,7 +183,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/guides',
     description: 'Evergreen answers for real technology problems.',
     links: [
-      { label: 'All Guides', href: '/guides' },
+      
       { label: 'Windows', href: '/windows' },
       { label: 'Gaming', href: '/gaming' },
       { label: 'Hardware', href: '/hardware' },
@@ -201,7 +201,7 @@ export const menuGroups: MenuGroup[] = [
   {
     label: 'Reviews', href: '/reviews', description: 'Evidence-led product testing and technology comparisons.',
     links: [
-      { label: 'All Reviews', href: '/reviews' },
+      
       { label: 'SSD Reviews', href: '/reviews/ssds' },
       { label: 'GPU Reviews', href: '/reviews/gpus' },
       { label: 'Laptop Reviews', href: '/reviews/laptops' },
@@ -209,9 +209,9 @@ export const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    label: 'Best', href: '/best', description: 'Buying guides built around real use cases and transparent criteria.',
+    label: 'Buying Guides', href: '/best', description: 'Buying guides built around real use cases and transparent criteria.',
     links: [
-      { label: 'All Buying Guides', href: '/best' },
+      
       { label: 'Best SSDs', href: '/best-ssds' },
       { label: 'Best Gaming Laptops', href: '/best-gaming-laptops' },
       { label: 'Best Gaming Monitors', href: '/best-gaming-monitors' },
@@ -223,7 +223,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/research',
     description: 'Original technical studies, diagnostic analysis and evidence-led investigations.',
     links: [
-      { label: 'TWW Research', href: '/research', description: 'How TWW separates facts, measurements and analysis.' },
+      
       { label: 'SSD Nearly Full', href: '/research/ssd-nearly-full-what-really-changes' },
       { label: '100% Disk, Low MB/s', href: '/research/windows-100-percent-disk-usage-low-mbps' },
       { label: 'PC Game Stuttering', href: '/research/what-actually-causes-pc-game-stuttering' },
@@ -237,7 +237,7 @@ export const menuGroups: MenuGroup[] = [
     href: '/tools',
     description: 'Useful interactive tools with transparent assumptions.',
     links: [
-      { label: 'Free Tech Tools', href: '/tools' },
+      
       ...tools.map(tool => ({ label: tool.title, href: tool.path, description: tool.menuDescription })),
       { label: 'Guides', href: '/guides', description: 'Understand the result before acting.' },
     ],
