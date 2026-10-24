@@ -34,7 +34,7 @@
 :where(.category-page, .tools-hub-page, .tool-page, .static-page, .gallery-page,
 .commercial-hub, .bsod-page).section > :where(.category-hero, .page-intro, .tool-panel,
 .tools-discovery, .tools-group, .editorial-note, .gallery-note, .gallery-jump,
-.gallery-section, .category-topics, .windows-symptom-hub, .commercial-intro,
+.gallery-section, .category-topics, .pillar-symptom-hub, .commercial-intro,
 .product-library-section, .related-review-guides, .empty-state) {
   min-width: 0;
 }
@@ -342,31 +342,31 @@
   line-height: 1.65;
 }
 .category-page .category-pillar-link .text-link { display: inline; margin: 0 .25rem; }
-.category-page .windows-hub-actions {
+.category-page .pillar-hub-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .7rem;
   margin-top: 1.2rem;
 }
-.category-page .windows-symptom-hub {
+.category-page .pillar-symptom-hub {
   margin: 0 0 1.75rem;
   padding: clamp(1.1rem, 2.5vw, 1.6rem);
   border-radius: 1rem;
 }
-.category-page .windows-symptom-heading { max-width: 72ch; margin-bottom: 1rem; }
-.category-page .windows-symptom-heading h2 {
+.category-page .pillar-symptom-heading { max-width: 72ch; margin-bottom: 1rem; }
+.category-page .pillar-symptom-heading h2 {
   margin: .35rem 0 .45rem;
   font-size: clamp(1.45rem, 2.6vw, 2rem);
   line-height: 1.2;
 }
-.category-page .windows-symptom-heading p { margin: 0; line-height: 1.65; }
-.category-page .windows-symptom-grid {
+.category-page .pillar-symptom-heading p { margin: 0; line-height: 1.65; }
+.category-page .pillar-symptom-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: .7rem;
 }
-.category-page .windows-symptom-card {
+.category-page .pillar-symptom-card {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
@@ -375,19 +375,19 @@
   padding: .85rem;
   border-radius: .75rem;
 }
-.category-page .windows-symptom-card .symptom-copy { min-width: 0; }
-.category-page .windows-symptom-card .symptom-copy strong {
+.category-page .pillar-symptom-card .symptom-copy { min-width: 0; }
+.category-page .pillar-symptom-card .symptom-copy strong {
   display: block;
   font-size: .88rem;
   line-height: 1.35;
 }
-.category-page .windows-symptom-card .symptom-copy small {
+.category-page .pillar-symptom-card .symptom-copy small {
   display: block;
   margin-top: .25rem;
   font-size: .73rem;
   line-height: 1.45;
 }
-.category-page .windows-hub-note {
+.category-page .pillar-hub-note {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -961,7 +961,7 @@
   .commercial-hub .related-review-guides .article-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .category-page .windows-symptom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .category-page .pillar-symptom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery-page .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
@@ -1040,7 +1040,7 @@
   .tools-hub-page .tools-group .article-grid,
   .commercial-hub .product-library-section .article-grid,
   .commercial-hub .related-review-guides .article-grid { grid-template-columns: minmax(0, 1fr); }
-  .category-page .windows-symptom-grid { grid-template-columns: minmax(0, 1fr); }
+  .category-page .pillar-symptom-grid { grid-template-columns: minmax(0, 1fr); }
   .category-page .category-topic-links { grid-template-columns: minmax(0, 1fr); }
   .tools-hub-page .category-hero .tools-hub-proof { gap: 0; }
   .tools-hub-page .tools-filter-row { align-items: stretch; }
