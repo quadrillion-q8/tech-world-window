@@ -1,0 +1,36 @@
+# Tech World Window
+
+> Practical Windows troubleshooting, PC gaming performance guides, hardware analysis and free tools, written from real repair-bench experience.
+
+## Start here
+- [Windows Troubleshooting: A Complete Guide to Diagnosing and Fixing Windows Problems](https://www.techworldwindow.com/windows-troubleshooting-complete-guide): A universal, evidence-led framework for Windows 11 and Windows 10: find the failing layer first, then fix startup failures, blue screens, freezes, slow performance, updates, drivers, networking, apps, and hardware faults without making things worse.
+- [What Actually Causes PC Game Stuttering? A Frame-Time Investigation](https://www.techworldwindow.com/research/what-actually-causes-pc-game-stuttering): A TWW framework for separating shader compilation, CPU limits, GPU limits, asset streaming, background tasks and thermal behavior using frame-time evidence.
+- [Does More RAM Actually Make Windows Faster? What to Measure Before Upgrading](https://www.techworldwindow.com/research/does-more-ram-make-windows-faster): More RAM can make a Windows PC feel faster when memory capacity is the bottleneck. Here is how to check memory pressure, separate capacity from speed, and test an upgrade properly.
+- [Should You Upgrade RAM or SSD Now—or Wait? A 2026 Decision Guide](https://www.techworldwindow.com/research/upgrade-ram-ssd-now-or-wait): A practical way to decide whether to upgrade RAM, replace or expand an SSD, fix the current bottleneck first, or delay a purchase while memory and storage prices remain volatile.
+- [Windows Patch Tuesday: What to Install, What Changed, and What to Check](https://www.techworldwindow.com/windows-patch-tuesday): A plain-English Windows update briefing: which October 2026 cumulative updates apply to Windows 11 and eligible Windows 10 editions, what they fix, what is still known to be affected, and what to do before and after installing.
+- [Laptop Won’t Turn On: Safe Checks Before You Need a Repair](https://www.techworldwindow.com/laptop-wont-turn-on): A dead laptop, blinking power light, spinning fan or black screen can point to different faults. Follow safe checks in order and know when to stop.
+- [PC Game Stuttering: How to Diagnose Frame-Time Spikes, Microstutter & FPS Drops](https://www.techworldwindow.com/pc-game-stuttering-fix-frame-time): A diagnostic guide to PC game stutter that separates frame-time spikes from low average FPS and works through shaders, CPU and GPU limits, memory, storage, drivers, and thermals.
+- [How to Check SSD Health in Windows](https://www.techworldwindow.com/how-to-check-ssd-health-windows): A practical Windows guide to checking SSD health, interpreting SMART wear and error indicators, separating normal wear from warning signs, and deciding what to do next.
+- [Best SSDs for Gaming and Windows: How to Choose the Right Drive](https://www.techworldwindow.com/best-ssds): A practical SSD buying guide covering PCIe generation, capacity, sustained performance, thermals, endurance, warranty and value without treating benchmark numbers as the whole story.
+- [Best Gaming Laptops: How to Choose for Performance, Cooling and Value](https://www.techworldwindow.com/best-gaming-laptops): Choose a gaming laptop by matching real game performance, GPU power limits, cooling, display, upgradeability and portability to your budget—not by the GPU badge alone.
+- [Best Gaming Monitors: How to Choose Resolution, Refresh Rate and Panel Behavior](https://www.techworldwindow.com/best-gaming-monitors): How to choose a gaming monitor by resolution, refresh rate, response behavior, adaptive sync, panel characteristics and the GPU you actually own.
+- [Best RAM for Gaming PCs and Windows: Capacity, Speed and Compatibility](https://www.techworldwindow.com/best-ram): A practical RAM buying guide covering capacity, memory speed, latency, dual-channel operation, XMP/EXPO, compatibility and upgrade planning.
+
+## Sections
+- [News](https://www.techworldwindow.com/news): Technology updates with context, not just headlines.
+- [Windows](https://www.techworldwindow.com/windows): Step-by-step Windows fixes for updates, drivers, networking, startup and performance problems.
+- [Gaming](https://www.techworldwindow.com/gaming): Performance, frame-time, stability and gaming hardware.
+- [Hardware](https://www.techworldwindow.com/hardware): PC parts, laptops, storage, cooling and displays.
+- [Guides](https://www.techworldwindow.com/guides): Start-here guides that cover a whole problem area, such as Windows troubleshooting, PC stuttering and SSD health.
+- [Reviews](https://www.techworldwindow.com/reviews): Practical testing with methods and limitations.
+- [Best](https://www.techworldwindow.com/best): Buying guides and carefully explained picks for performance, compatibility and value.
+- [Research](https://www.techworldwindow.com/research): Technical investigations, measurements and evidence-led explanations.
+- [Tools](https://www.techworldwindow.com/tools): Free interactive utilities to diagnose, measure and plan your next tech step.
+
+## Tools
+- [Free PC and Windows tools](https://www.techworldwindow.com/tools)
+- [BSOD error code lookup](https://www.techworldwindow.com/tools/bsod-error-code-lookup)
+
+## Trust
+- [Editorial policy](https://www.techworldwindow.com/editorial-policy)
+- [Testing methodology](https://www.techworldwindow.com/testing)
