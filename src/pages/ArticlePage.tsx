@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
+import { Link } from 'react-router-dom';
+import { articles } from '../data/generated/article-index';
+import { articleWordCount, headingId } from '../data/article-utils';
+import type { Article, ArticleTable, TableCell } from '../data/articles';
 import { authors } from '../data/authors';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
 import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
@@ -142,12 +144,7 @@ function GpuUsageQuickCheck() {
   </section>;
 }
 
-export function ArticlePage() {
-  const location = useLocation();
-  const slug = location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  const article = articles.find(a => a.slug === slug);
-  if (!article) return <section className="section"><h1>Article not found</h1><Link to="/">Return home</Link></section>;
-
+export function ArticlePage({ article }: { article: Article }) {
   const assignedGalleryImageId = articleThumbnailImageBySlug[article.slug];
   const explicitGalleryImageId = article.heroImage?.includes('/images/gallery/')
     ? article.heroImage.split('/images/gallery/')[1]?.split(/[?#]/)[0]?.split('.webp')[0]
