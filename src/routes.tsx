@@ -1,47 +1,27 @@
-import type { ReactNode } from 'react';
 import type { RouteRecord } from 'vite-react-ssg';
 import { routeGraph, type RouteNode } from './data/graph';
 import { RootLayout } from './layouts/RootLayout';
-import { Home } from './pages/Home';
-import { CategoryPage } from './pages/Category';
-import { ArticlePage } from './pages/ArticlePage';
-import { ToolPage } from './pages/ToolPage';
-import { ToolsHubPage } from './pages/ToolsHubPage';
 import { BSOD_BASE_PATH } from './data/bsod';
-import { CommercialHubPage } from './pages/CommercialHubPage';
-import { StaticPage } from './pages/StaticPage';
-import { NotFoundPage } from './pages/NotFoundPage';
 
-function elementForRoute(route: RouteNode): ReactNode {
-  switch (route.kind) {
-    case 'home':
-      return <Home />;
-    case 'article':
-      return <ArticlePage />;
-    case 'tool':
-      if (route.path === BSOD_BASE_PATH) return null;
-      return <ToolPage />;
-    case 'bsod-code':
-      return null;
-    case 'tools':
-      return <ToolsHubPage />;
-    case 'category':
-      return route.path.startsWith('/reviews') || route.path.startsWith('/best') ? <CommercialHubPage /> : <CategoryPage />;
-    case 'product-review':
-      return null;
-    case 'comparison':
-      return null;
-    case 'author':
-    case 'static':
-      if (route.path === '/gallery') return null;
-      return <StaticPage />;
-  }
-}
+type LazyPage = NonNullable<RouteRecord['lazy']>;
 
-function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
+/**
+ * Load route page families on demand.
+ *
+ * The content-heavy Home, Category, Article and Static pages share the large
+ * article registry. Keeping those pages behind route-level dynamic imports
+ * prevents that registry from being pulled into the initial app entry for
+ * routes such as interactive tools and lightweight category-independent pages.
+ *
+ * vite-react-ssg resolves these lazy route modules during prerendering, so the
+ * public route graph and static HTML output remain the source of truth.
+ */
+function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
+  // Keep the custom Game Bar experience ahead of the generic article route.
   if (route.path === '/gamebar-presence-writer-fix') {
     return async () => ({ Component: (await import('./pages/GameBarPresenceWriterPage')).GameBarPresenceWriterPage });
   }
+
   if (route.path === '/tools/video-embed-code-generator') {
     return async () => ({ Component: (await import('./pages/VideoEmbedCodeGeneratorPage')).VideoEmbedCodeGeneratorPage });
   }
@@ -78,21 +58,46 @@ function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/gallery') {
     return async () => ({ Component: (await import('./pages/GalleryPage')).GalleryPage });
   }
+
+  // Keep content-heavy page families out of the initial JavaScript entry.
+  if (route.kind === 'home') {
+    return async () => ({ Component: (await import('./pages/Home')).Home });
+  }
+  if (route.kind === 'article') {
+    return async () => ({ Component: (await import('./pages/ArticlePage')).ArticlePage });
+  }
+  if (route.kind === 'category') {
+    if (route.path.startsWith('/reviews') || route.path.startsWith('/best')) {
+      return async () => ({ Component: (await import('./pages/CommercialHubPage')).CommercialHubPage });
+    }
+    return async () => ({ Component: (await import('./pages/Category')).CategoryPage });
+  }
+  if (route.kind === 'tool') {
+    return async () => ({ Component: (await import('./pages/ToolPage')).ToolPage });
+  }
+  if (route.kind === 'tools') {
+    return async () => ({ Component: (await import('./pages/ToolsHubPage')).ToolsHubPage });
+  }
+  if (route.kind === 'author' || route.kind === 'static') {
+    return async () => ({ Component: (await import('./pages/StaticPage')).StaticPage });
+  }
+
   return undefined;
 }
 
 const childRoutes: RouteRecord[] = [
   ...routeGraph.map(route => {
     const lazy = lazyPageForRoute(route);
-    if (route.path === '/') {
-      return { index: true, ...(lazy ? { lazy } : { element: elementForRoute(route) }) } as RouteRecord;
+    if (!lazy) {
+      throw new Error(`No lazy page component registered for route: ${route.path} (${route.kind})`);
     }
-    return {
-      path: route.path.replace(/^\//, ''),
-      ...(lazy ? { lazy } : { element: elementForRoute(route) }),
-    } as RouteRecord;
+    if (route.path === '/') return { index: true, lazy } as RouteRecord;
+    return { path: route.path.slice(1), lazy } as RouteRecord;
   }),
-  { path: '*', element: <NotFoundPage /> },
+  {
+    path: '*',
+    lazy: async () => ({ Component: (await import('./pages/NotFoundPage')).NotFoundPage }),
+  },
 ];
 
 export const routes: RouteRecord[] = [
