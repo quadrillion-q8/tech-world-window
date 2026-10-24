@@ -1,6 +1,10 @@
 import { articles, articleWordCount, categories } from '../data/articles';
 import { hubSeo } from '../data/hubs';
-import { authors } from '../data/authors';
+import { authors, ORGANIZATION_SAME_AS } from '../data/authors';
+import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
+import { galleryImageUrl } from '../data/gallery';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { BSOD_BASE_PATH } from '../data/bsod';
 import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
 import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
@@ -66,6 +70,26 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   },
 };
 
+/** Real pixel size of a local WebP so og:image width/height are truthful (gallery photos are square). */
+function localImageSize(urlPath: string): { width: number; height: number } | undefined {
+  try {
+    const file = resolve('public', urlPath.replace(/^\//, ''));
+    if (!existsSync(file) || !file.endsWith('.webp')) return undefined;
+    const d = readFileSync(file).subarray(0, 40);
+    const kind = d.toString('ascii', 12, 16);
+    if (kind === 'VP8 ') return { width: d.readUInt16LE(26) & 0x3fff, height: d.readUInt16LE(28) & 0x3fff };
+    if (kind === 'VP8L') { const b = d.readUInt32LE(21); return { width: (b & 0x3fff) + 1, height: ((b >> 14) & 0x3fff) + 1 }; }
+    if (kind === 'VP8X') return { width: d.readUIntLE(24, 3) + 1, height: d.readUIntLE(27, 3) + 1 };
+  } catch { /* fall back to default dimensions */ }
+  return undefined;
+}
+
+/** Explicit hero, else the photo the article page actually shows, else the default card. */
+function articleShareImage(article: { slug: string; heroImage?: string }) {
+  const assigned = articleThumbnailImageBySlug[article.slug];
+  return article.heroImage || (assigned ? galleryImageUrl(assigned) : DEFAULT_OG_IMAGE);
+}
+
 function absoluteUrl(path: string) {
   return new URL(path, SITE_URL).toString();
 }
@@ -93,7 +117,8 @@ function buildSeoData(path: string): SeoData {
       publishedAt: article.publishedAt,
       updatedAt: article.updatedAt,
       authorName: authors[article.authorId]?.name || 'Tech World Window Editorial Team',
-      image: article.heroImage || DEFAULT_OG_IMAGE,
+      image: articleShareImage(article),
+      ...(localImageSize(articleShareImage(article)) ? { imageWidth: localImageSize(articleShareImage(article))!.width, imageHeight: localImageSize(articleShareImage(article))!.height } : {}),
     };
   }
 
@@ -270,7 +295,28 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     description: siteEntity.description,
     slogan: SITE_TAGLINE,
     logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') },
+    ...(ORGANIZATION_SAME_AS.length ? { sameAs: ORGANIZATION_SAME_AS } : {}),
   });
+  // The component-level ProfilePage JSON-LD is stripped by this injector, so it is emitted here.
+  const profileAuthor = Object.values(authors).find(item => item.url === path);
+  if (profileAuthor) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      name: `${profileAuthor.name} — Tech World Window`,
+      url: absoluteUrl(profileAuthor.url),
+      mainEntity: {
+        '@type': 'Person',
+        name: profileAuthor.name,
+        jobTitle: profileAuthor.role,
+        description: profileAuthor.bio,
+        url: absoluteUrl(profileAuthor.url),
+        knowsAbout: profileAuthor.expertise,
+        ...(profileAuthor.sameAs?.length ? { sameAs: profileAuthor.sameAs } : {}),
+        worksFor: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+      },
+    });
+  }
   if (article) {
     schemas.push({
       '@context': 'https://schema.org',
@@ -288,10 +334,10 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       author: {
         '@type': 'Person',
         name: seo.authorName || 'Tech World Window Editorial Team',
-        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role } : {}),
+        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role, ...(author.sameAs?.length ? { sameAs: author.sameAs } : {}) } : {}),
       },
       publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
-      image: [absoluteUrl(article.heroImage || DEFAULT_OG_IMAGE)],
+      image: [absoluteUrl(articleShareImage(article))],
     });
     if (article.howTo?.steps.length) {
       schemas.push({
