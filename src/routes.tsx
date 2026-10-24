@@ -2,16 +2,17 @@ import type { RouteRecord } from 'vite-react-ssg';
 import { routeGraph, type RouteNode } from './data/graph';
 import { RootLayout } from './layouts/RootLayout';
 import { BSOD_BASE_PATH } from './data/bsod';
+import type { Article } from './data/articles';
 
 type LazyPage = NonNullable<RouteRecord['lazy']>;
+const articleContentLoaders = import.meta.glob<{ default: Article }>('./data/generated/article-content/*.json');
 
 /**
  * Load route page families on demand.
  *
- * The content-heavy Home, Category, Article and Static pages share the large
- * article registry. Keeping those pages behind route-level dynamic imports
- * prevents that registry from being pulled into the initial app entry for
- * routes such as interactive tools and lightweight category-independent pages.
+ * Keep content-heavy route families out of the initial app entry. Article body
+ * data is generated per slug so an article route loads only its own full content;
+ * hubs and related cards use the lightweight generated metadata index.
  *
  * vite-react-ssg resolves these lazy route modules during prerendering, so the
  * public route graph and static HTML output remain the source of truth.
@@ -64,7 +65,19 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
     return async () => ({ Component: (await import('./pages/Home')).Home });
   }
   if (route.kind === 'article') {
-    return async () => ({ Component: (await import('./pages/ArticlePage')).ArticlePage });
+    const fileName = `${route.path.slice(1).replace(/\//g, '--')}.json`;
+    const contentKey = `./data/generated/article-content/${fileName}`;
+    const loadArticle = articleContentLoaders[contentKey];
+    if (!loadArticle) {
+      throw new Error(`No generated article content module for route: ${route.path} (expected ${contentKey})`);
+    }
+    return async () => {
+      const [{ ArticlePage }, contentModule] = await Promise.all([
+        import('./pages/ArticlePage'),
+        loadArticle(),
+      ]);
+      return { Component: () => <ArticlePage article={contentModule.default} /> };
+    };
   }
   if (route.kind === 'category') {
     if (route.path.startsWith('/reviews') || route.path.startsWith('/best')) {

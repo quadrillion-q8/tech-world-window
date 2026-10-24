@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
 import { SITE_NAME, SITE_URL } from '../data/graph';
-import { articles } from '../data/articles';
+import { articles } from '../data/generated/article-index';
 import { ArticleCard } from '../components/ArticleCard';
 import { staticPageFigures, galleryPhotoUrl } from '../data/article-images';
 
