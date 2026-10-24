@@ -2,27 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.techworldwindow.com/</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/news</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/gaming</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/hardware</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews</loc>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/best</loc>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/guides</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/tools</loc>
@@ -32,6 +40,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/reviews/ssds</loc>
@@ -206,6 +215,12 @@
     <loc>https://www.techworldwindow.com/tools/windows-troubleshooting-assistant</loc>
   </url>
   <url>
+    <loc>https://www.techworldwindow.com/tools/secure-boot-status-checker</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/tools/windows-support-lifecycle-checker</loc>
+  </url>
+  <url>
     <loc>https://www.techworldwindow.com/tools/frame-time-analyzer</loc>
   </url>
   <url>
@@ -215,6 +230,9 @@
     <loc>https://www.techworldwindow.com/tools/bsod-error-code-lookup</loc>
   </url>
   <url>
+    <loc>https://www.techworldwindow.com/tools/windows-repair-log-analyzer</loc>
+  </url>
+  <url>
     <loc>https://www.techworldwindow.com/tools/pc-bottleneck-calculator</loc>
   </url>
   <url>
@@ -222,6 +240,9 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/tools/ram-calculator</loc>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/tools/video-embed-code-generator</loc>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/tools/storage-calculator</loc>
@@ -332,7 +353,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research/what-actually-causes-pc-game-stuttering</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research/does-more-ram-make-windows-faster</loc>
@@ -340,7 +361,15 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/research/how-ssd-temperature-affects-performance</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/research/upgrade-ram-ssd-now-or-wait</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-patch-tuesday</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-troubleshooting-complete-guide</loc>
@@ -349,6 +378,10 @@
   <url>
     <loc>https://www.techworldwindow.com/windows-11-26h2-installation-guide</loc>
     <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-11-8gb-ram-update-october-2026</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-wifi-connected-no-internet</loc>
@@ -360,7 +393,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/how-to-check-ssd-health-windows</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-dns-not-working-how-to-fix</loc>
@@ -424,7 +457,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-disk-100-percent-usage</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/windows-11-slow-startup-fix</loc>
@@ -432,7 +465,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/pc-game-low-fps-how-to-find-the-cause</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/pc-games-crashing-to-desktop-troubleshooting</loc>
@@ -440,7 +473,7 @@
   </url>
   <url>
     <loc>https://www.techworldwindow.com/gpu-100-percent-usage-gaming</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/how-much-ram-do-you-need-gaming</loc>
@@ -475,8 +508,20 @@
     <lastmod>2026-10-15</lastmod>
   </url>
   <url>
+    <loc>https://www.techworldwindow.com/bios-uefi-recovery-guide</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-secure-boot-certificate-update</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
     <loc>https://www.techworldwindow.com/laptop-battery-warning-signs</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-20</lastmod>
   </url>
   <url>
     <loc>https://www.techworldwindow.com/why-8gb-ram-is-no-longer-enough-for-windows-11</loc>
@@ -485,5 +530,29 @@
   <url>
     <loc>https://www.techworldwindow.com/windows-11-26h2-iso-released</loc>
     <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-11-wifi-keeps-disconnecting</loc>
+    <lastmod>2026-10-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-11-black-screen-after-login</loc>
+    <lastmod>2026-10-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/laptop-plugged-in-not-charging</loc>
+    <lastmod>2026-10-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/pc-turns-on-but-no-display</loc>
+    <lastmod>2026-10-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/ssd-not-detected-in-bios-or-windows</loc>
+    <lastmod>2026-10-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.techworldwindow.com/windows-11-usb-device-not-recognized</loc>
+    <lastmod>2026-10-21</lastmod>
   </url>
 </urlset>
