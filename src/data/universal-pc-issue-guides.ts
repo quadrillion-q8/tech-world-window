@@ -39,10 +39,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "windows-no-sound",
-      "usb-device-not-recognized",
-      "windows-wifi-diagnosis"
+      "windows-troubleshooting-universal"
     ],
     "testing": "This symptom-led guide is based on Microsoft's published Windows Bluetooth troubleshooting guidance. It does not claim that every cause was reproduced on one PC; Bluetooth hardware, driver packages and accessory behavior vary by model. Prefer the PC or accessory manufacturer's instructions for model-specific steps.",
     "sources": [
@@ -193,10 +190,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "windows-bluetooth-not-working",
-      "windows-camera-not-working",
-      "windows-second-monitor-not-detected"
+      "windows-troubleshooting-universal"
     ],
     "testing": "This guide summarizes Microsoft's Windows audio and microphone troubleshooting workflows. It is not a claim of a universal fix or a reproduced failure on every sound card. Menu names and driver options differ by device, Windows version and audio software.",
     "sources": [
@@ -362,10 +356,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "windows-no-sound",
-      "windows-bluetooth-not-working",
-      "usb-device-not-recognized"
+      "windows-troubleshooting-universal"
     ],
     "testing": "The steps follow Microsoft's published Windows camera guidance. Camera shutters, function-key controls, driver extensions and firmware vary by manufacturer, so this article does not claim that one menu path or setting applies to every laptop or webcam.",
     "sources": [
@@ -511,10 +502,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "pc-turns-on-but-no-display",
-      "windows-no-sound",
-      "gaming-stutter"
+      "windows-troubleshooting-universal"
     ],
     "testing": "This guide uses Microsoft's documented multiple-display workflow and common connection-isolation principles. Display output support depends on the specific GPU, port, cable, dock and computer model. It does not claim that every USB-C port carries video or that every dock supports every display configuration.",
     "sources": [
@@ -675,11 +663,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "windows-high-memory",
-      "windows-disk-100-percent",
-      "ssd-health",
-      "windows-slow-startup"
+      "windows-troubleshooting-universal"
     ],
     "testing": "This troubleshooting workflow is informed by Microsoft's File Explorer guidance and TWW's existing Windows storage diagnostic material. It does not claim that one Explorer restart, system command or cache action fixes all hangs. Back up important files before investigating a drive that reports errors.",
     "sources": [
@@ -841,10 +825,7 @@ export const universalPcIssueGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal",
-      "usb-device-not-recognized",
-      "windows-wifi-diagnosis",
-      "windows-network-reset"
+      "windows-troubleshooting-universal"
     ],
     "testing": "This guide is based on Microsoft's documented printer-connection and print-queue troubleshooting. Printer menus, driver packages and network setup differ by manufacturer. The print-spooler queue-clearing procedure removes queued documents, so it is not presented as an early or consequence-free step.",
     "sources": [
