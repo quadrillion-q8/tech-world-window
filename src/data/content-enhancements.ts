@@ -8,6 +8,8 @@ type Enhancement = {
   seoTitle?: string;
   metaDescription?: string;
   sources?: { label: string; url: string }[];
+  /** Plain-language methodology disclosure shown with the article when provided. */
+  testing?: string;
 };
 
 /**
@@ -210,7 +212,14 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'pc-game-low-fps-how-to-find-the-cause': {
-    updatedAt: '2026-10-18',
+    updatedAt: '2026-10-25',
+    testing: 'This is a troubleshooting framework, not an original benchmark claim. FPS varies by game version, scene, resolution, settings, hardware configuration, driver and power/thermal state. Use repeatable captures and label comparisons with their actual conditions.',
+    metaDescription: 'Low FPS in PC games? Test resolution, CPU-thread load, frame caps, temperatures and memory in a repeatable scene before choosing a GPU or CPU upgrade.',
+    sources: [
+      { label: 'Intel GameTechDev: PresentMon capture metrics', url: 'https://github.com/GameTechDev/PresentMon/blob/main/README-CaptureApplication.md' },
+      { label: 'NVIDIA: FrameView performance and frame-time metrics', url: 'https://www.nvidia.com/en-eu/geforce/technologies/frameview/' }
+    ],
+    relatedArticles: ['gaming-stutter'],
     sections: [{
       heading: 'TWW diagnosis: change one variable at a time',
       paragraphs: [
@@ -261,11 +270,33 @@ const enhancements: Record<string, Enhancement> = {
         'Change one variable only and repeat the same scene; keep the change only if the improvement is repeatable and no new issue appears.',
         'If the issue is only a brief hitch or the average is misleading, use the dedicated stutter guide and frame-time analyzer rather than buying a faster GPU from guesswork.'
       ]
+    }, {
+      heading: 'Compare like-for-like before buying hardware',
+      paragraphs: [
+        'A low-FPS result is only useful when the comparison is close to the workload you actually play. Published results can differ because of the game patch, test scene, resolution, render scale, ray tracing, CPU, RAM configuration, driver, cooling and power limits. Laptop GPUs with the same family name can also use different power limits, so desktop results or another laptop SKU are not a promise of your own frame rate.',
+        'Use independent benchmarks to compare the exact hardware options you are considering, then validate the likely limitation on your own PC. A repeatable improvement when you lower resolution supports a graphics-workload hypothesis for that scene; it does not prove the GPU is defective or that replacing it is the only useful change.'
+      ],
+      table: {
+        caption: 'Use the test result to choose the next check',
+        headers: ['Observation', 'What it supports', 'What to do next'],
+        rows: [
+          ['FPS rises clearly when resolution or render scale drops', 'Rendering workload is contributing to the limit in this scene', 'Compare the FPS target and image-quality trade-off before considering a GPU upgrade'],
+          ['FPS barely changes when resolution drops', 'The limit may be elsewhere, or a frame cap may be active', 'Check the frame cap, V-Sync/VRR, per-core CPU activity and game-engine workload'],
+          ['FPS falls as clocks decline and temperature or power readings change', 'Thermal or power behavior may be limiting sustained performance', 'Compare against the exact component or laptop maker specifications'],
+          ['Average FPS looks fine but gameplay feels uneven', 'Averages may hide long frames or irregular pacing', 'Capture frame times and follow the stutter-specific diagnostic'],
+          ['Only one game is slow', 'Game-specific settings, engine behavior, files or driver profile are plausible', 'Compare a second game and inspect the affected title before upgrading hardware']
+        ]
+      },
+      relatedLinks: [
+        { label: 'PC game stuttering diagnostic', href: '/pc-game-stuttering-fix-frame-time', description: 'Separate intermittent frame-time hitches from consistently low throughput.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare compatible capture files locally when average FPS does not explain the experience.' }
+      ]
     }],
     faq: [
       { question: 'Can V-Sync or a frame cap cause GPU usage to stay below 100%?', answer: 'Yes. When a game is limited to a target frame rate, the GPU may not need to render continuously at maximum utilization. Check the in-game limit, V-Sync, driver settings and display refresh rate before interpreting lower utilization as a hardware problem.' },
       { question: 'Should I upgrade my GPU if lowering resolution increases FPS?', answer: 'A repeatable improvement after lowering resolution suggests the graphics workload is limiting performance in that scene, but it does not by itself prove that a new GPU is the best purchase. Compare your target frame rate, exact game, settings, temperatures, power behavior and independent model-specific benchmarks first.' },
-      { question: 'What should I do when average FPS is high but the game still feels slow?', answer: 'Check 1% lows and frame-time behavior. A small number of late frames can feel like stutter even when the average looks good; follow the frame-time diagnosis path and compare events around the hitch.' }
+      { question: 'What should I do when average FPS is high but the game still feels slow?', answer: 'Check 1% lows and frame-time behavior. A small number of late frames can feel like stutter even when the average looks good; follow the frame-time diagnosis path and compare events around the hitch.' },
+      { question: 'Can a bottleneck calculator tell me exactly how much FPS I will get?', answer: 'No. A parts calculator uses broad estimates and cannot account for every game engine, patch, scene, resolution, power limit, driver or settings combination. Use it only as a rough starting point and compare independent tests of the exact configuration with repeatable measurements on your PC.' }
     ]
   },
   'pc-game-stuttering-fix-frame-time': {
@@ -300,6 +331,12 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'gpu-frame-time-spikes-causes-fix': {
+    sources: [
+      { label: 'Intel GameTechDev: PresentMon capture metrics', url: 'https://github.com/GameTechDev/PresentMon/blob/main/README-CaptureApplication.md' },
+      { label: 'NVIDIA: FrameView performance and frame-time metrics', url: 'https://www.nvidia.com/en-eu/geforce/technologies/frameview/' }
+    ],
+    testing: 'This is a capture-interpretation guide, not a claim that every timing field has the same definition across tools. Frame intervals, GPU busy time and displayed-frame metrics are distinct; column names and availability vary by capture application, hardware and driver. Confirm a suspected cause with a repeatable test.',
+    relatedArticles: ['gaming-stutter', 'shader-compilation-stutter', 'gaming-low-fps'],
     sections: [{
       heading: 'TWW diagnosis: find the event behind the spike',
       paragraphs: [
@@ -336,15 +373,48 @@ const enhancements: Record<string, Enhancement> = {
           ['Clock falls as temperature rises and frame time worsens', 'Thermal or power limiting is worth checking', 'Compare temperature, fan behavior, power profile and manufacturer guidance']
         ]
       }
+    }, {
+      heading: 'Do not confuse whole-frame time with GPU execution time',
+      paragraphs: [
+        'A captured frame interval and a GPU execution-time metric answer different questions. A long interval between presented frames can include time spent waiting on CPU work, a game engine, a driver, asset loading or synchronization; it does not necessarily mean the GPU itself spent that whole interval rendering. The available fields and their definitions depend on the capture tool, so keep the timing column consistent and consult that tool’s documentation.',
+        'Correlate the spike with whatever CPU-side and GPU-side metrics your capture actually contains. If GPU busy time is high and frame delivery slows, test the rendering workload. If the frame interval grows while GPU work falls or stays relatively steady, look at CPU work, shader compilation, storage activity, background tasks and game-engine timing. Treat either pattern as a lead, then confirm it with a repeatable A/B run.'
+      ],
+      table: {
+        caption: 'Read the trace before assigning a cause',
+        headers: ['Capture pattern', 'Plausible direction', 'Controlled next test'],
+        rows: [
+          ['Long frame interval overlaps high GPU busy time', 'Graphics workload may be contributing', 'Lower one GPU-heavy setting and repeat the same scene'],
+          ['Long frame interval overlaps low or falling GPU activity', 'GPU may be waiting on CPU, data, synchronization or another stage', 'Check per-core CPU activity, asset-load timing, background work and memory'],
+          ['Spike happens only on first encounter with an effect', 'Shader preparation is plausible', 'Repeat the same scene after the initial pass and compare'],
+          ['Spikes appear after several minutes with clocks falling', 'Thermal or power behavior may contribute', 'Record clocks and temperature during the slowdown and compare with model limits'],
+          ['The issue changes between capture tools or timing columns', 'Measurement definitions or capture overhead may differ', 'Use the same tool, column, duration and route for the comparison']
+        ]
+      },
+      relatedLinks: [
+        { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the broader diagnostic tree when the trace identifies a hitch but not a clear cause.' },
+        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether a first-run shader event fits the timing and repeatability pattern.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect compatible capture files locally and compare baseline and follow-up runs.' }
+      ]
     }],
     faq: [
       { question: 'What causes GPU frame-time spikes?', answer: 'Possible causes include a heavier rendering workload, a CPU or engine-side wait, shader compilation, asset streaming, memory pressure, background tasks, or thermal and power behavior. The frame-time graph marks the hitch; other measurements help explain it.' },
       { question: 'Does a GPU frame-time spike mean my graphics card is faulty?', answer: 'No. A single spike is not a hardware diagnosis. Repeat the same scene and compare GPU clocks, temperature, utilization, CPU-thread load, memory and storage activity before deciding what to test next.' },
-      { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' }
+      { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' },
+      { question: 'Does a long frame interval mean the GPU rendered that frame slowly?', answer: 'Not necessarily. A frame interval can include waits or work outside GPU execution. Compare the capture tool’s frame interval with GPU busy-time and CPU-side metrics where available, use the same timing definitions across runs, and confirm the likely cause with a controlled test.' }
     ],
-    updatedAt: '2026-10-19'
+    updatedAt: '2026-10-25'
   },
   'shader-compilation-stutter-pc-games': {
+    updatedAt: '2026-10-25',
+    seoTitle: 'Shader Compilation Stutter in PC Games: What to Check',
+    metaDescription: 'PC games stutter on first use? Compare repeat runs, shader caches and Microsoft Advanced Shader Delivery before clearing caches or changing drivers.',
+    sources: [
+      { label: 'Microsoft DirectX: Advanced Shader Delivery availability and requirements', url: 'https://devblogs.microsoft.com/directx/advanced-shader-delivery-is-available-now-across-hardware/' },
+      { label: 'Microsoft Learn: Advanced Shader Delivery overview', url: 'https://learn.microsoft.com/en-us/windows/win32/direct3d12/advanced-shader-delivery' },
+      { label: 'NVIDIA Support: deleting NVIDIA Shader Cache files', url: 'https://nvidia.custhelp.com/app/answers/detail/a_id/5735/kw/max/related/1' }
+    ],
+    relatedArticles: ['gaming-stutter', 'gpu-frame-time-spikes', 'gaming-low-fps'],
+    testing: 'This page explains how shader compilation and caching can contribute to first-run stutter; it does not claim every hitch is shader-related or reproduce the behavior in every game. Feature availability and cache controls vary by title, storefront, GPU, driver and Windows version. Check the linked vendor documentation for current requirements.',
     sections: [{
       heading: 'TWW diagnosis: distinguish shader stutter from general instability',
       paragraphs: [
@@ -360,6 +430,36 @@ const enhancements: Record<string, Enhancement> = {
         'Same scene stutters repeatedly after several runs → investigate broader frame-time causes.',
         'Stutter begins after a driver change → compare behavior before and after the driver update.',
         'All games stutter → look beyond one game engine and investigate the system.'
+      ]
+    }, {
+      heading: 'Advanced Shader Delivery: what it changes and what it does not',
+      paragraphs: [
+        'Microsoft’s Advanced Shader Delivery (ASD) is designed to move supported shader compilation earlier, so compatible precompiled shader data can be delivered with a game instead of leaving every shader to compile on the player’s device at first use. Microsoft announced broader availability across supported AMD, Intel, NVIDIA and Qualcomm hardware on 21 October 2026, but actual use still depends on a compatible Windows version, GPU and driver, a title that implements the feature, and a supported storefront.',
+        'This is not a universal Windows switch and it does not eliminate every kind of stutter. If a title does not support ASD in the store you use, ordinary shader-cache behavior and in-game precompilation remain relevant. Check Microsoft’s current DirectX announcement and the game’s own update notes rather than assuming a particular game has enabled the feature.'
+      ],
+      relatedLinks: [
+        { label: 'Microsoft DirectX: Advanced Shader Delivery availability and requirements', href: 'https://devblogs.microsoft.com/directx/advanced-shader-delivery-is-available-now-across-hardware/', description: 'Check the current Windows, hardware, driver and storefront requirements before assuming the feature applies to a game.' },
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the general diagnostic when hitches persist outside first-run shader compilation.' }
+      ]
+    }, {
+      heading: 'When to rebuild a shader cache—and when not to',
+      paragraphs: [
+        'Do not clear shader caches as a routine first step. A driver or game update may invalidate some cached data, so the next run can temporarily compile shaders again. Clearing a cache can therefore create more first-run stutter and make a before-and-after comparison misleading.',
+        'Cache removal is a targeted troubleshooting step when there is a reason to suspect corrupted cache data—for example, a repeatable game launch failure or visual problem that matches a vendor-documented issue. Follow the GPU vendor’s current instructions for the exact app and driver, record the original behavior, and let the cache rebuild fully before comparing a repeatable scene. Do not delete random folders or download cache-cleaner scripts.'
+      ],
+      table: {
+        caption: 'Use the symptom to decide whether cache work is justified',
+        headers: ['Pattern', 'First action', 'When cache work is relevant'],
+        rows: [
+          ['A hitch occurs once on first use and then fades', 'Repeat the same route and let the game complete any shader-precompile step', 'Usually not needed if later runs become consistently smoother'],
+          ['Hitches return immediately after a graphics-driver update', 'Check release notes and compare repeat runs while the cache rebuilds', 'Only if there is a documented issue or evidence of corrupted cache data'],
+          ['A game repeatedly crashes on launch or shows related visual artifacts', 'Check game files, driver notes and the vendor’s documented remedy', 'May be worth a targeted test when cache corruption is a plausible cause'],
+          ['Random spikes continue in familiar areas across several runs', 'Capture frame times and check CPU, storage, background and thermal behavior', 'Do not assume shader cache is the cause']
+        ]
+      },
+      relatedLinks: [
+        { label: 'NVIDIA support: deleting NVIDIA Shader Cache files', href: 'https://nvidia.custhelp.com/app/answers/detail/a_id/5735/kw/max/related/1', description: 'Use the vendor’s documented cache-removal procedure only when its stated conditions fit the symptom.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare first-run and repeat captures to see whether the hitch pattern actually changes.' }
       ]
     }]
   },
@@ -1043,7 +1143,8 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     ]
   },
   'gpu-100-percent-usage-gaming': {
-    updatedAt: '2026-10-22',
+    updatedAt: '2026-10-25',
+    testing: 'This page explains utilization metrics and provides diagnostic steps; it does not claim a controlled benchmark of every GPU or game. Metric definitions and sampling behavior vary by monitoring tool, GPU and driver. Treat a reading as a clue and use repeatable captures for intermittent symptoms.',
     seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
     metaDescription: '100% GPU usage while gaming is usually normal. Check FPS, temperatures, clocks, stutter and idle GPU activity before changing settings or buying parts.',
     sources: [
@@ -1052,6 +1153,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       { label: 'AMD: monitor and log performance metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' },
       { label: 'Microsoft Learn: Task Manager overview and performance troubleshooting', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/support-tools/support-tools-task-manager' }
     ],
+    relatedArticles: ['gaming-stutter'],
     sections: [{
       heading: 'Check GPU usage in Windows before changing anything',
       paragraphs: [
@@ -1103,22 +1205,39 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate individual hitches rather than relying on average FPS alone.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a supported frame-time capture; its signals suggest leads rather than proving a root cause.' }
       ]
+    }, {
+      heading: 'When full GPU usage coincides with stutter',
+      paragraphs: [
+        'A sustained near-100% reading tells you the GPU was busy during the tool’s sampling window; it does not explain an individual hitch. A short spike can be hidden by a rounded percentage, and a frame-time spike can occur while the GPU is waiting on CPU work, shader compilation, asset loading or memory transfers. Use a per-frame timing capture when the symptom is intermittent.',
+        'Repeat the same scene, then compare the time of each hitch with the GPU metrics your capture tool actually exposes. GPU utilization, GPU busy time, core clock, temperature, power and VRAM are different signals and are not interchangeable. If the trace points away from a sustained graphics limit, move to the broader stutter diagnosis rather than trying to force usage below 100%.'
+      ],
+      relatedLinks: [
+        { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow a measurement-led path when full GPU usage appears alongside hitches or uneven frame delivery.' },
+        { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Correlate the hitch with frame timing, GPU activity, CPU work, memory, clocks and temperature.' },
+        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect supported capture files and compare repeatable runs locally in the browser.' }
+      ]
     }],
     faq: [
       { question: 'How do I check GPU usage in Windows 11 or Windows 10?', answer: 'Open Task Manager with Ctrl+Shift+Esc. Sort the Processes list by GPU and inspect GPU Engine when available, or open Performance and select the GPU to view engine graphs. For temperature, clocks and frame times, use a compatible vendor overlay or monitoring tool because Task Manager does not expose every sensor on every system.' },
       { question: 'Why does GPU usage stay near 100% after I lower graphics settings?', answer: 'The GPU may simply be rendering more frames at the lighter settings. If FPS rises while utilization remains near 100%, that is consistent with the GPU still being busy. Compare FPS, frame times, temperatures and clocks instead of assuming the percentage must fall.' },
       { question: 'Does 100% GPU usage mean I need a new graphics card?', answer: 'No. High utilization during a demanding game is often expected. Consider an upgrade only after repeatable tests show that the GPU’s performance is below your target and a change in workload improves or explains the result. A utilization percentage alone is not enough evidence.' },
-      { question: 'Why is GPU usage different from GPU memory or VRAM usage?', answer: 'GPU utilization estimates how busy a GPU engine is over a sampling period, while VRAM usage describes dedicated graphics memory in use. A GPU can be busy without using all its VRAM, or approach its memory limit and hitch without a single utilization reading explaining why.' }
+      { question: 'Why is GPU usage different from GPU memory or VRAM usage?', answer: 'GPU utilization estimates how busy a GPU engine is over a sampling period, while VRAM usage describes dedicated graphics memory in use. A GPU can be busy without using all its VRAM, or approach its memory limit and hitch without a single utilization reading explaining why.' },
+      { question: 'Can GPU usage be 100% without causing stutter?', answer: 'Yes. A game can keep the GPU busy while delivering consistent frames. If it stutters, compare the frame-time trace with GPU activity, CPU-side work, memory, clocks and temperature at the same moment instead of assuming the utilization percentage caused the hitch.' }
     ]
   },
   'pc-games-crashing-to-desktop-troubleshooting': {
-    updatedAt: '2026-10-10',
+    updatedAt: '2026-10-25',
+    testing: 'This guide is symptom-led and does not claim to reproduce every crash across all games or hardware. Event records are clues, not proof of root cause. Preserve the crash time and exact outcome, and stop repeated stress testing if the PC powers off, artifacts appear or there are signs of electrical or thermal danger.',
     seoTitle: 'PC Games Crashing to Desktop: Diagnose It',
     metaDescription: 'Diagnose PC games crashing to desktop by separating game-specific faults from driver, overlay, memory, thermal and system-wide problems.',
     sources: [
       { label: 'NVIDIA FrameView User Guide', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
       { label: 'Microsoft: Bug check code reference', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2' }
+,
+      { label: 'Microsoft Learn: application or service crashing behavior', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior' },
+      { label: 'Microsoft Support: unexpected restarts and stop-code errors', url: 'https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors' }
     ],
+    relatedArticles: ['gaming-stutter'],
     sections: [{
       heading: 'Use the crash pattern to separate game faults from system instability',
       paragraphs: [
@@ -1138,8 +1257,44 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate stutters that occur before a crash or performance drop.' },
         { label: 'KERNEL_SECURITY_CHECK_FAILURE (0x139)', href: '/tools/bsod-error-code-lookup/kernel-security-check-failure', description: 'If a game crash ends in a blue screen with this stop code, see its common causes and the order to check them.' }
       ]
+    }, {
+      heading: 'Find the matching Windows crash record',
+      paragraphs: [
+        'Use the timestamp of the crash, not a random warning elsewhere in the log. Search Windows for “Reliability Monitor” and open View reliability history, or press Win + R, enter eventvwr.msc, then check Windows Logs > Application around the recorded time. An Application Error event such as Event ID 1000 can name the faulting application, module and exception code; the module name is a lead, not a verdict that the named DLL or hardware part is faulty.',
+        'Read the record alongside the exact outcome. A game returning to desktop, a graphics-driver recovery, a blue screen and a full system power loss are different events. Save the time, game build, driver version and key fields before changing anything, and compare whether the same event repeats after one controlled change.'
+      ],
+      steps: [
+        'Record the local time, game title, the activity that preceded the crash and whether the game returned to desktop, froze, reset the display, blue-screened or powered the PC off.',
+        'Open Reliability Monitor and look for a failure at the same time. Record the problem event name and any faulting application or module shown.',
+        'If more detail is needed, open Event Viewer and check Windows Logs > Application for matching Application Error or Windows Error Reporting events. Do not treat every warning at that time as causal.',
+        'Compare the faulting application, module, exception code and timeline across repeated crashes. One matching record is a clue; repeated, consistent evidence is more useful.',
+        'Do not enable advanced crash dumps or run registry commands just to begin diagnosis. Start with the built-in history and escalate only when the basic record does not answer the question.'
+      ],
+      relatedLinks: [
+        { label: 'Microsoft crash-event troubleshooting guidance', href: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior', description: 'Learn what Windows application crash records contain and how to read the faulting application and module carefully.' }
+      ]
+    }, {
+      heading: 'Choose the next test from the type of failure',
+      table: {
+        caption: 'Separate a game crash from a broader PC fault',
+        headers: ['Observed outcome', 'First branch to investigate', 'Avoid assuming'],
+        rows: [
+          ['One game closes to desktop', 'Game files, mods, settings, overlays and game-specific known issues', 'That the GPU or RAM has failed'],
+          ['Several unrelated games close with similar errors', 'Shared driver, memory stability, temperature, power behavior and system events', 'That reinstalling each game will fix it'],
+          ['Display driver resets or visual artifacts appear', 'Driver/graphics stability, temperature, clocks and supported vendor diagnostics', 'That a driver reset alone proves the GPU is dead'],
+          ['Windows shows a blue screen', 'Record the stop code and follow Windows stop-code diagnosis', 'That this is the same as an ordinary game process crash'],
+          ['The entire PC powers off or loses power', 'Stop repeated stress tests; check power, cooling and hardware safety', 'That game-file verification can repair a power fault']
+        ]
+      },
+      relatedLinks: [
+        { label: 'GPU overheating while gaming', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Investigate temperature and clock behavior when performance worsens as the system heats up.' },
+        { label: 'PC power-supply problems', href: '/pc-power-supply-problems-symptoms', description: 'Use the separate safety-first diagnostic path for shutdowns or restarts under load.' },
+        { label: 'Test RAM for errors on Windows', href: '/how-to-check-ram-for-errors-windows', description: 'Check memory when crashes span several games or other applications.' },
+        { label: 'Read a Windows stop code', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Follow the Windows-specific route when the entire system crashes rather than only the game.' }
+      ]
     }],
-    faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' }]
+    faq: [{ question: 'Should I reinstall Windows when games keep crashing?', answer: 'Not as an early step. First check whether one game or several fail, remove optional overlays or mods as a test, validate files, review matching error records, and return unstable tuning to defaults. A Windows reinstall is disruptive and will not repair failing hardware.' },
+      { question: 'Does Event ID 1000 identify the part that caused a game crash?', answer: 'No. It records an application crash and can identify a faulting application, module and exception code, but the named module is not automatically the root cause. Compare the timestamp and repeated events with the game outcome and controlled tests before assigning blame.' }]
   },
   'laptop-nvme-ssd-upgrade-compatibility': {
     updatedAt: '2026-10-10',
@@ -1974,6 +2129,7 @@ export function enhanceArticles(baseArticles: Article[]): Article[] {
       seoTitle: seoOverride?.seoTitle ?? enhancement?.seoTitle ?? article.seoTitle,
       metaDescription: seoOverride?.metaDescription ?? enhancement?.metaDescription ?? article.metaDescription,
       sources: mergedSources.length ? mergedSources : article.sources,
+      testing: enhancement?.testing ?? article.testing,
       content: [...article.content, ...addedSections],
       faq: [...(article.faq ?? []), ...(enhancement?.faq ?? [])],
       relatedArticles: enhancement?.relatedArticles
