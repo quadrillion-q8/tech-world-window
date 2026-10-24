@@ -451,7 +451,7 @@ select, .tools-search-input, .tools-filter-row select,
 }
 
 /* Collapse navigation before desktop labels begin competing for horizontal space. */
-@media (min-width: 1024px) {
+@media (min-width: 1120px) {
   .site-header .menu-toggle { display: none; }
   .site-header .header-inner { flex-wrap: nowrap; }
   .site-header .main-nav {
@@ -465,7 +465,7 @@ select, .tools-search-input, .tools-filter-row select,
   }
   .site-header .nav-group { flex: 0 1 auto; min-width: 0; }
 }
-@media (max-width: 1023px) {
+@media (max-width: 1119px) {
   .site-header .header-inner { flex-wrap: nowrap; }
   .site-header .menu-toggle {
     display: inline-flex;

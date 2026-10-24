@@ -132,10 +132,21 @@ for (const route of routeGraph) {
   if (!route.navLabel?.trim()) errors.push(`Route has navOrder but no navLabel: ${route.path}`);
 }
 
+const menuGroupLabels = new Set<string>();
 for (const group of menuGroups) {
+  if (menuGroupLabels.has(group.label)) errors.push(`Duplicate mega-menu group label: ${group.label}`);
+  menuGroupLabels.add(group.label);
   if (group.href && !indexablePaths.has(group.href)) errors.push(`Mega-menu group points to a missing/non-indexable route: ${group.href}`);
+  const submenuHrefs = new Set<string>();
   for (const link of group.links) {
     if (!indexablePaths.has(link.href)) errors.push(`Mega-menu link points to a missing/non-indexable route: ${link.href}`);
+    if (group.href && link.href === group.href) {
+      errors.push(`Mega-menu group "${group.label}" repeats its landing route inside the submenu: ${link.href}`);
+    }
+    if (submenuHrefs.has(link.href)) {
+      errors.push(`Mega-menu group "${group.label}" repeats submenu destination: ${link.href}`);
+    }
+    submenuHrefs.add(link.href);
   }
 }
 
