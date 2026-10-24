@@ -10,10 +10,9 @@ const articleContentLoaders = import.meta.glob<{ default: Article }>('./data/gen
 /**
  * Load route page families on demand.
  *
- * The content-heavy Home, Category, Article and Static pages share the large
- * article registry. Keeping those pages behind route-level dynamic imports
- * prevents that registry from being pulled into the initial app entry for
- * routes such as interactive tools and lightweight category-independent pages.
+ * Keep content-heavy route families out of the initial app entry. Article body
+ * data is generated per slug so an article route loads only its own full content;
+ * hubs and related cards use the lightweight generated metadata index.
  *
  * vite-react-ssg resolves these lazy route modules during prerendering, so the
  * public route graph and static HTML output remain the source of truth.
@@ -66,8 +65,8 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
     return async () => ({ Component: (await import('./pages/Home')).Home });
   }
   if (route.kind === 'article') {
-    const fileName = \`\${route.path.slice(1).replace(/\//g, '--')}.json\`;
-    const contentKey = \`./data/generated/article-content/\${fileName}\`;
+    const fileName = `${route.path.slice(1).replace(/\//g, '--')}.json`;
+    const contentKey = `./data/generated/article-content/${fileName}`;
     const loadArticle = articleContentLoaders[contentKey];
     if (!loadArticle) {
       throw new Error(\`No generated article content module for route: \${route.path} (expected \${contentKey})\`);
