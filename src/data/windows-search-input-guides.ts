@@ -10,7 +10,7 @@ export const windowsSearchInputGuides: Article[] = [
     "id": "windows-search-not-working",
     "slug": "windows-search-not-working",
     "title": "Windows Search Not Working: Fix Start Menu and Missing Results",
-    "seoTitle": "Windows Search Not Working? Fix Missing Results",
+    "seoTitle": "Windows Search Not Working? Fix",
     "dek": "When Start-menu search returns nothing, cannot find apps, or misses files, first separate a search-index problem from a broken Windows shell, an unindexed folder, or an issue limited to one app.",
     "metaDescription": "Windows Search not working? Diagnose blank results, missing files, indexing delays and Start-menu problems before rebuilding the index.",
     "excerpt": "Start by identifying where search fails. Start-menu app search, File Explorer file search, web results and one application's search can fail for different reasons.",
@@ -36,7 +36,8 @@ export const windowsSearchInputGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-file-explorer-not-responding"
     ],
     "testing": "This guide uses Microsoft's published documentation for Search indexing and troubleshooting. Windows menu names and available troubleshooters can vary by Windows build and device policy; the article does not claim every procedure was reproduced on every build.",
     "sources": [
@@ -221,7 +222,8 @@ export const windowsSearchInputGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-keyboard-mouse-not-working"
     ],
     "testing": "This guide follows Microsoft's published touchpad troubleshooting and driver guidance. Function-key combinations and advanced touchpad controls differ between laptop manufacturers; use the exact model's support instructions for those controls.",
     "sources": [
@@ -402,7 +404,8 @@ export const windowsSearchInputGuides: Article[] = [
     "pillarPath": "/windows-troubleshooting-complete-guide",
     "searchIntent": "informational",
     "relatedArticles": [
-      "windows-troubleshooting-universal"
+      "windows-troubleshooting-universal",
+      "windows-touchpad-not-working"
     ],
     "testing": "This guide follows Microsoft's published keyboard/mouse and Bluetooth troubleshooting advice. USB behavior, wireless receivers, drivers and firmware vary by device; the diagnostic steps do not prove a specific component has failed.",
     "sources": [

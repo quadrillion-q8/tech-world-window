@@ -670,7 +670,8 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-printer-offline"
+      "windows-printer-offline",
+      "windows-search-not-working"
     ],
     "testing": "This troubleshooting workflow is informed by Microsoft's File Explorer guidance and TWW's existing Windows storage diagnostic material. It does not claim that one Explorer restart, system command or cache action fixes all hangs. Back up important files before investigating a drive that reports errors.",
     "sources": [
