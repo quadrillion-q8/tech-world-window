@@ -9,6 +9,7 @@
   "scripts": {
     "predev": "npm run generate:article-data",
     "dev": "vite-react-ssg dev",
+    "predev:csr": "npm run generate:article-data",
     "dev:csr": "vite",
     "generate:article-data": "tsx scripts/generate-article-data.ts",
     "pretypecheck": "npm run generate:article-data",
