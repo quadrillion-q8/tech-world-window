@@ -29,10 +29,10 @@ export const SITE_TAGLINE = 'Your Window Into Technology';
 
 export const routeGraph: RouteNode[] = [
   { path: '/', kind: 'home', title: SITE_NAME, indexable: true },
-  { path: '/news', kind: 'category', title: 'Technology News', indexable: true, navOrder: 10, navLabel: 'News' },
-  { path: '/windows', kind: 'category', title: 'Windows', indexable: true, navOrder: 20, navLabel: 'Windows' },
-  { path: '/gaming', kind: 'category', title: 'Gaming', indexable: true, navOrder: 30, navLabel: 'Gaming' },
-  { path: '/hardware', kind: 'category', title: 'Hardware', indexable: true, navOrder: 40, navLabel: 'Hardware' },
+  { path: '/news', kind: 'category', title: 'Technology News', indexable: true, navOrder: 40, navLabel: 'News' },
+  { path: '/windows', kind: 'category', title: 'Windows', indexable: true, navOrder: 10, navLabel: 'Windows' },
+  { path: '/gaming', kind: 'category', title: 'Gaming', indexable: true, navOrder: 20, navLabel: 'Gaming' },
+  { path: '/hardware', kind: 'category', title: 'Hardware', indexable: true, navOrder: 30, navLabel: 'Hardware' },
   { path: '/reviews', kind: 'category', title: 'Technology Reviews', indexable: true, navOrder: 50, navLabel: 'Reviews' },
   { path: '/best', kind: 'category', title: 'Best Technology Picks', indexable: true, navOrder: 60, navLabel: 'Best' },
   { path: '/guides', kind: 'category', title: 'Guides', indexable: true, navOrder: 70, navLabel: 'Guides' },

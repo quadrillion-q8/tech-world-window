@@ -1556,10 +1556,10 @@ function withResearchBacklinks(list: Article[]): Article[] {
 export const articles: Article[] = placeGalleryImages(enhanceArticles(withResearchBacklinks(baseArticles)));
 
 export const categories = [
-  { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
   { slug: 'windows', name: 'Windows', description: 'Step-by-step Windows fixes for updates, drivers, networking, startup and performance problems.', imageBase: '/images/categories/windows' },
   { slug: 'gaming', name: 'Gaming', description: 'Performance, frame-time, stability and gaming hardware.', imageBase: '/images/categories/gaming' },
   { slug: 'hardware', name: 'Hardware', description: 'PC parts, laptops, storage, cooling and displays.', imageBase: '/images/categories/hardware' },
+  { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
   { slug: 'guides', name: 'Guides', description: 'Start-here guides that cover a whole problem area, such as Windows troubleshooting, PC stuttering and SSD health.', imageBase: '/images/categories/guides' },
   { slug: 'reviews', name: 'Reviews', description: 'Practical testing with methods and limitations.', imageBase: '/images/categories/reviews' },
   { slug: 'best', name: 'Best', description: 'Buying guides and carefully explained picks for performance, compatibility and value.', imageBase: '/images/categories/best' },
