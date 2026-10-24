@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
-import { articles, articleWordCount } from '../data/articles';
 
 const path = '/gamebar-presence-writer-fix';
-const articleRecord = articles.find(article => `/${article.slug}` === path);
 const title = 'GameBarPresenceWriter.exe: What It Does and How to Troubleshoot Stutter';
 const description = 'Learn what GameBarPresenceWriter.exe does, how to test whether Xbox Game Bar contributes to game stutter, and which troubleshooting steps to try before advanced registry changes.';
 const updated = '2026-10-14';
@@ -63,7 +61,7 @@ export function GameBarPresenceWriterPage() {
     ]} />
     <ArticleStructuredData title={title} description={description} path={path} publishedAt="2026-10-14" updatedAt={updated}
       authorName="Imran Natiq" authorUrl="/authors/imran-natiq" category="Windows Gaming Guides"
-      image="/og-default.png" wordCount={articleRecord ? articleWordCount(articleRecord) : undefined} keywords={['GameBarPresenceWriter.exe', 'Xbox Game Bar', 'Windows gaming stutter', 'Game DVR', 'frame-time']} />
+      image="/og-default.png" keywords={['GameBarPresenceWriter.exe', 'Xbox Game Bar', 'Windows gaming stutter', 'Game DVR', 'frame-time']} />
     <HowToStructuredData name="Troubleshoot GameBarPresenceWriter.exe and gaming stutter" steps={[
       'Measure the problem: reproduce the same game scene and record frame-time, temperatures, clocks and background load.',
       'Test Game Bar settings: disable unused Xbox Game Bar features and background capture, restart, and compare the same scene.',
