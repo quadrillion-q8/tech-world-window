@@ -24,7 +24,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   pillarPath: '/windows-troubleshooting-complete-guide',
   searchIntent: 'informational',
   testing: 'This is a documentation-based troubleshooting guide, not a report of controlled hardware testing. Recovery screens and firmware settings vary by Windows version, device model, and organization policy. Microsoft and the device manufacturer’s current instructions take precedence.',
-  relatedArticles: ['bios-uefi-recovery-guide', 'laptop-battery-warning-signs', 'windows-troubleshooting-universal'],
+  relatedArticles: ['bios-uefi-recovery-guide', 'laptop-battery-warning-signs'],
   content: [
     {
       heading: 'First: do not reset or reinstall Windows',
