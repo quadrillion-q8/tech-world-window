@@ -10,7 +10,7 @@ export const universalPcIssueGuides: Article[] = [
     "id": "windows-bluetooth-not-working",
     "slug": "windows-11-bluetooth-not-working",
     "title": "Bluetooth Not Working in Windows 11: Pairing, Missing Toggle and Dropouts",
-    "seoTitle": "Bluetooth Not Working in Windows 11? Fix Pairing",
+    "seoTitle": "Windows 11 Bluetooth Not Working? Fix",
     "dek": "Bluetooth may be missing, refuse to pair, disconnect repeatedly or connect without working properly. Identify which failure you have before reinstalling drivers or resetting Windows.",
     "metaDescription": "Fix Windows 11 Bluetooth problems by separating missing adapters, pairing failures, repeated disconnects and Bluetooth audio issues with safe tests.",
     "excerpt": "First find out whether Bluetooth is missing from Settings, whether one accessory fails to pair, or whether an already paired device drops out. These patterns point to different tests.",
@@ -40,9 +40,7 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-no-sound",
-      "usb-device-not-recognized",
-      "windows-wifi-diagnosis"
+      "windows-no-sound"
     ],
     "testing": "This symptom-led guide is based on Microsoft's published Windows Bluetooth troubleshooting guidance. It does not claim that every cause was reproduced on one PC; Bluetooth hardware, driver packages and accessory behavior vary by model. Prefer the PC or accessory manufacturer's instructions for model-specific steps.",
     "sources": [
@@ -363,9 +361,7 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-no-sound",
-      "windows-bluetooth-not-working",
-      "usb-device-not-recognized"
+      "windows-no-sound"
     ],
     "testing": "The steps follow Microsoft's published Windows camera guidance. Camera shutters, function-key controls, driver extensions and firmware vary by manufacturer, so this article does not claim that one menu path or setting applies to every laptop or webcam.",
     "sources": [
@@ -482,11 +478,11 @@ export const universalPcIssueGuides: Article[] = [
     "id": "windows-second-monitor-not-detected",
     "slug": "windows-second-monitor-not-detected",
     "title": "Second Monitor Not Detected in Windows: Diagnose Cables, Ports and Settings",
-    "seoTitle": "Second Monitor Not Detected? Fix Windows Display",
+    "seoTitle": "Second Monitor Not Detected? Fix Windows",
     "dek": "A second screen can show No Signal, stay black, or never appear in Display settings. Isolate the monitor, cable, input, adapter, dock, GPU port and Windows display mode in that order.",
     "metaDescription": "Fix a second monitor not detected in Windows 11 or 10 with safe tests for power, input source, cable, display mode, ports, docks and graphics drivers.",
     "excerpt": "Start with the monitor's own input and a known-good cable. If Windows cannot detect the screen, simplify the connection before changing resolution or reinstalling graphics drivers.",
-    "category": "Hardware",
+    "category": "Windows",
     "subcategory": "Displays and connectivity",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-24",
@@ -512,9 +508,7 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "pc-turns-on-but-no-display",
-      "windows-no-sound",
-      "gaming-stutter"
+      "windows-no-sound"
     ],
     "testing": "This guide uses Microsoft's documented multiple-display workflow and common connection-isolation principles. Display output support depends on the specific GPU, port, cable, dock and computer model. It does not claim that every USB-C port carries video or that every dock supports every display configuration.",
     "sources": [
@@ -647,7 +641,7 @@ export const universalPcIssueGuides: Article[] = [
     "id": "windows-file-explorer-not-responding",
     "slug": "windows-file-explorer-not-responding",
     "title": "File Explorer Not Responding in Windows: Find the Cause Safely",
-    "seoTitle": "File Explorer Not Responding? Diagnose Windows",
+    "seoTitle": "File Explorer Not Responding? Fix Windows",
     "dek": "File Explorer may freeze on one folder, restart repeatedly, show a loading bar or stop opening. Determine whether the issue is a folder, cloud/network location, resource pressure or Windows component.",
     "metaDescription": "Fix File Explorer not responding in Windows 11 or 10 with safe checks for a frozen folder, Explorer process, storage pressure, updates and system files.",
     "excerpt": "First check whether one folder hangs or all of Explorer is affected. A slow external or network location can look like an Explorer crash, and storage warnings should change your next step.",
@@ -676,10 +670,7 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "windows-high-memory",
-      "windows-disk-100-percent",
-      "ssd-health",
-      "windows-slow-startup"
+      "windows-printer-offline"
     ],
     "testing": "This troubleshooting workflow is informed by Microsoft's File Explorer guidance and TWW's existing Windows storage diagnostic material. It does not claim that one Explorer restart, system command or cache action fixes all hangs. Back up important files before investigating a drive that reports errors.",
     "sources": [
@@ -842,9 +833,7 @@ export const universalPcIssueGuides: Article[] = [
     "searchIntent": "informational",
     "relatedArticles": [
       "windows-troubleshooting-universal",
-      "usb-device-not-recognized",
-      "windows-wifi-diagnosis",
-      "windows-network-reset"
+      "windows-file-explorer-not-responding"
     ],
     "testing": "This guide is based on Microsoft's documented printer-connection and print-queue troubleshooting. Printer menus, driver packages and network setup differ by manufacturer. The print-spooler queue-clearing procedure removes queued documents, so it is not presented as an early or consequence-free step.",
     "sources": [

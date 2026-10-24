@@ -112,6 +112,12 @@ export const routeGraph: RouteNode[] = [
   { path: '/pc-turns-on-but-no-display', kind: 'article', title: 'PC Turns On but Has No Display: A Safe Diagnostic Guide', indexable: true },
   { path: '/ssd-not-detected-in-bios-or-windows', kind: 'article', title: 'SSD Not Detected in BIOS or Windows: Find the Failure Point', indexable: true },
   { path: '/windows-11-usb-device-not-recognized', kind: 'article', title: 'USB Device Not Recognized in Windows: A Diagnostic Guide', indexable: true },
+  { path: '/windows-11-bluetooth-not-working', kind: 'article', title: 'Bluetooth Not Working in Windows 11: Pairing, Missing Toggle and Dropouts', indexable: true },
+  { path: '/windows-11-no-sound-speakers-headphones', kind: 'article', title: 'No Sound in Windows 11? Diagnose Speakers, Headphones and Missing Audio', indexable: true },
+  { path: '/windows-11-camera-not-working', kind: 'article', title: 'Windows Camera Not Working: Fix a Missing Webcam or Black Screen', indexable: true },
+  { path: '/windows-second-monitor-not-detected', kind: 'article', title: 'Second Monitor Not Detected in Windows: Diagnose Cables, Ports and Settings', indexable: true },
+  { path: '/windows-file-explorer-not-responding', kind: 'article', title: 'File Explorer Not Responding in Windows: Find the Cause Safely', indexable: true },
+  { path: '/windows-printer-offline-queue-stuck', kind: 'article', title: 'Printer Offline in Windows: Fix Connection Problems and Stuck Print Jobs', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -146,6 +152,12 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
       { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
       { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
+      { label: 'Bluetooth Problems', href: '/windows-11-bluetooth-not-working', description: 'Diagnose missing Bluetooth controls, pairing failures and drops.' },
+      { label: 'No Sound or Headphones', href: '/windows-11-no-sound-speakers-headphones', description: 'Check Windows audio routing, speakers and microphone input.' },
+      { label: 'Webcam Not Working', href: '/windows-11-camera-not-working', description: 'Troubleshoot camera privacy, black preview and device detection.' },
+      { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
+      { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
+      { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
       { label: 'BSOD Code Lookup', href: '/tools/bsod-error-code-lookup', description: 'Look up a blue screen stop code.' },
       { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
     ],
@@ -196,6 +208,12 @@ export const menuGroups: MenuGroup[] = [
       { label: 'PC Turns On but Has No Display', href: '/pc-turns-on-but-no-display', description: 'Separate monitor issues from failed POST and hardware initialization.' },
       { label: 'SSD Not Detected', href: '/ssd-not-detected-in-bios-or-windows', description: 'Distinguish firmware detection from Windows mounting without risking data.' },
       { label: 'USB Device Not Recognized', href: '/windows-11-usb-device-not-recognized', description: 'Isolate the device, cable, port, power path and Windows driver.' },
+      { label: 'Bluetooth Problems', href: '/windows-11-bluetooth-not-working', description: 'Diagnose missing Bluetooth controls, pairing failures and drops.' },
+      { label: 'No Sound or Headphones', href: '/windows-11-no-sound-speakers-headphones', description: 'Check Windows audio routing, speakers and microphone input.' },
+      { label: 'Webcam Not Working', href: '/windows-11-camera-not-working', description: 'Troubleshoot camera privacy, black preview and device detection.' },
+      { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
+      { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
+      { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
     ],
   },
   {
