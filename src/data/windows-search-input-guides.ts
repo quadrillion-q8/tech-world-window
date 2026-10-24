@@ -10,7 +10,7 @@ export const windowsSearchInputGuides: Article[] = [
     "id": "windows-search-not-working",
     "slug": "windows-search-not-working",
     "title": "Windows Search Not Working: Fix Start Menu and Missing Results",
-    "seoTitle": "Windows Search Not Working? Fix Missing Results",
+    "seoTitle": "Windows Search Not Working? Fix",
     "dek": "When Start-menu search returns nothing, cannot find apps, or misses files, first separate a search-index problem from a broken Windows shell, an unindexed folder, or an issue limited to one app.",
     "metaDescription": "Windows Search not working? Diagnose blank results, missing files, indexing delays and Start-menu problems before rebuilding the index.",
     "excerpt": "Start by identifying where search fails. Start-menu app search, File Explorer file search, web results and one application's search can fail for different reasons.",
