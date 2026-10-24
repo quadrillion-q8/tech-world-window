@@ -1275,6 +1275,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
       ]
     }, {
       heading: 'Choose the next test from the type of failure',
+      paragraphs: ['Use the observed outcome to choose a narrower diagnostic path. The table is a triage aid, not a guarantee that one symptom identifies one failed component.'],
       table: {
         caption: 'Separate a game crash from a broader PC fault',
         headers: ['Observed outcome', 'First branch to investigate', 'Avoid assuming'],
