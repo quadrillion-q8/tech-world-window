@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { menuGroups } from '../data/graph';
+import { SearchDialog } from './SearchDialog';
 
 const HOVER_INTENT_DELAY_MS = 175;
 
@@ -12,10 +13,12 @@ function getMenuId(label: string) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const menuToggleRef = useRef<HTMLButtonElement | null>(null);
   const hoverTimerRef = useRef<number | null>(null);
   const location = useLocation();
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
 
   const cancelHoverTimer = () => {
     if (hoverTimerRef.current !== null) {
@@ -56,7 +59,7 @@ export function Header() {
   const focusMenuItem = (menuId: string, edge: 'first' | 'last') => {
     window.requestAnimationFrame(() => {
       const items = Array.from(
-        document.getElementById(menuId)?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? [],
+        document.getElementById(menuId)?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? [],
       );
       const target = edge === 'last' ? items[items.length - 1] : items[0];
       target?.focus();
@@ -96,37 +99,6 @@ export function Header() {
     }
   };
 
-  const handleMenuItemKeyDown = (
-    event: ReactKeyboardEvent<HTMLAnchorElement>,
-    menuId: string,
-  ) => {
-    const items = Array.from(
-      document.getElementById(menuId)?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? [],
-    );
-    const currentIndex = items.indexOf(event.currentTarget);
-    if (currentIndex < 0 || items.length === 0) return;
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      const offset = event.key === 'ArrowDown' ? 1 : -1;
-      const nextIndex = (currentIndex + offset + items.length) % items.length;
-      items[nextIndex]?.focus();
-      return;
-    }
-
-    if (event.key === 'Home' || event.key === 'End') {
-      event.preventDefault();
-      const target = event.key === 'Home' ? items[0] : items[items.length - 1];
-      target?.focus();
-      return;
-    }
-
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-      event.preventDefault();
-      focusAdjacentTrigger(menuId, event.key === 'ArrowRight' ? 'next' : 'previous');
-    }
-  };
-
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target;
@@ -138,6 +110,17 @@ export function Header() {
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        if (hoverTimerRef.current !== null) {
+          window.clearTimeout(hoverTimerRef.current);
+          hoverTimerRef.current = null;
+        }
+        setOpen(false);
+        setActiveMenu(null);
+        setSearchOpen(true);
+        return;
+      }
       if (event.key !== 'Escape') return;
 
       if (activeMenu) {
@@ -167,11 +150,21 @@ export function Header() {
     };
   }, [activeMenu, open]);
 
+  useEffect(() => {
+    if (hoverTimerRef.current !== null) {
+      window.clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+    setOpen(false);
+    setActiveMenu(null);
+  }, [location.pathname, location.search, location.hash]);
+
   useEffect(() => () => {
     if (hoverTimerRef.current !== null) window.clearTimeout(hoverTimerRef.current);
   }, []);
 
   return (
+    <>
     <header ref={headerRef} className="site-header">
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Tech World Window home" onClick={closeAll}>
@@ -183,6 +176,24 @@ export function Header() {
             <small className="brand-tagline">Your Window Into Technology</small>
           </span>
         </Link>
+
+        <button
+          type="button"
+          className="site-search-toggle"
+          aria-label="Search Tech World Window"
+          aria-haspopup="dialog"
+          aria-keyshortcuts="Control+K Meta+K"
+          title="Search the site (Ctrl+K or ⌘K)"
+          onClick={() => {
+            closeAll();
+            setSearchOpen(true);
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.8" />
+            <path d="m16 16 5 5" />
+          </svg>
+        </button>
 
         <button
           ref={menuToggleRef}
@@ -203,9 +214,11 @@ export function Header() {
           {menuGroups.map(group => {
             const menuId = getMenuId(group.label);
             const isOpen = activeMenu === group.label;
+            const matchesCurrentPath = (href: string) =>
+              location.pathname === href || location.pathname.startsWith(`${href}/`);
             const isCurrent = Boolean(
-              group.href &&
-              (location.pathname === group.href || location.pathname.startsWith(`${group.href}/`)),
+              (group.href && matchesCurrentPath(group.href)) ||
+              group.links.some(link => matchesCurrentPath(link.href)),
             );
 
             return (
@@ -222,10 +235,10 @@ export function Header() {
                 }}
               >
                 <button
+                  id={`${menuId}-trigger`}
                   type="button"
                   className={isCurrent ? 'nav-trigger is-current' : 'nav-trigger'}
                   data-nav-trigger="true"
-                  aria-haspopup="true"
                   aria-controls={menuId}
                   aria-expanded={isOpen}
                   aria-label={isOpen ? `Close ${group.label} menu` : `Open ${group.label} menu`}
@@ -242,26 +255,24 @@ export function Header() {
                 <div
                   id={menuId}
                   className={'mega-menu' + (isOpen ? ' is-open' : '')}
-                  role="menu"
-                  aria-label={`${group.label} navigation`}
+                  aria-labelledby={`${menuId}-trigger`}
                 >
-                  <div className="mega-intro" role="group" aria-label={`${group.label} overview`}>
+                  <div className="mega-intro">
                     <span className="eyebrow">EXPLORE {group.label.toUpperCase()}</span>
                     <strong>{group.description}</strong>
                     {group.href && (
-                      <Link to={group.href} role="menuitem" onClick={closeAll} onKeyDown={event => handleMenuItemKeyDown(event, menuId)}>
+                      <Link to={group.href} aria-current={location.pathname === group.href ? 'page' : undefined} onClick={closeAll}>
                         View {group.label} →
                       </Link>
                     )}
                   </div>
-                  <div className="mega-links" role="group" aria-label={`${group.label} links`}>
+                  <div className="mega-links">
                     {group.links.map(link => (
                       <Link
                         key={link.href + link.label}
                         to={link.href}
-                        role="menuitem"
+                        aria-current={location.pathname === link.href ? 'page' : undefined}
                         onClick={closeAll}
-                        onKeyDown={event => handleMenuItemKeyDown(event, menuId)}
                       >
                         <span className="mega-link-title">{link.label}</span>
                         {link.description && <small>{link.description}</small>}
@@ -275,5 +286,7 @@ export function Header() {
         </nav>
       </div>
     </header>
+    {searchOpen && <SearchDialog onClose={closeSearch} />}
+    </>
   );
 }
