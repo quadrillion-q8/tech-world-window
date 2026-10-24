@@ -118,6 +118,9 @@ export const routeGraph: RouteNode[] = [
   { path: '/windows-second-monitor-not-detected', kind: 'article', title: 'Second Monitor Not Detected in Windows: Diagnose Cables, Ports and Settings', indexable: true },
   { path: '/windows-file-explorer-not-responding', kind: 'article', title: 'File Explorer Not Responding in Windows: Find the Cause Safely', indexable: true },
   { path: '/windows-printer-offline-queue-stuck', kind: 'article', title: 'Printer Offline in Windows: Fix Connection Problems and Stuck Print Jobs', indexable: true },
+  { path: '/windows-search-not-working', kind: 'article', title: 'Windows Search Not Working: Fix Start Menu and Missing Results', indexable: true },
+  { path: '/windows-touchpad-not-working', kind: 'article', title: 'Laptop Touchpad Not Working in Windows: Safe Diagnosis', indexable: true },
+  { path: '/windows-keyboard-mouse-not-working', kind: 'article', title: 'Keyboard or Mouse Not Working in Windows: Troubleshooting', indexable: true },
 ];
 
 export const navigation = routeGraph
@@ -158,6 +161,9 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
       { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
       { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
+      { label: 'Windows Search Problems', href: '/windows-search-not-working', description: 'Troubleshoot Start-menu search, missing files and indexing.' },
+      { label: 'Laptop Touchpad Not Working', href: '/windows-touchpad-not-working', description: 'Check touchpad settings, device detection and drivers.' },
+      { label: 'Keyboard and Mouse Problems', href: '/windows-keyboard-mouse-not-working', description: 'Isolate USB, wireless, Bluetooth and input-setting failures.' },
       { label: 'BSOD Code Lookup', href: '/tools/bsod-error-code-lookup', description: 'Look up a blue screen stop code.' },
       { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
     ],
@@ -214,6 +220,9 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
       { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
       { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
+      { label: 'Windows Search Problems', href: '/windows-search-not-working', description: 'Troubleshoot Start-menu search, missing files and indexing.' },
+      { label: 'Laptop Touchpad Not Working', href: '/windows-touchpad-not-working', description: 'Check touchpad settings, device detection and drivers.' },
+      { label: 'Keyboard and Mouse Problems', href: '/windows-keyboard-mouse-not-working', description: 'Isolate USB, wireless, Bluetooth and input-setting failures.' },
     ],
   },
   {
