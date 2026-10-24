@@ -92,7 +92,7 @@ const childRoutes: RouteRecord[] = [
       throw new Error(`No lazy page component registered for route: ${route.path} (${route.kind})`);
     }
     if (route.path === '/') return { index: true, lazy } as RouteRecord;
-    return { path: route.path.replace(/^\\//, ''), lazy } as RouteRecord;
+    return { path: route.path.slice(1), lazy } as RouteRecord;
   }),
   {
     path: '*',
