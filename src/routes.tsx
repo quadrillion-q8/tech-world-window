@@ -69,7 +69,7 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
     const contentKey = `./data/generated/article-content/${fileName}`;
     const loadArticle = articleContentLoaders[contentKey];
     if (!loadArticle) {
-      throw new Error(\`No generated article content module for route: \${route.path} (expected \${contentKey})\`);
+      throw new Error(`No generated article content module for route: ${route.path} (expected ${contentKey})`);
     }
     return async () => {
       const [{ ArticlePage }, contentModule] = await Promise.all([
