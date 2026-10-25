@@ -1,5 +1,7 @@
 import { windows26H2InstallationGuide } from './windows-26h2-installation-guide';
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
+import { gamingPerformancePillar } from './gaming-performance-pillar';
+import { hardwareTroubleshootingPillar } from './hardware-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
 import { enhanceArticles } from './content-enhancements';
 import { researchArticles } from './research-articles';
@@ -132,6 +134,8 @@ const baseArticles: Article[] = [
   },
 
   windowsTroubleshootingPillar,
+  gamingPerformancePillar,
+  hardwareTroubleshootingPillar,
   ...phase4Articles,
   ...researchArticles,
   ramSsdUpgradeDecisionGuide,
@@ -2006,7 +2010,7 @@ export const categories = [
   { slug: 'gaming', name: 'Gaming', description: 'Performance, frame-time, stability and gaming hardware.', imageBase: '/images/categories/gaming' },
   { slug: 'hardware', name: 'Hardware', description: 'PC parts, laptops, storage, cooling and displays.', imageBase: '/images/categories/hardware' },
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
-  { slug: 'guides', name: 'Guides', description: 'Start-here guides that cover a whole problem area, such as Windows troubleshooting, PC stuttering and SSD health.', imageBase: '/images/categories/guides' },
+  { slug: 'guides', name: 'Guides', description: 'Start-here guides for Windows troubleshooting, PC gaming performance, and hardware diagnosis and upgrades.', imageBase: '/images/categories/guides' },
   { slug: 'reviews', name: 'Reviews', description: 'Practical testing with methods and limitations.', imageBase: '/images/categories/reviews' },
   { slug: 'best', name: 'Best', description: 'Buying guides and carefully explained picks for performance, compatibility and value.', imageBase: '/images/categories/best' },
   { slug: 'research', name: 'Research', description: 'Technical investigations, measurements and evidence-led explanations.', imageBase: '/images/categories/research' },
