@@ -1192,7 +1192,7 @@ const baseArticles: Article[] = [
     slug: 'how-to-check-ssd-health-windows',
     title: 'How to Check SSD Health in Windows',
     seoTitle: 'How to Check SSD Health in Windows 11',
-    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.',
+    metaDescription: 'Check SSD health in Windows 11 with SMART data, PowerShell and official tools. Understand wear, errors and warning signs before replacing the drive.',
     dek: 'A practical Windows 11 guide to checking SSD health, understanding SMART and reliability counters, reading storage error events, and protecting your data before deciding what to replace.',
     excerpt: 'Check your SSD using supported Windows health data, PowerShell and the drive maker’s utility. Interpret warnings alongside symptoms, and back up important data before risky tests.',
     category: 'Hardware',
@@ -1202,7 +1202,7 @@ const baseArticles: Article[] = [
     updatedAt: '2026-10-26',
     readingTime: 7,
     tags: ['SSD', 'SMART', 'Storage', 'Windows', 'Drive Health', 'Troubleshooting'],
-    relatedArticles: ['ssd-not-detected-in-bios-or-windows', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade'],
+    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'ssd-not-detected-in-bios-or-windows', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
@@ -1232,13 +1232,13 @@ const baseArticles: Article[] = [
         caption: 'Official SSD health utilities and useful fields to inspect',
         headers: ['Drive brand', 'Official utility', 'What to inspect'],
         rows: [
-          ['Samsung', { text: 'Samsung Magician', href: 'https://semiconductor.samsung.com/consumer-storage/magician/' }, 'Drive Health Status, SMART data and Total Bytes Written where supported; features differ for non-Samsung or OEM drives.'],
-          ['Western Digital / SanDisk', { text: 'SANDISK Dashboard', href: 'https://support-en.sandisk.com/app/answers/detailweb/a_id/31759' }, 'Drive health, model/firmware and SMART attributes for listed supported WD/SanDisk SSDs; check the model support list.'],
-          ['Crucial (Micron)', { text: 'Crucial Storage Executive', href: 'https://www.crucial.com/support/storage-executive' }, 'Drive details, health status and SMART information; available fields depend on the exact drive and software version.'],
-          ['Kingston', { text: 'Kingston SSD Manager', href: 'https://www.kingston.com/en/support/technical/ssdmanager' }, 'Drive health/status, identification and the detailed health report for supported Kingston SSDs; USB enclosures are not supported.'],
-          ['Solidigm / supported Intel SSDs', { text: 'Solidigm Storage Tool', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' }, 'Drive health, SMART attributes and estimated life remaining where available; OEM drives may need the PC maker’s support.'],
-          ['Seagate', { text: 'SeaTools 5', href: 'https://www.seagate.com/as/en/support/downloads/seatools/' }, 'SMART status/attributes and drive diagnostics; some functions depend on model and connection.'],
-          ['Any supported drive (third-party)', { text: 'CrystalDiskInfo', href: 'https://crystalmark.info/en/software/crystaldiskinfo/' }, 'A second view of reported SMART attributes and temperature; use the official download and cross-check significant warnings with the drive maker.']
+          ['Samsung', 'Samsung Magician', 'Drive Health Status, SMART data and Total Bytes Written where supported; features differ for non-Samsung or OEM drives.'],
+          ['Western Digital / SanDisk', 'SANDISK Dashboard', 'Drive health, model/firmware and SMART attributes for listed supported WD/SanDisk SSDs; check the model support list.'],
+          ['Crucial (Micron)', 'Crucial Storage Executive', 'Drive details, health status and SMART information; available fields depend on the exact drive and software version.'],
+          ['Kingston', 'Kingston SSD Manager', 'Drive health/status, identification and the detailed health report for supported Kingston SSDs; USB enclosures are not supported.'],
+          ['Solidigm / supported Intel SSDs', 'Solidigm Storage Tool', 'Drive health, SMART attributes and estimated life remaining where available; OEM drives may need the PC maker’s support.'],
+          ['Seagate', 'SeaTools 5', 'SMART status/attributes and drive diagnostics; some functions depend on model and connection.'],
+          ['Any supported drive (third-party)', 'CrystalDiskInfo', 'A second view of reported SMART attributes and temperature; use the official download and cross-check significant warnings with the drive maker.']
         ]
       }, steps: [
         'If errors, critical warnings, repeated disconnects or file corruption are already present, make a verified backup before benchmarks or long diagnostic scans.',
