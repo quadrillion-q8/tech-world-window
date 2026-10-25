@@ -440,8 +440,7 @@ const enhancements: Record<string, Enhancement> = {
         'This is not a universal Windows switch and it does not eliminate every kind of stutter. If a title does not support ASD in the store you use, ordinary shader-cache behavior and in-game precompilation remain relevant. Check Microsoft’s current DirectX announcement and the game’s own update notes rather than assuming a particular game has enabled the feature.'
       ],
       relatedLinks: [
-        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the broader diagnostic when hitches persist after checking game-specific shader-precompilation support.' },
-        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the general diagnostic when hitches persist outside first-run shader compilation.' }
+        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the broader diagnostic when hitches persist after checking game-specific shader-precompilation support.' }
       ]
     }, {
       heading: 'When to rebuild a shader cache—and when not to',
@@ -460,7 +459,6 @@ const enhancements: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
-        { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare first-run and repeat captures to see whether the hitch pattern actually changes.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare first-run and repeat captures to see whether the hitch pattern actually changes.' }
       ]
     }]
