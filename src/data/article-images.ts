@@ -133,6 +133,27 @@ export const articleImagePlacements: Record<string, Placement[]> = {
       caption: 'A physical 8GB DDR4 memory module from the TWW gallery. Windows memory-efficiency changes do not add installed RAM; upgrade options depend on the exact device.',
     },
   ]
+
+  'pc-gaming-performance-complete-guide': [
+    {
+      after: 'Low FPS: test the workload before calling it a bottleneck',
+      id: 'acer-predator-gaming-pc-cooler-master-liquid-cooler-and-z37h4-aa-motherboard',
+      alt: 'Acer Predator gaming desktop with its liquid cooler and motherboard visible',
+      caption: `${bench}: a gaming desktop's internal hardware. This photo is illustrative only; it is not a benchmark or proof of a performance bottleneck.`,
+    },
+    {
+      after: 'Thermals, clocks and power: interpret the trend, not one reading',
+      id: 'asus-rog-strix-g15-g513r-cpu-and-gpu-old-thermal-paste-before-repaste',
+      alt: 'ASUS ROG Strix G15 CPU and GPU contact areas with old thermal paste before service',
+      caption: `${bench}: old thermal compound visible during a cooling service. A photo alone cannot establish overheating; compare sensor trends, clocks and the exact model's limits.`,
+    },
+    {
+      after: 'RAM, VRAM, storage and background activity can matter',
+      id: 'gigabyte-gaming-laptop-internals-dual-fan-cooling-ssd-ram-upgrade',
+      alt: 'Opened Gigabyte gaming laptop showing cooling fans, SSD and RAM areas',
+      caption: `${bench}: internal cooling and upgrade components in one gaming laptop. Layout, memory support and storage compatibility vary by model, so confirm the exact service manual before buying parts.`,
+    },
+  ],
 };
 
 /**
