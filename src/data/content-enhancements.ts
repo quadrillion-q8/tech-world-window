@@ -469,14 +469,21 @@ const enhancements: Record<string, Enhancement> = {
   'how-to-check-ssd-health-windows': {
     updatedAt: '2026-10-26',
     seoTitle: 'How to Check SSD Health in Windows 11',
-    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.',
+    metaDescription: 'Check SSD health in Windows 11 with SMART data, PowerShell and official tools. Understand wear, errors and warning signs before replacing the drive.',
     sources: [
       { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
       { label: 'Microsoft Learn: MSFT_StorageReliabilityCounter properties', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/storage/msft-storagereliabilitycounter' },
       { label: 'Microsoft Support: WMIC command-line utility removal', url: 'https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/09/windows-management-instrumentation-command-line-wmic-removal-from-windows' },
       { label: 'Microsoft Learn: Troubleshooting data corruption and disk errors', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors' },
       { label: 'Microsoft Learn: WHEA hardware error events', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/whea/whea-hardware-error-events' },
-      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' }
+      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' },
+      { label: 'Samsung Magician: official SSD management utility', url: 'https://semiconductor.samsung.com/consumer-storage/magician/' },
+      { label: 'SANDISK Dashboard: official supported-drive utility', url: 'https://support-en.sandisk.com/app/answers/detailweb/a_id/31759' },
+      { label: 'Crucial Storage Executive: official SSD utility', url: 'https://www.crucial.com/support/storage-executive' },
+      { label: 'Kingston SSD Manager: official supported-drive utility', url: 'https://www.kingston.com/en/support/technical/ssdmanager' },
+      { label: 'Solidigm Storage Tool: official utility and support', url: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' },
+      { label: 'Seagate SeaTools: official drive diagnostic utility', url: 'https://www.seagate.com/as/en/support/downloads/seatools/' },
+      { label: 'CrystalDiskInfo: official third-party SMART viewer', url: 'https://crystalmark.info/en/software/crystaldiskinfo/' }
     ],
     sections: []
   },
@@ -1998,7 +2005,7 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
 
   'how-to-check-ssd-health-windows': {
     seoTitle: 'How to Check SSD Health in Windows 11',
-    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.'
+    metaDescription: 'Check SSD health in Windows 11 with SMART data, PowerShell and official tools. Understand wear, errors and warning signs before replacing the drive.'
   },
   'why-ssd-is-slowing-down-windows': {
     seoTitle: 'Why an SSD Slows Down Over Time',
