@@ -36,6 +36,8 @@ export type ArticleSection = {
   steps?: string[];
   /** Optional command/code blocks rendered as preformatted text. */
   codeBlocks?: string[];
+  /** Render code after the steps when the procedure reads more clearly in that order. */
+  codeBlocksAfterSteps?: boolean;
   table?: ArticleTable;
   /** Curated in-body links that help readers choose the next diagnostic step. */
   relatedLinks?: { label: string; href: string; description: string }[];
@@ -1185,77 +1187,106 @@ const baseArticles: Article[] = [
       { question: 'Why does stutter go away on the second run?', answer: 'The shaders compiled the first time are cached, so later visits reuse them instead of compiling again.' }
     ]
   },
-
   {
     id: 'ssd-health',
     slug: 'how-to-check-ssd-health-windows',
     title: 'How to Check SSD Health in Windows',
-    seoTitle: 'Check SSD Health in Windows 11 (SMART Guide)',
-    metaDescription: 'Check SSD health in Windows 11 and 10, read SMART wear and error warnings, identify possible failure signs, and know when to back up or replace a drive.',
-    dek: 'A practical Windows guide to checking SSD health, interpreting SMART wear and error indicators, separating normal wear from warning signs, and deciding what to do next.',
-    excerpt: 'Check your SSD health, interpret the important SMART indicators, and use a safe backup-first decision process instead of guessing from one number.',
+    seoTitle: 'How to Check SSD Health in Windows 11',
+    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.',
+    dek: 'A practical Windows 11 guide to checking SSD health, understanding SMART and reliability counters, reading storage error events, and protecting your data before deciding what to replace.',
+    excerpt: 'Check your SSD using supported Windows health data, PowerShell and the drive maker’s utility. Interpret warnings alongside symptoms, and back up important data before risky tests.',
     category: 'Hardware',
     subcategory: 'Storage',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    updatedAt: '2026-10-18',
-    readingTime: 11,
+    updatedAt: '2026-10-26',
+    readingTime: 7,
     tags: ['SSD', 'SMART', 'Storage', 'Windows', 'Drive Health', 'Troubleshooting'],
-    relatedArticles: ['nvme-temperature', 'ssd-slowdown', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade',
-      'ssd-not-detected-in-bios-or-windows'
-    ],
+    relatedArticles: ['ssd-not-detected-in-bios-or-windows', 'check-ram-for-errors', 'windows-blue-screen-stop-code', 'windows-freezing-randomly', 'ssd-full-space', 'nvme-laptop-upgrade'],
     contentRole: 'pillar',
     pillarPath: '/hardware',
     searchIntent: 'informational',
     content: [
-      { heading: 'Where to look', paragraphs: [
-        'Start with Settings > System > Storage > Advanced storage settings > Disks & volumes, then open the drive properties. Windows exposes health details only for supported drives, most commonly some NVMe models; an empty or missing health panel does not by itself mean the SSD is healthy or failing.',
-        'For a fuller view, use the SSD maker’s official utility or a reputable SMART-aware tool. Confirm the exact drive model before interpreting values, because SATA SSDs, NVMe drives, and different manufacturers expose different attributes.'
+      { heading: 'Where to look in Windows 11', paragraphs: [
+        'Open Settings > System > Storage > Advanced storage settings > Disks & volumes, select the drive, then open Properties. Windows only exposes its built-in health details for supported NVMe drives; a SATA SSD, USB enclosure, hardware RAID/VMD configuration, or driver that does not pass through the relevant data may show no health panel.',
+        'A missing panel or blank field does not prove the SSD is healthy or failing. Confirm the exact drive model and interface, then check the manufacturer’s supported utility or a SMART-aware tool. Different drives expose different attributes, and some counters are unavailable through the Windows storage stack.',
+        'Do not rely on the old `wmic diskdrive get status` command as a modern health test. Microsoft has removed the WMIC command-line utility from currently supported Windows 11 versions; WMI itself remains supported. Use PowerShell or the manufacturer’s utility instead.'
       ], bullets: [
-        'Identify the exact model and whether it is SATA or NVMe.',
-        'Read the overall health or critical-warning status, if available.',
-        'Record percentage used or remaining life, available spare, media/data-integrity errors, and temperature when reported.',
-        'Check whether error counters are increasing rather than judging one snapshot.'
+        'Identify the exact SSD model and whether it is SATA or NVMe.',
+        'Record the tool name, date, firmware version and any warnings so you can compare changes over time.',
+        'Back up important data before stress testing if the drive has errors, critical warnings or unexpected disconnects.'
       ] },
-      { heading: 'Values that matter', paragraphs: [
-        'Different drives name values differently, but the important ideas are consistent.'
+      { heading: 'SMART values that actually matter', paragraphs: [
+        'SMART and reliability fields are evidence, not a universal score. A “health” or “remaining life” percentage is defined by the tool or manufacturer; it is not a probability that the drive will fail. Some tools show percentage used, while others show estimated life remaining, so do not compare the displayed percentages without checking what each means.',
+        'Focus on critical warnings, available spare, media/data-integrity or uncorrectable errors, and whether error counters are increasing. Temperature should be compared with the exact model’s operating guidance. Total bytes written and power-on hours provide workload context but do not diagnose failure by themselves.'
       ], bullets: [
-        'Percentage used or remaining life → estimated wear against rated endurance.',
-        'Available spare → reserve blocks left to replace worn cells.',
-        'Media and data integrity errors → uncorrectable errors; any growth is serious.',
-        'Critical warning flags → the drive itself reporting a problem.',
-        'Temperature → sustained high values can reduce performance and life.'
+        'Percentage used / estimated remaining life → endurance estimate; not a failure countdown.',
+        'Available spare → reserve capacity reported by supported drives; follow the device’s own warning threshold.',
+        'Media/data-integrity or uncorrectable errors → investigate promptly, especially if the count grows or symptoms appear.',
+        'Critical-warning flags → check the exact warning and manufacturer guidance; back up before further testing.',
+        'Temperature → compare the same sensor with the drive’s published limits and the workload; one reading is not a diagnosis.'
       ] },
-      { heading: 'Reading the numbers sensibly', paragraphs: [
-        'Percentage used is an endurance estimate, not a countdown clock: a value of 10% used usually means a small portion of the rated endurance has been consumed, not that the drive has a 10% chance of failing. “Remaining life” labels vary by tool, so check the tool’s definition.',
-        'Available spare is reserve capacity. Media/data-integrity errors and a drive-reported critical warning deserve more attention, especially if the values increase. A single high temperature reading or one benchmark result is not a complete health diagnosis.'
-      ], bullets: [
-        'Low wear with no warnings and stable error counters → continue normal backups and monitoring.',
-        'A warning, increasing error count, or sudden health-status change → back up important data now and investigate the exact model.',
-        'Repeated disconnects, read errors, or files becoming unreadable → prioritize data recovery and backup over stress tests or benchmarks.'
+      { heading: 'Step-by-step: Check SSD health using official tools and PowerShell', paragraphs: [
+        'Use the sequence below to collect a useful snapshot without treating one green status as a guarantee. The vendor reference table links to official software pages; confirm that your exact SSD model is supported before installing a utility.'
+      ], table: {
+        caption: 'Official SSD health utilities and useful fields to inspect',
+        headers: ['Drive brand', 'Official utility', 'What to inspect'],
+        rows: [
+          ['Samsung', { text: 'Samsung Magician', href: 'https://semiconductor.samsung.com/consumer-storage/magician/' }, 'Drive Health Status, SMART data and Total Bytes Written where supported; features differ for non-Samsung or OEM drives.'],
+          ['Western Digital / SanDisk', { text: 'SANDISK Dashboard', href: 'https://support-en.sandisk.com/app/answers/detailweb/a_id/31759' }, 'Drive health, model/firmware and SMART attributes for listed supported WD/SanDisk SSDs; check the model support list.'],
+          ['Crucial (Micron)', { text: 'Crucial Storage Executive', href: 'https://www.crucial.com/support/storage-executive' }, 'Drive details, health status and SMART information; available fields depend on the exact drive and software version.'],
+          ['Kingston', { text: 'Kingston SSD Manager', href: 'https://www.kingston.com/en/support/technical/ssdmanager' }, 'Drive health/status, identification and the detailed health report for supported Kingston SSDs; USB enclosures are not supported.'],
+          ['Solidigm / supported Intel SSDs', { text: 'Solidigm Storage Tool', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' }, 'Drive health, SMART attributes and estimated life remaining where available; OEM drives may need the PC maker’s support.'],
+          ['Seagate', { text: 'SeaTools 5', href: 'https://www.seagate.com/as/en/support/downloads/seatools/' }, 'SMART status/attributes and drive diagnostics; some functions depend on model and connection.'],
+          ['Any supported drive (third-party)', { text: 'CrystalDiskInfo', href: 'https://crystalmark.info/en/software/crystaldiskinfo/' }, 'A second view of reported SMART attributes and temperature; use the official download and cross-check significant warnings with the drive maker.']
+        ]
+      }, steps: [
+        'If errors, critical warnings, repeated disconnects or file corruption are already present, make a verified backup before benchmarks or long diagnostic scans.',
+        'Record the SSD model, interface, firmware and the symptom you are investigating. Avoid updating firmware or changing controller settings as a first response to unexplained errors.',
+        'Check the Windows Settings path described above, then open the official utility for your exact drive model and record its health summary, warnings, available spare, error fields and temperature where reported.',
+        'Open PowerShell (preferably as administrator) and run the read-only snapshot shown below if the Storage cmdlets and your controller expose these counters.',
+        'Compare the event times and readings with the real symptom; note which values are blank or unavailable, and repeat a comparable observation later only if the drive is stable.'
+      ], codeBlocksAfterSteps: true, codeBlocks: [
+        'Get-PhysicalDisk | ForEach-Object {\n  $disk = $_\n  $counter = $disk | Get-StorageReliabilityCounter\n  [pscustomobject]@{\n    FriendlyName = $disk.FriendlyName\n    DeviceId = $disk.DeviceId\n    HealthStatus = $disk.HealthStatus\n    OperationalStatus = ($disk.OperationalStatus -join ", ")\n    Temperature = $counter.Temperature\n    TemperatureMax = $counter.TemperatureMax\n    Wear = $counter.Wear\n    ReadErrorsTotal = $counter.ReadErrorsTotal\n    WriteErrorsTotal = $counter.WriteErrorsTotal\n  }\n} | Format-Table -AutoSize'
       ] },
-      { heading: 'A safe decision checklist', paragraphs: [
-        'Use this order so a health check does not put important data at risk.'
-      ], bullets: [
-        'Back up irreplaceable files before running lengthy tests if the drive is already showing warnings.',
-        'Check the manufacturer utility and model-specific documentation for the meaning of each attribute.',
-        'Review Windows Event Viewer or Reliability Monitor for repeated disk, storage-controller, or file-system errors.',
-        'Check free space and temperature separately; slow performance alone does not prove the SSD is failing.',
-        'Replace the drive when the manufacturer reports failure, critical warnings persist, or errors and symptoms are worsening. Restore from a verified backup.'
-      ] },
+      { heading: 'TWW diagnosis: health data is evidence, not a single green/red verdict', paragraphs: [
+        'Open Event Viewer (eventvwr.msc) > Windows Logs > System and review events from disk, storport, stornvme, iaStor, Ntfs and Microsoft-Windows-WHEA-Logger around the time the problem happened. Filter by the event IDs below, but always read the provider, full message, disk number and timestamp: event IDs vary by provider and are not an SSD-failure verdict by themselves.',
+        'Storage errors can originate in the SSD, controller, firmware, driver, power, cabling or PCIe path. A file-system event means the file system reported a problem; a WHEA PCIe event may concern a root port or another device. Correlate repeated events with the same disk and symptom before deciding which component needs attention.'
+      ], table: {
+        caption: 'Interpret SSD health data and Windows storage events together',
+        headers: ['Signal or event', 'What it may indicate', 'Next step'],
+        rows: [
+          ['Health status says Good / Healthy', 'No reported threshold has been crossed in that tool; it cannot rule out every fault.', 'Compare with symptoms, drive-specific SMART values and Windows events.'],
+          ['Percentage used / life remaining changes', 'A model- or tool-specific endurance estimate, not a failure probability.', 'Check the definition and compare readings from the same tool over time.'],
+          ['Low available spare, critical warning or rising media/data-integrity errors', 'A drive-reported reliability concern; rising uncorrectable errors are especially important.', 'Back up first, save the report and follow model-specific diagnostics.'],
+          ['Disk — Event ID 7', 'Windows has logged a device/bad-block error for the affected disk.', 'Protect data and check the drive’s identity, health report and connection path.'],
+          ['Disk — Event ID 11 or 51', 'Controller error or an I/O error during a paging operation; the context can include a driver or storage path issue.', 'Check repeated timestamps, disk identity, controller/driver and physical connection where applicable.'],
+          ['Storage provider — Event ID 129', 'A reset was issued to a storage device/path after a timeout or related problem.', 'Repeated resets warrant checking firmware, drivers, controller and connection; do not assume the SSD alone is at fault.'],
+          ['Disk — Event ID 153', 'An I/O request was retried.', 'Correlate the disk number and timestamp with the slowdown or disconnect, and check whether events repeat.'],
+          ['Ntfs — Event ID 55', 'Windows reported file-system structure corruption; this is not proof of a failing SSD by itself.', 'Protect data first, then investigate the file system and storage path.'],
+          ['Microsoft-Windows-WHEA-Logger — Event ID 17', 'A corrected hardware error is often logged for a PCIe root port or endpoint; it is not uniquely an SSD event.', 'Read the PCIe device details and frequency, then investigate the indicated device/path rather than replacing the SSD by ID alone.']
+        ]
+      } },
       { heading: 'When to back up and replace', paragraphs: [
-        'Keep regular backups even when the health report looks good: SMART data cannot predict every sudden failure. If a drive reports a critical warning, growing media errors, or repeated read failures, copy important data first and plan replacement. Avoid repeatedly benchmarking a drive that is already unstable.'
+        'Keep routine backups even when a drive reports Good. SMART cannot predict every sudden failure. If a critical warning appears, media/data-integrity errors rise, the drive repeatedly disappears, reads fail or files become unreadable, prioritize a verified backup and avoid repeated benchmarks.',
+        'A replacement decision is stronger when manufacturer diagnostics or critical warnings agree with worsening symptoms. If the drive is stable and its health report shows no warnings, investigate free space, temperature, background disk activity, sustained-write behavior and the storage controller before blaming age alone.'
+      ], bullets: [
+        'Back up now: critical warning, rising uncorrectable/media errors, repeated I/O failures, disconnects or file corruption.',
+        'Investigate before replacing: Windows feels slow but the drive has no reported warnings; check temperature, free space and background workload.',
+        'Replace or seek data-recovery help: manufacturer diagnostics report failure, reliability warnings persist or data can no longer be read consistently.'
       ], relatedLinks: [
-        { label: 'NVMe SSD temperature too high', href: '/nvme-ssd-temperature-too-high', description: 'Check whether heat and sustained workloads explain slowdowns without assuming the drive is failing.' },
-        { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Separate low free space, background activity, heat, and drive health issues.' },
-        { label: 'Windows 11 blue screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Use stop-code context when crashes accompany storage or memory symptoms.' }
+        { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Separate low free space, background I/O, heat and sustained-write behavior from health warnings.' },
+        { label: 'NVMe SSD temperature too high', href: '/nvme-ssd-temperature-too-high', description: 'Compare temperature with the exact model and check whether it correlates with slower performance.' },
+        { label: 'SSD nearly full: what changes in Windows', href: '/ssd-nearly-full-windows-performance', description: 'Check free-space pressure before assuming the drive is failing.' }
       ] }
     ],
     faq: [
-      { question: 'How do I check SSD health in Windows 11?', answer: 'Open Settings > System > Storage > Advanced storage settings > Disks & volumes and inspect supported drive properties. For more detail, use the drive manufacturer’s official utility or a SMART-aware tool.' },
-      { question: 'Does 90% SSD health mean the drive will fail soon?', answer: 'Not necessarily. Health percentages are estimates defined by the drive or tool; they are not a probability of failure or a precise remaining-life timer. Check warnings, error trends, and the manufacturer’s explanation.' },
-      { question: 'Can an SSD fail without a health warning?', answer: 'Yes. SMART and health tools cannot predict every sudden failure, so keep verified backups even when all indicators look normal.' },
-      { question: 'Should I run a benchmark if my SSD reports errors?', answer: 'Back up important data first. Repeated stress tests are not the right first step for a drive with critical warnings, read errors, or repeated disconnects.' }
+      { question: 'How do I check SSD health in Windows 11?', answer: 'Open Settings > System > Storage > Advanced storage settings > Disks & volumes, select the drive and open Properties if Windows exposes health details for it. Then cross-check with the manufacturer’s supported utility or run Get-PhysicalDisk | Get-StorageReliabilityCounter in PowerShell. Not every drive, controller or driver reports every field.' },
+      { question: 'Does 90% SSD health mean the drive will fail soon?', answer: 'Not necessarily. The meaning of 90% depends on whether the tool shows percentage used, estimated life remaining or a vendor-specific health score. It is not a 90% chance of failure or a reliable countdown. Check the drive maker’s definition, critical warnings, available spare, error trends and symptoms.' },
+      { question: 'Can an SSD report Good or Healthy and still fail or run slowly?', answer: 'Yes. Health tools cannot predict every sudden failure, and a “Good” status does not diagnose speed. Low free space, background I/O, a filled write cache, thermal behavior, controller/driver issues or another component can make Windows slow even when the summary is green. Keep backups and compare the symptom with other evidence.' },
+      { question: 'Should I run a benchmark if my SSD reports errors?', answer: 'No—not as the first step. If the drive has a critical warning, read errors, repeated disconnects or file corruption, back up important data first and avoid repeated stress tests. Use a manufacturer diagnostic only when it is appropriate for the drive’s state and data has been protected.' },
+      { question: 'Does a missing PowerShell or Settings health value mean the SSD is fine?', answer: 'No. The Windows health panel and Storage reliability counters depend on the drive, controller, driver and storage stack. Blank or missing values mean that path did not report the field; use the exact model’s supported utility and correlate available data with symptoms.' },
+      { question: 'Should I keep using an SSD that reports critical warnings or media errors?', answer: 'Treat a critical warning, growing media/data-integrity errors or repeated read failures as a data-protection concern. Back up or recover important files before further testing, follow the drive maker’s diagnostic guidance, and plan replacement if the warning persists or symptoms worsen. If the data is irreplaceable and the drive is becoming unreadable, stop unnecessary writes and consider professional recovery.' }
     ]
   },
 
