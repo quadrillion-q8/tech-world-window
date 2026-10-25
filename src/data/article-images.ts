@@ -132,7 +132,7 @@ export const articleImagePlacements: Record<string, Placement[]> = {
       alt: 'An 8GB DDR4 RAM module from the TWW repair-bench gallery',
       caption: 'A physical 8GB DDR4 memory module from the TWW gallery. Windows memory-efficiency changes do not add installed RAM; upgrade options depend on the exact device.',
     },
-  ]
+  ],
 
   'pc-gaming-performance-complete-guide': [
     {
