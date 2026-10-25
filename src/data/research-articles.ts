@@ -259,7 +259,8 @@ export const researchArticles: Article[] = [
       }, relatedLinks: [
         { label: 'How much RAM do you need for gaming?', href: '/how-much-ram-do-you-need-gaming', description: 'Match capacity to the game and the applications running alongside it.' },
         { label: 'DDR4 vs DDR5 RAM', href: '/ddr4-vs-ddr5-ram-difference', description: 'Understand memory-generation compatibility before buying a kit.' },
-        { label: 'Windows 11 high memory usage', href: '/windows-11-high-memory-usage-how-to-find-the-cause', description: 'Find the process and workload behind high memory use.' }
+        { label: 'Windows 11 high memory usage', href: '/windows-11-high-memory-usage-how-to-find-the-cause', description: 'Find the process and workload behind high memory use.' },
+        { label: 'Hardware diagnosis and upgrade hub', href: '/hardware', description: 'Connect RAM capacity research with storage, GPU, laptop-upgrade and power-delivery guidance.' }
       ] },
       { heading: 'What published capacity tests can—and cannot—tell us', paragraphs: [
         'Independent testing is useful when the setup and workload are stated. In a January 2026 gaming comparison, TechSpot limited the amount of memory Windows 11 could address from the same 64GB DDR5 kit, keeping its frequency, timings and ranks consistent. On its Ryzen 7 9800X3D and GeForce RTX 5090 test system at 4K, many tested games performed similarly with 16GB, 32GB or 64GB available, while several showed serious frame-time problems at 8GB and some workloads did not fit cleanly within 16GB.',
