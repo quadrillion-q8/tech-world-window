@@ -1123,3 +1123,48 @@ main{position:relative;z-index:1;background:transparent}
 @media(prefers-reduced-motion:reduce){
   .ft-chart-legend .ft-legend-swatch{transition:none}
 }
+
+
+/* Hardware pillar: component-first diagnosis, upgrade planning, and editorial paths. */
+.category-page .hardware-category-hero {
+  padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(1.75rem, 3vw, 2.5rem);
+  background: linear-gradient(115deg, rgba(6, 182, 212, .13), rgba(20, 184, 166, .07) 44%, transparent 78%);
+  border-radius: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.category-page .hardware-category-hero h1 {
+  max-width: 1000px;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+}
+.category-page .hardware-category-hero .category-hero-copy > p {
+  max-width: 78ch;
+  line-height: 1.8;
+}
+.category-page .hardware-topic-handoff {
+  margin-top: 1.6rem;
+}
+.category-page .hardware-review-paths {
+  margin: .75rem 0 2rem;
+  padding: 1rem 1.15rem;
+  background: linear-gradient(120deg, rgba(15, 35, 56, .88), rgba(8, 20, 35, .7));
+  border: 1px solid rgba(125, 166, 197, .2);
+  border-radius: 12px;
+  line-height: 1.8;
+}
+.category-page .hardware-review-paths strong {
+  color: #f0f8ff;
+}
+.category-page .hardware-review-paths a {
+  display: inline;
+  margin-inline: .12rem;
+  font-weight: 800;
+}
+.hardware-symptom-hub .pillar-symptom-heading > p {
+  line-height: 1.75;
+}
+@media (max-width: 640px) {
+  .category-page .hardware-review-paths {
+    padding: .85rem .9rem;
+  }
+}
