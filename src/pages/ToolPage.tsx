@@ -39,6 +39,11 @@ export function ToolPage() {
   const [cpu, setCpu] = useState(2);
   const [gpu, setGpu] = useState(2);
   const [resolution, setResolution] = useState('1440p');
+  // Optional evidence checks turn the generic tier estimate into a safer next-step diagnosis.
+  const [resolutionTest, setResolutionTest] = useState('not-tested');
+  const [gpuUsagePattern, setGpuUsagePattern] = useState('not-measured');
+  const [cpuThreadPattern, setCpuThreadPattern] = useState('not-measured');
+  const [thermalClockPattern, setThermalClockPattern] = useState('not-measured');
   const [gpuWatts, setGpuWatts] = useState(220);
   const [cpuWatts, setCpuWatts] = useState(120);
   const [systemWatts, setSystemWatts] = useState(80);
@@ -61,6 +66,49 @@ export function ToolPage() {
     if (cpuScore < gpuScore) return { label: 'Possible CPU limitation', detail: 'At lower resolutions, a weaker CPU can limit high-FPS performance. Check game-specific benchmarks before upgrading.' };
     return { label: 'Possible GPU limitation', detail: 'Higher resolutions usually increase graphics workload. A GPU limit is often normal when the target FPS is met.' };
   }, [cpu, gpu, resolution]);
+
+  const bottleneckEvidenceDiagnosis = useMemo(() => {
+    if (thermalClockPattern === 'clocks-fall-with-heat') {
+      return {
+        label: 'Investigate thermal or power limits first',
+        detail: 'FPS dropping alongside rising temperatures and falling clocks can point to a thermal, power, or platform limit. It does not prove which part is responsible.',
+        nextStep: 'Repeat a longer session and compare the exact sensor, effective clocks, fan behavior, and manufacturer limits before considering an upgrade.',
+      };
+    }
+    if (resolutionTest === 'large-improvement') {
+      return {
+        label: 'Graphics workload appears to contribute',
+        detail: 'A large, repeatable FPS improvement after lowering resolution or a GPU-heavy setting suggests the graphics workload matters in this scene. It is not proof that the GPU must be replaced.',
+        nextStep: 'Repeat the same route and settings, then check GPU utilization, clocks, temperatures, and whether the higher-resolution FPS meets your actual target.',
+      };
+    }
+    if (resolutionTest === 'little-change' && cpuThreadPattern === 'one-thread-busy' && gpuUsagePattern === 'below-maximum') {
+      return {
+        label: 'A CPU/game-thread or engine limit is plausible',
+        detail: 'Little FPS improvement at lower resolution, one consistently busy CPU thread, and a GPU that is not staying near full load can fit a CPU-side or game-engine limit. Other limits can look similar.',
+        nextStep: 'Check frame caps and V-Sync, repeat the same scene, and compare the busiest logical processor with GPU activity before buying a CPU.',
+      };
+    }
+    if (gpuUsagePattern === 'near-maximum' && resolutionTest === 'not-tested') {
+      return {
+        label: 'The GPU is busy; run a controlled resolution test',
+        detail: 'High GPU utilization is often normal when rendering a demanding scene. By itself, it does not establish a problem or tell you whether your target frame rate is being met.',
+        nextStep: 'Repeat the same scene at a lower resolution or GPU-heavy setting and compare FPS, frame times, clocks, and temperatures.',
+      };
+    }
+    if (resolutionTest === 'little-change') {
+      return {
+        label: 'Check for a cap or another system limit',
+        detail: 'If lowering the graphics workload changes FPS little, a frame cap, CPU/game-thread limit, engine behavior, background task, memory pressure, or another constraint may be involved.',
+        nextStep: 'Check the frame cap and V-Sync, inspect per-thread CPU activity and memory use, and collect a repeatable frame-time trace.',
+      };
+    }
+    return {
+      label: 'Collect one repeatable comparison',
+      detail: 'There is not enough measured evidence to separate a CPU-side, GPU-side, or other limit yet. The broad tier estimate above is only a starting hypothesis.',
+      nextStep: 'Use the same scene and route, change one graphics variable, and compare FPS, frame times, per-thread CPU activity, GPU use, clocks, and temperatures.',
+    };
+  }, [resolutionTest, gpuUsagePattern, cpuThreadPattern, thermalClockPattern]);
 
   const psu = useMemo(() => {
     const load = gpuWatts + cpuWatts + systemWatts;
@@ -100,6 +148,49 @@ export function ToolPage() {
         <label>Gaming resolution<select value={resolution} onChange={e => setResolution(e.target.value)}><option>1080p</option><option>1440p</option><option>4K</option></select></label>
       </div>
       <div className="tool-result" aria-live="polite" aria-atomic="true"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
+    </div>}
+
+    {kind === 'bottleneck' && <div className="editorial-note bottleneck-evidence-check">
+      <h2>Check the real bottleneck clues</h2>
+      <p>The tier estimate above is deliberately broad. Use what you observe in the same repeatable game scene below to choose the next test. Leave anything you have not measured at its default; do not guess sensor values.</p>
+      <div className="tool-controls">
+        <label>What happens when you lower resolution or one GPU-heavy setting?
+          <select value={resolutionTest} onChange={e=>setResolutionTest(e.target.value)}>
+            <option value="not-tested">Not tested yet</option>
+            <option value="large-improvement">FPS improves a lot, repeatedly</option>
+            <option value="little-change">FPS changes very little</option>
+          </select>
+        </label>
+        <label>GPU usage during the low-FPS scene
+          <select value={gpuUsagePattern} onChange={e=>setGpuUsagePattern(e.target.value)}>
+            <option value="not-measured">Not measured</option>
+            <option value="near-maximum">Usually near 95–100%</option>
+            <option value="below-maximum">Often below that or drops while FPS is low</option>
+            <option value="varies">Varies too much to tell</option>
+          </select>
+        </label>
+        <label>Is one logical CPU processor consistently very busy?
+          <select value={cpuThreadPattern} onChange={e=>setCpuThreadPattern(e.target.value)}>
+            <option value="not-measured">Not measured</option>
+            <option value="one-thread-busy">Yes, one or more are close to full</option>
+            <option value="no-thread-saturation">No clear thread saturation</option>
+          </select>
+        </label>
+        <label>Do clocks fall as temperatures rise when performance drops?
+          <select value={thermalClockPattern} onChange={e=>setThermalClockPattern(e.target.value)}>
+            <option value="not-measured">Not measured</option>
+            <option value="clocks-fall-with-heat">Yes, the pattern repeats</option>
+            <option value="no-clear-fall">No clear matching pattern</option>
+          </select>
+        </label>
+      </div>
+      <div className="tool-result" aria-live="polite" aria-atomic="true">
+        <span className="eyebrow">NEXT DIAGNOSTIC STEP</span>
+        <h3>{bottleneckEvidenceDiagnosis.label}</h3>
+        <p>{bottleneckEvidenceDiagnosis.detail}</p>
+        <small>{bottleneckEvidenceDiagnosis.nextStep}</small>
+      </div>
+      <p><small>These pattern-based suggestions are not a benchmark or exact bottleneck percentage. Monitoring tools sample metrics differently, and no single utilization or temperature threshold applies to every game and PC.</small></p>
     </div>}
 
     {kind === 'bottleneck' && <div className="editorial-note">
