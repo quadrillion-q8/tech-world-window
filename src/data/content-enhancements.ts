@@ -1399,7 +1399,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     }]
   },
   'pc-power-supply-problems-symptoms': {
-    updatedAt: '2026-10-16',
+    updatedAt: '2026-10-25',
     seoTitle: 'Bad PSU Symptoms: Safe Checks & Fixes',
     metaDescription: 'Learn which PC shutdowns, restarts and crashes may point to a bad PSU, how to distinguish GPU or thermal faults, and which checks are safe.',
     sources: [

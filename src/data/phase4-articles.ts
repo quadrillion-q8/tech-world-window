@@ -2369,7 +2369,7 @@ export const phase4Articles: Article[] = [
     "seoTitle": "Bad PSU Symptoms: Safe Checks & Fixes",
     "dek": "A failing PSU can cause sudden shutdowns, restarts, or startup failures—but GPU faults, overheating, cabling, and memory instability can look similar. Use a symptom-led process to narrow the cause without opening the power supply.",
     "metaDescription": "Learn which PC shutdowns, restarts and crashes may point to a bad PSU, how to distinguish GPU or thermal faults, and which checks are safe.",
-    "excerpt": "A PSU is one possibility, not a default diagnosis. Match the failure pattern to other evidence, start with safe external checks, and confirm with a compatible known-good unit or qualified test.",
+    "excerpt": "A bad PC power supply can be associated with sudden shutdowns, restarts under load, failed starts, or instability after a hardware upgrade. These signs overlap with GPU, thermal, cabling, motherboard, and RAM faults—use safe checks and a repeatable symptom pattern before replacing parts.",
     "category": "Hardware",
     "subcategory": "Power",
     "authorId": "imranNatiq",
@@ -2393,7 +2393,7 @@ export const phase4Articles: Article[] = [
     "searchIntent": "informational",
     "content": [
       {
-        "heading": "Symptoms that can involve a PSU",
+        "heading": "Bad PSU symptoms: warning signs and what they mean",
         "paragraphs": [
           "A power supply can be involved when a PC abruptly loses power, restarts under heavy load, refuses to start consistently, or becomes unstable after a major hardware upgrade. These symptoms are not exclusive to the PSU.",
           "A graphics card, motherboard, CPU temperature problem, loose cable, or faulty memory can produce overlapping behavior."
