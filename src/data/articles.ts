@@ -1922,16 +1922,16 @@ const baseArticles: Article[] = [
     id: 'best-ram',
     slug: 'best-ram',
     title: 'Best RAM for Gaming PCs and Windows: Capacity, Speed and Compatibility',
-    seoTitle: 'Best RAM for Gaming PCs: Capacity, Speed & Compatibility',
-    dek: 'A practical RAM buying guide covering capacity, memory speed, latency, dual-channel operation, XMP/EXPO, compatibility and upgrade planning.',
-    metaDescription: 'Choose RAM for gaming and Windows by capacity, speed, latency, XMP/EXPO support, motherboard compatibility and upgrade path.',
-    excerpt: 'RAM capacity and compatibility come first. Speed and latency matter after the platform can run the kit reliably at its rated settings.',
+    seoTitle: 'Best RAM for Gaming PCs in 2026: 16GB vs 32GB',
+    dek: 'A practical 2026 RAM buying guide: how much memory to buy, which DDR4/DDR5 speed and latency targets to compare, and what your CPU, motherboard or laptop can actually run.',
+    metaDescription: 'Best RAM for gaming PCs in 2026: compare 16GB, 32GB and 64GB, DDR4 vs DDR5, sensible speed targets and compatibility checks before you buy.',
+    excerpt: 'For most new gaming PCs, 32GB (2×16GB) is the practical starting point. 16GB is a budget baseline; 64GB suits memory-heavy workloads. Match the kit to your platform.',
     category: 'Reviews',
     subcategory: 'Buying Guides',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-07',
-    updatedAt: '2026-10-07',
-    readingTime: 9,
+    updatedAt: '2026-10-26',
+    readingTime: 6,
     tags: ['RAM', 'DDR5', 'DDR4', 'XMP', 'EXPO', 'Gaming', 'Buying Guide'],
     relatedArticles: ['best-ssds', 'best-gaming-laptops', 'best-gaming-monitors'],
     contentRole: 'pillar',
@@ -1939,49 +1939,73 @@ const baseArticles: Article[] = [
     searchIntent: 'commercial',
     content: [
       { heading: 'Capacity before speed', paragraphs: [
-        'If a system is running out of memory, a faster kit does not solve the underlying capacity problem. Check current memory use, the games and applications you run, and whether you multitask while gaming.',
-        'A sensible upgrade leaves room for the operating system, applications and background tasks rather than targeting the minimum that happens to work today.'
-      ] },
+        'If a system is running out of memory, a faster kit does not solve the underlying capacity problem. Choose capacity around the games, creative apps, virtual machines and background tasks you actually run.',
+        'For a new mainstream gaming desktop, 32GB is a sensible default. 16GB can still work on a budget, particularly for lighter games, but leaves less room for modern games and multitasking. More capacity is useful only when the workload can use it.'
+      ], table: {
+        caption: 'RAM capacity starting points for gaming and Windows (2026)',
+        headers: ['Capacity', 'Best fit', 'Buying verdict'],
+        rows: [
+          ['8GB', 'Basic office tasks, browsing and light games', 'Not a good target for a new Windows 11 gaming PC. It can constrain modern games and background apps; upgrade when usage and symptoms show a real limit.'],
+          ['16GB (2×8GB)', 'Budget gaming, esports and older DDR4 systems', 'A workable entry-level baseline when budget is tight, but expect less headroom for newer games, browsers, chat apps and streaming.'],
+          ['32GB (2×16GB)', 'Mainstream modern gaming, multitasking and general creation', 'Recommended starting point for most new gaming desktops. Check the platform supports the chosen DDR generation and kit profile.'],
+          ['64GB (2×32GB)', 'Heavily modded simulations, demanding creator projects, VMs and local workloads', 'A higher-capacity tier for workloads that actually need it. Check active/committed memory during your normal workload before paying extra.']
+        ]
+      } },
       { heading: 'DDR generation and platform compatibility', paragraphs: [
         'DDR4 and DDR5 are different memory standards and are not interchangeable in a normal desktop motherboard slot. The motherboard and CPU platform determine which generation you can use.',
-        'For laptops, memory may be soldered, use SO-DIMMs, or combine both. Check the exact model before buying.'
+        'For laptops, memory may be soldered, use SO-DIMMs, or combine both. Check the exact model’s service manual before buying; some laptops cannot be upgraded, and supported speeds vary by model.'
       ] },
       { heading: 'Speed, latency and rated profiles', paragraphs: [
-        'Memory speed and latency work together, and the practical benefit depends on the CPU architecture, workload and application. A headline frequency alone is not a complete performance measure.',
-        'XMP and EXPO are memory profiles that can make it easier to run a kit above basic default settings. Whether a profile is supported and stable depends on the platform and firmware.'
-      ] },
-      { heading: 'Two modules versus one', paragraphs: [
-        'On supported desktop platforms, a matched two-module kit can enable dual-channel operation and increase memory bandwidth compared with a single module. Check the motherboard manual for recommended slots.',
-        'Mixing different kits can work, but it can also reduce the maximum stable speed. A matched kit is usually the simpler upgrade path.'
+        'Data rate and timings work together. CL30 is not automatically faster than every CL36 kit because the data rate also matters: DDR5-6000 CL30 has a theoretical CAS component of about 10 nanoseconds. That number is not total memory-access latency and does not predict gaming FPS by itself.',
+        'The profiles below are starting points for choosing a matched kit, not guarantees for every processor sample or motherboard. XMP and EXPO profiles can run memory above the platform’s default JEDEC specification, so confirm CPU support, the motherboard memory QVL, BIOS guidance and the configuration you plan to populate.'
+      ], table: {
+        caption: 'Platform-oriented RAM kit profiles to compare before buying',
+        headers: ['Platform', 'Practical starting point', 'Important caveat'],
+        rows: [
+          ['AMD AM5 desktop (Ryzen 7000 / 8000 / 9000)', '2×16GB or 2×32GB DDR5-6000 CL30–32 with AMD EXPO', 'A common enthusiast target, not a guarantee. Check the exact CPU, motherboard QVL and BIOS; lower settings may be needed for stability or four DIMMs.'],
+          ['Intel DDR5 desktop (Core 13th/14th Gen or Core Ultra desktop)', '2×16GB or 2×32GB DDR5-6000 CL30–36; consider DDR5-6400 CL32 only when the exact platform supports it', 'Native memory limits differ by processor generation and SKU. XMP is a memory overclock profile; the motherboard QVL and module population matter.'],
+          ['AMD AM4 or an Intel DDR4 desktop platform', '2×8GB or 2×16GB DDR4-3200 CL16; consider DDR4-3600 CL16–18 when validated', 'DDR4-3600 is not guaranteed on every CPU/board combination. On AM4, a stable 1:1 fabric setup can be useful, but stability matters more than the label.'],
+          ['Gaming laptop with upgradeable SO-DIMMs', 'Use the exact model’s supported JEDEC rate, such as DDR4-3200 or DDR5-5600 only when specified', 'Laptop firmware often limits memory settings; many models do not offer XMP/EXPO. Verify soldered memory, slot count and speed support in the service manual.']
+        ]
+      } },
+      { heading: 'Two modules versus one — and why four DDR5 sticks can be harder', paragraphs: [
+        'On supported dual-channel desktop platforms, a matched two-module kit enables both memory channels and can provide more bandwidth than a single module. Use the motherboard manual’s recommended slots, commonly A2 and B2 on many boards, rather than guessing from their physical positions.',
+        'Four DDR5 DIMMs can put more electrical load on the memory controller than two, and the maximum stable data rate can fall. The exact result depends on CPU generation, memory ranks, motherboard layout, BIOS and kit. Do not assume a four-stick configuration will hold the same profile as a two-stick kit: buy the total capacity you need as one matched two-module kit when practical, and check the board’s QVL before planning a later expansion.',
+        'Even two separate kits with the same retail name are not necessarily validated together as one configuration. Mixing can work, but it may require slower settings or cause failed memory training and instability.'
       ] },
       { heading: 'Stability matters more than a benchmark screenshot', paragraphs: [
         'Memory instability can produce application crashes, corrupted data, boot failures or intermittent errors. After changing memory settings, test stability rather than assuming a system is fine because it reaches the desktop.',
-        'If a system becomes unstable after enabling XMP or EXPO, test at default settings and then work toward a stable configuration.'
+        'If a system becomes unstable after enabling XMP or EXPO, return to default settings first. Confirm the BIOS version and supported kit, then change one setting at a time and run a memory stability test.'
       ] },
       { heading: 'Our buying criteria', paragraphs: [
-        'Product recommendations should consider the whole platform rather than selecting the fastest-looking specification.'
+        'These are configuration-level recommendations, not claims that TWW has tested every RAM kit or measured FPS gains for every CPU and game. A specific kit should be recommended as a product winner only when the exact part and test evidence are available. Compare the whole configuration rather than the fastest-looking label.'
       ], bullets: [
-        'Required capacity for the workload.',
+        'Capacity matched to the workload, with reasonable headroom.',
         'Correct DDR generation and physical format.',
-        'CPU and motherboard support.',
-        'Stable rated speed and latency.',
-        'XMP or EXPO profile support where appropriate.',
-        'Matched module configuration.',
-        'Warranty and return policy.',
-        'Current price and upgrade value.'
+        'CPU and motherboard support, including the exact memory QVL where available.',
+        'Stable rated speed and timings at a profile the platform can run.',
+        'XMP or EXPO support where appropriate, plus a safe fallback to default settings.',
+        'A matched module kit, warranty and return policy.',
+        'Current local price and upgrade value rather than an assumed universal best buy.'
       ] },
       { heading: 'Before buying', paragraphs: [
         'Confirm the motherboard memory support list, maximum capacity, slot layout and current BIOS guidance. For laptops, verify the exact model and whether memory is upgradeable.',
-        'After installation, run a memory test if you have any instability. A RAM upgrade should improve capacity without introducing unexplained crashes.'
+        'After installation, run a memory test if you have any instability. If you are upgrading because Windows feels slow, record memory use and signs of paging during your normal workload; do not assume that a larger kit or faster frequency will fix an unrelated bottleneck.'
       ] }
     ],
+    sources: [
+      { label: 'AMD: Ryzen processor overclocked memory compatibility list', url: 'https://www.amd.com/en/products/processors/ryzen-compatible-memory.html' },
+      { label: 'AMD: EXPO technology for Socket AM5', url: 'https://www.amd.com/en/products/processors/technologies/expo.html' },
+      { label: 'Intel: Supported memory type for Core and Core Ultra desktop processors', url: 'https://www.intel.com/content/www/us/en/support/articles/000094585/processors.html' },
+      { label: 'Intel: Core Ultra 200S processor memory support matrix', url: 'https://edc.intel.com/content/www/us/en/design/products/platforms/details/arrow-lake-s/core-ultra-200s-series-processors-datasheet-volume-1-of-2/processor-sku-support-matrix/' },
+      { label: 'Kingston: CAS latency and RAM timings explained', url: 'https://www.kingston.com/en/blog/gaming/cas-latency-cl-ram-timing-explained' }
+    ],
     faq: [
-      { question: 'Is faster RAM always better for gaming?', answer: 'No. The benefit depends on the CPU, game and memory configuration. Capacity, compatibility and stability come first.' },
-      { question: 'Can I mix two different RAM kits?', answer: 'It can work, but mixed kits are not guaranteed to run at their advertised combined settings. A matched kit is generally easier to validate.' },
-      { question: 'What are XMP and EXPO?', answer: 'They are memory profiles used to apply tested frequency and timing settings. The exact behavior depends on the motherboard, CPU, firmware and memory kit.' }
+      { question: 'Is faster RAM always better for gaming?', answer: 'No. Once capacity is sufficient, the effect of speed and timings varies by game, CPU, resolution and memory configuration. DDR5-6000 CL30–32 on AM5 and DDR4-3200 CL16 on a supported DDR4 build are useful starting points, not universal winners. Faster kits may offer little visible benefit in a GPU-limited game and may not be stable on every CPU and motherboard combination. Prefer a stable, compatible configuration over the largest number on the box.' },
+      { question: 'Can I mix two different RAM kits?', answer: 'It may work, but separate kits are not validated together as a single kit. Even kits with the same product name can differ by revision, memory IC or rank. The system may need slower settings, fail memory training or become unstable. One matched kit is easier to validate. If you must mix kits, check the motherboard guidance, start at default settings and run a memory test; stability is not guaranteed.' },
+      { question: 'What are XMP and EXPO?', answer: 'Intel XMP and AMD EXPO are memory profiles programmed into compatible modules. They store manufacturer-defined speed, timing and voltage settings that can be selected in the motherboard firmware. Applying them can run memory above default JEDEC settings, so actual stability depends on the CPU, motherboard, BIOS and kit. If the system fails to train or becomes unstable, return to default settings and check compatibility before trying again.' }
     ]
   },
-
 ];
 
 /**

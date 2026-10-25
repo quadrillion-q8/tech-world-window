@@ -155,8 +155,10 @@ export function ArticlePage({ article }: { article: Article }) {
   const heroImageAlt = heroGalleryImage?.title || article.title;
 
   const author = authors[article.authorId];
+  const isBestRamGuide = article.slug === 'best-ram';
   const related = getRelatedArticles(article, articles, 4);
   const research = getResearchForArticle(article, articles, 2);
+  const ramCapacityGuide = isBestRamGuide ? articles.find(candidate => candidate.slug === 'why-8gb-ram-is-no-longer-enough-for-windows-11') : undefined;
 
   const breadcrumbPath = article.category.toLowerCase() === 'guides' ? '/guides' : `/${article.category.toLowerCase()}`;
 
@@ -210,6 +212,7 @@ export function ArticlePage({ article }: { article: Article }) {
       </div>
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
+      {isBestRamGuide && <section className="quick-answer best-ram-quick-answer" aria-label="Quick answer"><strong>QUICK ANSWER</strong><p>{article.excerpt}</p></section>}
     </div>
     {heroImage ? <figure className="article-hero-media">
       <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
@@ -252,10 +255,12 @@ export function ArticlePage({ article }: { article: Article }) {
         {article.searchIntent === 'commercial' && <div className="commercial-intro"><strong>Commercial-content note</strong><p>Some links on this page may be affiliate links. They can earn Tech World Window a commission at no extra cost to you. Commercial relationships do not determine our testing conclusions.</p><a className="text-link" href="/affiliate-disclosure">Read the full affiliate disclosure →</a></div>}
 
         {research.length > 0 && <section className="research-connection">
-          <span className="eyebrow">TWW RESEARCH</span>
-          <h2>See the evidence behind this topic</h2>
-          <p>These TWW research pieces examine the measurements, mechanisms, or testing questions related to this guide. Research pages distinguish measured results from general technical guidance.</p>
-          <ul>{research.map(item => <li key={item.id}><Link to={`/${item.slug}`}><strong>{item.title}</strong></Link><span>{item.excerpt}</span></li>)}</ul>
+          <span className="eyebrow">{isBestRamGuide ? 'TWW RESEARCH & CAPACITY GUIDANCE' : 'TWW RESEARCH'}</span>
+          <h2>{isBestRamGuide ? 'See the evidence and choose the right capacity' : 'See the evidence behind this topic'}</h2>
+          <p>{isBestRamGuide ? 'These TWW research pieces explain when extra memory helps and how to diagnose the actual limit. For the Windows 11 context behind the 8GB tier, read the companion capacity guide below.' : 'These TWW research pieces examine the measurements, mechanisms, or testing questions related to this guide. Research pages distinguish measured results from general technical guidance.'}</p>
+          <ul>{research.map(item => <li key={item.id}><Link to={`/${item.slug}`}><strong>{item.title}</strong></Link><span>{item.excerpt}</span></li>)}
+            {ramCapacityGuide && <li><Link to={`/${ramCapacityGuide.slug}`}><strong>{ramCapacityGuide.title}</strong></Link><span>{ramCapacityGuide.excerpt}</span></li>}
+          </ul>
         </section>}
 
         {article.sources?.length ? <section className="sources-section">
@@ -264,7 +269,9 @@ export function ArticlePage({ article }: { article: Article }) {
         </section> : null}
 
         {article.faq?.length ? <section className="faq-section"><h2>Frequently asked questions</h2>
-          {article.faq.map(item => <details key={item.question}><summary>{item.question}</summary><p>{renderInline(item.answer)}</p></details>)}
+          {article.faq.map(item => article.slug === 'best-ram'
+            ? <div className="best-ram-faq-item" key={item.question}><h3>{item.question}</h3><p>{renderInline(item.answer)}</p></div>
+            : <details key={item.question}><summary>{item.question}</summary><p>{renderInline(item.answer)}</p></details>)}
         </section> : null}
 
         <div className="article-disclaimer">
@@ -280,12 +287,12 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        <section className="quick-answer rail-quick-answer">
+        {!isBestRamGuide && <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
-        </section>
+        </section>}
         <ToolCallout slug={article.slug} />
-        {related.length > 0 ? <section className="rail-related">
+        {!isBestRamGuide && related.length > 0 ? <section className="rail-related">
           <h2>Related articles</h2>
           <div className="rail-related-list">{related.slice(0, 3).map(item => (
             <Link className="rail-related-item" to={`/${item.slug}`} key={item.id}>
