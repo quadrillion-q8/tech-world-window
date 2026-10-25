@@ -176,6 +176,7 @@ export const menuGroups: MenuGroup[] = [
     description: 'Performance, frame-time, stability and gaming hardware.',
     links: [
       
+      { label: 'Complete Gaming Troubleshooting Guide', href: '/pc-gaming-performance-complete-guide', description: 'Start with the symptom and diagnose low FPS, stutter, crashes, thermals and bottlenecks.' },
       { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
       { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU workload from other causes.' },
       { label: 'Shader Stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize shader compilation behavior.' },
@@ -192,6 +193,7 @@ export const menuGroups: MenuGroup[] = [
     description: 'PC parts, laptops, storage, cooling and displays.',
     links: [
       
+      { label: 'Complete Hardware Troubleshooting Guide', href: '/pc-hardware-troubleshooting-complete-guide', description: 'Diagnose power, display, memory, storage and thermal problems before replacing parts.' },
       { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
       { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
       { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
