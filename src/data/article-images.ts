@@ -109,7 +109,7 @@ export const articleImagePlacements: Record<string, Placement[]> = {
     { after: 'Cooling and sustained performance', id: 'lenovo-legion-7-16ithg6-opened-dual-fan-cooling-system-and-battery', alt: 'Lenovo Legion 7 opened showing the dual-fan cooling system and battery', caption: `${bench}: a gaming laptop's cooling system. This is not a product endorsement; cooling design affects sustained performance.` },
   ],
   'best-ram': [
-    { after: 'Two modules versus one', id: 'thermaltake-ddr4-3600-16gb-ram-kit-2x8gb', alt: 'Thermaltake DDR4-3600 16GB RAM kit of two 8GB modules', caption: `${bench}: a 2x8GB kit. This is not a product endorsement; two matched modules can run in dual channel.` },
+    { after: 'Two modules versus one — and why four DDR5 sticks can be harder', id: 'thermaltake-ddr4-3600-16gb-ram-kit-2x8gb', alt: 'Thermaltake DDR4-3600 16GB RAM kit of two 8GB modules', caption: `${bench}: a 2x8GB kit. This is not a product endorsement; two matched modules can run in dual channel.` },
   ],
   'best-gaming-monitors': [
     { after: 'Panel and connectivity considerations', id: 'hp-v214a-led-monitor-repair', alt: 'HP V214A LED monitor on the repair bench', caption: `${bench}: an LED monitor under repair. This is not a product endorsement.` },
