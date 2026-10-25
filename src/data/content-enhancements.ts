@@ -1145,8 +1145,8 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   'gpu-100-percent-usage-gaming': {
     updatedAt: '2026-10-25',
     testing: 'This page explains utilization metrics and provides diagnostic steps; it does not claim a controlled benchmark of every GPU or game. Metric definitions and sampling behavior vary by monitoring tool, GPU and driver. Treat a reading as a clue and use repeatable captures for intermittent symptoms.',
-    seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
-    metaDescription: '100% GPU usage while gaming is usually normal. Check FPS, temperatures, clocks, stutter and idle GPU activity before changing settings or buying parts.',
+    seoTitle: 'GPU at 100% While Gaming: Is It Normal?',
+    metaDescription: 'GPU at 100% while gaming is usually normal. Learn when it is expected, when low FPS or stutter matters, and how to check temperature and clocks safely.',
     sources: [
       { label: 'NVIDIA FrameView: performance, frame-time and power measurement', url: 'https://www.nvidia.com/en-us/geforce/technologies/frameview/' },
       { label: 'NVIDIA: nvidia-smi GPU utilization definition and sampling period', url: 'https://docs.nvidia.com/deploy/nvidia-smi/index.html#utilization' },
