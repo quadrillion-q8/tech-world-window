@@ -467,51 +467,18 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'how-to-check-ssd-health-windows': {
-    updatedAt: '2026-10-20',
-    seoTitle: 'How to Check SSD Health in Windows',
-    metaDescription: 'Check SSD health in Windows with SMART data, drive-maker tools and PowerShell. Understand wear, errors and warning signs—and back up before risky tests.',
+    updatedAt: '2026-10-26',
+    seoTitle: 'How to Check SSD Health in Windows 11',
+    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.',
     sources: [
       { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
-      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' },
-      { label: 'NVM Express specifications', url: 'https://nvmexpress.org/specifications/' }
+      { label: 'Microsoft Learn: MSFT_StorageReliabilityCounter properties', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/storage/msft-storagereliabilitycounter' },
+      { label: 'Microsoft Support: WMIC command-line utility removal', url: 'https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/09/windows-management-instrumentation-command-line-wmic-removal-from-windows' },
+      { label: 'Microsoft Learn: Troubleshooting data corruption and disk errors', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors' },
+      { label: 'Microsoft Learn: WHEA hardware error events', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/whea/whea-hardware-error-events' },
+      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' }
     ],
-    sections: [{
-      heading: 'TWW diagnosis: health data is evidence, not a single green/red verdict',
-      paragraphs: [
-        'SSD health information is most useful when compared with symptoms. A drive can report healthy while another problem causes slow performance, and a drive showing wear information can still operate normally. Look at temperature, remaining-life indicators where available, error information, capacity, and whether the drive intermittently disappears.',
-        'Back up important data before experimenting with a drive that is showing repeated errors or disappearing from firmware. Diagnostic work should never be allowed to become the reason valuable data is lost.'
-      ],
-      steps: [
-        'Identify the exact SSD model in the PC maker’s utility, Device Manager, or the system information supplied by the manufacturer. Record the model and firmware before interpreting a health value.',
-        'Open the SSD maker’s official utility when one is available. Review the drive status, remaining-life or endurance indicator, temperature, available firmware updates and any explicit warnings; field names differ between manufacturers.',
-        'Cross-check with a trusted SMART viewer such as CrystalDiskInfo or smartmontools if the drive and controller expose the relevant attributes. Do not compare raw vendor-specific attribute numbers as if every brand used the same scale.',
-        'On supported Windows storage devices, try PowerShell: Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object FriendlyName, HealthStatus, OperationalStatus, Temperature, Wear, ReadErrorsTotal, WriteErrorsTotal. Some drivers or devices do not report every property, so missing values are not proof of good or bad health.',
-        'If warnings, repeated read errors, unexpected disconnects or file corruption appear, stop unnecessary stress tests and verify a backup before further diagnostics or replacement decisions.'
-      ],
-      table: {
-        caption: 'Interpret common SSD health signals cautiously',
-        headers: ['Signal', 'What it can indicate', 'Next step'],
-        rows: [
-          ['Health status reports OK / Good', 'No threshold reported by that tool has been crossed; this does not rule out every fault', 'Compare with symptoms, firmware, temperature and reliability counters'],
-          ['Remaining life or percentage used changes', 'An endurance estimate based on device-specific reporting', 'Check the drive maker’s definition and compare over time, not across brands'],
-          ['Media/data integrity or uncorrectable errors', 'A potentially important reliability warning', 'Prioritize a verified backup and review the manufacturer’s diagnostic guidance'],
-          ['Drive disappears or reconnects unexpectedly', 'Could involve the SSD, firmware, power, connection or controller', 'Protect data first; inspect system logs and supported firmware/connection guidance'],
-          ['Windows feels slow but SMART looks normal', 'The bottleneck may be free space, background activity, thermal throttling or another component', 'Use the SSD-slowdown guide and correlate disk activity with the slowdown']
-        ]
-      },
-      relatedLinks: [
-        { label: 'Hardware guide hub', href: '/hardware', description: 'Connect SSD health signals with storage temperature, slowdown, memory and upgrade decisions.' },
-        { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Distinguish low free space, background writes, thermal throttling and health-related problems.' },
-        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature and throttling alongside drive-health readings.' },
-        { label: 'SSD nearly full: Windows performance', href: '/ssd-nearly-full-windows-performance', description: 'Check free-space pressure before assuming the drive is failing.' }
-      ]
-    }],
-    faq: [
-      { question: 'How do I check SSD health in Windows 11?', answer: 'Start with the SSD maker’s official utility, then cross-check supported SMART or Windows storage-reliability data. Review the model-specific health or endurance indicators, temperature and any error warnings alongside the symptoms you observe.' },
-      { question: 'Can an SSD say healthy and still be slow?', answer: 'Yes. A health summary is not a complete performance diagnosis. Low free space, background writes, a full write cache, thermal throttling, power settings or another system bottleneck can cause slowdowns even when no health threshold is reported.' },
-      { question: 'Should I run a benchmark if my SSD reports errors?', answer: 'Not as the first step. Back up important data and verify that the backup is readable before repeated tests. Unexpected disconnects, read errors or corruption should be treated as data-protection concerns first.' },
-      { question: 'Does a missing PowerShell health value mean the SSD is fine?', answer: 'No. Support depends on the drive, controller, driver and storage stack. A missing field means that value was not exposed through that path; use the manufacturer’s tool and available SMART data as additional evidence.' }
-    ]
+    sections: []
   },
   'nvme-ssd-temperature-too-high': {
     updatedAt: '2026-10-20',
@@ -907,27 +874,8 @@ const authorityEnrichments: Record<string, Enhancement> = {
     }]
   },
   'how-to-check-ssd-health-windows': {
-    updatedAt: '2026-10-10',
-    sections: [{
-      heading: 'Use health data alongside symptoms and event logs',
-      paragraphs: [
-        'A single “good” status is not a promise that a drive cannot fail, and a wear percentage alone is not a complete diagnosis. Check the drive model and firmware, the manufacturer utility or a reputable SMART reader, temperature, critical-warning state, and whether media or data-integrity error counters are changing. Names and thresholds differ between SATA and NVMe devices and between vendors.',
-        'If Windows intermittently loses the drive, files become unreadable, or storage-related errors keep appearing, copy important data before running long benchmarks or stress tests. Performance testing is secondary when reliability is in question.'
-      ],
-      steps: [
-        'Identify the exact drive model and interface in Windows or the manufacturer utility.',
-        'Capture the current health report, temperature, and available error counters so you have a baseline.',
-        'Check Reliability Monitor and Event Viewer for storage or controller errors around the time of the slowdown.',
-        'Back up important files, then compare the symptom with free capacity, temperature, and background disk activity.',
-        'Repeat the same observation later; changes over time are often more useful than one isolated reading.'
-      ],
-      relatedLinks: [
-        { label: 'Why an SSD can slow down', href: '/why-ssd-is-slowing-down-windows', description: 'Separate low free space, background I/O, heat, and sustained-write behavior from failure.' },
-        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature in context of workload and thermal throttling.' },
-        { label: 'SSD nearly full: what to check', href: '/ssd-nearly-full-windows-performance', description: 'Check capacity pressure without treating a full drive as proof of damage.' },
-        { label: 'TWW research: SSD free-space behavior', href: '/research/ssd-nearly-full-what-really-changes', description: 'See which observations help separate capacity pressure from drive failure.' }
-      ]
-    }]
+    updatedAt: '2026-10-26',
+    sections: []
   },
   'why-ssd-is-slowing-down-windows': {
     updatedAt: '2026-10-10',
@@ -1733,47 +1681,8 @@ const internationalGrowthEnhancements: Record<string, Enhancement> = {
     }]
   },
   'how-to-check-ssd-health-windows': {
-    updatedAt: '2026-10-18',
-    sources: [
-      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
-      { label: 'smartmontools: SMART data and drive health utilities', url: 'https://www.smartmontools.org/' }
-    ],
-    sections: [{
-      heading: 'Check SSD health in Windows: a practical first pass',
-      paragraphs: [
-        'Start with the drive maker’s official utility or a trusted SMART reader and record the exact model, any health or remaining-life indicator, critical warnings, media errors, temperature where available, and whether the drive disappears or reports I/O errors. Labels vary by manufacturer, and not every SSD exposes every field.',
-        'Windows PowerShell may expose reliability counters for supported hardware and storage stacks, but a missing or blank field is not proof that a drive is healthy. Treat SMART and reliability data as evidence to compare with symptoms—not as a single green/red verdict.'
-      ],
-      codeBlocks: [
-        'Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Temperature, TemperatureMax, Wear, ReadErrorsTotal, WriteErrorsTotal'
-      ],
-      steps: [
-        'Back up important files before stress tests if the drive reports critical warnings, repeated I/O errors, or intermittent disconnections.',
-        'Check the SSD with the manufacturer’s supported diagnostic utility and note the model and firmware version.',
-        'If your system supports it, review the PowerShell reliability counters above; compare the result with the manufacturer’s documentation rather than treating blank fields as failures.',
-        'Repeat the normal workload that causes the problem and record storage activity, temperature, errors and performance before deciding whether replacement is justified.'
-      ],
-      table: {
-        caption: 'Interpret SSD health signals together',
-        headers: ['Signal', 'What it can mean', 'Next step'],
-        rows: [
-          ['Health status says Good or Healthy', 'No reported critical status, but not a guarantee against intermittent faults', 'Compare with event logs, real symptoms and available SMART counters'],
-          ['Critical warning or increasing media errors', 'A reliability problem may be developing', 'Back up important data and follow the SSD maker’s diagnostic guidance'],
-          ['Drive disappears or repeated I/O errors occur', 'Connection, controller, firmware or drive failure may be involved', 'Avoid repeated write-heavy tests; protect data first'],
-          ['Temperature rises as sustained speed falls', 'Thermal throttling is one possibility, but cache and workload effects also matter', 'Use a repeatable test and compare the exact drive’s thresholds']
-        ]
-      },
-      relatedLinks: [
-        { label: 'NVMe SSD temperature: what is normal?', href: '/nvme-ssd-temperature-too-high', description: 'Interpret sensor readings alongside sustained performance and the drive’s own thresholds.' },
-        { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare health warnings with free space, cache behavior and background activity.' },
-        { label: 'Windows 100% disk usage with low MB/s', href: '/windows-11-disk-100-percent-usage', description: 'Understand when high active time reflects latency rather than high transfer speed.' }
-      ]
-    }],
-    faq: [
-      { question: 'How do I check SSD health in Windows?', answer: 'Start with the drive maker’s utility or a trusted SMART reader. On supported systems, PowerShell’s Get-StorageReliabilityCounter may expose temperature, wear or error information. Compare the results with the exact drive model’s documentation and the symptoms you observe.' },
-      { question: 'Does a Good or Healthy SSD status mean the drive cannot fail?', answer: 'No. Health tools report the fields exposed by the drive and controller. A healthy status does not rule out intermittent disconnections, connection faults, firmware problems or every type of failure.' },
-      { question: 'Should I keep using an SSD that reports critical warnings?', answer: 'Protect important data first, avoid unnecessary write-heavy tests and consult the drive maker’s diagnostics. A critical warning or repeated I/O errors deserve attention even if Windows still starts.' }
-    ]
+    updatedAt: '2026-10-26',
+    sections: []
   },
   'windows-11-disk-100-percent-usage': {
     updatedAt: '2026-10-18',
@@ -2088,8 +1997,8 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
   },
 
   'how-to-check-ssd-health-windows': {
-    seoTitle: 'How to Check SSD Health in Windows',
-    metaDescription: 'Check SSD health in Windows with supported SMART data, PowerShell and the drive maker’s utility. Learn what a healthy status can—and cannot—prove.'
+    seoTitle: 'How to Check SSD Health in Windows 11',
+    metaDescription: 'Check SSD health in Windows 11 with supported SMART data, PowerShell and official SSD utilities. Understand wear, errors and warning signs before replacing a drive.'
   },
   'why-ssd-is-slowing-down-windows': {
     seoTitle: 'Why an SSD Slows Down Over Time',
