@@ -20,6 +20,7 @@ function renderInline(text: string) {
 function renderCell(cell: TableCell) {
   if (typeof cell === 'string') return renderInline(cell);
   if (cell.href.startsWith('#')) return <a href={cell.href}>{cell.text}</a>;
+  if (/^https?:\/\//i.test(cell.href)) return <a href={cell.href} rel="noopener noreferrer">{cell.text}</a>;
   return <Link to={cell.href}>{cell.text}</Link>;
 }
 
@@ -156,6 +157,7 @@ export function ArticlePage({ article }: { article: Article }) {
 
   const author = authors[article.authorId];
   const isBestRamGuide = article.slug === 'best-ram';
+  const isSsdHealthGuide = article.slug === 'how-to-check-ssd-health-windows';
   const related = getRelatedArticles(article, articles, 4);
   const research = getResearchForArticle(article, articles, 2);
   const ramCapacityGuide = isBestRamGuide ? articles.find(candidate => candidate.slug === 'why-8gb-ram-is-no-longer-enough-for-windows-11') : undefined;
@@ -213,6 +215,7 @@ export function ArticlePage({ article }: { article: Article }) {
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
       {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
       {isBestRamGuide && <section className="quick-answer best-ram-quick-answer" aria-label="Quick answer"><strong>QUICK ANSWER</strong><p>{article.excerpt}</p></section>}
+      {isSsdHealthGuide && <section className="quick-answer ssd-health-quick-answer" aria-label="Quick answer"><strong>QUICK ANSWER</strong><p>Open Settings &gt; System &gt; Storage &gt; Advanced storage settings &gt; Disks &amp; volumes &gt; select the drive &gt; Properties. Built-in health details are available only for supported NVMe drives.</p><p>For a fuller check, use the SSD maker’s supported utility or run <code>Get-PhysicalDisk | Get-StorageReliabilityCounter</code> in PowerShell. Focus on critical warnings, available spare and media/data-integrity errors—not wear percentage alone. Back up important data before benchmarking a drive that is unstable or reporting errors.</p></section>}
     </div>
     {heroImage ? <figure className="article-hero-media">
       <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
@@ -239,8 +242,9 @@ export function ArticlePage({ article }: { article: Article }) {
             <figcaption style={{ marginTop: '0.5rem', textAlign: 'center', fontSize: '0.9rem', opacity: 0.82 }}>{section.image.caption}</figcaption>
           </figure>}
           {section.table && <ArticleTableView table={section.table} />}
-          {section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
+          {!section.codeBlocksAfterSteps && section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
           {section.steps && <ol className="article-steps">{section.steps.map(step => <li key={step}>{renderInline(step)}</li>)}</ol>}
+          {section.codeBlocksAfterSteps && section.codeBlocks?.map((code, i) => <pre className="article-code" key={`${section.heading || 'code'}-${i}`}><code>{code}</code></pre>)}
           {section.bullets && <ul>{section.bullets.map(b => <li key={b}>{renderInline(b)}</li>)}</ul>}
           {section.relatedLinks?.length ? <nav className="article-next-steps" aria-label={section.heading ? `Related guides: ${section.heading}` : 'Related diagnostic guides'}>
             <ul>{section.relatedLinks.map(link => <li key={link.href}>
@@ -287,12 +291,12 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {!isBestRamGuide && <section className="quick-answer rail-quick-answer">
+        {!isBestRamGuide && !isSsdHealthGuide && <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section>}
         <ToolCallout slug={article.slug} />
-        {!isBestRamGuide && related.length > 0 ? <section className="rail-related">
+        {!isBestRamGuide && !isSsdHealthGuide && related.length > 0 ? <section className="rail-related">
           <h2>Related articles</h2>
           <div className="rail-related-list">{related.slice(0, 3).map(item => (
             <Link className="rail-related-item" to={`/${item.slug}`} key={item.id}>
