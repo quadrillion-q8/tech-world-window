@@ -78,6 +78,7 @@ const enhancements: Record<string, Enhancement> = {
         'The memory capacity that works for a game can change when a browser, voice chat, streaming software or creative application runs alongside it. For a Windows-focused explanation of memory pressure and paging, use the linked 8GB guide rather than assuming one capacity fits every workload.'
       ],
       relatedLinks: [
+        { label: 'Hardware upgrade hub', href: '/hardware', description: 'Compare gaming memory needs with Windows memory pressure, platform compatibility and upgrade planning.' },
         { label: 'Why 8GB RAM can feel limiting on Windows 11', href: '/why-8gb-ram-is-no-longer-enough-for-windows-11', description: 'See how everyday multitasking changes the memory budget.' }
       ]
     }],
@@ -118,6 +119,7 @@ const enhancements: Record<string, Enhancement> = {
           'Keep receipts and the original part until the new component has been verified.'
         ],
         relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Continue to component diagnostics, laptop storage compatibility, RAM research and hardware buying guidance.' },
           { label: 'Laptop NVMe SSD compatibility guide', href: '/laptop-nvme-ssd-upgrade-compatibility', description: 'Use the model-specific storage checklist when selecting an M.2 replacement.' },
           { label: 'Best RAM: capacity and compatibility', href: '/best-ram', description: 'Review memory generation and supported configurations before purchasing a kit.' }
         ]
@@ -254,6 +256,7 @@ const enhancements: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware diagnosis hub', href: '/hardware', description: 'Investigate CPU/GPU limits alongside GPU thermals, storage activity, memory pressure and power symptoms.' },
         { label: 'PC game stuttering diagnosis', href: '/pc-game-stuttering-fix-frame-time', description: 'Use this when the main symptom is uneven delivery or sudden frame-time spikes.' },
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Correlate a hitch with GPU clocks, load, VRAM, temperature and CPU activity.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect supported capture files instead of relying on one average FPS number.' }
@@ -497,6 +500,7 @@ const enhancements: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Connect SSD health signals with storage temperature, slowdown, memory and upgrade decisions.' },
         { label: 'Why an SSD slows down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Distinguish low free space, background writes, thermal throttling and health-related problems.' },
         { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature and throttling alongside drive-health readings.' },
         { label: 'SSD nearly full: Windows performance', href: '/ssd-nearly-full-windows-performance', description: 'Check free-space pressure before assuming the drive is failing.' }
@@ -600,6 +604,7 @@ const enhancements: Record<string, Enhancement> = {
         'If the drive vanishes, produces repeated I/O errors, reports a critical warning or contains data that is not backed up, stop aggressive benchmarks and prioritize data protection. Temperature alone cannot predict remaining life, and a warm drive does not automatically need replacement. Use the manufacturer’s health guidance and the full symptom pattern.'
       ],
       relatedLinks: [
+        { label: 'Hardware diagnosis and upgrade hub', href: '/hardware', description: 'Connect storage-temperature findings with SSD health, RAM, GPU, laptop and power-supply guidance.' },
         { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review supported health counters and error evidence before deciding that temperature is the only issue.' },
         { label: 'Why an SSD can slow down over time', href: '/why-ssd-is-slowing-down-windows', description: 'Compare thermals with free space, background activity, write-cache behavior and other storage bottlenecks.' },
         { label: 'SSD temperature research: test method and limits', href: '/research/how-ssd-temperature-affects-performance', description: 'See the controlled-test framework and the limits of temperature-based conclusions.' }
@@ -663,6 +668,7 @@ const enhancements: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Compare storage symptoms with health, thermal, RAM and component-upgrade guides.' },
         { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review SMART and reliability signals without treating one healthy status as a guarantee.' },
         { label: 'Windows 11 100% disk usage', href: '/windows-11-disk-100-percent-usage', description: 'Separate active time, transfer rate and response time when Windows feels slow.' },
         { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature according to the drive’s sensor and specifications.' }
@@ -772,6 +778,7 @@ const enhancements: Record<string, Enhancement> = {
         'Treat a benchmark of one configuration as evidence about that configuration, not every machine with a matching GPU family name.'
       ],
       relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Pair buying research with exact-model RAM/SSD compatibility and component-level troubleshooting guides.' },
         { label: 'PC Bottleneck Calculator', href: '/tools/pc-bottleneck-calculator', description: 'Use as a rough planning aid for CPU/GPU balance, then verify with game-specific tests.' },
         { label: 'Best gaming monitors', href: '/best-gaming-monitors', description: 'Match resolution and refresh rate to the laptop GPU and the games you play.' }
       ]
@@ -1200,6 +1207,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         'Treat bottleneck calculators as rough comparisons, not measured FPS predictions or proof that a component must be upgraded.'
       ],
       relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Connect GPU utilization with thermal, CPU/GPU bottleneck, power and component-upgrade guidance.' },
         { label: 'Low FPS in PC games', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Follow a symptom-led sequence when frame rates are lower than expected.' },
         { label: 'GPU overheating while gaming', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Check cooling and clock behavior when temperatures and performance change together.' },
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate individual hitches rather than relying on average FPS alone.' },
@@ -1323,6 +1331,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware upgrade hub', href: '/hardware', description: 'Connect laptop compatibility with RAM/SSD planning, storage health and broader hardware checks.' },
         { label: 'Check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Check the existing drive before deciding that replacement is necessary.' },
         { label: 'Why an SSD slows down', href: '/why-ssd-is-slowing-down-windows', description: 'Separate capacity, workload, temperature, and health symptoms.' },
         { label: 'NVMe SSD temperature', href: '/nvme-ssd-temperature-too-high', description: 'Understand why laptop cooling can affect sustained storage performance.' }
@@ -1383,6 +1392,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware guide hub', href: '/hardware', description: 'Compare GPU cooling findings with CPU/GPU bottlenecks, power delivery and upgrade planning.' },
         { label: 'GPU at 100% usage', href: '/gpu-100-percent-usage-gaming', description: 'Separate ordinary GPU load from a performance issue that needs investigation.' },
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Check whether heat correlates with the actual frame-time problem.' }
       ]
@@ -1416,6 +1426,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware troubleshooting hub', href: '/hardware', description: 'Browse related component diagnostics, upgrade planning and model-specific buying guidance.' },
         { label: 'GPU overheating while gaming', href: '/gpu-overheating-gaming-pc-causes-fix', description: 'Compare temperature and clock behavior with the moment of shutdown.' },
         { label: 'PC games crashing to desktop', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Separate an application exit from a full-system power loss or blue screen.' }
       ]
@@ -1549,6 +1560,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         ]
       },
       relatedLinks: [
+        { label: 'Hardware upgrade hub', href: '/hardware', description: 'Use the component hub to connect memory-platform costs with compatibility, storage and broader system diagnosis.' },
         { label: 'How much RAM do you need?', href: '/how-much-ram-do-you-need-gaming', description: 'Choose a useful capacity for your actual workloads first.' },
         { label: 'Test RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Check stability after an upgrade or memory-profile change.' }
       ]
