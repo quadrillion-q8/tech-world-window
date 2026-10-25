@@ -1071,9 +1071,9 @@ const authorityEnrichments: Record<string, Enhancement> = {
  */
 const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   'windows-11-network-adapter-reset-guide': {
-    updatedAt: '2026-10-10',
-    seoTitle: 'Windows 11 Network Reset: When to Use It',
-    metaDescription: 'Learn what Windows 11 Network Reset changes, what it removes, and which checks to try before rebuilding network settings.',
+    updatedAt: '2026-10-25',
+    seoTitle: 'Is Network Reset Safe in Windows 11? What It Changes',
+    metaDescription: 'Is Windows 11 Network Reset safe? It keeps personal files but removes network settings. See what to save first and when a narrower fix is better.',
     sources: [
       { label: 'Microsoft Support: Fix Wi-Fi connection issues in Windows', url: 'https://support.microsoft.com/en-us/windows/fix-wi-fi-connection-issues-in-windows-9424a1f7-6a3b-65a6-4d78-7f07eee84d2c' },
       { label: 'Microsoft Learn: netsh Winsock commands', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winsock' },
