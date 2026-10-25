@@ -2055,8 +2055,8 @@ const seoMetadataOverrides: Record<string, { seoTitle: string; metaDescription?:
     metaDescription: 'PC games stuttering despite high FPS? Compare frame-time spikes, shader compilation, CPU/GPU limits, memory, storage, drivers, and temperatures.'
   },
   'gpu-frame-time-spikes-causes-fix': {
-    seoTitle: 'GPU Frametime Spikes: Causes & Fixes',
-    metaDescription: 'PC games stuttering or uneven FPS? Diagnose frametime spikes by comparing captures with GPU load, CPU activity, VRAM, clocks and temperatures.'
+    seoTitle: 'Frame Time Spikes in Games: Causes & Fixes',
+    metaDescription: 'Frame time spikes in games? Compare GPU busy time, CPU waits, shader compilation, storage, VRAM, clocks and temperatures with repeatable captures.'
   },
   'shader-compilation-stutter-pc-games': {
     seoTitle: 'Shader Compilation Stutter: PC Games',
