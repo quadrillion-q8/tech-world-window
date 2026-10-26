@@ -15,6 +15,7 @@ import { secureBootCertificateGuide } from './secure-boot-certificate-guide';
 import { windowsPatchTuesdayGuide } from './windows-patch-tuesday-guide';
 import { ramSsdUpgradeDecisionGuide } from './ram-ssd-upgrade-decision-guide';
 import { placeGalleryImages } from './article-images';
+import { multiAgentAiSystemsGuide } from './multi-agent-ai-systems-guide';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
 /** A table cell is plain text, or linked text targeting an internal route, in-page #anchor, or HTTPS source. */
@@ -140,6 +141,7 @@ const baseArticles: Article[] = [
   hardwareTroubleshootingPillar,
   ...phase4Articles,
   ...researchArticles,
+  ...multiAgentAiSystemsGuide,
   ramSsdUpgradeDecisionGuide,
   windowsPatchTuesdayGuide,
   windows26H2InstallationGuide,
