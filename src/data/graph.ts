@@ -123,9 +123,9 @@ export const routeGraph: RouteNode[] = [
   { path: '/windows-search-not-working', kind: 'article', title: 'Windows Search Not Working: Fix Start Menu and Missing Results', indexable: true },
   { path: '/windows-touchpad-not-working', kind: 'article', title: 'Laptop Touchpad Not Working in Windows: Safe Diagnosis', indexable: true },
   { path: '/windows-keyboard-mouse-not-working', kind: 'article', title: 'Keyboard or Mouse Not Working in Windows: Troubleshooting', indexable: true },
+  { path: '/multi-agent-ai-systems-orchestration', kind: 'article', title: 'Multi-Agent AI Systems Explained: Architecture, Orchestration, Benefits and Risks', indexable: true },
 ];
 
-  { path: '/multi-agent-ai-systems-orchestration', kind: 'article', title: 'Multi-Agent AI Systems Explained: Architecture, Orchestration, Benefits and Risks', indexable: true },
 export const navigation = routeGraph
   .filter(route => route.navOrder !== undefined && route.navLabel)
   .sort((a, b) => (a.navOrder ?? 0) - (b.navOrder ?? 0))
