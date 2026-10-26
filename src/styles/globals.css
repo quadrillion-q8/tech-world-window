@@ -1168,3 +1168,120 @@ main{position:relative;z-index:1;background:transparent}
     padding: .85rem .9rem;
   }
 }
+
+
+/* RAM capacity guide: in-article estimate and measured-memory caveats */
+.ram-capacity-quick-answer {
+  margin: 1rem 0 1.25rem;
+}
+.memory-pressure-estimator {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  color: #eef6fc;
+  background: linear-gradient(125deg, rgba(15, 35, 56, .96), rgba(8, 20, 35, .92));
+  border: 1px solid rgba(125, 166, 197, .28);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .12);
+}
+.memory-pressure-estimator .mpe-heading h2 {
+  margin: .35rem 0 .55rem;
+  color: #eef6fc;
+}
+.memory-pressure-estimator .mpe-heading p,
+.memory-pressure-estimator .mpe-note {
+  color: #b7c8d8;
+  line-height: 1.65;
+}
+.mpe-capacity-row,
+.mpe-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 205px), 1fr));
+  gap: .85rem;
+  margin-top: 1rem;
+}
+.mpe-capacity-row label,
+.mpe-fields label {
+  display: grid;
+  align-content: start;
+  gap: .4rem;
+  min-width: 0;
+  color: #e2edf7;
+  font-size: .9rem;
+  font-weight: 700;
+}
+.mpe-capacity-row input,
+.mpe-capacity-row select,
+.mpe-fields input {
+  width: 100%;
+  min-height: 42px;
+  padding: .65rem .75rem;
+  color: #f2f8fd;
+  background: #0b1726;
+  border: 1px solid #40556b;
+  border-radius: 8px;
+}
+.mpe-capacity-row small {
+  color: #aebfd0;
+  font-size: .78rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+.mpe-result-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: .7rem;
+  margin-top: 1.2rem;
+}
+.mpe-metric {
+  display: grid;
+  gap: .35rem;
+  padding: .85rem;
+  background: rgba(255, 255, 255, .045);
+  border: 1px solid rgba(139, 169, 196, .2);
+  border-radius: 10px;
+}
+.mpe-metric span {
+  color: #b7c8d8;
+  font-size: .78rem;
+}
+.mpe-metric strong {
+  color: #fff;
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+}
+.mpe-verdict {
+  margin-top: .85rem;
+  padding: .9rem 1rem;
+  border: 1px solid rgba(139, 169, 196, .25);
+  border-left: 4px solid #67e8f9;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .035);
+}
+.mpe-verdict-over { border-left-color: #fb7185; }
+.mpe-verdict-tight { border-left-color: #fbbf24; }
+.mpe-verdict-headroom { border-left-color: #34d399; }
+.mpe-verdict strong { color: #f4f8fc; }
+.mpe-verdict p {
+  margin: .35rem 0 0;
+  color: #c0cfdd;
+  line-height: 1.6;
+}
+.memory-pressure-estimator .mpe-note {
+  margin: 1rem 0 0;
+  font-size: .82rem;
+}
+.mpe-reset { margin: .8rem 0 0; }
+.mpe-reset button {
+  padding: .55rem .8rem;
+  color: #d9f8ff;
+  background: transparent;
+  border: 1px solid #456278;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.mpe-reset button:hover { background: rgba(103, 232, 249, .08); }
+@media (max-width: 560px) {
+  .memory-pressure-estimator { padding: 1rem; }
+  .mpe-result-summary { grid-template-columns: 1fr; }
+}

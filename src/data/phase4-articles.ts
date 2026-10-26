@@ -2294,7 +2294,8 @@ export const phase4Articles: Article[] = [
         "heading": "Measure memory pressure in Task Manager before buying",
         "paragraphs": [
           "Capture the numbers while the problem is happening. Press Ctrl + Shift + Esc, open Performance, then Memory. Compare In use, Available and Committed, and keep the same game scene or application workload for any before-and-after test.",
-          "In use describes physical memory currently in use. Available memory includes memory Windows can make available to applications. Committed is a system-wide promise of virtual memory shown as a current charge and a limit; the limit is based on physical RAM plus page files. Committed memory is not the same as physical RAM in use, and it is not a direct counter of how much data is currently being read from the page file."
+          "In use describes physical memory currently in use. Available memory includes memory Windows can make available to applications. Committed is a system-wide promise of virtual memory shown as a current charge and a limit; the limit is based on physical RAM plus page files. Committed memory is not the same as physical RAM in use, and it is not a direct counter of how much data is currently being read from the page file.",
+          "For example, a 16GB PC showing 20GB committed has not automatically proven that 4GB is being actively swapped to the SSD. Look for a repeatable combination of low available physical memory, application symptoms and paging or disk activity. There is no single committed-memory number that diagnoses every PC."
         ],
         "table": {
           "caption": "Read Windows memory signals together",
@@ -2312,9 +2313,6 @@ export const phase4Articles: Article[] = [
           "Close one identifiable, nonessential background workload and repeat the same scene. Do not close unfamiliar Windows processes or use memory-cleaner utilities.",
           "If available memory remains comfortable and the symptom persists, check GPU/CPU activity, clocks, thermals, frame caps, storage and application behavior before buying RAM.",
           "If the commit charge repeatedly approaches its commit limit or Windows reports out-of-memory errors, investigate the process and page-file configuration. Do not disable the page file as a performance tweak."
-        ],
-        "paragraphs": [
-          "For example, a 16GB PC showing 20GB committed has not automatically proven that 4GB is being actively swapped to the SSD. Look for a repeatable combination of low available physical memory, application symptoms and paging or disk activity. There is no single committed-memory number that diagnoses every PC."
         ],
         "relatedLinks": [
           { "label": "Does more RAM make Windows faster?", "href": "/research/does-more-ram-make-windows-faster", "description": "Understand the measurements that support or weaken a capacity-upgrade case." },
@@ -2342,7 +2340,7 @@ export const phase4Articles: Article[] = [
         "paragraphs": [
           "Confirm the exact platform before ordering anything. DDR4 and DDR5 modules are not interchangeable on typical consumer motherboards. Desktop PCs commonly use UDIMMs, laptops may use SO-DIMMs or soldered memory, and some compact systems have limited or non-upgradeable memory. Check the service manual or motherboard specification for the maximum supported capacity, module type, slots and recommended population.",
           "DDR5 kits with 24GB modules enable two-module 48GB configurations on compatible platforms; 24GB total configurations are also available in some kits and form factors. These are often called non-binary capacities because they use 24-gigabit DRAM density. First-generation DDR5 boards may need a BIOS update, and platform support varies. Verify the exact kit on the motherboard or memory maker's compatibility list.",
-          "Two modules—typically one DIMM per channel on a mainstream dual-channel desktop—are often easier for a memory controller to run at high transfer rates than four modules, but this is not a universal speed rule. Supported speeds depend on the CPU's memory controller, motherboard topology, BIOS, module ranks, capacity, and whether XMP/EXPO is enabled. Four populated slots can require a lower data rate for stability; use the board's population table rather than assuming 6000 MT/s or another headline number will work.",
+          "Two modules—typically one DIMM per channel on a mainstream dual-channel desktop, often described as 1 DIMM per channel (1DPC)—are often easier for a memory controller to run at high transfer rates than four modules. Filling four slots on a typical two-channel desktop is usually 2 DIMMs per channel (2DPC), which can add electrical load; this is not a universal speed rule. Supported speeds depend on the CPU's memory controller, motherboard topology, BIOS, module ranks, capacity, and whether XMP/EXPO is enabled. Four populated slots can require a lower data rate for stability; use the board's population table rather than assuming 6000 MT/s or another headline number will work.",
           "Mixing different kits or capacities can work on some systems, but may alter channel operation, stability or achievable speed. A matched kit is usually easier to validate. After installing memory, test stability; if errors or crashes begin after enabling XMP/EXPO, compare at default settings before assuming more capacity is the solution."
         ],
         "relatedLinks": [
@@ -2353,7 +2351,8 @@ export const phase4Articles: Article[] = [
       {
         "heading": "When more RAM will not fix the problem",
         "paragraphs": [
-          "A RAM upgrade is useful only when it addresses the limiting resource. Use the symptom to choose the next test instead of buying a larger kit to treat every performance complaint."
+          "A RAM upgrade is useful only when it addresses the limiting resource. Use the symptom to choose the next test instead of buying a larger kit to treat every performance complaint.",
+          "Use a repeatable comparison after one relevant change. If closing a browser reduces memory pressure and removes the symptom in the same scene, that supports a capacity or workload interaction. If memory headroom is healthy and the symptom stays, follow the GPU, CPU, storage or stability evidence instead."
         ],
         "table": {
           "caption": "Distinguish a capacity limit from other common problems",
@@ -2365,9 +2364,6 @@ export const phase4Articles: Article[] = [
             ["Blue screens or random crashes", "Unstable memory settings or repeatable memory-test errors deserve investigation.", "Drivers, storage, power, firmware or another failing component."]
           ]
         },
-        "paragraphs": [
-          "Use a repeatable comparison after one relevant change. If closing a browser reduces memory pressure and removes the symptom in the same scene, that supports a capacity or workload interaction. If memory headroom is healthy and the symptom stays, follow the GPU, CPU, storage or stability evidence instead."
-        ],
         "relatedLinks": [
           { "label": "How to check RAM for errors on Windows", "href": "/how-to-check-ram-for-errors-windows", "description": "Use a memory test for suspected instability, not as a substitute for measuring capacity." },
           { "label": "PC game stuttering: diagnose frame-time behavior", "href": "/pc-game-stuttering-fix-frame-time", "description": "Investigate rendering and frame-time spikes before replacing components." },
