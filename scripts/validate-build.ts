@@ -497,7 +497,7 @@ if (!existsSync(dist)) {
       if (article?.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article missing pillarPath: ${route.path}`);
       if (route.path === '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update' && article) {
         // Keep urgent recovery answers in the initial prerendered DOM, not only in JSON-LD.
-        const visibleHtml = decodeHtml(html.replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, ''));
+        const visibleHtml = decodeHtml(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ''));
         const faqHeadingCount = [...visibleHtml.matchAll(/Frequently asked questions/g)].length;
         if (faqHeadingCount !== 1) errors.push(`BitLocker recovery guide must render exactly one FAQ heading; found ${faqHeadingCount}.`);
         if ((article.faq ?? []).length !== 7) errors.push('BitLocker recovery guide should expose the seven reviewed FAQ items.');
