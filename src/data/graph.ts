@@ -123,9 +123,171 @@ export const routeGraph: RouteNode[] = [
   { path: '/windows-search-not-working', kind: 'article', title: 'Windows Search Not Working: Fix Start Menu and Missing Results', indexable: true },
   { path: '/windows-touchpad-not-working', kind: 'article', title: 'Laptop Touchpad Not Working in Windows: Safe Diagnosis', indexable: true },
   { path: '/windows-keyboard-mouse-not-working', kind: 'article', title: 'Keyboard or Mouse Not Working in Windows: Troubleshooting', indexable: true },
+  { path: '/multi-agent-ai-systems-orchestration', kind: 'article', title: 'Multi-Agent AI Systems Explained: Architecture, Orchestration, Benefits and Risks', indexable: true },
 ];
 
 export const navigation = routeGraph
+  .filter(route => route.navOrder !== undefined && route.navLabel)
+  .sort((a, b) => (a.navOrder ?? 0) - (b.navOrder ?? 0))
+  .map(route => ({ label: route.navLabel as string, href: route.path }));
+
+/**
+ * Editorial mega-menu inventory. Unlike routeGraph, these are navigation
+ * groupings, not additional URLs. Every href must resolve to a graph route.
+ */
+export const menuGroups: MenuGroup[] = [
+  {
+    label: 'News',
+    href: '/news',
+    description: 'Technology updates with context, not just headlines.',
+    links: [
+      
+      { label: 'Windows and Surface Event', href: '/microsoft-windows-surface-event-october-7-what-to-watch', description: 'What is confirmed and what to watch.' },
+    ],
+  },
+  {
+    label: 'Windows',
+    href: '/windows',
+    description: 'Fixes, settings, updates and practical Windows help.',
+    links: [
+      
+      { label: 'Universal Windows Troubleshooting', href: '/windows-troubleshooting-complete-guide', description: 'Start with the symptom and diagnose Windows problems systematically.' },
+      { label: 'Windows 11 26H2 Installation Guide', href: '/windows-11-26h2-installation-guide', description: 'Choose an upgrade or clean-install path and troubleshoot setup safely.' },
+      { label: 'Windows Update Stuck', href: '/windows/windows-update-stuck', description: 'How long to wait, how to test activity, and the safest repair order.' },
+      { label: 'Patch Tuesday', href: '/windows-patch-tuesday', description: 'Monthly Windows security updates, known issues and practical next steps.' },
+      { label: 'Windows Internet Troubleshooting', href: '/windows-11-wifi-connected-no-internet', description: 'Diagnose Wi-Fi, Ethernet, IP, DNS, VPN, and adapter failures.' },
+      { label: 'DNS Problems', href: '/windows-11-dns-not-working-how-to-fix', description: 'Tell DNS failures apart from wider outages.' },
+      { label: 'Network Reset', href: '/windows-11-network-adapter-reset-guide', description: 'Know when a Windows network reset is appropriate.' },
+      { label: 'Bluetooth Problems', href: '/windows-11-bluetooth-not-working', description: 'Diagnose missing Bluetooth controls, pairing failures and drops.' },
+      { label: 'No Sound or Headphones', href: '/windows-11-no-sound-speakers-headphones', description: 'Check Windows audio routing, speakers and microphone input.' },
+      { label: 'Webcam Not Working', href: '/windows-11-camera-not-working', description: 'Troubleshoot camera privacy, black preview and device detection.' },
+      { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
+      { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
+      { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
+      { label: 'Windows Search Problems', href: '/windows-search-not-working', description: 'Troubleshoot Start-menu search, missing files and indexing.' },
+      { label: 'Laptop Touchpad Not Working', href: '/windows-touchpad-not-working', description: 'Check touchpad settings, device detection and drivers.' },
+      { label: 'Keyboard and Mouse Problems', href: '/windows-keyboard-mouse-not-working', description: 'Isolate USB, wireless, Bluetooth and input-setting failures.' },
+      { label: 'BSOD Code Lookup', href: '/tools/bsod-error-code-lookup', description: 'Look up a blue screen stop code.' },
+      { label: 'Guides', href: '/guides', description: 'Evergreen troubleshooting.' },
+    ],
+  },
+  {
+    label: 'Gaming',
+    href: '/gaming',
+    description: 'Performance, frame-time, stability and gaming hardware.',
+    links: [
+      { label: 'Multi-Agent AI Systems', href: '/multi-agent-ai-systems-orchestration', description: 'Architecture patterns, costs, security and human approval.' },
+      
+      { label: 'Complete Gaming Troubleshooting Guide', href: '/pc-gaming-performance-complete-guide', description: 'Start with the symptom and diagnose low FPS, stutter, crashes, thermals and bottlenecks.' },
+      { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
+      { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Separate GPU workload from other causes.' },
+      { label: 'Shader Stutter', href: '/shader-compilation-stutter-pc-games', description: 'Recognize shader compilation behavior.' },
+      { label: 'Low FPS', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Separate sustained low frame rates from intermittent hitches.' },
+      { label: 'GPU at 100% Usage', href: '/gpu-100-percent-usage-gaming', description: 'Learn when full GPU utilization is expected and what to test if performance is poor.' },
+      { label: 'Games Crashing to Desktop', href: '/pc-games-crashing-to-desktop-troubleshooting', description: 'Diagnose game exits and freezes before reinstalling.' },
+      { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Compare captures and inspect uneven frame delivery locally.' },
+      { label: 'Hardware', href: '/hardware', description: 'Components that affect gaming.' },
+    ],
+  },
+  {
+    label: 'Hardware',
+    href: '/hardware',
+    description: 'PC parts, laptops, storage, cooling and displays.',
+    links: [
+      
+      { label: 'Complete Hardware Troubleshooting Guide', href: '/pc-hardware-troubleshooting-complete-guide', description: 'Diagnose power, display, memory, storage and thermal problems before replacing parts.' },
+      { label: 'SSD Health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART and endurance data.' },
+      { label: 'NVMe Temperatures', href: '/nvme-ssd-temperature-too-high', description: 'Interpret SSD heat and performance together.' },
+      { label: 'SSD Slowdowns', href: '/why-ssd-is-slowing-down-windows', description: 'Diagnose storage performance changes.' },
+      { label: 'RAM Testing', href: '/how-to-check-ram-for-errors-windows', description: 'Test memory for errors.' },
+      { label: 'Blue Screens', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Read stop codes and find the cause.' },
+      { label: 'Random Freezes', href: '/windows-11-freezing-randomly-causes-fix', description: 'Classify freezes and find the cause.' },
+      { label: 'Repair Bench Gallery', href: '/gallery', description: 'Real photos of dust, thermal paste and hardware repairs.' },
+    ],
+  },
+  {
+    label: 'Guides',
+    href: '/guides',
+    description: 'Evergreen answers for real technology problems.',
+    links: [
+      
+      { label: 'Windows', href: '/windows' },
+      { label: 'Gaming', href: '/gaming' },
+      { label: 'Hardware', href: '/hardware' },
+      { label: 'BIOS / UEFI Recovery Guide', href: '/bios-uefi-recovery-guide', description: 'Safely diagnose failed firmware updates and choose a model-specific recovery path.' },
+      { label: 'BitLocker Recovery After BIOS Update', href: '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update', description: 'Find the recovery key and resolve firmware-triggered prompts without risking encrypted data.' },
+      { label: 'Laptop Battery Health & Safety', href: '/laptop-battery-warning-signs', description: 'Check battery health, troubleshoot fast drain, and recognize urgent battery warning signs.' },
+      { label: 'Wi-Fi Keeps Disconnecting', href: '/windows-11-wifi-keeps-disconnecting', description: 'Separate device, signal and router problems before resetting the network.' },
+      { label: 'Black Screen After Login', href: '/windows-11-black-screen-after-login', description: 'Recover a black desktop by checking display output, the shell and drivers.' },
+      { label: 'Laptop Plugged In but Not Charging', href: '/laptop-plugged-in-not-charging', description: 'Check power delivery, charge limits and battery safety before replacing parts.' },
+      { label: 'PC Turns On but Has No Display', href: '/pc-turns-on-but-no-display', description: 'Separate monitor issues from failed POST and hardware initialization.' },
+      { label: 'SSD Not Detected', href: '/ssd-not-detected-in-bios-or-windows', description: 'Distinguish firmware detection from Windows mounting without risking data.' },
+      { label: 'USB Device Not Recognized', href: '/windows-11-usb-device-not-recognized', description: 'Isolate the device, cable, port, power path and Windows driver.' },
+      { label: 'Bluetooth Problems', href: '/windows-11-bluetooth-not-working', description: 'Diagnose missing Bluetooth controls, pairing failures and drops.' },
+      { label: 'No Sound or Headphones', href: '/windows-11-no-sound-speakers-headphones', description: 'Check Windows audio routing, speakers and microphone input.' },
+      { label: 'Webcam Not Working', href: '/windows-11-camera-not-working', description: 'Troubleshoot camera privacy, black preview and device detection.' },
+      { label: 'Second Monitor Not Detected', href: '/windows-second-monitor-not-detected', description: 'Isolate display signal, cable, port and dock issues.' },
+      { label: 'File Explorer Freezing', href: '/windows-file-explorer-not-responding', description: 'Find out whether a folder, resource or Windows component is hanging.' },
+      { label: 'Printer Offline', href: '/windows-printer-offline-queue-stuck', description: 'Check printer connectivity, stuck jobs and the print queue.' },
+      { label: 'Windows Search Problems', href: '/windows-search-not-working', description: 'Troubleshoot Start-menu search, missing files and indexing.' },
+      { label: 'Laptop Touchpad Not Working', href: '/windows-touchpad-not-working', description: 'Check touchpad settings, device detection and drivers.' },
+      { label: 'Keyboard and Mouse Problems', href: '/windows-keyboard-mouse-not-working', description: 'Isolate USB, wireless, Bluetooth and input-setting failures.' },
+    ],
+  },
+  {
+    label: 'Reviews', href: '/reviews', description: 'Evidence-led product testing and technology comparisons.',
+    links: [
+      
+      { label: 'SSD Reviews', href: '/reviews/ssds' },
+      { label: 'GPU Reviews', href: '/reviews/gpus' },
+      { label: 'Laptop Reviews', href: '/reviews/laptops' },
+      { label: 'CPU Reviews', href: '/reviews/cpus' },
+    ],
+  },
+  {
+    label: 'Buying Guides', href: '/best', description: 'Buying guides built around real use cases and transparent criteria.',
+    links: [
+      
+      { label: 'Best SSDs', href: '/best-ssds' },
+      { label: 'Best Gaming Laptops', href: '/best-gaming-laptops' },
+      { label: 'Best Gaming Monitors', href: '/best-gaming-monitors' },
+      { label: 'Best RAM', href: '/best-ram' },
+    ],
+  },
+  {
+    label: 'Research',
+    href: '/research',
+    description: 'Original technical studies, diagnostic analysis and evidence-led investigations.',
+    links: [
+      
+      { label: 'SSD Nearly Full', href: '/research/ssd-nearly-full-what-really-changes' },
+      { label: '100% Disk, Low MB/s', href: '/research/windows-100-percent-disk-usage-low-mbps' },
+      { label: 'PC Game Stuttering', href: '/research/what-actually-causes-pc-game-stuttering' },
+      { label: 'More RAM', href: '/research/does-more-ram-make-windows-faster' },
+      { label: 'SSD Temperature', href: '/research/how-ssd-temperature-affects-performance' },
+      { label: 'RAM/SSD Upgrade Timing', href: '/research/upgrade-ram-ssd-now-or-wait', description: 'Measure the bottleneck and compare dated market evidence before buying.' },
+    ],
+  },
+  {
+    label: 'Tools',
+    href: '/tools',
+    description: 'Useful interactive tools with transparent assumptions.',
+    links: [
+      
+      ...tools.map(tool => ({ label: tool.title, href: tool.path, description: tool.menuDescription })),
+      { label: 'Guides', href: '/guides', description: 'Understand the result before acting.' },
+    ],
+  },
+];
+
+export const siteEntity = {
+  name: SITE_NAME,
+  url: SITE_URL,
+  tagline: SITE_TAGLINE,
+  description: 'Technology news, practical fixes, real-world testing and useful tools — clearly explained.',
+  publisherType: 'Organization',
+};
+
   .filter(route => route.navOrder !== undefined && route.navLabel)
   .sort((a, b) => (a.navOrder ?? 0) - (b.navOrder ?? 0))
   .map(route => ({ label: route.navLabel as string, href: route.path }));
