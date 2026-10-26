@@ -237,7 +237,7 @@ export function Header() {
                 <button
                   id={`${menuId}-trigger`}
                   type="button"
-                  className={isCurrent ? 'nav-trigger is-current' : 'nav-trigger'}
+                  className={isCurrent ? 'nav-trigger is-current active' : 'nav-trigger'}
                   data-nav-trigger="true"
                   aria-controls={menuId}
                   aria-expanded={isOpen}
