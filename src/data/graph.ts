@@ -176,7 +176,6 @@ export const menuGroups: MenuGroup[] = [
     href: '/gaming',
     description: 'Performance, frame-time, stability and gaming hardware.',
     links: [
-      { label: 'Multi-Agent AI Systems', href: '/multi-agent-ai-systems-orchestration', description: 'Architecture patterns, costs, security and human approval.' },
       
       { label: 'Complete Gaming Troubleshooting Guide', href: '/pc-gaming-performance-complete-guide', description: 'Start with the symptom and diagnose low FPS, stutter, crashes, thermals and bottlenecks.' },
       { label: 'Frame-Time Stutter', href: '/pc-game-stuttering-fix-frame-time', description: 'Diagnose uneven frame delivery.' },
@@ -214,6 +213,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'Windows', href: '/windows' },
       { label: 'Gaming', href: '/gaming' },
       { label: 'Hardware', href: '/hardware' },
+      { label: 'Multi-Agent AI Systems', href: '/multi-agent-ai-systems-orchestration', description: 'Architecture patterns, costs, security and human approval.' },
       { label: 'BIOS / UEFI Recovery Guide', href: '/bios-uefi-recovery-guide', description: 'Safely diagnose failed firmware updates and choose a model-specific recovery path.' },
       { label: 'BitLocker Recovery After BIOS Update', href: '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update', description: 'Find the recovery key and resolve firmware-triggered prompts without risking encrypted data.' },
       { label: 'Laptop Battery Health & Safety', href: '/laptop-battery-warning-signs', description: 'Check battery health, troubleshoot fast drain, and recognize urgent battery warning signs.' },
