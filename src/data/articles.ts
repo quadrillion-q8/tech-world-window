@@ -1351,8 +1351,8 @@ const baseArticles: Article[] = [
     subcategory: 'Storage',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    updatedAt: '2026-10-06',
-    readingTime: 8,
+    updatedAt: '2026-10-26',
+    readingTime: 6,
     tags: ['SSD', 'Performance', 'Storage', 'Windows'],
     relatedArticles: ['ssd-health', 'nvme-temperature', 'check-ram-for-errors', 'ssd-full-space', 'nvme-laptop-upgrade',
       'ssd-not-detected-in-bios-or-windows'
@@ -1361,24 +1361,59 @@ const baseArticles: Article[] = [
     pillarPath: '/how-to-check-ssd-health-windows',
     searchIntent: 'informational',
     content: [
-      { heading: 'Start by measuring', paragraphs: [
-        'Compare current speeds with what the drive delivered before, using the same test and conditions. Check Task Manager to see whether the drive is busy because of a background process, not because the drive itself is slow.'
+      { heading: 'TWW diagnosis: prove that the SSD is the bottleneck before replacing it', paragraphs: [
+        'A system that feels slower over time does not automatically have a worn-out SSD. Compare the same app launch, file copy or game load under similar conditions, and note whether the drive is busy because another process is generating I/O. Then compare health, temperature, available space and storage events with that symptom.',
+        'A high disk-active-time percentage, one slow benchmark or an old drive by itself does not establish the cause. A useful diagnosis connects the actual slowdown with repeatable evidence and checks one variable at a time before changing settings or replacing hardware.'
       ] },
       { heading: 'Common causes', paragraphs: [
-        'Several ordinary factors reduce SSD speed without any fault.'
+        'Several ordinary factors can reduce SSD performance without proving that the drive has failed.'
       ], bullets: [
-        'Very little free space, which limits the drive efficiency.',
-        'Thermal throttling during sustained writes.',
-        'Background indexing, updates, antivirus scans, or sync tools.',
-        'Power-saving modes limiting performance, especially on laptops.',
-        'Outdated or incorrect storage drivers and firmware.',
-        'A drive whose fast cache is exhausted by large sustained writes.'
+        'Very little free space or a workload that repeatedly fills temporary or cache space.',
+        'Thermal throttling or sustained-write limits during long transfers.',
+        'Background indexing, Windows Update, antivirus scans, backups or sync tools.',
+        'Power-saving modes limiting performance, especially on laptops running on battery.',
+        'Storage drivers, firmware, controller or connection issues.',
+        'A fast write cache that fills during a large sustained transfer.'
       ] },
-      { heading: 'What to do', paragraphs: [
-        'Free space, check temperatures, review background activity, and keep drivers and firmware current. Confirm that Windows is running TRIM, which is normally automatic for SSDs.'
+      { heading: 'Distinguish a busy drive from slow storage responses', paragraphs: [
+        'Open Task Manager and sort Processes by Disk while the slowdown is happening. If the process is unclear, open Resource Monitor by running resmon and review disk activity and response time. High active time shows that the drive is busy; it does not identify the root cause by itself.',
+        'Use the table to select the next check. A benchmark is useful only when the drive is stable, the workload is repeatable and data is protected if any reliability warning is already present.'
+      ], table: {
+        caption: 'Choose the next SSD slowdown check from the symptom',
+        headers: ['Observed pattern', 'Possible explanation', 'Next check'],
+        rows: [
+          ['Windows slows while updates, indexing or syncing run', 'Background I/O may be competing for storage access.', 'Identify the process in Task Manager and compare again after the task settles.'],
+          ['A large copy starts fast then slows, but the drive remains responsive', 'Write-cache behavior, temperature or sustained-write limits may be involved.', 'Repeat a comparable transfer and check the exact drive model’s specifications.'],
+          ['The system is slow and the SSD is nearly full', 'Available working space may contribute to performance changes.', 'Free safe-to-remove files, then repeat the same task; no one free-space percentage guarantees speed.'],
+          ['The drive reports warnings, disappears, or logs repeated I/O errors', 'A reliability, firmware, controller, power or connection issue may be developing.', 'Back up first and correlate the disk identity and timestamps before further tests.'],
+          ['Only one application or game loads slowly', 'Application, network, cache or asset behavior may matter more than the SSD.', 'Compare another workload and check app-specific evidence before replacing storage.']
+        ]
+      } },
+      { heading: 'Checks you can run in Windows before blaming the drive', paragraphs: [
+        'These checks are read-only unless you explicitly run the optional re-trim command. Missing PowerShell values are inconclusive: driver, controller and device support determine which reliability counters Windows can expose. Do not run performance tests first if the drive is reporting critical warnings, read errors or intermittent disconnects.'
+      ], codeBlocks: [
+        '# Read-only: identify physical disks and reported status',
+        'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus',
+        '# Read-only: supported drive reliability counters',
+        'Get-PhysicalDisk | ForEach-Object {\n  $disk = $_\n  $counter = $disk | Get-StorageReliabilityCounter\n  [pscustomobject]@{\n    FriendlyName = $disk.FriendlyName\n    DeviceId = $disk.DeviceId\n    HealthStatus = $disk.HealthStatus\n    OperationalStatus = ($disk.OperationalStatus -join ", ")\n    Temperature = $counter.Temperature\n    TemperatureMax = $counter.TemperatureMax\n    Wear = $counter.Wear\n    ReadErrorsTotal = $counter.ReadErrorsTotal\n    WriteErrorsTotal = $counter.WriteErrorsTotal\n  }\n} | Format-Table -AutoSize',
+        '# Read-only: a value of 0 means TRIM delete notifications are enabled',
+        'fsutil behavior query DisableDeleteNotify',
+        '# Optional: re-trim the C: volume on a stable, healthy SSD only',
+        'Optimize-Volume -DriveLetter C -ReTrim -Verbose'
+      ], steps: [
+        'Record the exact model, interface, firmware and the task that becomes slow.',
+        'Check Task Manager and Resource Monitor during the real slowdown, then note the process and response time.',
+        'Run the physical-disk and reliability-counter checks above if supported. Treat blank fields as unavailable, not as a health verdict.',
+        'Check free space, temperature and power mode, changing only one variable before repeating the same workload.',
+        'Check TRIM status with the read-only command. Windows normally manages TRIM for SSDs; the optional re-trim is not a repair for a failing drive and should be skipped if reliability warnings or I/O errors are present.'
       ] },
       { heading: 'When it is the drive', paragraphs: [
-        'If speeds remain low after these checks and the health report shows high wear, spare capacity dropping, or errors, back up and plan to replace the drive.'
+        'If speeds remain poor after checks and the manufacturer reports a critical warning, media/data-integrity errors are increasing, reads are failing or the drive repeatedly disappears, prioritize a verified backup and plan replacement or seek data-recovery advice. Do not initialize, format, reinstall Windows or repeatedly benchmark storage that contains data you still need.',
+        'If health reports no warnings, keep regular backups and investigate free space, background workload, temperature, power, firmware and connection evidence before assuming age alone means the SSD needs replacing.'
+      ], relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Read supported SMART and reliability signals and decide when to back up first.' },
+        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Check whether temperature and slower performance occur together.' },
+        { label: 'SSD nearly full: Windows performance', href: '/ssd-nearly-full-windows-performance', description: 'Test free-space pressure before assuming the drive is failing.' }
       ] }
     ],
     faq: [
