@@ -67,12 +67,12 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         headers: ['Account or backup type', 'Where to open or look', 'How to match the key'],
         rows: [
           [
-            'Personal Microsoft account · aka.ms/myrecoverykey',
+            { text: 'Personal Microsoft account · aka.ms/myrecoverykey', href: 'https://aka.ms/myrecoverykey' },
             'Sign in from another device with the Microsoft account used to set up or sign in to the PC. Windows Home and Pro devices may both use Device Encryption or BitLocker.',
             'Find the saved entry whose Key ID matches the first 8 digits shown on the recovery screen, then enter its 48-digit recovery password.'
           ],
           [
-            'Work or school account · aka.ms/aadrecoverykey',
+            { text: 'Work or school account · aka.ms/aadrecoverykey', href: 'https://aka.ms/aadrecoverykey' },
             'Sign in with the organization account, open Devices, select the device, and choose View BitLocker Keys if that option is available. Some organizations require IT to retrieve the key.',
             'Match the displayed Key ID to the saved entry. If you cannot see the key, contact the organization’s IT service desk and provide the ID—not the recovery password.'
           ],
