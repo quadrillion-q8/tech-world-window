@@ -10,6 +10,7 @@ import { galleryImageUrl, galleryImages } from '../data/gallery';
 import { ArticleCard } from '../components/ArticleCard';
 import { ToolCallout } from '../components/ToolCallout';
 import { RamSsdUpgradePlanner } from '../components/RamSsdUpgradePlanner';
+import { MemoryPressureEstimator } from '../components/MemoryPressureEstimator';
 import { getRelatedArticles, getResearchForArticle } from '../lib/contentRelationships';
 
 /** Renders `backtick` spans as <code> without using dangerouslySetInnerHTML. */
@@ -159,6 +160,7 @@ export function ArticlePage({ article }: { article: Article }) {
   const isBestRamGuide = article.slug === 'best-ram';
   const isSsdHealthGuide = article.slug === 'how-to-check-ssd-health-windows';
   const isUsbDeviceGuide = article.slug === 'windows-11-usb-device-not-recognized';
+  const isRamUpgradeGuide = article.slug === 'how-much-ram-do-you-need-gaming';
   const displayTags = article.tags.filter(tag =>
     !article.appliesTo?.some(appliesTo => appliesTo === tag || appliesTo.startsWith(`${tag};`))
   );
@@ -213,6 +215,10 @@ export function ArticlePage({ article }: { article: Article }) {
         <strong>QUICK ANSWER</strong>
         <p>{article.excerpt}</p>
       </section>}
+      {isRamUpgradeGuide && <section className="quick-answer ram-capacity-quick-answer" aria-label="Quick answer">
+        <strong>QUICK ANSWER</strong>
+        <p>{article.excerpt}</p>
+      </section>}
       <div className="article-byline">
         <Link className="author-avatar small" to={author?.url || '/authors/imran-natiq'} aria-label={`About ${author?.name || 'the author'}`}>IN</Link>
         <div>
@@ -263,6 +269,8 @@ export function ArticlePage({ article }: { article: Article }) {
           </nav> : null}
         </section>)}
 
+        {isRamUpgradeGuide && <MemoryPressureEstimator />}
+
         {article.testing && <div className="editorial-note"><strong>Evidence note</strong><p>{renderInline(article.testing)}</p></div>}
 
         {article.searchIntent === 'commercial' && <div className="commercial-intro"><strong>Commercial-content note</strong><p>Some links on this page may be affiliate links. They can earn Tech World Window a commission at no extra cost to you. Commercial relationships do not determine our testing conclusions.</p><a className="text-link" href="/affiliate-disclosure">Read the full affiliate disclosure →</a></div>}
@@ -300,7 +308,7 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {!isBestRamGuide && !isSsdHealthGuide && !isUsbDeviceGuide && <section className="quick-answer rail-quick-answer">
+        {!isBestRamGuide && !isSsdHealthGuide && !isUsbDeviceGuide && !isRamUpgradeGuide && <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section>}
