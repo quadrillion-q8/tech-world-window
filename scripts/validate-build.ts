@@ -237,8 +237,15 @@ for (const article of articles) {
           if (!ids.has(cell.href.slice(1))) errors.push(`Article "${article.id}" links to a missing in-page anchor: ${cell.href}`);
         } else if (cell.href.startsWith('/')) {
           if (!indexablePaths.has(cell.href)) errors.push(`Article "${article.id}" table links to a missing/non-indexable route: ${cell.href}`);
+        } else if (cell.href.startsWith('https://')) {
+          try {
+            const external = new URL(cell.href);
+            if (external.protocol !== 'https:') errors.push(`Article "${article.id}" table external link must use HTTPS: ${cell.href}`);
+          } catch {
+            errors.push(`Article "${article.id}" table link has an invalid HTTPS URL: ${cell.href}`);
+          }
         } else {
-          errors.push(`Article "${article.id}" table link must be an internal route or #anchor: ${cell.href}`);
+          errors.push(`Article "${article.id}" table link must be an internal route, HTTPS URL, or #anchor: ${cell.href}`);
         }
       }
     }

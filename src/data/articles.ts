@@ -17,7 +17,7 @@ import { ramSsdUpgradeDecisionGuide } from './ram-ssd-upgrade-decision-guide';
 import { placeGalleryImages } from './article-images';
 export type ArticleCategory = 'News' | 'Windows' | 'Gaming' | 'Hardware' | 'Guides' | 'Reviews';
 
-/** A table cell is plain text, or text with an internal link (route path or in-page #anchor). */
+/** A table cell is plain text, or linked text targeting an internal route, in-page #anchor, or HTTPS source. */
 export type TableCell = string | { text: string; href: string };
 
 export type ArticleTable = {

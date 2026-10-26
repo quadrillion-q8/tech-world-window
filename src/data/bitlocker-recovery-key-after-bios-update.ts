@@ -8,7 +8,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   id: 'bitlocker-recovery-key-after-bios-update',
   slug: 'why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update',
   title: 'BitLocker Recovery Key After BIOS Update: Find It and Stop Repeat Prompts',
-  seoTitle: 'BitLocker Recovery Key After BIOS Update: Fix Repeat Prompts',
+  seoTitle: 'BitLocker Recovery Key After BIOS Update',
   dek: 'A BIOS or UEFI update can change measured boot state and trigger BitLocker recovery. Find the matching 48-digit key, understand Windows Device Encryption, and use a careful one-reboot check if prompts keep returning.',
   metaDescription: 'Locked out after a BIOS/UEFI update? Match the 8-digit Key ID to your 48-digit recovery key, find it fast, and troubleshoot repeat prompts safely.',
   excerpt: 'Match the first 8 digits shown for the BitLocker Recovery key ID to the saved entry containing the correct 48-digit recovery password. Use a phone or second PC to find it, and only run the one-reboot troubleshooting step after Windows has unlocked successfully.',
@@ -28,7 +28,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   pillarPath: '/windows-troubleshooting-complete-guide',
   searchIntent: 'informational',
   testing: 'This is a documentation-based troubleshooting guide, not a report of controlled hardware testing. The ASUS EZ Flash image is a real repair-bench photo illustrating a firmware-update workflow; it does not prove that a particular board caused a BitLocker recovery prompt. Recovery screens and firmware settings vary by model and policy. Microsoft and the device manufacturer’s current instructions take precedence.',
-  relatedArticles: ['bios-uefi-recovery-guide', 'windows-secure-boot-certificate-update'],
+  relatedArticles: ['bios-uefi-recovery-guide', 'laptop-battery-warning-signs'],
   content: [
     {
       heading: 'First: do not reset or reinstall Windows',
@@ -124,7 +124,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'Do not toggle encryption off or attempt to decrypt the drive as a way to bypass the recovery screen. Find the matching recovery password first and follow the normal recovery path.'
       ],
       relatedLinks: [
-        { label: 'Microsoft: Device Encryption in Windows', href: 'https://support.microsoft.com/en-us/windows/security/encryption/device-encryption-in-windows', description: 'See which Windows editions and account setups can use automatic Device Encryption.' }
+        { label: 'Windows Secure Boot certificate update', href: '/windows-secure-boot-certificate-update', description: 'Check Secure Boot certificate-update status without changing firmware settings.' }
       ]
     },
     {
@@ -154,8 +154,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'manage-bde -status C:'
       ],
       relatedLinks: [
-        { label: 'Microsoft Learn: BitLocker recovery known issues', href: 'https://learn.microsoft.com/en-us/troubleshoot/windows-client/windows-security/bitlocker-recovery-known-issues', description: 'Review documented recovery behavior after UEFI or TPM firmware updates and PCR-profile checks.' },
-        { label: 'Microsoft Learn: Configure BitLocker and PCR validation', href: 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure', description: 'Understand what PCR values measure and why a configured validation profile matters.' }
+        { label: 'BIOS or UEFI update failed?', href: '/bios-uefi-recovery-guide', description: 'Separate firmware boot failure from a BitLocker recovery prompt.' }
       ]
     },
     {
