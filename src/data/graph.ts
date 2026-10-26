@@ -94,7 +94,7 @@ export const routeGraph: RouteNode[] = [
   { path: '/pc-game-low-fps-how-to-find-the-cause', kind: 'article', title: "Low FPS in PC Games: How to Find the Real Bottleneck", indexable: true },
   { path: '/pc-games-crashing-to-desktop-troubleshooting', kind: 'article', title: "PC Games Keep Crashing to Desktop: A Step-by-Step Diagnosis", indexable: true },
   { path: '/gpu-100-percent-usage-gaming', kind: 'article', title: "GPU at 100% Usage While Gaming: Is That a Problem?", indexable: true },
-  { path: '/how-much-ram-do-you-need-gaming', kind: 'article', title: "How Much RAM Do You Need for Gaming and Windows?", indexable: true },
+  { path: '/how-much-ram-do-you-need-gaming', kind: 'article', title: "How Much RAM Do You Need for Gaming and Windows 11?", indexable: true },
   { path: '/gpu-overheating-gaming-pc-causes-fix', kind: 'article', title: "GPU Overheating While Gaming: What to Check Before Replacing It", indexable: true },
   { path: '/pc-power-supply-problems-symptoms', kind: 'article', title: "PC Power Supply Problems: Symptoms, Safe Tests, and Diagnosis", indexable: true },
   { path: '/ssd-nearly-full-windows-performance', kind: 'article', title: "SSD Nearly Full: How Much Free Space Does Windows Need?", indexable: true },

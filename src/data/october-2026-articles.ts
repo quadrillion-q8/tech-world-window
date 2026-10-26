@@ -377,7 +377,7 @@ export const october2026Articles: Article[] = [
           'If the PC freezes, crashes or reports memory errors, test for stability separately. More RAM will not repair a defective module, incompatible settings, a failing SSD or a thermal problem.'
         ],
         relatedLinks: [
-          { label: 'How much RAM do you need for gaming?', href: '/how-much-ram-do-you-need-gaming', description: 'Compare gaming workloads without duplicating this Windows multitasking guide.' },
+          { label: 'How much RAM you need for gaming and Windows 11', href: '/how-much-ram-do-you-need-gaming', description: 'Compare game capacity and multitasking against measured Windows memory pressure.' },
           { label: 'How to check RAM for errors', href: '/how-to-check-ram-for-errors-windows', description: 'Use memory diagnostics if the concern is instability or suspected faulty RAM.' },
           { label: 'Best RAM for gaming PCs and Windows', href: '/best-ram', description: 'Use the buying guide after confirming compatibility and capacity needs.' }
         ]
