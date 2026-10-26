@@ -1375,14 +1375,7 @@ const baseArticles: Article[] = [
         'Storage drivers, firmware, controller or connection issues.',
         'A fast write cache that fills during a large sustained transfer.'
       ] },
-      { heading: 'When it is the drive', paragraphs: [
-        'If speeds remain poor after checks and the manufacturer reports a critical warning, media/data-integrity errors are increasing, reads are failing or the drive repeatedly disappears, prioritize a verified backup and plan replacement or seek data-recovery advice. Do not initialize, format, reinstall Windows or repeatedly benchmark storage that contains data you still need.',
-        'If health reports no warnings, keep regular backups and investigate free space, background workload, temperature, power, firmware and connection evidence before assuming age alone means the SSD needs replacing.'
-      ], relatedLinks: [
-        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Read supported SMART and reliability signals and decide when to back up first.' },
-        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Check whether temperature and slower performance occur together.' },
-        { label: 'SSD nearly full: Windows performance', href: '/ssd-nearly-full-windows-performance', description: 'Test free-space pressure before assuming the drive is failing.' }
-      ] }
+      
     ],
     faq: [
       { question: 'Should I defragment an SSD?', answer: 'No. Windows optimizes SSDs with TRIM instead, and traditional defragmentation is not needed.' }
