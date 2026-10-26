@@ -217,7 +217,7 @@ export function ArticlePage({ article }: { article: Article }) {
         <p>A BIOS or UEFI update can change measured boot state and trigger BitLocker recovery. It does not automatically mean the drive is damaged. Match the short Recovery key ID on the blue screen to the saved entry containing the correct 48-digit recovery password.</p>
         <ol>
           <li>On a phone or second PC, open <a href="https://aka.ms/myrecoverykey">aka.ms/myrecoverykey</a> for a personal Microsoft account or <a href="https://aka.ms/aadrecoverykey">aka.ms/aadrecoverykey</a> for a work or school account.</li>
-          <li>Match the first 8 characters shown for the Recovery key ID to the saved entry, then enter its 48-digit recovery password.</li>
+          <li>Match the first 8 digits shown for the Recovery key ID to the saved entry, then enter its 48-digit recovery password.</li>
           <li>If the key unlocks Windows but the prompt returns on every reboot, sign in first and follow the one-reboot procedure below. Do not run those commands while still locked at the recovery screen.</li>
         </ol>
         <p>Do not clear the TPM, reset Windows, or change Secure Boot settings as a guess. Contact IT before changing security settings on a work- or school-managed device.</p>
