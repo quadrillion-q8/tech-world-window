@@ -546,16 +546,17 @@ export const octoberTechGuides: Article[] = [
     id: "usb-device-not-recognized",
     slug: "windows-11-usb-device-not-recognized",
     title: "USB Device Not Recognized in Windows: A Diagnostic Guide",
-    seoTitle: "USB Device Not Recognized in Windows? Fix",
+    seoTitle: "USB Device Not Recognized in Windows 11 & 10: Fix",
     dek: "Find out whether a USB problem follows the device, cable, port, hub, power path or Windows driver before reinstalling software or formatting a storage device.",
-    metaDescription: "USB device not recognized in Windows 11? Test the device, cable, port and Device Manager safely before driver changes or formatting.",
+    metaDescription: "Fix “USB device not recognized” in Windows 11 and 10. Check cables, ports, hubs, Code 43 and driver errors safely—without risking important files.",
     excerpt: "Start by cross-testing the device and cable on a direct port and another computer. Record the exact Device Manager error, and never format a USB storage device containing files you need just because Windows cannot read it.",
     category: "Windows",
     subcategory: "USB and device drivers",
     authorId: "imranNatiq",
     publishedAt: "2026-10-21",
-    updatedAt: "2026-10-21",
-    readingTime: 10,
+    updatedAt: "2026-10-26",
+    heroImage: "/images/gallery/laptop-motherboard-usb-ports-cables.webp",
+    readingTime: 6,
     tags: ["Windows 11", "Windows 10", "USB", "Device Manager", "USB-C", "Drivers", "External Storage", "Troubleshooting"],
     appliesTo: ["Windows 11", "Windows 10; USB features depend on the device and port"],
     relatedArticles: ["windows-unknown-device", "windows-troubleshooting-universal"],
@@ -604,9 +605,37 @@ export const octoberTechGuides: Article[] = [
           "If the code points to a missing or malfunctioning driver, use Windows Update or the peripheral maker's official support page for the exact model and Windows version. Microsoft documents how to update, reinstall or roll back a specific driver through Device Manager. Avoid bulk driver updaters and registry cleaners.",
           "If the issue began immediately after a driver update, use the driver's Roll Back Driver option when available and compare behavior. If you uninstall a device entry as a targeted troubleshooting step, save your work first and restart Windows so it can re-enumerate the hardware. Do not repeatedly uninstall every USB controller without a model-specific reason."
         ],
+        table: {
+          caption: "Common USB Device Manager statuses and what to check next",
+          headers: ["Device Manager status", "What it means", "Safe first action"],
+          rows: [
+            ["Unknown USB Device (Device Descriptor Request Failed)", "Windows could not retrieve a valid device descriptor during USB enumeration. The entry may also show Code 43; that code alone does not identify which component failed.", "Try a known-good data-capable cable and direct port, then test the device on another computer."],
+            ["Unknown USB Device (Port Reset Failed)", "Windows could not complete the port-reset step needed to initialize communication.", "Remove a hub or adapter, fully shut down, and retest a direct port."],
+            ["Unknown USB Device (Set Address Failed)", "Windows could not complete the USB address-assignment step during enumeration.", "Remove extensions and test a known-good cable on another direct port or computer."],
+            ["Code 43 — Windows has stopped this device because it has reported problems", "A device or controlling driver reported a problem. This is a general status, not proof that the cable, port or device itself is at fault.", "Cross-test the device, then follow the exact manufacturer's guidance or targeted driver steps."],
+            ["Code 10 — This device cannot start", "Windows could not start the device successfully; this status alone does not distinguish a driver issue from a hardware or communication fault.", "Check whether the device works on another computer and review the model-correct official driver. Consider rollback only if the problem began after an update."],
+            ["Code 28 — The drivers for this device are not installed", "Windows does not have a matching driver installed for the device.", "Open Properties > Details > Hardware Ids, then locate the driver through the PC or peripheral manufacturer's support page."]
+          ]
+        },
         relatedLinks: [
           { label: "Unknown device in Device Manager", href: "/windows-11-unknown-device-device-manager", description: "Use hardware IDs and device status to identify a driver problem." },
           { label: "SSD not detected in BIOS or Windows", href: "/ssd-not-detected-in-bios-or-windows", description: "Follow the data-safe workflow when the USB device is storage." }
+        ]
+      },
+      {
+        heading: "Clear a latched USB power state and check selective suspend",
+        paragraphs: [
+          "A full power-off can clear a temporarily stuck USB controller or power state after sleep/wake or a protective shutdown, but it is not a diagnosis. Stop if a port is loose, unusually hot, visibly damaged or smells burnt. Follow the computer maker's model-specific reset instructions if provided.",
+          "USB selective suspend lets Windows suspend an idle USB device to save power. If failure consistently follows sleep/wake or long idle periods, review power-management options only as a controlled test. Microsoft recommends leaving selective suspend enabled by default; do not disable it globally as a routine fix."
+        ],
+        steps: [
+          "Safely disconnect USB peripherals. Do not reconnect a device or cable that shows heat or visible damage.",
+          "Use Windows Shut down, not Restart or Sleep, and wait until the system is fully powered off.",
+          "On a desktop, unplug mains power and hold the case power button for about 15 seconds, then leave it disconnected for about 60 seconds before restoring power. Follow the motherboard manufacturer's instructions if they differ.",
+          "On a laptop, unplug the charger and accessories, leave the system fully shut down for about 60 seconds, and use the laptop maker's documented embedded-controller (EC) reset procedure if one applies. Do not open the chassis or disconnect an internal battery for this check.",
+          "Reconnect power and test one known-good, low-power USB device directly on a different port before reconnecting other peripherals.",
+          "If failures track sleep, idle or battery power, open Device Manager > Universal Serial Bus controllers and inspect the relevant USB Root Hub's Power Management tab if it is available. Record the original setting; options vary by hardware and driver. Change only one relevant setting and restore it if the test does not help.",
+          "If USB selective suspend appears in the active power plan, treat it as a diagnostic variable, not an automatic fix. Restore its original setting after the comparison if no clear improvement occurs."
         ]
       },
       {
@@ -631,7 +660,10 @@ export const octoberTechGuides: Article[] = [
     sources: [
       { label: "Microsoft Support: Fix USB-C problems in Windows", url: "https://support.microsoft.com/en-us/windows/hardware/usb/fix-usb-c-problems-in-windows" },
       { label: "Microsoft Support: Update drivers through Device Manager", url: "https://support.microsoft.com/en-us/windows/update-drivers-through-device-manager-in-windows-ec62f46c-ff14-c91d-eead-d7126dc1f7b6" },
-      { label: "Microsoft Learn: Overview of Disk Management", url: "https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management" }
+      { label: "Microsoft Learn: Overview of Disk Management", url: "https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management" },
+      { label: "Microsoft Support: Error codes in Device Manager in Windows", url: "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows" },
+      { label: "Microsoft Learn: Troubleshooting an unknown USB device", url: "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/case-study--troubleshooting-an-unknown-usb-device-by-using-etw-and-netmon" },
+      { label: "Microsoft Learn: USB selective suspend", url: "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-selective-suspend" }
     ],
     faq: [
       { question: "Why does Windows say USB device not recognized?", answer: "The message can arise from the device, cable, port, hub, power path or Windows driver stack. Test a direct port, a suitable known-good cable and another computer before choosing a repair." },
