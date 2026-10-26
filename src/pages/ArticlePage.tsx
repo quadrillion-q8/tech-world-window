@@ -161,6 +161,7 @@ export function ArticlePage({ article }: { article: Article }) {
   const isSsdHealthGuide = article.slug === 'how-to-check-ssd-health-windows';
   const isUsbDeviceGuide = article.slug === 'windows-11-usb-device-not-recognized';
   const isRamUpgradeGuide = article.slug === 'how-much-ram-do-you-need-gaming';
+  const isBitlockerRecoveryGuide = article.slug === 'why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update';
   const displayTags = article.tags.filter(tag =>
     !article.appliesTo?.some(appliesTo => appliesTo === tag || appliesTo.startsWith(`${tag};`))
   );
@@ -211,6 +212,16 @@ export function ArticlePage({ article }: { article: Article }) {
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
+      {isBitlockerRecoveryGuide && <section className="quick-answer bitlocker-quick-answer" aria-label="Quick answer">
+        <strong>QUICK ANSWER</strong>
+        <p>A BIOS or UEFI update can change measured boot state and trigger BitLocker recovery. It does not automatically mean the drive is damaged. Match the short Recovery key ID on the blue screen to the saved entry containing the correct 48-digit recovery password.</p>
+        <ol>
+          <li>On a phone or second PC, open <a href="https://aka.ms/myrecoverykey">aka.ms/myrecoverykey</a> for a personal Microsoft account or <a href="https://aka.ms/aadrecoverykey">aka.ms/aadrecoverykey</a> for a work or school account.</li>
+          <li>Match the first 8 characters shown for the Recovery key ID to the saved entry, then enter its 48-digit recovery password.</li>
+          <li>If the key unlocks Windows but the prompt returns on every reboot, sign in first and follow the one-reboot procedure below. Do not run those commands while still locked at the recovery screen.</li>
+        </ol>
+        <p>Do not clear the TPM, reset Windows, or change Secure Boot settings as a guess. Contact IT before changing security settings on a work- or school-managed device.</p>
+      </section>}
       {isUsbDeviceGuide && <section className="quick-answer usb-quick-answer" aria-label="Quick answer">
         <strong>QUICK ANSWER</strong>
         <p>{article.excerpt}</p>
@@ -234,7 +245,9 @@ export function ArticlePage({ article }: { article: Article }) {
     </div>
     {heroImage ? <figure className="article-hero-media">
       <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
-      <figcaption>{heroGalleryImage ? `Photo from the TWW repair bench: ${heroGalleryImage.title}. Illustrative hardware context, not a performance test.` : `Featured visual · ${article.category}`}</figcaption>
+      <figcaption>{isBitlockerRecoveryGuide && heroGalleryImage?.id === 'asus-ez-flash-bios-update-strix-z890f-1000'
+        ? 'TWW repair-bench photo: ASUS EZ Flash firmware-update screen on an ROG Strix Z890-F motherboard. This illustrates the firmware-update workflow; it is not a test or proof that this board caused a BitLocker recovery prompt.'
+        : heroGalleryImage ? `Photo from the TWW repair bench: ${heroGalleryImage.title}. Illustrative hardware context, not a performance test.` : `Featured visual · ${article.category}`}</figcaption>
     </figure> : null}
     </div>
 
@@ -308,7 +321,7 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {!isBestRamGuide && !isSsdHealthGuide && !isUsbDeviceGuide && !isRamUpgradeGuide && <section className="quick-answer rail-quick-answer">
+        {!isBestRamGuide && !isSsdHealthGuide && !isUsbDeviceGuide && !isRamUpgradeGuide && !isBitlockerRecoveryGuide && <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section>}
