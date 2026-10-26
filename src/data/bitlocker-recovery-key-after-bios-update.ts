@@ -110,10 +110,10 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'After sign-in, run manage-bde -status C: and confirm Protection Status reports Protection On. Then inspect the TPM/PCR details using the diagnostic section below if the prompt returns.'
       ],
       codeBlocks: [
-        '# PowerShell (Admin) — use this option if the BitLocker PowerShell cmdlet is available\\nSuspend-BitLocker -MountPoint "C:" -RebootCount 1',
-        'REM Command Prompt (Admin) — alternative to the PowerShell command\\nmanage-bde -protectors -disable C: -rc 1'
+        '# PowerShell (Admin) — use this option if the BitLocker PowerShell cmdlet is available\nSuspend-BitLocker -MountPoint "C:" -RebootCount 1',
+        'REM Command Prompt (Admin) — alternative to the PowerShell command\nmanage-bde -protectors -disable C: -rc 1'
       ],
-      codeBlocksAfterSteps: true
+      codeBlocksAfterSteps: false
     },
     {
       heading: 'Windows Home: why Device Encryption can still show a BitLocker screen',
@@ -166,10 +166,10 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'Before flashing, confirm the exact PC or motherboard model and firmware package, connect reliable AC power, close applications, and keep the recovery key available on a separate device. If the PC is managed by an organization, follow its policy.'
       ],
       codeBlocks: [
-        '# PowerShell (Admin) — suspend for a multi-reboot firmware update only when instructed\\nSuspend-BitLocker -MountPoint "C:" -RebootCount 0',
-        'REM Command Prompt (Admin) — alternative indefinite suspension; resume explicitly afterwards\\nmanage-bde -protectors -disable C: -rc 0',
-        '# PowerShell (Admin) — resume protection after the update and a successful Windows start\\nResume-BitLocker -MountPoint "C:"',
-        'REM Command Prompt (Admin) — alternative resume command\\nmanage-bde -protectors -enable C:'
+        '# PowerShell (Admin) — suspend for a multi-reboot firmware update only when instructed\nSuspend-BitLocker -MountPoint "C:" -RebootCount 0',
+        'REM Command Prompt (Admin) — alternative indefinite suspension; resume explicitly afterwards\nmanage-bde -protectors -disable C: -rc 0',
+        '# PowerShell (Admin) — resume protection after the update and a successful Windows start\nResume-BitLocker -MountPoint "C:"',
+        'REM Command Prompt (Admin) — alternative resume command\nmanage-bde -protectors -enable C:'
       ],
       steps: [
         'Verify that you can retrieve the correct recovery password before starting.',
@@ -178,7 +178,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'After Windows starts and the update is complete, run the matching resume/enable command shown above.',
         'Check manage-bde -status C: and confirm that protection is active again. If the status remains suspended or off, do not leave the PC in that state; follow official guidance or contact IT.'
       ],
-      codeBlocksAfterSteps: true
+      codeBlocksAfterSteps: false
     },
     {
       heading: 'If the correct recovery password is accepted but Windows still will not start',
