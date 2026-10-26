@@ -18,6 +18,7 @@ export const multiAgentAiSystemsGuide: Article[] = [
     authorId: "imranNatiq",
     publishedAt: "2026-10-27",
     updatedAt: "2026-10-27",
+    heroImage: "/images/articles/multi-agent-ai-systems-orchestration-hero.webp",
     readingTime: 12,
     tags: ["AI agents", "multi-agent systems", "AI orchestration", "software architecture", "DevOps", "AI security"],
     pillarPath: "/guides",
