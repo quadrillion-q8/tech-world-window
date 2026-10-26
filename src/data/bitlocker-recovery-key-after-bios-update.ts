@@ -10,8 +10,8 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
   title: 'BitLocker Recovery Key After BIOS Update: Find It and Stop Repeat Prompts',
   seoTitle: 'BitLocker Recovery Key After BIOS Update: Fix Repeat Prompts',
   dek: 'A BIOS or UEFI update can change measured boot state and trigger BitLocker recovery. Find the matching 48-digit key, understand Windows Device Encryption, and use a careful one-reboot check if prompts keep returning.',
-  metaDescription: 'Locked out after a BIOS/UEFI update? Match the 8-character Key ID to your 48-digit recovery key, find it fast, and troubleshoot repeat prompts safely.',
-  excerpt: 'Match the first 8 characters shown for the BitLocker Recovery key ID to the saved entry containing the correct 48-digit recovery password. Use a phone or second PC to find it, and only run the one-reboot troubleshooting step after Windows has unlocked successfully.',
+  metaDescription: 'Locked out after a BIOS/UEFI update? Match the 8-digit Key ID to your 48-digit recovery key, find it fast, and troubleshoot repeat prompts safely.',
+  excerpt: 'Match the first 8 digits shown for the BitLocker Recovery key ID to the saved entry containing the correct 48-digit recovery password. Use a phone or second PC to find it, and only run the one-reboot troubleshooting step after Windows has unlocked successfully.',
   heroImage: '/images/gallery/asus-ez-flash-bios-update-strix-z890f-1000.webp',
   category: 'Guides',
   subcategory: 'Windows security and recovery',
@@ -59,7 +59,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
     {
       heading: 'Where to find your BitLocker recovery key',
       paragraphs: [
-        'The Recovery key ID and the recovery password are different things. The ID is a short identifier displayed on the blue screen; match its first 8 characters as shown to the saved entry. The recovery password you enter is a separate 48-digit number. Do not enter the ID where Windows asks for the recovery password.',
+        'The Recovery key ID and the recovery password are different things. The ID is a short identifier displayed on the blue screen; match its first 8 digits as shown to the saved entry. The recovery password you enter is a separate 48-digit number. Do not enter the ID where Windows asks for the recovery password.',
         'Use a phone or a second computer if the locked PC cannot open a browser. Microsoft Support cannot recreate a lost key. Start with the account or organization that originally set up or managed the device.'
       ],
       table: {
@@ -69,7 +69,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
           [
             { text: 'Personal Microsoft account · aka.ms/myrecoverykey', href: 'https://aka.ms/myrecoverykey' },
             'Sign in from another device with the Microsoft account used to set up or sign in to the PC. Windows Home and Pro devices may both use Device Encryption or BitLocker.',
-            'Find the saved entry whose Key ID matches the first 8 characters shown on the recovery screen, then enter its 48-digit recovery password.'
+            'Find the saved entry whose Key ID matches the first 8 digits shown on the recovery screen, then enter its 48-digit recovery password.'
           ],
           [
             { text: 'Work or school account · aka.ms/aadrecoverykey', href: 'https://aka.ms/aadrecoverykey' },
@@ -99,7 +99,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
       heading: 'After the key unlocks Windows: stop repeated recovery prompts',
       paragraphs: [
         'Use this one-reboot attempt only after the valid 48-digit recovery password has unlocked Windows and you can sign in. Do not run these commands while you are still stuck on the blue recovery screen. If the PC is managed by work or school, ask IT first because recovery and protector behavior may be governed by policy.',
-        'The commands below temporarily suspend protection for one restart; they do not decrypt the drive. During suspension, the drive’s unlock key is less protected, so use the one-reboot setting, restart promptly, and verify that protection is active again. This is a supported troubleshooting step, not a guarantee that every boot loop will be fixed.',
+        'The commands below temporarily suspend protection for one restart; they do not decrypt the drive. During suspension, the drive’s unlock key is less protected. After that restart, BitLocker can resume protection and reseal the TPM protector against the current measured startup state. Use the one-reboot setting, restart promptly, and verify that protection is active again. This is a supported troubleshooting step, not a guarantee that every boot loop will be fixed.',
         'First confirm the Windows volume letter. C: is common but not guaranteed. Run only one of the two suspension commands below, then restart once.'
       ],
       steps: [
@@ -178,7 +178,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'After Windows starts and the update is complete, run the matching resume/enable command shown above.',
         'Check manage-bde -status C: and confirm that protection is active again. If the status remains suspended or off, do not leave the PC in that state; follow official guidance or contact IT.'
       ],
-      codeBlocksAfterSteps: false
+      codeBlocksAfterSteps: true
     },
     {
       heading: 'If the correct recovery password is accepted but Windows still will not start',
