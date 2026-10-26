@@ -158,8 +158,13 @@ export function ArticlePage({ article }: { article: Article }) {
   const author = authors[article.authorId];
   const isBestRamGuide = article.slug === 'best-ram';
   const isSsdHealthGuide = article.slug === 'how-to-check-ssd-health-windows';
+  const isUsbDeviceGuide = article.slug === 'windows-11-usb-device-not-recognized';
+  const displayTags = article.tags.filter(tag =>
+    !article.appliesTo?.some(appliesTo => appliesTo === tag || appliesTo.startsWith(`${tag};`))
+  );
   const related = getRelatedArticles(article, articles, 4);
-  const research = getResearchForArticle(article, articles, 2);
+  // Do not attach broad Windows-version research to a USB hardware-enumeration guide.
+  const research = isUsbDeviceGuide ? [] : getResearchForArticle(article, articles, 2);
   const ramCapacityGuide = isBestRamGuide ? articles.find(candidate => candidate.slug === 'why-8gb-ram-is-no-longer-enough-for-windows-11') : undefined;
 
   const breadcrumbPath = article.category.toLowerCase() === 'guides' ? '/guides' : `/${article.category.toLowerCase()}`;
@@ -204,6 +209,10 @@ export function ArticlePage({ article }: { article: Article }) {
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
+      {isUsbDeviceGuide && <section className="quick-answer usb-quick-answer" aria-label="Quick answer">
+        <strong>QUICK ANSWER</strong>
+        <p>{article.excerpt}</p>
+      </section>}
       <div className="article-byline">
         <Link className="author-avatar small" to={author?.url || '/authors/imran-natiq'} aria-label={`About ${author?.name || 'the author'}`}>IN</Link>
         <div>
@@ -213,7 +222,7 @@ export function ArticlePage({ article }: { article: Article }) {
         <span className="reading-time">{article.readingTime} min read</span>
       </div>
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
-      {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
+      {displayTags.length > 0 && <div className="article-tags" aria-label="Article topics">{displayTags.map(tag => <span key={tag}>{tag}</span>)}</div>}
       {isBestRamGuide && <section className="quick-answer best-ram-quick-answer" aria-label="Quick answer"><strong>QUICK ANSWER</strong><p>{article.excerpt}</p></section>}
       {isSsdHealthGuide && <section className="quick-answer ssd-health-quick-answer" aria-label="Quick answer"><strong>QUICK ANSWER</strong><p>Open Settings &gt; System &gt; Storage &gt; Advanced storage settings &gt; Disks &amp; volumes &gt; select the drive &gt; Properties. Built-in health details are available only for supported NVMe drives.</p><p>For a fuller check, use the SSD maker’s supported utility or run <code>Get-PhysicalDisk | Get-StorageReliabilityCounter</code> in PowerShell. Focus on critical warnings, available spare and media/data-integrity errors—not wear percentage alone. Back up important data before benchmarking a drive that is unstable or reporting errors.</p></section>}
     </div>
@@ -291,7 +300,7 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {!isBestRamGuide && !isSsdHealthGuide && <section className="quick-answer rail-quick-answer">
+        {!isBestRamGuide && !isSsdHealthGuide && !isUsbDeviceGuide && <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section>}
