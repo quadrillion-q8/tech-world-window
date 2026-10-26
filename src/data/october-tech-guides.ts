@@ -546,7 +546,7 @@ export const octoberTechGuides: Article[] = [
     id: "usb-device-not-recognized",
     slug: "windows-11-usb-device-not-recognized",
     title: "USB Device Not Recognized in Windows: A Diagnostic Guide",
-    seoTitle: "USB Device Not Recognized in Windows 11 & 10: Fix",
+    seoTitle: "USB Device Not Recognized in Windows 11/10",
     dek: "Find out whether a USB problem follows the device, cable, port, hub, power path or Windows driver before reinstalling software or formatting a storage device.",
     metaDescription: "Fix “USB device not recognized” in Windows 11 and 10. Check cables, ports, hubs, Code 43 and driver errors safely—without risking important files.",
     excerpt: "Start by cross-testing the device and cable on a direct port and another computer. Record the exact Device Manager error, and never format a USB storage device containing files you need just because Windows cannot read it.",
