@@ -24,7 +24,7 @@ export type ToolDef = {
   faq?: ToolFaq[];
 };
 
-export const HUB_SEO_DESCRIPTION = 'Free Windows and PC tools for Secure Boot status checks, Windows troubleshooting, repair logs, blue screens, gaming diagnostics and hardware planning.';
+export const HUB_SEO_DESCRIPTION = 'Free Windows and PC tools for Secure Boot checks, repair logs, blue screens, gaming diagnostics, memory workload budgeting and hardware planning.';
 
 export const tools: ToolDef[] = [
   {
@@ -233,6 +233,25 @@ export const tools: ToolDef[] = [
     ],
   },
   {
+    id: 'memory-workload-budget-estimator',
+    path: '/tools/memory-workload-budget-estimator',
+    title: 'Memory Workload Budget Estimator',
+    group: 'plan',
+    kindLabel: 'Estimator',
+    status: 'New',
+    hubDescription: 'Estimate peak RAM demand across Windows, gaming, browser/chat, recording, local AI and background work, then compare the total with usable physical memory.',
+    menuDescription: 'Estimate memory demand and remaining physical-RAM headroom.',
+    seoTitle: 'Memory Workload Budget Estimator: RAM Headroom',
+    metaDescription: 'Estimate peak RAM demand from Windows, gaming, browser, recording, local AI and background workloads. Compare it with usable physical memory before upgrading.',
+    faq: [
+      { question: 'Does this estimator scan my PC or read Task Manager?', answer: 'No. You enter rough workload estimates manually. The tool does not scan your PC, read running processes, inspect Task Manager, or run a benchmark.' },
+      { question: 'How accurate is the memory workload estimate?', answer: 'It is a planning estimate, not a measurement. Categories can overlap and short workload spikes can be missed, so compare the result with Task Manager during your real workload before buying RAM.' },
+      { question: 'Does committed memory above installed RAM prove that Windows is paging to disk?', answer: 'No. Commit charge is a system-wide commitment against the commit limit; it does not, by itself, show that the excess is actively being read from or written to the page file. Check In use, Available, Committed and the actual slowdown together.' },
+      { question: 'What should I enter for RAM reserved or unavailable to Windows?', answer: 'Enter a known fixed firmware reservation only. Do not enter a maximum shared-GPU memory figure as if all of it were permanently reserved; graphics memory can be allocated dynamically.' },
+      { question: 'When should I consider a RAM upgrade?', answer: 'Do not decide from this estimate alone. Reproduce the slow or heavy workload, inspect Task Manager > Performance > Memory, and look for sustained memory pressure that coincides with the symptom. Also check whether the exact PC supports the capacity and module type.' },
+    ],
+  },
+  {
     id: 'video-embed-code-generator',
     path: '/tools/video-embed-code-generator',
     title: 'Video Embed Code Generator',
@@ -272,6 +291,7 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 
 /** Articles that should point readers at a tool (slug without leading slash -> tool paths). */
 export const articleToolLinks: Record<string, string[]> = {
+  'how-much-ram-do-you-need-gaming': ['/tools/memory-workload-budget-estimator'],
   'research/does-more-ram-make-windows-faster': ['/tools/ram-calculator'],
   'research/upgrade-ram-ssd-now-or-wait': ['/tools/ram-calculator', '/tools/storage-calculator'],
   'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
