@@ -1375,38 +1375,6 @@ const baseArticles: Article[] = [
         'Storage drivers, firmware, controller or connection issues.',
         'A fast write cache that fills during a large sustained transfer.'
       ] },
-      { heading: 'Distinguish a busy drive from slow storage responses', paragraphs: [
-        'Open Task Manager and sort Processes by Disk while the slowdown is happening. If the process is unclear, open Resource Monitor by running resmon and review disk activity and response time. High active time shows that the drive is busy; it does not identify the root cause by itself.',
-        'Use the table to select the next check. A benchmark is useful only when the drive is stable, the workload is repeatable and data is protected if any reliability warning is already present.'
-      ], table: {
-        caption: 'Choose the next SSD slowdown check from the symptom',
-        headers: ['Observed pattern', 'Possible explanation', 'Next check'],
-        rows: [
-          ['Windows slows while updates, indexing or syncing run', 'Background I/O may be competing for storage access.', 'Identify the process in Task Manager and compare again after the task settles.'],
-          ['A large copy starts fast then slows, but the drive remains responsive', 'Write-cache behavior, temperature or sustained-write limits may be involved.', 'Repeat a comparable transfer and check the exact drive model’s specifications.'],
-          ['The system is slow and the SSD is nearly full', 'Available working space may contribute to performance changes.', 'Free safe-to-remove files, then repeat the same task; no one free-space percentage guarantees speed.'],
-          ['The drive reports warnings, disappears, or logs repeated I/O errors', 'A reliability, firmware, controller, power or connection issue may be developing.', 'Back up first and correlate the disk identity and timestamps before further tests.'],
-          ['Only one application or game loads slowly', 'Application, network, cache or asset behavior may matter more than the SSD.', 'Compare another workload and check app-specific evidence before replacing storage.']
-        ]
-      } },
-      { heading: 'Checks you can run in Windows before blaming the drive', paragraphs: [
-        'These checks are read-only unless you explicitly run the optional re-trim command. Missing PowerShell values are inconclusive: driver, controller and device support determine which reliability counters Windows can expose. Do not run performance tests first if the drive is reporting critical warnings, read errors or intermittent disconnects.'
-      ], codeBlocks: [
-        '# Read-only: identify physical disks and reported status',
-        'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus',
-        '# Read-only: supported drive reliability counters',
-        'Get-PhysicalDisk | ForEach-Object {\n  $disk = $_\n  $counter = $disk | Get-StorageReliabilityCounter\n  [pscustomobject]@{\n    FriendlyName = $disk.FriendlyName\n    DeviceId = $disk.DeviceId\n    HealthStatus = $disk.HealthStatus\n    OperationalStatus = ($disk.OperationalStatus -join ", ")\n    Temperature = $counter.Temperature\n    TemperatureMax = $counter.TemperatureMax\n    Wear = $counter.Wear\n    ReadErrorsTotal = $counter.ReadErrorsTotal\n    WriteErrorsTotal = $counter.WriteErrorsTotal\n  }\n} | Format-Table -AutoSize',
-        '# Read-only: a value of 0 means TRIM delete notifications are enabled',
-        'fsutil behavior query DisableDeleteNotify',
-        '# Optional: re-trim the C: volume on a stable, healthy SSD only',
-        'Optimize-Volume -DriveLetter C -ReTrim -Verbose'
-      ], steps: [
-        'Record the exact model, interface, firmware and the task that becomes slow.',
-        'Check Task Manager and Resource Monitor during the real slowdown, then note the process and response time.',
-        'Run the physical-disk and reliability-counter checks above if supported. Treat blank fields as unavailable, not as a health verdict.',
-        'Check free space, temperature and power mode, changing only one variable before repeating the same workload.',
-        'Check TRIM status with the read-only command. Windows normally manages TRIM for SSDs; the optional re-trim is not a repair for a failing drive and should be skipped if reliability warnings or I/O errors are present.'
-      ] },
       { heading: 'When it is the drive', paragraphs: [
         'If speeds remain poor after checks and the manufacturer reports a critical warning, media/data-integrity errors are increasing, reads are failing or the drive repeatedly disappears, prioritize a verified backup and plan replacement or seek data-recovery advice. Do not initialize, format, reinstall Windows or repeatedly benchmark storage that contains data you still need.',
         'If health reports no warnings, keep regular backups and investigate free space, background workload, temperature, power, firmware and connection evidence before assuming age alone means the SSD needs replacing.'
