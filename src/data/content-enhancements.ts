@@ -608,61 +608,61 @@ const enhancements: Record<string, Enhancement> = {
     ]
   },
   'why-ssd-is-slowing-down-windows': {
-    updatedAt: '2026-10-18',
+    updatedAt: '2026-10-26',
     seoTitle: 'Why an SSD Slows Down Over Time',
-    metaDescription: 'SSD slowing down Windows? Check free space, background disk activity, temperature, write-cache behavior and health warnings before replacing the drive.',
+    metaDescription: 'SSD slowing down? Check free space, background disk activity, temperature, health warnings and write-cache behavior before replacing the drive.',
+    sources: [
+      { label: 'Microsoft Learn: Get-PhysicalDisk', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-physicaldisk' },
+      { label: 'Microsoft Learn: Get-StorageReliabilityCounter', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-storagereliabilitycounter' },
+      { label: 'Microsoft Learn: Optimize-Volume', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/optimize-volume' },
+      { label: 'Microsoft Learn: fsutil behavior', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior' }
+    ],
     sections: [{
-      heading: 'TWW diagnosis: prove that the SSD is the bottleneck before replacing it',
-      paragraphs: [
-        'A system that feels slower over time does not automatically have a worn-out SSD. Check free space, background workloads, Windows updates, temperatures, drive health, interface mode and the specific operation that became slow.',
-        'The strongest case for replacing the drive is a combination of storage-specific evidence—health warnings, repeated I/O errors, disappearing devices, sustained performance degradation or capacity constraints—rather than age alone.'
-      ]
-    }, {
       heading: 'Distinguish a busy drive from slow storage responses',
       paragraphs: [
-        'Open Task Manager and sort the Processes list by Disk while the slowdown is happening. If one known task is reading or writing heavily, let it finish when safe and compare the same operation again. If the process is unclear, open Resource Monitor and enter resmon in the Run dialog to inspect disk activity and response time. A high disk percentage alone does not tell you whether the drive has failed.',
-        'Compare a normal idle period with the same app launch, file copy or game load that feels slow. Use the same files and conditions where possible. A brief drop in write speed during a large transfer can happen when a drive’s fast write cache fills; that pattern is different from repeated errors, disappearing storage or poor responsiveness during ordinary light use.'
-      ],
-      steps: [
-        'Record the operation that is slow, the drive involved, and whether the symptom occurs every time or only during an update, scan or large transfer.',
-        'Check free space in Settings or File Explorer and identify background processes before running a benchmark.',
-        'Compare the drive’s temperature and sustained behavior with the exact model’s published limits and documentation; do not apply one universal temperature threshold to every SSD.',
-        'Use the SSD manufacturer’s supported health utility and review Windows storage errors if the slowdown persists.',
-        'Change one variable at a time and repeat the same operation before concluding a driver, power setting or drive replacement solved the issue.'
+        'Open Task Manager and sort Processes by Disk while the slowdown is happening. If the process is unclear, open Resource Monitor (run resmon) to review disk activity and response time. High active time shows that the drive is busy; it does not identify the root cause by itself.',
+        'Use the table to select the next check. A benchmark is useful only when the drive is stable, the workload is repeatable and data is protected if any reliability warning is already present.'
       ],
       table: {
-        caption: 'Patterns that can explain an SSD slowdown',
+        caption: 'Choose the next SSD slowdown check from the symptom',
         headers: ['Observed pattern', 'Possible explanation', 'Next check'],
         rows: [
-          ['Slowdown while Windows Update, indexing or syncing runs', 'Background I/O may be competing for storage access', 'Identify the process and compare again after the task settles'],
-          ['Large write starts fast and later slows but the drive remains responsive', 'Write-cache behavior, drive temperature, or sustained-write limits may be involved', 'Repeat a comparable transfer and check the exact drive documentation'],
-          ['System becomes slow with little free space', 'The drive may have less working room for temporary data and maintenance', 'Free safe-to-remove files and retest before buying hardware'],
-          ['Drive disappears, reports critical warnings, or logs repeated I/O errors', 'A reliability, connection, firmware or drive fault may be developing', 'Back up first and follow the drive maker’s diagnostic guidance'],
-          ['Only one app or one game loads slowly', 'Application, network, cache or asset behavior may be more relevant than the SSD itself', 'Compare another workload and inspect app-specific evidence']
+          ['Windows slows while updates, indexing or syncing run', 'Background I/O may be competing for storage access.', 'Identify the process in Task Manager and compare again after the task settles.'],
+          ['A large copy starts fast then slows, but the drive remains responsive', 'Write-cache behavior, temperature or sustained-write limits may be involved.', 'Repeat a comparable transfer and check the exact drive model’s specifications.'],
+          ['The system is slow and the SSD is nearly full', 'Available working space may contribute to performance changes.', 'Free safe-to-remove files, then repeat the same task; no one free-space percentage guarantees speed.'],
+          ['The drive reports warnings, disappears, or logs repeated I/O errors', 'A reliability, firmware, controller, power or connection issue may be developing.', 'Back up first and correlate the disk identity and timestamps before further tests.'],
+          ['Only one application or game loads slowly', 'Application, network, cache or asset behavior may matter more than the SSD.', 'Compare another workload and check app-specific evidence before replacing storage.']
         ]
-      },
-      relatedLinks: [
-        { label: 'Hardware guide hub', href: '/hardware', description: 'Compare storage symptoms with health, thermal, RAM and component-upgrade guides.' },
-        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Review SMART and reliability signals without treating one healthy status as a guarantee.' },
-        { label: 'Windows 11 100% disk usage', href: '/windows-11-disk-100-percent-usage', description: 'Separate active time, transfer rate and response time when Windows feels slow.' },
-        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Interpret temperature according to the drive’s sensor and specifications.' }
-      ]
+      }
     }, {
-      heading: 'Protect data before testing a suspicious SSD',
+      heading: 'Checks you can run in Windows before blaming the drive',
       paragraphs: [
-        'If the drive reports a critical warning, disappears intermittently, produces repeated I/O errors or contains important files without a verified backup, protect the data before running write-heavy speed tests or repeated repair attempts. A benchmark cannot prove that a drive is reliable, and repeated testing can add workload to storage that may already be failing.',
-        'Do not initialize, format or reinstall Windows to troubleshoot a drive that contains files you still need. Confirm which physical drive you are working on, keep a separate backup, and use the manufacturer’s recovery advice or a qualified technician when data matters.'
+        'These checks are read-only unless you explicitly run the optional re-trim command. Missing PowerShell values are inconclusive: driver, controller and device support determine which reliability counters Windows can expose. Do not run performance tests first if the drive reports critical warnings, read errors or intermittent disconnects.'
       ],
-      bullets: [
-        'Critical warnings, repeated I/O errors or an intermittently missing drive → verify a backup before further tests.',
-        'Healthy report but unexplained slowness → investigate workload, temperature, firmware and connection evidence; health tools do not cover every fault.',
-        'Slow only during a large sustained transfer → compare cache behavior and exact model limits before diagnosing failure.'
+      codeBlocks: [
+        '# Read-only: identify physical disks and reported status',
+        'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus',
+        '# Read-only: supported drive reliability counters',
+        'Get-PhysicalDisk | ForEach-Object {\n  $disk = $_\n  $counter = $disk | Get-StorageReliabilityCounter\n  [pscustomobject]@{\n    FriendlyName = $disk.FriendlyName\n    DeviceId = $disk.DeviceId\n    HealthStatus = $disk.HealthStatus\n    OperationalStatus = ($disk.OperationalStatus -join ", ")\n    Temperature = $counter.Temperature\n    TemperatureMax = $counter.TemperatureMax\n    Wear = $counter.Wear\n    ReadErrorsTotal = $counter.ReadErrorsTotal\n    WriteErrorsTotal = $counter.WriteErrorsTotal\n  }\n} | Format-Table -AutoSize',
+        '# Read-only: a value of 0 means TRIM delete notifications are enabled',
+        'fsutil behavior query DisableDeleteNotify',
+        '# Optional: re-trim the C: volume on a stable, healthy SSD only',
+        'Optimize-Volume -DriveLetter C -ReTrim -Verbose'
+      ],
+      steps: [
+        'Record the exact model, interface, firmware and the task that becomes slow.',
+        'Check Task Manager and Resource Monitor during the real slowdown, then note the process and response time.',
+        'Run the physical-disk and reliability-counter checks if supported. Treat blank fields as unavailable, not as a health verdict.',
+        'Check free space, temperature and power mode, changing only one variable before repeating the same workload.',
+        'Check TRIM status with the read-only command. Windows normally manages TRIM for SSDs; the optional re-trim is not a repair for a failing drive and should be skipped if reliability warnings or I/O errors are present.'
       ]
     }],
     faq: [
-      { question: 'Why does an SSD start fast and then slow down during a large file copy?', answer: 'Some SSDs use a fast write cache, and sustained writes can slow after that cache is exhausted. Temperature, available capacity, drive design and the type of data also affect the result. Compare repeatable transfers and check the exact model documentation before assuming the drive is failing.' },
-      { question: 'Should I run a speed benchmark if my SSD reports errors?', answer: 'Back up important data first. Repeated I/O errors, critical warnings or an intermittently disappearing drive deserve health and connection checks before additional write-heavy tests. A benchmark does not prove that storage is reliable.' },
-      { question: 'Does an SSD slow down only because it is old?', answer: 'No. Free space, background activity, temperatures, write-cache behavior, power settings, firmware, connection problems and drive wear can all contribute. Age alone is not enough evidence to replace it.' }
+      { question: 'Why is my SSD getting slower in Windows?', answer: 'Common causes include little free space, background activity, heat during sustained writes, power-saving modes, write-cache behavior, firmware or connection issues. Measure the specific slow task and check these factors before assuming the drive is worn out.' },
+      { question: 'Does a nearly full SSD run slower?', answer: 'It can contribute to performance changes, especially during sustained writes, but there is no single free-space percentage that guarantees speed. Free safe-to-remove space and repeat the same task to see whether performance changes.' },
+      { question: 'Why does an SSD start fast and then slow down during a large file copy?', answer: 'Some drives use a fast write cache, and sustained writes may slow after that cache is exhausted. Temperature, drive design, remaining space and the data being written can also affect results. Compare a repeatable transfer against the exact model’s documentation.' },
+      { question: 'How do I check whether TRIM is enabled on Windows?', answer: 'Run fsutil behavior query DisableDeleteNotify in an administrator terminal. A value of 0 means TRIM notifications are enabled. Windows normally manages TRIM for SSDs; re-trim is not a fix for reliability errors.' },
+      { question: 'Should I run a speed benchmark if my SSD reports errors?', answer: 'Not as the first step. If the drive has critical warnings, repeated I/O errors, read failures or intermittent disconnections, verify a backup first and avoid repeated write-heavy tests. A benchmark cannot prove that the drive is reliable.' }
     ]
   },
   'how-to-check-ram-for-errors-windows': {
@@ -885,60 +885,8 @@ const authorityEnrichments: Record<string, Enhancement> = {
     sections: []
   },
   'why-ssd-is-slowing-down-windows': {
-    updatedAt: '2026-10-10',
-    sections: [{
-      heading: 'A practical decision path before replacing the drive',
-      paragraphs: [
-        'Test the activity that feels slow, not just a synthetic maximum-speed number. Record whether the issue affects boot, launching apps, small file operations, or long writes, and check whether Task Manager shows another process generating disk activity. Use the same workload and conditions when comparing results.',
-        'If the drive is reporting errors or disappearing, stop performance experiments and protect data. If health looks normal, continue by checking available space, temperature, background work, power settings, and whether sustained writes have outlasted the drive’s fast write cache.'
-      ],
-      table: {
-        caption: 'SSD slowdown: choose the next check by symptom',
-        headers: ['Symptom', 'Check first', 'Important limitation'],
-        rows: [
-          ['Windows is slow at random times', 'Task Manager disk activity and the process creating I/O', 'High active time does not identify the process or root cause by itself'],
-          ['Large copies start fast then slow down', 'Temperature and sustained-write behavior after the initial burst', 'Peak sequential speed does not describe long writes'],
-          ['Drive is nearly full', 'Free space, temporary files, and repeat the same workload after cleanup', 'There is no universal free-space percentage that guarantees speed'],
-          ['Drive reports errors or disappears', 'Backup, health report, firmware, connection and controller events', 'Do not use a benchmark as the first response to possible failure']
-        ]
-      },
-      relatedLinks: [
-        { label: 'Check SSD health', href: '/how-to-check-ssd-health-windows', description: 'Understand SMART data, warnings and when to prioritize a backup.' },
-        { label: 'SSD temperature and throttling', href: '/nvme-ssd-temperature-too-high', description: 'Check whether heat coincides with performance loss.' },
-        { label: 'TWW research: 100% disk but low MB/s', href: '/research/windows-100-percent-disk-usage-low-mbps', description: 'Understand why active time and throughput can tell different stories.' }
-      ]
-    }, {
-      heading: 'Checks you can run in Windows before blaming the drive',
-      paragraphs: [
-        'These checks read information and make no destructive changes. Run PowerShell as administrator, note each result, and change only one thing at a time so you can tell which change helped.',
-        'TRIM tells the drive which blocks are no longer in use. Windows normally enables it for SSDs automatically. In the fsutil result, a value of 0 means TRIM notifications are enabled. A re-trim is safe to run on a healthy SSD, but it is not a cure for a drive that is failing.'
-      ],
-      steps: [
-        'Open Task Manager, go to Performance, select the drive, and note active time and whether the slowdown coincides with a specific process in the Processes tab.',
-        'Check free space on the drive and clear temporary files with Storage Settings. Repeat the same slow task afterwards to see whether anything changed.',
-        'Run the health and TRIM checks below and write down the results.',
-        'Check the power mode, especially on a laptop on battery, then repeat the same task on the charger.',
-        'If the drive stays slow and reports warnings or errors, back up first and see the SSD health guide before running any further tests.'
-      ],
-      codeBlocks: [
-        '# Read-only: drive type, health and operational status',
-        'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, HealthStatus, OperationalStatus',
-        '# Read-only: 0 means TRIM (delete notifications) is enabled',
-        'fsutil behavior query DisableDeleteNotify',
-        '# Re-trim the C: drive (safe on a healthy SSD; may take a short while)',
-        'Optimize-Volume -DriveLetter C -ReTrim -Verbose'
-      ]
-    }],
-    sources: [
-      { label: 'Microsoft Learn: Get-PhysicalDisk', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/get-physicaldisk' },
-      { label: 'Microsoft Learn: Optimize-Volume', url: 'https://learn.microsoft.com/en-us/powershell/module/storage/optimize-volume' },
-      { label: 'Microsoft Learn: fsutil behavior', url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior' }
-    ],
-    faq: [
-      { question: 'Why is my SSD getting slower in Windows?', answer: 'The usual causes are little free space, background activity, heat during long writes, power-saving modes and outdated drivers or firmware. Measure the specific slow task and check each of these before assuming the drive is worn out.' },
-      { question: 'Does a nearly full SSD run slower?', answer: 'It can, especially during sustained writes, because the drive has less spare room to work with. There is no single free-space percentage that guarantees speed, so clear space and repeat the same task to see whether it changes.' },
-      { question: 'How do I check whether TRIM is enabled on Windows?', answer: 'Run fsutil behavior query DisableDeleteNotify in an administrator terminal. A value of 0 means TRIM notifications are enabled. Windows normally manages this automatically for SSDs.' }
-    ]
+    sections: [],
+    faq: []
   },
   'windows-11-freezing-randomly-causes-fix': {
     updatedAt: '2026-10-10',
