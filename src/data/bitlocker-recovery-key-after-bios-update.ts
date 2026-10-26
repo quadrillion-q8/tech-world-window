@@ -105,7 +105,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
       steps: [
         'Boot into Windows with the correct recovery password and sign in normally.',
         'Open Windows Terminal (Admin), PowerShell (Admin), or Command Prompt (Admin). If you have not already confirmed the OS volume letter, check it before using C: in the command.',
-        'Choose either the PowerShell command or the Command Prompt alternative shown below. Do not run both just to repeat the same suspension.',
+        'Choose either the PowerShell command or the Command Prompt alternative shown above. Do not run both just to repeat the same suspension.',
         'Restart the PC once and allow Windows to finish starting.',
         'After sign-in, run manage-bde -status C: and confirm Protection Status reports Protection On. Then inspect the TPM/PCR details using the diagnostic section below if the prompt returns.'
       ],
@@ -175,7 +175,7 @@ export const bitlockerRecoveryAfterBiosUpdate: Article = {
         'Verify that you can retrieve the correct recovery password before starting.',
         'Use one suspension method only, and only when the applicable Microsoft or OEM instructions call for it. RebootCount 0 means protection will not automatically resume just because Windows restarted.',
         'Install the firmware using the exact manufacturer-supported process and allow every required restart to finish. Never interrupt a firmware write.',
-        'After Windows starts and the update is complete, run the matching resume/enable command shown above.',
+        'After Windows starts and the update is complete, run the matching resume/enable command shown below.',
         'Check manage-bde -status C: and confirm that protection is active again. If the status remains suspended or off, do not leave the PC in that state; follow official guidance or contact IT.'
       ],
       codeBlocksAfterSteps: true
