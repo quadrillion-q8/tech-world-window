@@ -2,14 +2,16 @@ import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { trackMonetization } from '../lib/analytics';
+import { MemoryPressureEstimator } from '../components/MemoryPressureEstimator';
 
-type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
+type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage' | 'memory-budget';
 
 const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
   bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', description: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
   psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'SSD & HDD Storage Calculator', description: 'Plan SSD or HDD capacity for games, apps and files. Estimate your total, add 20% headroom, and compare the result in GB and decimal TB.', path: '/tools/storage-calculator' },
+  'memory-budget': { title: 'Memory Workload Budget Estimator', description: 'Estimate peak RAM demand across Windows, gaming, browser/chat, recording, local AI and background work, then compare it with usable physical memory.', path: '/tools/memory-workload-budget-estimator' },
 };
 
 function boundedNumber(value: string, min: number, max: number, fallback: number): number {
@@ -19,6 +21,7 @@ function boundedNumber(value: string, min: number, max: number, fallback: number
 }
 
 function kindFromPath(path: string): ToolKind {
+  if (path.includes('memory-workload-budget-estimator')) return 'memory-budget';
   if (path.includes('psu-wattage')) return 'psu';
   if (path.includes('ram-calculator')) return 'ram';
   if (path.includes('storage-calculator')) return 'storage';
@@ -34,6 +37,7 @@ export function ToolPage() {
     psu: 'This is a starting wattage estimate, not a measurement of power draw or a test of PSU quality. Verify component recommendations, transient demands and native connector requirements.',
     ram: 'This is a capacity and timing estimate, not a compatibility check or real-world performance benchmark. Verify your platform’s supported memory type and configuration.',
     storage: 'This is a capacity-planning estimate, not exact usable space. Operating-system files, formatting, recovery partitions and changing game sizes affect what fits.',
+    'memory-budget': 'This is a manually entered planning estimate, not a scan, benchmark, diagnosis, or prediction of page-file activity. Verify memory pressure in Task Manager during the real workload before buying RAM.',
   };
 
   const [cpu, setCpu] = useState(2);
@@ -140,6 +144,24 @@ export function ToolPage() {
     <span className="eyebrow">FREE INTERACTIVE TOOL</span>
     <h1>{meta.title}</h1>
     <p className="page-intro">{meta.description} {estimateNote[kind]}</p>
+
+    {kind === 'memory-budget' && <>
+      <MemoryPressureEstimator />
+      <div className="editorial-note">
+        <h2>How to validate the memory budget</h2>
+        <ol>
+          <li>Reproduce the real game or application session, including the browser, recording software, chat apps and other tools normally open.</li>
+          <li>Open Task Manager → Performance → Memory and compare In use, Available and Committed (current / limit) while the slowdown or heavy workload occurs.</li>
+          <li>Change one variable at a time and repeat the same workload. Check whether sustained memory pressure and the symptom move together before deciding to add RAM.</li>
+        </ol>
+        <p>Commit charge above installed RAM is not proof that the excess is actively paging to disk. The estimator cannot see process-level usage, shared-GPU allocations, brief peaks, or actual page-file I/O.</p>
+        <h3>Memory workload budget: common questions</h3>
+        <details><summary>Should the total equal Task Manager's In use value?</summary><p>No. The estimator adds your manually entered category estimates, while Task Manager reports live system measurements. They describe different things, and overlapping categories can double-count memory. Use the estimator for planning and Task Manager for evidence.</p></details>
+        <details><summary>Can shared GPU memory make the estimate wrong?</summary><p>Yes. A maximum shared-GPU figure is not necessarily permanently reserved or currently used. Enter only a known fixed reservation in the reserved-memory field, and compare the tool with live system readings when using an integrated GPU or shared-memory workload.</p></details>
+        <details><summary>Will more RAM automatically improve FPS or app speed?</summary><p>No. Added capacity helps when real workload memory pressure is limiting responsiveness. If the system has comfortable headroom, a CPU, GPU, storage, temperature, driver or software limit may matter more.</p></details>
+        <p>For deeper context, read <Link className="text-link" to="/how-much-ram-do-you-need-gaming" onClick={()=>conversion('memory_budget_to_ram_guide')}>How much RAM do you need for gaming and Windows 11?</Link> and <Link className="text-link" to="/research/does-more-ram-make-windows-faster" onClick={()=>conversion('memory_budget_to_ram_research')}>what to measure before upgrading RAM</Link>.</p>
+      </div>
+    </>}
 
     {kind === 'bottleneck' && <div className="tool-panel">
       <div className="tool-controls">
@@ -307,6 +329,7 @@ export function ToolPage() {
       {kind === 'psu' && <p><Link className="text-link" to="/hardware" onClick={()=>conversion('psu_to_hardware')}>Explore hardware guides →</Link></p>}
       {kind === 'ram' && <p><Link className="text-link" to="/best-ram" onClick={()=>conversion('ram_to_buying_guide')}>Read the RAM buying guide →</Link></p>}
       {kind === 'storage' && <p><Link className="text-link" to="/best-ssds" onClick={()=>conversion('storage_to_ssd_guide')}>Read the SSD buying guide →</Link></p>}
+      {kind === 'memory-budget' && <p><Link className="text-link" to="/how-much-ram-do-you-need-gaming" onClick={()=>conversion('memory_budget_to_ram_guide')}>Read the RAM capacity guide →</Link></p>}
     </div>
   </section>;
 }
