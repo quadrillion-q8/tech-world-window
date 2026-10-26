@@ -656,7 +656,16 @@ const enhancements: Record<string, Enhancement> = {
         'Check free space, temperature and power mode, changing only one variable before repeating the same workload.',
         'Check TRIM status with the read-only command. Windows normally manages TRIM for SSDs; the optional re-trim is not a repair for a failing drive and should be skipped if reliability warnings or I/O errors are present.'
       ]
-    }],
+    },
+    { heading: 'When it is the drive', paragraphs: [
+        'If speeds remain poor after checks and the manufacturer reports a critical warning, media/data-integrity errors are increasing, reads are failing or the drive repeatedly disappears, prioritize a verified backup and plan replacement or seek data-recovery advice. Do not initialize, format, reinstall Windows or repeatedly benchmark storage that contains data you still need.',
+        'If health reports no warnings, keep regular backups and investigate free space, background workload, temperature, power, firmware and connection evidence before assuming age alone means the SSD needs replacing.'
+      ], relatedLinks: [
+        { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows', description: 'Read supported SMART and reliability signals and decide when to back up first.' },
+        { label: 'NVMe SSD temperature guide', href: '/nvme-ssd-temperature-too-high', description: 'Check whether temperature and slower performance occur together.' },
+        { label: 'SSD nearly full: Windows performance', href: '/ssd-nearly-full-windows-performance', description: 'Test free-space pressure before assuming the drive is failing.' }
+      ] }
+    ],
     faq: [
       { question: 'Why is my SSD getting slower in Windows?', answer: 'Common causes include little free space, background activity, heat during sustained writes, power-saving modes, write-cache behavior, firmware or connection issues. Measure the specific slow task and check these factors before assuming the drive is worn out.' },
       { question: 'Does a nearly full SSD run slower?', answer: 'It can contribute to performance changes, especially during sustained writes, but there is no single free-space percentage that guarantees speed. Free safe-to-remove space and repeat the same task to see whether performance changes.' },
