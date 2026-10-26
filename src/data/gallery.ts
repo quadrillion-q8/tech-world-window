@@ -200,7 +200,7 @@ export const galleryImages: GalleryImage[] = [
   { id: 'arctic-mx6-thermal-paste-application-laptop-motherboard', title: "Arctic MX6 thermal paste application laptop motherboard", category: 'thermal' },
   { id: 'assorted-laptop-chargers-box-collection', title: "Assorted laptop chargers box collection", category: 'other' },
   { id: 'assorted-laptop-power-adapters-collection', title: "Assorted laptop power adapters collection", category: 'other' },
-  { id: 'asus-ez-flash-bios-update-strix-z890f-1000', title: "ASUS EZ flash BIOS update strix Z890F", category: 'bios' },
+  { id: 'asus-ez-flash-bios-update-strix-z890f-1000', title: "ASUS EZ Flash firmware-update screen on an ROG Strix Z890-F motherboard", category: 'bios' },
   { id: 'asus-laptop-battery-heatpipe-fan-open', title: "ASUS laptop battery heatpipe fan open", category: 'battery' },
   { id: 'asus-laptop-dual-heatpipe-fans-open', title: "ASUS laptop dual heatpipe fans open", category: 'cleaning' },
   { id: 'asus-laptop-open-battery-motherboard-fan', title: "ASUS laptop open battery motherboard fan", category: 'battery' },
