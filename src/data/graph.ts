@@ -127,6 +127,9 @@ export const routeGraph: RouteNode[] = [
 ];
 
 export const navigation = routeGraph
+  .filter(route => route.navOrder !== undefined && route.navLabel)
+  .sort((a, b) => (a.navOrder ?? 0) - (b.navOrder ?? 0))
+  .map(route => ({ label: route.navLabel as string, href: route.path }));
 
 /**
  * Editorial mega-menu inventory. Unlike routeGraph, these are navigation
