@@ -20,18 +20,18 @@ export function Header() {
   const location = useLocation();
   const closeSearch = useCallback(() => setSearchOpen(false), []);
 
-  const cancelHoverTimer = () => {
+  const cancelHoverTimer = useCallback(() => {
     if (hoverTimerRef.current !== null) {
       window.clearTimeout(hoverTimerRef.current);
       hoverTimerRef.current = null;
     }
-  };
+  }, []);
 
-  const closeAll = () => {
+  const closeAll = useCallback(() => {
     cancelHoverTimer();
     setOpen(false);
     setActiveMenu(null);
-  };
+  }, [cancelHoverTimer]);
 
   const scheduleOpen = (label: string) => {
     if (!window.matchMedia('(min-width: 1120px)').matches) return;
@@ -103,21 +103,14 @@ export function Header() {
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (target instanceof Node && headerRef.current && !headerRef.current.contains(target)) {
-        cancelHoverTimer();
-        setOpen(false);
-        setActiveMenu(null);
+        closeAll();
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
-        if (hoverTimerRef.current !== null) {
-          window.clearTimeout(hoverTimerRef.current);
-          hoverTimerRef.current = null;
-        }
-        setOpen(false);
-        setActiveMenu(null);
+        closeAll();
         setSearchOpen(true);
         return;
       }
@@ -148,16 +141,11 @@ export function Header() {
       document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeMenu, open]);
+  }, [activeMenu, closeAll, open]);
 
   useEffect(() => {
-    if (hoverTimerRef.current !== null) {
-      window.clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
-    }
-    setOpen(false);
-    setActiveMenu(null);
-  }, [location.pathname, location.search, location.hash]);
+    closeAll();
+  }, [location.pathname, location.search, location.hash, closeAll]);
 
   useEffect(() => () => {
     if (hoverTimerRef.current !== null) window.clearTimeout(hoverTimerRef.current);
