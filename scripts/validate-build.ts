@@ -495,6 +495,26 @@ if (!existsSync(dist)) {
       if (article?.content.some(section => section.steps) && !html.includes('article-steps')) errors.push(`Prerendered HTML is missing the numbered steps in ${route.path}`);
       if (article && !html.includes('"wordCount"')) errors.push(`Article JSON-LD is missing wordCount in ${route.path}`);
       if (article?.contentRole === 'cluster' && !article.pillarPath) errors.push(`Cluster article missing pillarPath: ${route.path}`);
+      if (route.path === '/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update' && article) {
+        // Keep urgent recovery answers in the initial prerendered DOM, not only in JSON-LD.
+        const visibleHtml = decodeHtml(html.replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, ''));
+        const faqHeadingCount = [...visibleHtml.matchAll(/Frequently asked questions/g)].length;
+        if (faqHeadingCount !== 1) errors.push(`BitLocker recovery guide must render exactly one FAQ heading; found ${faqHeadingCount}.`);
+        if ((article.faq ?? []).length !== 7) errors.push('BitLocker recovery guide should expose the seven reviewed FAQ items.');
+        for (const item of article.faq ?? []) {
+          if (!visibleHtml.includes(item.question)) errors.push(`BitLocker FAQ question is missing from prerendered DOM: ${item.question}`);
+          if (!visibleHtml.includes(item.answer)) errors.push(`BitLocker FAQ answer is missing from prerendered DOM: ${item.question}`);
+        }
+        for (const phrase of [
+          'https://aka.ms/myrecoverykey',
+          'https://aka.ms/aadrecoverykey',
+          'manage-bde -protectors -disable C: -rc 1',
+          'PCR 7',
+          'Windows Home: why Device Encryption can still show a BitLocker screen'
+        ]) {
+          if (!visibleHtml.includes(phrase)) errors.push(`BitLocker recovery guide is missing visible recovery guidance: ${phrase}`);
+        }
+      }
     }
   }
 
