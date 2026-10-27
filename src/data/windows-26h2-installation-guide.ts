@@ -17,7 +17,7 @@ export const windows26H2InstallationGuide: Article = {
   subcategory: 'Windows Updates & Installation',
   authorId: 'imranNatiq',
   publishedAt: '2026-10-10',
-  updatedAt: '2026-10-10',
+  updatedAt: '2026-10-28',
   readingTime: 14,
   tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'Windows ISO', 'Clean Install', 'Windows Update', 'Troubleshooting'],
   appliesTo: ['Windows 11 versions 24H2, 25H2 and 26H2', 'Check Microsoft release guidance before applying version-specific steps'],
@@ -30,11 +30,11 @@ export const windows26H2InstallationGuide: Article = {
       heading: 'What is Windows 11 version 26H2?',
       paragraphs: [
         'Windows 11 version 26H2 is the Windows 11 2026 Update. Microsoft announced its general availability on September 29, 2026. Eligible PCs running Windows 11 versions 24H2 or 25H2 use an enablement-package path: much of the release groundwork is delivered through servicing updates, and the feature update can complete with a comparatively small download and a restart.',
-        'Availability is phased rather than universal. Microsoft can delay an update for a device when a compatibility safeguard applies, so not seeing 26H2 in Windows Update does not, by itself, mean the PC is broken. Confirm your current version and follow Microsoft’s rollout guidance before trying to force a different installation route.',
+        'Microsoft’s release-health update on 21 October 2026 says the phased rollout has reached full availability for eligible devices running Windows 11 versions 24H2 and 25H2. An individual device may still not be offered 26H2 if eligibility requirements or a compatibility safeguard apply. If Windows Update does not offer it, check the current release-health notices and the device maker’s guidance rather than forcing installation or bypassing a safeguard.',
         'This guide covers the decision between Windows Update, installation tools and a clean install. It also explains when setup failures should send you toward storage, memory, firmware, driver or power checks instead of repeated installation attempts.'
       ],
       bullets: [
-        'Release and rollout details in this article were checked against Microsoft documentation on October 10, 2026.',
+        'Release and rollout details were rechecked against Microsoft documentation on October 28, 2026. Microsoft’s 21 October release-health update reports full availability for eligible 24H2 and 25H2 devices; individual eligibility requirements and compatibility safeguards can still affect a specific device.',
         'The available update and known-issue status can change; recheck Microsoft’s release-health page immediately before a major installation.'
       ]
     },
@@ -48,7 +48,7 @@ export const windows26H2InstallationGuide: Article = {
         headers: ['Situation', 'Start here', 'Why'],
         rows: [
           ['Windows 11 24H2 or 25H2 is stable and Update offers 26H2', 'Use Windows Update', 'It is the normal, least disruptive feature-update route for eligible devices.'],
-          ['Update is not offered', 'Check version, eligibility and release-health notices', 'A phased rollout or safeguard hold may explain availability.'],
+          ['Update is not offered', 'Check version, eligibility and release-health notices', 'Microsoft reports full availability for eligible 24H2 and 25H2 devices, but individual eligibility requirements or compatibility safeguards can still affect the update offer.'],
           ['You want to reinstall Windows on purpose or replace a drive', 'Prepare official installation media and a verified backup', 'A clean install is appropriate when you intend to start fresh.'],
           ['Windows is corrupted but the hardware appears stable', 'Review recovery and repair options first', 'A repair may solve the problem without wiping the system.'],
           ['The PC already freezes, loses its SSD, overheats or crashes under load', 'Back up data and diagnose the existing fault first', 'Setup can expose a hardware problem; reinstalling will not repair a failing component.']
@@ -168,8 +168,8 @@ export const windows26H2InstallationGuide: Article = {
     {
       heading: 'Known issues to check before installing',
       paragraphs: [
-        'Microsoft’s version 26H2 release-health page is the live reference for rollout restrictions, known issues and mitigations. On October 10, 2026, the page lists an issue where some applications that rely on AC-3 audio decoding may close unexpectedly after the September 22 update KB5124010 and later updates. Microsoft describes this as more likely in legacy applications; it is not evidence that every application or every PC is affected.',
-        'The page also documents issues and mitigations involving some USB Audio Class 1.0 devices and black-screen or desktop-loading behavior reported primarily in Azure Virtual Desktop environments using FSLogix. Those details and statuses can change. Check the live page for the status that applies to your edition, build, device type and update date rather than treating a dated article as a permanent list of problems.',
+        'Microsoft’s version 26H2 release-health page is the live reference for rollout restrictions, known issues and mitigations. It lists an issue where some applications that rely on AC-3 audio decoding may close unexpectedly after the September 22, 2026 update KB5124010 and later updates. Microsoft marks this issue resolved by updates released on October 13, 2026 (KB5127648) and later. If the symptom occurs, install the latest supported update and check current release health rather than treating the earlier issue status as current.',
+        'The page also lists a USB Audio Class 1.0 issue as mitigated, plus a black-screen or desktop-loading issue reported primarily in Azure Virtual Desktop environments using FSLogix as resolved by the October 13 update (KB5127648) and later updates. Statuses can change, so check the live page for the current position that applies to your edition, build, device type and update date rather than treating this article as a permanent issue list.',
         'If you depend on specialized audio software, managed virtual desktops or business-critical applications, test the update on a representative device before a broad rollout. Home users should still check release health, but should not assume an enterprise or virtual-desktop issue automatically applies to their PC.'
       ]
     },
@@ -211,9 +211,9 @@ export const windows26H2InstallationGuide: Article = {
     { label: 'Microsoft: Download Windows 11 and verify ISO downloads', url: 'https://www.microsoft.com/software-download/windows11' },
     { label: 'Microsoft Support: Windows 11 system requirements', url: 'https://support.microsoft.com/en-us/windows/experience/compatibility/windows-11-system-requirements' }
   ],
-  testing: 'This is an editorial installation guide based on Microsoft’s release, download, and compatibility documentation checked on October 10, 2026. TWW did not perform a lab installation for this article; the procedures are general guidance, and release status can change.',
+  testing: 'This is an editorial installation guide based on Microsoft’s release, download and compatibility documentation checked on October 28, 2026. TWW did not perform a lab installation for this article; the procedures are general guidance, and release status can change.',
   faq: [
-    { question: 'Is Windows 11 26H2 available now?', answer: 'Microsoft announced general availability on September 29, 2026, with a phased rollout. Eligible PCs may receive it at different times, and safeguard holds can delay availability.' },
+    { question: 'Is Windows 11 26H2 available now?', answer: 'Microsoft announced general availability on September 29, 2026. On October 21, Microsoft reported that the phased rollout had reached full availability for eligible Windows 11 24H2 and 25H2 devices. A particular device may still be affected by eligibility requirements or a compatibility safeguard, so check Windows Update and the current release-health notices.' },
     { question: 'Should I use Windows Update or an ISO?', answer: 'Use Windows Update for a stable eligible PC when the feature update is offered. Use official installation media when you intentionally need a clean install or a specific media workflow.' },
     { question: 'Can I clean install Windows 11 26H2 without losing files?', answer: 'A clean install can erase files and partitions on the selected disk. Back up and verify important data first, and identify the target drive carefully before changing partitions.' },
     { question: 'Why is my SSD missing from Windows Setup?', answer: 'Possible causes include firmware or storage-controller configuration, a compatibility issue, a connection problem, a driver requirement, or a failing drive. Check whether the drive appears in UEFI before changing partitions.' },
