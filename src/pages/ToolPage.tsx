@@ -6,8 +6,8 @@ import { MemoryPressureEstimator } from '../components/MemoryPressureEstimator';
 
 type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage' | 'memory-budget';
 
-const toolMeta: Record<ToolKind, { title: string; description: string; path: string }> = {
-  bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', description: 'Estimate CPU/GPU limits at 1080p, 1440p and 4K. Verify with real FPS and frame-time tests; this tier estimate is not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
+const toolMeta: Record<ToolKind, { title: string; seoTitle?: string; description: string; path: string }> = {
+  bottleneck: { title: 'PC Bottleneck Calculator: CPU vs GPU', seoTitle: 'PC Bottleneck Calculator & Checker: CPU or GPU Limit?', description: 'Free PC bottleneck calculator and checker: compare CPU and GPU tiers at 1080p, 1440p and 4K, then confirm with a real test. Not an exact percentage.', path: '/tools/pc-bottleneck-calculator' },
   psu: { title: 'PSU Wattage Calculator: Estimate Power Supply Size', description: 'Estimate a starting PSU wattage from your CPU, GPU and system configuration, then verify connectors, transient power and manufacturer guidance.', path: '/tools/psu-wattage-calculator' },
   ram: { title: 'RAM Calculator: Capacity, Speed & Latency', description: 'Estimate practical memory capacity and compare data rate, CAS latency and theoretical bandwidth.', path: '/tools/ram-calculator' },
   storage: { title: 'SSD & HDD Storage Calculator', description: 'Plan SSD or HDD capacity for games, apps and files. Estimate your total, add 20% headroom, and compare the result in GB and decimal TB.', path: '/tools/storage-calculator' },
@@ -140,10 +140,12 @@ export function ToolPage() {
   const conversion = (tool: string) => trackMonetization('tool_conversion', { tool });
 
   return <section className="section tool-page">
-    <SEOEngine title={meta.title} description={meta.description} path={meta.path} />
+    <SEOEngine title={meta.seoTitle ?? meta.title} description={meta.description} path={meta.path} />
     <span className="eyebrow">FREE INTERACTIVE TOOL</span>
     <h1>{meta.title}</h1>
     <p className="page-intro">{meta.description} {estimateNote[kind]}</p>
+
+    {kind === 'bottleneck' && <div className="quick-answer"><strong>In short</strong><p>A bottleneck is whichever part limits your frame rate in a particular game. Pick your CPU and GPU tier below for a quick estimate, then confirm it: if GPU usage sits near its limit, the graphics card is the limit; if GPU usage is well below that while one CPU thread is near its limit, the CPU may be holding the GPU back. Check with the same game scene before you buy anything.</p></div>}
 
     {kind === 'memory-budget' && <>
       <MemoryPressureEstimator />
@@ -235,7 +237,8 @@ export function ToolPage() {
       <details><summary>Should I upgrade my CPU or GPU first?</summary><p>Do not decide from this estimate alone. Measure the games and settings you care about, identify the repeatable limit, check compatibility and power/cooling requirements, and compare independent benchmarks for the exact components.</p></details>
       <details><summary>Why can the same PC show different bottlenecks in different games?</summary><p>Games use CPU threads, graphics features, memory and engines differently. Resolution, quality settings, ray tracing, upscaling and target frame rate also change the workload, so there is no single bottleneck result for every situation.</p></details>
       <details><summary>What does this PC bottleneck calculator actually compare?</summary><p>It compares broad CPU and GPU performance tiers and adjusts the estimate for resolution. It does not identify an exact model’s performance from a live benchmark database.</p></details>
-      <details><summary>How do I confirm a possible CPU or GPU bottleneck?</summary><p>Repeat the same game scene, record FPS and frame times, then lower resolution or one GPU-heavy setting while keeping other variables unchanged. Check CPU-thread activity, clocks, temperatures and memory use before upgrading.</p></details>
+      <details><summary>Can a CPU bottleneck a graphics card?</summary><p>Yes. If the CPU cannot prepare frames as fast as the GPU can draw them, the GPU waits and its usage stays below its limit. This is more likely at lower resolutions and high frame-rate targets. A common sign is a game that does not speed up when you lower graphics settings while one CPU thread stays near its limit, but confirm it with a repeatable test rather than one reading.</p></details>
+      <details><summary>How do I check my PC for a CPU or GPU bottleneck?</summary><p>Repeat the same game scene, record FPS and frame times, then lower resolution or one GPU-heavy setting while keeping other variables unchanged. Check CPU-thread activity, clocks, temperatures and memory use before upgrading.</p></details>
     </div>}
 
     {kind === 'psu' && <div className="tool-panel">
