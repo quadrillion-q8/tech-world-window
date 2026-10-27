@@ -41,6 +41,9 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
   if (route.path === '/tools/frame-time-analyzer') {
     return async () => ({ Component: (await import('./pages/FrameTimeAnalyzerPage')).FrameTimeAnalyzerPage });
   }
+  if (route.path === '/tools/gpu-usage-checker') {
+    return async () => ({ Component: (await import('./pages/GpuUsageCheckerPage')).GpuUsageCheckerPage });
+  }
   if (route.path === '/tools/windows-troubleshooting-assistant') {
     return async () => ({ Component: (await import('./pages/WindowsTroubleshootingAssistantPage')).WindowsTroubleshootingAssistantPage });
   }

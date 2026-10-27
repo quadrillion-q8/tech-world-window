@@ -111,6 +111,28 @@ export const tools: ToolDef[] = [
     ],
   },
   {
+    id: 'gpu-usage-checker',
+    path: '/tools/gpu-usage-checker',
+    title: 'GPU Usage Checker',
+    group: 'diagnose',
+    kindLabel: 'Checker',
+    status: 'New',
+    hubDescription: 'Find out whether 100% GPU usage, a low reading or a -1% value is normal in your game. Enter what you see and get a plain-English answer with an ordered list of safe checks.',
+    menuDescription: 'Check whether your GPU usage reading is normal.',
+    seoTitle: 'GPU Usage Checker: Is 100% GPU Usage Normal?',
+    metaDescription: 'Free GPU usage checker. See whether 100% GPU usage, a low reading or a -1% value is normal in games, then follow an ordered list of safe checks.',
+    faq: [
+      { question: 'Is 100% GPU usage bad while gaming?', answer: 'Usually not. In a game with no frame cap, a GPU near full load that delivers the FPS you want is working as intended. Investigate when FPS is lower than expected, frames arrive unevenly, clocks or temperatures change with performance, or the GPU is busy when no demanding program is running.' },
+      { question: 'Should my GPU be at 100% while gaming?', answer: 'It can be, and in a GPU-limited game it often is. A game with a frame cap, V-Sync or a CPU limit may keep GPU usage lower, and that is also normal when performance meets your target. There is no required percentage.' },
+      { question: 'Why does my GPU usage show -1%?', answer: 'A -1%, N/A or frozen reading usually means the monitoring tool could not read a valid counter or sensor. Check Task Manager > Performance > GPU to see whether the 3D engine moves while the game runs. If it does, the GPU is working and the tool is the unreliable part. Update or restart the tool before suspecting hardware.' },
+      { question: 'Why is my GPU usage high when I am not gaming?', answer: 'Game menus and launchers often run uncapped, and browsers with hardware acceleration, video editors, recorders, animated wallpapers and encoding tools can all use GPU engines. Sort Task Manager > Processes by GPU to identify the process before changing drivers. High activity alone does not prove malware or a hardware fault.' },
+      { question: 'Why is my GPU usage low and my FPS low?', answer: 'The common causes are a CPU-limited scene (one core near its limit while overall CPU usage looks modest), a frame cap or V-Sync, the game running on the wrong GPU, or limits in the game engine, memory or storage. Check per-core CPU usage first, then test with the cap and V-Sync turned off.' },
+      { question: 'What GPU temperature is too high?', answer: 'It depends on the exact GPU model and on which sensor you read, such as core or hotspot. This checker does not use a universal limit. Look up the maximum operating temperature for your model on the maker’s specification page and compare it with a sustained reading, not a single spike.' },
+      { question: 'Does this tool read my PC or upload my numbers?', answer: 'No. It does not scan your computer. You type in values from your own monitoring tool, and the answer is calculated in your browser from a fixed set of rules. Nothing you enter is sent to Tech World Window.' },
+      { question: 'Can this checker diagnose a failing graphics card?', answer: 'No. A utilization percentage describes workload, not hardware health. If you see visual artifacts, repeated driver resets or unexpected shutdowns, stop stress testing and follow the related guides, or contact the maker or a qualified technician.' }
+    ],
+  },
+  {
     id: 'windows-battery-health-analyzer',
     path: '/tools/windows-battery-health-analyzer',
     title: 'Windows Battery Health Analyzer',
@@ -310,8 +332,9 @@ export const articleToolLinks: Record<string, string[]> = {
   'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
-  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
-  'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],
+  'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/gpu-usage-checker', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
+  'gpu-100-percent-usage-gaming': ['/tools/gpu-usage-checker', '/tools/pc-bottleneck-calculator'],
+  'gpu-overheating-gaming-pc-causes-fix': ['/tools/gpu-usage-checker'],
   'pc-power-supply-problems-symptoms': ['/tools/psu-wattage-calculator'],
 };
 
