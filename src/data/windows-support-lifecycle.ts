@@ -41,8 +41,8 @@ export const records: LifecycleRecord[] = [
     family: 'Windows 11', version: '26H2', versionLabel: 'Version 26H2', edition: 'homePro',
     editionLabel: 'Home / Pro / Pro Education / Pro for Workstations', endDate: '2028-10-10', dateLabel: 'End of updates',
     latestKb: 'KB5127648', latestKbDate: '2026-10-13',
-    note: 'Version 26H2 reached general availability on 29 September 2026. Availability is phased and can depend on device eligibility and rollout safeguards.',
-    nextSteps: ['Keep Windows Update enabled and install monthly security updates.', 'If 26H2 is not offered, check Windows Update and the device maker guidance instead of forcing an ISO installation or bypassing compatibility safeguards.'],
+    note: 'Microsoft reported on 21 October 2026 that version 26H2 had reached full availability for eligible devices running Windows 11 versions 24H2 and 25H2. Individual devices may still be affected by eligibility requirements or compatibility safeguards.',
+    nextSteps: ['Keep Windows Update enabled and install monthly security updates.', 'On eligible 24H2 or 25H2 devices, check Settings → Windows Update → Check for updates. If 26H2 is not offered, review Microsoft’s current release-health notices and the device maker’s guidance; do not bypass a compatibility safeguard.'],
     sourceUrl: WINDOWS_11_RELEASES,
   },
   {
