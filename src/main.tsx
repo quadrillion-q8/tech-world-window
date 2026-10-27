@@ -8,6 +8,7 @@ import './styles/sitewide-ui-polish.css';
 import './styles/page-layout-refinements.css';
 import './styles/homepage-card-a11y.css';
 import './styles/sitewide-typography-card-system.css';
+import './styles/main-menu-visual-upgrade.css';
 
 export const createRoot = ViteReactSSG({
   routes,
