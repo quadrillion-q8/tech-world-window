@@ -45,11 +45,20 @@ if (!consentSource.includes('[`ga-disable-${measurementId}`] = true;')) {
 }
 
 const vercelConfigSource = readFileSync(join(root, 'vercel.json'), 'utf8');
-const frameSrcMatch = vercelConfigSource.match(/frame-src([^;"]*)/);
-if (!frameSrcMatch ||
-    !frameSrcMatch[1].includes('https://www.youtube-nocookie.com') ||
-    !frameSrcMatch[1].includes('https://www.youtube.com')) {
-  errors.push('Content Security Policy must allow both YouTube embed hosts used by the video generator.');
+const vercelConfig = JSON.parse(vercelConfigSource) as {
+  redirects?: { source?: string; destination?: string; permanent?: boolean }[];
+};
+const retiredVideoToolPath = '/tools/video-embed-code-generator';
+if (routeGraph.some(route => route.path === retiredVideoToolPath)) {
+  errors.push('Retired YouTube embed generator must not remain in the public route graph.');
+}
+if (!vercelConfig.redirects?.some(redirect =>
+  redirect.source === retiredVideoToolPath && redirect.destination === '/tools' && redirect.permanent === true
+)) {
+  errors.push('Retired YouTube embed generator must permanently redirect to the tools hub.');
+}
+if (!/frame-src 'none'/.test(vercelConfigSource) || /youtube(?:-nocookie)?\.com/i.test(vercelConfigSource)) {
+  errors.push('Content Security Policy must block external video frames after removing the YouTube generator.');
 }
 
 // ---------------------------------------------------------------------------
@@ -481,33 +490,6 @@ if (!existsSync(dist)) {
         }
         const pageSourcePath = join(root, 'src/pages/WindowsRepairLogAnalyzerPage.tsx');
         if (!existsSync(pageSourcePath)) errors.push('Windows Repair Log Analyzer page source is missing.');
-      }
-      if (route.path === '/tools/video-embed-code-generator') {
-        const requiredText = ['Video Embed Code Generator', 'React JSX', 'WordPress Custom HTML', 'Load video preview', 'privacy-enhanced'];
-        for (const phrase of requiredText) {
-          if (!html.toLowerCase().includes(phrase.toLowerCase())) errors.push(`Video Embed Code Generator is missing "${phrase}" in prerendered HTML.`);
-        }
-        if (/<iframe\b[^>]*\bsrc=/i.test(html)) {
-          errors.push('Video Embed Code Generator must not mount a third-party iframe in prerendered HTML before the user requests a preview.');
-        }
-        const generatorSourcePath = join(root, 'src/pages/VideoEmbedCodeGeneratorPage.tsx');
-        if (!existsSync(generatorSourcePath)) {
-          errors.push('Video Embed Code Generator page source is missing.');
-        } else {
-          const generatorSource = readFileSync(generatorSourcePath, 'utf8');
-          const requiredSource = [
-            'function parseYouTubeUrl(',
-            'youtube-nocookie.com',
-            "url.searchParams.set('playlist', videoId)",
-            'loading="lazy"',
-            'setPreviewSrc(currentEmbedUrl)',
-            "format === 'jsx'",
-            "format === 'wordpress'",
-          ];
-          for (const feature of requiredSource) {
-            if (!generatorSource.includes(feature)) errors.push(`Video Embed Code Generator source is missing required feature marker: ${feature}`);
-          }
-        }
       }
     }
 
