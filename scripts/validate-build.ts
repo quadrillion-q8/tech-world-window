@@ -33,6 +33,26 @@ const expectedHtmlPath = (routePath: string) => routePath === '/'
   : `${routePath.replace(/^\//, '').replace(/\/$/, '')}/index.html`;
 
 // ---------------------------------------------------------------------------
+// Runtime configuration regression checks
+// ---------------------------------------------------------------------------
+const consentSource = readFileSync(join(root, 'src/lib/consent.ts'), 'utf8');
+if (!consentSource.includes('const gaDisableKey = `ga-disable-${measurementId}`;') ||
+    !consentSource.includes('[gaDisableKey] = false;')) {
+  errors.push('Analytics consent regression: granting consent must clear the GA disable flag after a prior withdrawal.');
+}
+if (!consentSource.includes('[`ga-disable-${measurementId}`] = true;')) {
+  errors.push('Analytics consent regression: withdrawing consent must set the GA disable flag.');
+}
+
+const vercelConfigSource = readFileSync(join(root, 'vercel.json'), 'utf8');
+const frameSrcMatch = vercelConfigSource.match(/frame-src([^;"]*)/);
+if (!frameSrcMatch ||
+    !frameSrcMatch[1].includes('https://www.youtube-nocookie.com') ||
+    !frameSrcMatch[1].includes('https://www.youtube.com')) {
+  errors.push('Content Security Policy must allow both YouTube embed hosts used by the video generator.');
+}
+
+// ---------------------------------------------------------------------------
 // Route graph integrity
 // ---------------------------------------------------------------------------
 const duplicatePaths = paths.filter((path, index) => paths.indexOf(path) !== index);
