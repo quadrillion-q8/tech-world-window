@@ -1,0 +1,42 @@
+name: Googlebot-like raw HTML verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/googlebot-raw-html.yml'
+      - 'scripts/verify-googlebot-raw-html.mjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: googlebot-like-raw-html-verification
+  cancel-in-progress: false
+
+jobs:
+  fetch-raw-html:
+    name: Fetch and inspect raw production HTML
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch production pages and inspect raw HTML
+        run: node scripts/verify-googlebot-raw-html.mjs
+
+      - name: Upload raw HTML and verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tww-googlebot-raw-html-${{ github.run_id }}
+          path: artifacts/googlebot-raw-html/
+          if-no-files-found: warn
+          retention-days: 7
