@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/tools/video-embed-code-generator",
-      "destination": "/tools",
-      "permanent": true
-    },
-    {
       "source": "/",
       "has": [
         {
@@ -25,6 +20,11 @@
         }
       ],
       "destination": "https://www.techworldwindow.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/tools/video-embed-code-generator",
+      "destination": "/tools",
       "permanent": true
     },
     {
