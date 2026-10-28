@@ -35,6 +35,9 @@ export function storeConsent(choice: ConsentChoice) {
 /** Loads GA4 once, with Consent Mode v2 set to the visitor's choice. */
 export function loadAnalytics(measurementId: string) {
   if (!measurementId || typeof window === 'undefined') return;
+  // Google Analytics keeps this global kill switch after withdrawal; clear it on re-consent.
+  const gaDisableKey = `ga-disable-${measurementId}`;
+  (window as unknown as Record<string, unknown>)[gaDisableKey] = false;
   const w = window as GtagWindow;
   if (w.gtag) {
     w.gtag('consent', 'update', grantedState());
