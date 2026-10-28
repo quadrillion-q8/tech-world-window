@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+import { strict as assert } from 'node:assert';
 import { loadAnalytics, revokeAnalytics } from '../src/lib/consent';
 
 const measurementId = 'G-TEST123';
