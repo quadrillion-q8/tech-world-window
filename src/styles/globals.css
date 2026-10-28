@@ -1043,50 +1043,6 @@ main{position:relative;z-index:1;background:transparent}
 }
 
 
-/* Video embed code generator: responsive form, privacy-first preview and accessible output. */
-.video-embed-page .page-intro{margin-bottom:.9rem}
-.ve-privacy-note{margin:1.4rem 0;padding:1.1rem 1.3rem;background:#eaf7f8;border:1px solid #cde7eb;border-left:4px solid #12a4b8;border-radius:0 12px 12px 0}
-.ve-privacy-note strong{display:block;color:var(--ink)}
-.ve-privacy-note p{margin:.35rem 0 0;font-size:.92rem;line-height:1.65}
-.ve-builder{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.5rem 0}
-.ve-panel,.ve-output,.ve-preview-panel{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.4rem}
-.ve-panel h2,.ve-output h2,.ve-preview-panel h2{font-size:clamp(1.25rem,2.2vw,1.65rem);margin:0 0 1.15rem}
-.ve-field{display:grid;gap:.45rem;margin:1rem 0}
-.ve-field label{font-weight:800;font-size:.88rem;color:var(--ink)}
-.ve-field input,.ve-field select{min-width:0;width:100%;padding:.85rem .9rem;border:1px solid #cfd7e1;border-radius:9px;background:#fff;color:var(--ink);font:inherit;font-size:.92rem}
-.ve-field input:focus-visible,.ve-field select:focus-visible,.ve-code:focus-visible{outline:3px solid #0b8294;outline-offset:2px}
-.ve-field small{font-size:.77rem;line-height:1.55;color:var(--muted)}
-.ve-error{margin:.8rem 0;padding:.75rem .9rem;color:#7a1f1f;background:#fdecec;border:1px solid #f3bcbc;border-left:4px solid #c53030;border-radius:0 9px 9px 0;font-size:.88rem;line-height:1.6}
-.ve-valid{margin:.65rem 0;color:#17663c;font-size:.86rem;font-weight:700}
-.ve-options{display:grid;gap:0}
-.ve-toggle{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.7rem;align-items:start;padding:.85rem 0;border-bottom:1px solid var(--line);cursor:pointer}
-.ve-toggle:last-child{border-bottom:0}
-.ve-toggle input{width:17px;height:17px;margin:.2rem 0 0;accent-color:#087c91}
-.ve-toggle input:disabled{cursor:not-allowed}
-.ve-toggle span{display:grid;gap:.24rem}
-.ve-toggle strong{font-size:.86rem;line-height:1.45;color:var(--ink)}
-.ve-toggle small{font-size:.78rem;color:var(--muted);line-height:1.5}
-.ve-hint{margin:.75rem 0;padding:.75rem .9rem;border-radius:9px;background:#f5f8fb;border:1px solid var(--line);font-size:.84rem;line-height:1.6}
-.ve-output,.ve-preview-panel{margin:1.4rem 0}
-.ve-output-heading{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem}
-.ve-output-heading .eyebrow{display:block;margin-bottom:.35rem}
-.ve-output-heading h2{margin:0}
-.ve-copy{flex:0 0 auto;border:0;cursor:pointer}
-.ve-copy:disabled{opacity:.5;cursor:not-allowed}
-.ve-code-caption{margin:.65rem 0;font-size:.86rem}
-.ve-code{display:block;width:100%;max-width:100%;min-height:220px;padding:1rem;border:1px solid #29384d;border-radius:12px;background:#0b1220;color:#e6edf7;font: .84rem/1.65 ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace;white-space:pre;tab-size:2;resize:vertical;overflow:auto}
-.ve-empty,.ve-preview-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:165px;padding:1.5rem;text-align:center;border:1px dashed #c6d2df;border-radius:12px;background:#f7f9fb}
-.ve-empty strong,.ve-preview-placeholder strong{color:var(--ink)}
-.ve-empty p,.ve-preview-placeholder p{margin:0;max-width:540px;font-size:.9rem}
-.ve-preview-frame{position:relative;width:100%;overflow:hidden;background:#0b1220;border-radius:12px}
-.ve-preview-frame iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0}
-.ve-preview-panel>.ft-secondary{margin-top:.9rem;cursor:pointer}
-.ve-play-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--navy);color:var(--cyan);padding-left:3px;font-size:1.25rem}
-.ve-explain{max-width:850px;margin-top:3rem}
-.ve-explain section{margin:2.2rem 0}
-.ve-sr-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:800px){.ve-builder{grid-template-columns:1fr}.ve-panel,.ve-output,.ve-preview-panel{padding:1.1rem}.ve-output-heading{align-items:flex-start;flex-wrap:wrap}.ve-output-heading h2{font-size:1.45rem}.ve-code{font-size:.77rem;min-height:240px}}
-
 
 /* Multi-run frame-time comparison: distinct traces, capture labels and direction cues. */
 .ft-line-compare-two{stroke:#7c3aed;stroke-width:1.6;stroke-dasharray:2 4}

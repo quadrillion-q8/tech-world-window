@@ -5,7 +5,7 @@ export type Author = {
   bio: string;
   url: string;
   expertise: string[];
-  /** Real public profile URLs (LinkedIn, GitHub, YouTube...). Leave empty until they exist; never invent them. */
+  /** Real public profile URLs. Leave empty until they exist; never invent them. */
   sameAs?: string[];
 };
 

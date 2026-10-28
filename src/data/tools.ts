@@ -6,7 +6,7 @@
 import { BSOD_BASE_PATH, bsodBySlug, bsodEntries, shortHex, type BsodEntry } from './bsod';
 
 export type ToolFaq = { question: string; answer: string };
-export type ToolGroup = 'diagnose' | 'plan' | 'create';
+export type ToolGroup = 'diagnose' | 'plan';
 
 export type ToolDef = {
   id: string;
@@ -272,28 +272,6 @@ export const tools: ToolDef[] = [
       { question: 'Does committed memory above installed RAM prove that Windows is paging to disk?', answer: 'No. Commit charge is a system-wide commitment against the commit limit; it does not, by itself, show that the excess is actively being read from or written to the page file. Check In use, Available, Committed and the actual slowdown together.' },
       { question: 'What should I enter for RAM reserved or unavailable to Windows?', answer: 'Enter a known fixed firmware reservation only. Do not enter a maximum shared-GPU memory figure as if all of it were permanently reserved; graphics memory can be allocated dynamically.' },
       { question: 'When should I consider a RAM upgrade?', answer: 'Do not decide from this estimate alone. Reproduce the slow or heavy workload, inspect Task Manager > Performance > Memory, and look for sustained memory pressure that coincides with the symptom. Also check whether the exact PC supports the capacity and module type.' },
-    ],
-  },
-  {
-    id: 'video-embed-code-generator',
-    path: '/tools/video-embed-code-generator',
-    title: 'Video Embed Code Generator',
-    group: 'create',
-    kindLabel: 'Code generator',
-    status: 'New',
-    hubDescription: 'Turn a supported YouTube URL into responsive HTML iframe, React JSX or WordPress-ready embed code, with privacy, playback and sizing controls.',
-    menuDescription: 'Generate responsive YouTube embed code for HTML, React or WordPress.',
-    seoTitle: 'Video Embed Code Generator: Responsive YouTube HTML',
-    metaDescription: 'Generate responsive YouTube embed code for HTML, React JSX or WordPress. Set aspect ratio, start time, controls, lazy loading and privacy-enhanced mode.',
-    faq: [
-      { question: 'Which video URLs does this generator accept?', answer: 'The generator accepts YouTube watch links, youtu.be short links, Shorts URLs, live URLs and standard YouTube embed URLs. It validates the hostname and video ID locally before creating code. This first version supports YouTube only.' },
-      { question: 'Does the generator upload my URL or use an AI API?', answer: 'No. URL parsing and code generation run in your browser and do not send the video URL to a Tech World Window generation service or an AI API. If you choose to load the optional preview, your browser connects to YouTube and its privacy practices apply.' },
-      { question: 'What is privacy-enhanced mode?', answer: 'It uses YouTube’s youtube-nocookie.com embed host. This changes the embed domain but is not a promise of zero network requests or complete legal privacy compliance. The video provider may still receive data when the player is loaded or used.' },
-      { question: 'Why is autoplay muted automatically?', answer: 'Browsers commonly block autoplay that produces sound. When autoplay is enabled, this generator also enables mute in the generated player parameters to improve compatibility. Visitors can still have different browser or device policies.' },
-      { question: 'How does looping one YouTube video work?', answer: 'For a single video, the generated YouTube embed sets loop=1 and adds that same video ID in the playlist parameter. Without the playlist parameter, single-video looping may not work as expected.' },
-      { question: 'Is the generated embed responsive?', answer: 'Yes. The iframe sits inside a width-fluid wrapper with the selected CSS aspect ratio, so the player can resize with its container while preserving the chosen shape.' },
-      { question: 'Can I use this output in WordPress?', answer: 'Choose WordPress HTML and paste the snippet into a Custom HTML block or the code editor in a context that permits iframe markup. Some hosted plans, editors, themes or security plugins restrict iframe HTML.' },
-      { question: 'What happens before I load the preview?', answer: 'The tool shows a local preview placeholder and does not mount a YouTube iframe. You must explicitly select Load video preview before third-party player content is requested from the browser.' },
     ],
   },
   {

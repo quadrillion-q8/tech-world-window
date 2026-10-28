@@ -6,7 +6,6 @@ import { HUB_SEO_DESCRIPTION, tools, type ToolGroup } from '../data/tools';
 const groups: { id: ToolGroup; heading: string; intro: string }[] = [
   { id: 'diagnose', heading: 'Diagnose and analyze', intro: 'Investigate Windows symptoms, look up blue-screen codes, check battery reports, and measure gaming performance.' },
   { id: 'plan', heading: 'Plan a purchase or upgrade', intro: 'Estimate capacity and headroom before you spend money on parts.' },
-  { id: 'create', heading: 'Create and publish', intro: 'Generate practical, responsive code snippets for publishing video on your own website.' },
 ];
 
 type ToolFilter = 'all' | ToolGroup;
@@ -38,7 +37,7 @@ export function ToolsHubPage() {
       <div className="category-hero">
         <span className="eyebrow">FREE TECH TOOLS</span>
         <h1>Find what's wrong. Understand why. Choose your next step.</h1>
-        <p>Free interactive tools for Windows troubleshooting, blue-screen code lookup, gaming diagnostics, PC upgrade planning and responsive video embed code. Every tool explains what its results can—and cannot—tell you.</p>
+        <p>Free interactive tools for Windows troubleshooting, blue-screen code lookup, gaming diagnostics and PC upgrade planning. Every tool explains what its results can—and cannot—tell you.</p>
         <ul className="tools-hub-proof" aria-label="What to expect from our tools">
           <li><span className="proof-icon" aria-hidden="true">01</span><span><strong>Browser-first analysis</strong><small>Use browser-based tools with clear explanations of how data is handled</small></span></li>
           <li><span className="proof-icon" aria-hidden="true">02</span><span><strong>Explainable results</strong><small>Methods, limits, and assumptions stay visible</small></span></li>
@@ -62,7 +61,6 @@ export function ToolsHubPage() {
             { value: 'all', label: 'All tools' },
             { value: 'diagnose', label: 'Diagnose problems' },
             { value: 'plan', label: 'Plan upgrades' },
-            { value: 'create', label: 'Create content' },
           ] as const).map(option => (
             <button
               key={option.value}
@@ -101,7 +99,7 @@ export function ToolsHubPage() {
       {filteredTools.length === 0 && (
         <div className="editorial-note tools-empty" role="status">
           <strong>No matching tools yet</strong>
-          <p>Try a broader term such as Windows, battery, gaming, memory, storage, power, or video embed.</p>
+          <p>Try a broader term such as Windows, battery, gaming, memory, storage, or power.</p>
           <button type="button" className="tools-filter" onClick={() => { setQuery(''); setFilter('all'); }}>Show all tools</button>
         </div>
       )}
