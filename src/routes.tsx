@@ -23,9 +23,6 @@ function lazyPageForRoute(route: RouteNode): LazyPage | undefined {
     return async () => ({ Component: (await import('./pages/GameBarPresenceWriterPage')).GameBarPresenceWriterPage });
   }
 
-  if (route.path === '/tools/video-embed-code-generator') {
-    return async () => ({ Component: (await import('./pages/VideoEmbedCodeGeneratorPage')).VideoEmbedCodeGeneratorPage });
-  }
   if (route.path === '/tools/secure-boot-status-checker') {
     return async () => ({ Component: (await import('./pages/SecureBootStatusCheckerPage')).SecureBootStatusCheckerPage });
   }
