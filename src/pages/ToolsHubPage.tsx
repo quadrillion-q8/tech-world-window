@@ -99,7 +99,7 @@ export function ToolsHubPage() {
       {filteredTools.length === 0 && (
         <div className="editorial-note tools-empty" role="status">
           <strong>No matching tools yet</strong>
-          <p>Try a broader term such as Windows, battery, gaming, memory, storage, power, or storage.</p>
+          <p>Try a broader term such as Windows, battery, gaming, memory, storage, or power.</p>
           <button type="button" className="tools-filter" onClick={() => { setQuery(''); setFilter('all'); }}>Show all tools</button>
         </div>
       )}
