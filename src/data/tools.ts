@@ -6,7 +6,7 @@
 import { BSOD_BASE_PATH, bsodBySlug, bsodEntries, shortHex, type BsodEntry } from './bsod';
 
 export type ToolFaq = { question: string; answer: string };
-export type ToolGroup = 'diagnose' | 'plan' | 'create';
+export type ToolGroup = 'diagnose' | 'plan';
 
 export type ToolDef = {
   id: string;
