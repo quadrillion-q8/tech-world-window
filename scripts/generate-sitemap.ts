@@ -28,7 +28,7 @@ for (const route of routeGraph) {
   if (route.path !== '/' && route.path.endsWith('/')) {
     errors.push(`Route path must not have a trailing slash: ${route.path}`);
   }
-  if (/[?#\\s]/.test(route.path)) {
+  if (/[?#\s]/.test(route.path)) {
     errors.push(`Route path contains a query, fragment, or whitespace: ${route.path}`);
   }
 }
@@ -41,7 +41,7 @@ const articleByPath = new Map<string, (typeof articles)[number]>(
 );
 
 const isRealCalendarDate = (value: string) => {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(`${value}T00:00:00.000Z`);
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 };
@@ -56,7 +56,7 @@ const latestDate = (items: typeof articles) =>
 /** Use only real editorial dates. A hub inherits the newest real article date in that hub. */
 function hubLastmod(path: string): string | undefined {
   if (path === '/') return latestDate(articles);
-  const slug = path.replace(/^\\//, '');
+  const slug = path.replace(/^\//, '');
   const category = categories.find(item => item.slug === slug);
   if (!category) return undefined;
   const inHub = slug === 'research'
@@ -126,7 +126,7 @@ if (errors.length) {
       '    </image:image>',
     ] : []),
     '  </url>',
-  ].join('\\n'));
+  ].join('\n'));
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -134,14 +134,14 @@ if (errors.length) {
     ...urls,
     '</urlset>',
     '',
-  ].join('\\n');
+  ].join('\n');
 
   // Lightweight output assertions catch malformed structure and accidental omissions before writing.
   const locCount = (xml.match(/<loc>/g) ?? []).length;
-  const closeCount = (xml.match(/<\\/url>/g) ?? []).length;
+  const closeCount = (xml.match(/<\/url>/g) ?? []).length;
   if (!xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>') ||
       !xml.includes('<urlset ') ||
-      !xml.endsWith('</urlset>\\n') ||
+      !xml.endsWith('</urlset>\n') ||
       locCount !== sitemapEntries.length ||
       closeCount !== sitemapEntries.length) {
     throw new Error('Generated sitemap failed its structural output checks.');
@@ -159,7 +159,7 @@ if (errors.length) {
 const robotsPath = resolve(publicDir, 'robots.txt');
 writeFileSync(
   robotsPath,
-  `User-agent: *\\nAllow: /\\n\\nSitemap: ${new URL('/sitemap.xml', SITE_URL).toString()}\\n\\n# RSS feed for publishers and readers\\n`,
+  `User-agent: *\nAllow: /\n\nSitemap: ${new URL('/sitemap.xml', SITE_URL).toString()}\n\n# RSS feed for publishers and readers\n`,
   'utf8',
 );
 
@@ -186,4 +186,4 @@ const llmsLines = [
   `- [Testing methodology](${new URL('/testing', SITE_URL)})`,
   '',
 ];
-writeFileSync(resolve(publicDir, 'llms.txt'), llmsLines.join('\\n'), 'utf8');
+writeFileSync(resolve(publicDir, 'llms.txt'), llmsLines.join('\n'), 'utf8');
