@@ -243,6 +243,10 @@ export function ArticlePage() {
       </aside>
       <div className="article-body">
         {article.slug === 'gpu-100-percent-usage-gaming' ? <GpuUsageQuickCheck /> : null}
+        {['gpu-frame-time-spikes-causes-fix', 'gpu-100-percent-usage-gaming', 'pc-game-low-fps-how-to-find-the-cause'].includes(article.slug) ? <section className="editorial-note related-comparison-prompt" aria-label="Related GPU comparison">
+          <strong>Choosing a graphics card?</strong>
+          <p>Use published game results and exact board specifications to compare the <Link className="text-link" to="/compare/rtx-5070-ti-vs-rx-9070-xt">RTX 5070 Ti and RX 9070 XT →</Link></p>
+        </section> : null}
         {article.slug === 'research/upgrade-ram-ssd-now-or-wait' ? <RamSsdUpgradePlanner /> : null}
         {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
