@@ -204,6 +204,7 @@ export const menuGroups: MenuGroup[] = [
       { label: 'All Reviews', href: '/reviews' },
       { label: 'SSD Reviews', href: '/reviews/ssds' },
       { label: 'GPU Reviews', href: '/reviews/gpus' },
+      { label: 'RTX 5070 Ti vs RX 9070 XT', href: '/compare/rtx-5070-ti-vs-rx-9070-xt', description: 'Compare 1440p / 4K testing, ray tracing, power and exact board fit.' },
       { label: 'Laptop Reviews', href: '/reviews/laptops' },
       { label: 'CPU Reviews', href: '/reviews/cpus' },
     ],

@@ -2,6 +2,10 @@ import { getProduct, type Product } from './products';
 
 export type ComparisonRow = { label: string; a: string; b: string };
 
+export type ComparisonWorkloadVerdict = { label: string; winner: string; reason: string };
+export type ComparisonSource = { label: string; url: string };
+export type ComparisonRelatedLink = { label: string; href: string; description: string };
+
 export type Comparison = {
   slug: string;
   a: string;
@@ -18,6 +22,9 @@ export type Comparison = {
   quickAnswer?: string;
   /** Visible FAQ; also emitted as FAQPage JSON-LD at build time. Never contains benchmark claims TWW did not source. */
   faq?: { question: string; answer: string }[];
+  workloadVerdicts?: ComparisonWorkloadVerdict[];
+  sources?: ComparisonSource[];
+  relatedLinks?: ComparisonRelatedLink[];
 };
 
 type ComparisonDef = Omit<Comparison, 'rows'> & { rows: [string, string, string][] };
@@ -231,47 +238,132 @@ const comparisonDefs: ComparisonDef[] = [
     slug: 'rtx-5070-ti-vs-rx-9070-xt',
     a: 'nvidia-geforce-rtx-5070-ti', b: 'amd-radeon-rx-9070-xt',
     eyebrow: 'GPU COMPARISON',
-    dek: 'Two 16GB graphics cards aimed at high-refresh 1440p gaming, compared on manufacturer specifications and what independent reviewers have published.',
-    metaDescription: 'Compare the RTX 5070 Ti and RX 9070 XT: 16GB memory, architectures, specifications, power connectors and independent review evidence.' ,
-    quickAnswer: 'Both cards have 16GB of memory on a 256-bit interface. The RTX 5070 Ti uses GDDR7 and has a listed 300W total graphics power rating; the RX 9070 XT uses GDDR6 with 640GB/s rated bandwidth. Those specifications do not establish which card is faster, and the cited reviews are not a direct head-to-head test.',
+    dek: 'A source-led RTX 5070 Ti vs RX 9070 XT comparison for 1440p and 4K gaming, ray tracing, memory bandwidth, software features and exact board fit.',
+    metaDescription: 'RTX 5070 Ti vs RX 9070 XT: compare 52-game results, 1440p and 4K, ray tracing, DLSS, FSR, GDDR7 bandwidth, power, PSU and board dimensions.',
+    quickAnswer: 'TechSpot’s May 2026 52-game test found the RTX 5070 Ti and RX 9070 XT effectively level in its mixed 1440p average (about 1.4% apart), with a roughly 4% RTX lead at native 4K. Heavy path tracing favoured NVIDIA much more strongly, while many raster results were close or favoured Radeon. Choose by the games and applications you actually use, current local prices and the exact partner card—not core counts or launch prices alone. TWW has not benchmarked either GPU.',
+    workloadVerdicts: [
+      { label: '1440p across a mixed 52-game suite', winner: 'Near tie — compare price and games', reason: 'TechSpot’s average put the RTX 5070 Ti about 1.4% ahead, with 1% lows of 108 versus 107 FPS. Individual game results vary more than this overall gap.' },
+      { label: 'Native 4K across that suite', winner: 'Small RTX 5070 Ti edge', reason: 'TechSpot measured 84 versus 81 FPS in its 4K aggregate, roughly a 4% lead. This is not a universal win in every game.' },
+      { label: 'Heavy ray tracing and path tracing', winner: 'RTX 5070 Ti in the hardest RT cases', reason: 'The same review recorded a 63% RTX lead in Doom: The Dark Ages path tracing at 1440p, but the RTX result was only 31 FPS. A large relative lead does not guarantee smooth native performance.' },
+      { label: 'Power in TechSpot’s test setup', winner: 'RTX 5070 Ti', reason: 'TechSpot reported about 20% lower power use for the GeForce in its comparison. That is a review-specific measurement, not a universal ratio for all partner cards.' },
+      { label: 'Blender, video editing and local AI', winner: 'Depends on the application backend', reason: 'CUDA and OptiX favour NVIDIA-dependent workflows; Blender Cycles also supports HIP on Radeon RX 9000. Verify the precise app, plug-in, OS and backend.' },
+      { label: 'Value at today’s retail price', winner: 'The card with the better local price for your workload', reason: 'The $749 and $599 numbers are historical launch prices, not live retail quotes. A price premium needs to buy a feature or result you will actually use.' }
+    ],
     rows: [
       ['GPU architecture', 'GPU architecture', 'GPU architecture'],
-      ['Shader hardware', 'CUDA cores', 'Compute units'],
+      ['Processing hardware', 'CUDA cores', 'Compute units'],
+      ['Ray tracing / AI hardware', 'Ray tracing / AI hardware', 'Ray tracing / AI hardware'],
       ['Memory', 'Memory', 'Memory'],
       ['Memory interface', 'Memory interface', 'Memory interface'],
+      ['Memory bandwidth / cache', 'Memory bandwidth / cache', 'Memory bandwidth / cache'],
       ['Clock rating', 'Boost clock', 'Game / boost frequency'],
-      ['Power connector / interface', 'Interface / power connector', 'Power connector'],
+      ['PCIe interface', 'PCIe interface', 'PCIe interface'],
+      ['Display standards', 'Display standards', 'Display standards'],
+      ['Board power rating', 'Total graphics power', 'Typical Board Power'],
+      ['Manufacturer PSU guidance', 'Recommended system power', 'Recommended minimum PSU'],
+      ['Reference power input', 'Reference connector', 'Reference connector'],
+      ['Launch price (USD)', 'Launch price', 'Launch price'],
     ],
     sections: [
       {
-        heading: 'What the specifications show',
+        heading: 'What the latest direct 52-game comparison actually says',
         paragraphs: [
-          'Both cards list 16GB of video memory on a 256-bit interface. The RTX 5070 Ti uses GDDR7 on NVIDIA’s Blackwell architecture, while the RX 9070 XT uses GDDR6 on AMD’s RDNA 4 architecture with a rated 640GB/s of bandwidth.',
-          'CUDA cores and AMD compute units are different building blocks, and each vendor defines its clock ratings differently. Treat the shader and clock rows as context rather than a score, because they do not predict relative game performance. The power specifications need particular care: NVIDIA lists 300W total graphics power, while the product data available here lists AMD’s reference connector configuration rather than a matching board-power figure. The table therefore compares connector/interface information in this row, not power consumption. Check the exact partner card’s manufacturer specification before choosing a PSU.',
-        ],
+          'TechSpot published a direct RTX 5070 Ti versus RX 9070 XT comparison on May 22, 2026, testing 52 games with two quality presets per game. Its mixed 1440p aggregate put the RTX 5070 Ti about 2 FPS ahead (roughly 1.4%), while the average 1% lows were 108 versus 107 FPS. At native 4K, the aggregate was 84 versus 81 FPS, about a 4% RTX lead.',
+          'These are mixed-suite aggregates, not pure raster-only results or a guarantee for every game. The title-by-title charts swing both ways: some raster settings favour Radeon, while demanding effects and other games favour GeForce. Check the individual games you play before applying an overall average to your purchase.',
+          'TechSpot also reported about 20% higher power use for the RX 9070 XT in its tested setup. That is an external review result tied to its platform, cards and method—not a promise that every RX 9070 XT board draws exactly 20% more than every RTX 5070 Ti.'
+        ]
       },
       {
-        heading: 'What independent reviews add',
+        heading: '1440p and 4K raster gaming: near parity overall, not identical results',
         paragraphs: [
-          'Tom’s Hardware’s February 2025 review of an Asus RTX 5070 Ti Prime called it a great 1440p native card, or a 4K card with upscaling, but only an incremental upgrade over the RTX 4070 Ti Super and worth buying near the launch price. For the RX 9070 XT, Tom’s Hardware’s launch review covers rasterization, ray tracing, power, thermals and noise, and TechSpot’s August 2026 comparison tested 52 games across the RX 9070 and RX 9070 XT.',
-          'These reviews used different test benches, game lists and comparison cards, and they tested specific partner models. They are not a head-to-head between these two products, so check each review’s settings before drawing a conclusion.',
-        ],
+          'At 1440p, the 52-game aggregate is effectively a tie. The practical winner depends on the games you play, graphics API, CPU limit, settings and street price more than a 1–2% average difference. Both cards have 16GB of VRAM, but the same memory capacity does not make their frame rates identical in every engine.',
+          'At native 4K, TechSpot’s mixed aggregate gives the RTX 5070 Ti a small lead. That does not mean GDDR7 bandwidth automatically wins every 4K title: cache behaviour, compression, memory access patterns, shader workload and engine implementation all affect the result. Use the review’s per-game charts and 1% lows when the decision is game-specific.'
+        ]
       },
       {
-        heading: 'How to decide',
+        heading: 'Ray tracing and path tracing: the GeForce advantage is workload-dependent',
         paragraphs: [
-          'Start with the games and resolution you play, then compare current local prices and stock, since both reviewers tied their verdicts to price. Next, weigh the features you will actually use: NVIDIA’s DLSS, ray-tracing and CUDA ecosystem against AMD’s feature set. Finally, check the dimensions, cooler and power connector requirements of the exact partner card you are considering.',
-        ],
+          'The RTX 5070 Ti is generally the stronger choice when the goal is to run the most demanding ray-tracing or path-tracing modes. In TechSpot’s 52-game test, examples included a 56% RTX lead in Indiana Jones and the Great Circle with high ray tracing at 1440p and a 63% lead in Doom: The Dark Ages path tracing at 1440p.',
+          'The Doom result needs context: TechSpot measured only 31 FPS on the RTX 5070 Ti and considered that too low for a comfortable native experience. A large relative lead is not the same as a high absolute frame rate. Other ray-traced games can show smaller gaps or favour Radeon, so do not turn one title’s percentage into a universal claim.'
+        ]
       },
+      {
+        heading: 'GDDR7 versus GDDR6: bandwidth is not a direct FPS score',
+        paragraphs: [
+          'Both cards have 16GB of VRAM on a 256-bit interface. NVIDIA specifies 896GB/s of memory bandwidth for the RTX 5070 Ti’s GDDR7. AMD specifies up to 640GB/s for the RX 9070 XT’s GDDR6, supported by 64MB of Infinity Cache.',
+          'The GeForce therefore has higher quoted raw external-memory bandwidth, but that does not translate linearly into game performance. Cache hits, data compression, memory access patterns and each engine’s working set affect how much bandwidth is needed. Both 16GB capacities are useful, but neither spec alone proves that a game cannot run into memory pressure.'
+        ]
+      },
+      {
+        heading: 'DLSS 4.5 / DLSS 5 versus AMD FSR Redstone',
+        paragraphs: [
+          'The RTX 5070 Ti supports NVIDIA’s DLSS feature family, including Super Resolution, Ray Reconstruction and Multi Frame Generation in supported games. NVIDIA’s current naming has moved beyond the original DLSS 4 launch: its published materials now describe DLSS 4.5 and DLSS 5. DLSS 5 neural rendering requires game integration and supported RTX 50-series hardware; card support does not mean every game exposes every feature.',
+          'AMD groups its newer features under FSR Redstone: FSR Upscaling (the feature previously branded FSR 4), Frame Generation, Ray Regeneration and Radiance Caching. Availability depends on game integration and the supported hardware for each feature. Check the game’s actual menu and AMD’s supported-game information rather than assuming the newest FSR path is present in every title.',
+          'Compare the same game, output resolution and quality mode. Upscaling changes internal rendering resolution; frame generation inserts generated frames. A higher displayed FPS counter is not the same as the same native render rate, input latency or image quality.'
+        ]
+      },
+      {
+        heading: 'Blender, video editing and local AI: check the software backend',
+        paragraphs: [
+          'Blender Cycles documents CUDA and OptiX for NVIDIA GPUs and HIP for Radeon RX 9000-series GPUs on supported Windows and Linux driver stacks. The RTX 5070 Ti is the safer choice when a project or plug-in specifically requires CUDA or OptiX. The RX 9070 XT is also a supported Blender GPU through HIP; compare the exact Blender version and workload rather than assuming Radeon cannot render.',
+          'Premiere Pro uses GPU acceleration for supported effects and image processing, but the result depends on codecs, effects, timeline, drivers and the rest of the workstation. NVIDIA lists two ninth-generation NVENC encoders on the RTX 5070 Ti; AMD lists H.264, HEVC and AV1 encode support for the RX 9070 XT. Many local-AI packages are CUDA-first, while some projects support HIP, Vulkan or other backends. Verify the exact framework, model and OS before buying for AI work.'
+        ]
+      },
+      {
+        heading: 'Power ratings and PSU sizing: do not mix TGP and TBP',
+        paragraphs: [
+          'NVIDIA specifies 300W Total Graphics Power and a 750W required system power recommendation for the RTX 5070 Ti reference configuration. Its reference power guidance allows two PCIe 8-pin cables through the supplied adapter or one PCIe Gen 5 cable rated for at least 300W. AMD lists 304W Typical Board Power and a 750W minimum PSU recommendation for its RX 9070 XT reference design, which uses two 8-pin auxiliary connectors.',
+          'TGP and TBP are vendor-defined ratings and are not a controlled side-by-side measurement. The TechSpot test is the source for its measured relative power result. Factory-overclocked partner cards can have different board limits, connector arrangements and PSU recommendations; check the exact full model number and the rest of your system.'
+        ]
+      },
+      {
+        heading: 'Builder and repair-bench checklist: connector, clearance and cooling',
+        paragraphs: [
+          'Before ordering, check exact model code, card length, height, thickness, slot count, front-fan or radiator clearance, power connector position and the manufacturer’s PSU recommendation. Reference-card dimensions and input arrangements do not describe every add-in-board model.',
+          'For a concrete RX 9070 XT partner example, Sapphire’s NITRO+ is rated at 330W, uses a 12V-2x6 connector, includes a 12V-2x6-to-three-8-pin adapter, specifies an 850W minimum PSU and measures about 330.8 × 128.5 × 65.68mm (3.2 slots). Sapphire also lists Honeywell PTM7950 thermal interface material for that exact NITRO+ model. These details must not be generalized to every RX 9070 XT.',
+          'For a 16-pin connection, follow the card and PSU maker’s cable instructions, fully seat the plug and avoid putting a sharp bend or side-load immediately at the connector. Never reuse modular PSU cables from a different PSU model. If an adapter calls for multiple PCIe leads, follow its exact instructions rather than assuming a daisy-chain is equivalent. Power down and unplug the system before reseating a card or power cable.',
+          'For a used or unstable GPU, inspect the connector housing, slot seating, contamination, fan obstruction and temperatures. A high hotspot-to-core delta deserves investigation, but do not replace thermal pads or phase-change material based on one sensor value without checking the exact cooler, mounting and manufacturer guidance.'
+        ]
+      },
+      {
+        heading: 'Price-to-performance: compare cards actually available to you',
+        paragraphs: [
+          'The launch prices were $749 for the RTX 5070 Ti and $599 for the RX 9070 XT—a $150 difference at launch. Those are historical reference prices, not current retail quotations. Actual prices in October 2026 vary by country, board partner, stock, warranty, taxes and shipping.',
+          'Compare two cards you can actually buy with similar warranty and cooler quality. Pay an RTX premium when you need its heavy-RT performance, DLSS features, CUDA/OptiX compatibility or the lower power use seen in TechSpot’s test. If your games are close and the Radeon is meaningfully cheaper, the RX 9070 XT may be the better value. Do not pay extra solely for larger numbers in a spec sheet.'
+        ]
+      }
+    ],
+    relatedLinks: [
+      { label: 'PC Bottleneck Calculator', href: '/tools/pc-bottleneck-calculator', description: 'Compare broad CPU/GPU tiers at 1080p, 1440p and 4K, then verify with repeatable game testing.' },
+      { label: 'PSU Wattage Calculator', href: '/tools/psu-wattage-calculator', description: 'Estimate a starting PSU size, then verify connectors and the exact card’s manufacturer guidance.' },
+      { label: 'GPU Reviews & Product Profiles', href: '/reviews/gpus', description: 'Explore GPU specifications and the external review evidence linked by TWW.' },
+      { label: 'GPU Frame-Time Spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Diagnose frame pacing, GPU Busy, VRAM pressure and system-side causes.' }
+    ],
+    sources: [
+      { label: 'NVIDIA GeForce RTX 5070 family: official specifications, power and supported features', url: 'https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5070-family/' },
+      { label: 'AMD Radeon RX 9070 XT: official specifications', url: 'https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html' },
+      { label: 'TechSpot: RTX 5070 Ti vs RX 9070 XT — 52-game comparison (May 22, 2026)', url: 'https://www.techspot.com/review/3130-geforce-rtx-5070-ti-vs-radeon-rx-9070-xt/' },
+      { label: 'AMD: RX 9070 XT launch specifications and $599 suggested price', url: 'https://ir.amd.com/news-events/press-releases/detail/1238/amd-unveils-next-generation-amd-rdna-4-architecture-with-the-launch-of-amd-radeon-rx-9000-series-graphics-cards' },
+      { label: 'NVIDIA: DLSS technology and feature support', url: 'https://www.nvidia.com/en-au/geforce/technologies/dlss/' },
+      { label: 'NVIDIA: DLSS 5 FAQ and supported hardware', url: 'https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/583738/dlss-5-faq/' },
+      { label: 'AMD: FSR Redstone features and supported games', url: 'https://www.amd.com/en/products/graphics/technologies/fidelityfx/super-resolution.html' },
+      { label: 'Blender 5.2 Manual: Cycles GPU rendering backends', url: 'https://docs.blender.org/manual/en/latest/render/cycles/gpu_rendering.html' },
+      { label: 'AMD ROCm 7.2: Windows system requirements and supported GPUs', url: 'https://rocm.docs.amd.com/projects/install-on-windows/en/docs-7.2/reference/system-requirements.html' },
+      { label: 'Adobe Premiere Pro: GPU acceleration and GPU driver requirements', url: 'https://helpx.adobe.com/premiere/desktop/get-started/technical-requirements/gpu-and-gpu-driver-requirements.html' },
+      { label: 'Sapphire NITRO+ RX 9070 XT: exact model power, size, connector and PTM7950', url: 'https://nation.sapphiretech.com/en/consumer/nitro-radeon-rx-9070-xt-16g-gddr6' }
     ],
     faq: [
-      { question: 'Do the RTX 5070 Ti and RX 9070 XT have the same VRAM?', answer: 'Both list 16GB on a 256-bit interface. The RTX 5070 Ti uses GDDR7 and the RX 9070 XT uses GDDR6.' },
-      { question: 'Which is better for 1440p gaming?', answer: 'Tom’s Hardware called the RTX 5070 Ti a great 1440p native card, and independent reviews found the RX 9070 XT strong for its segment. TWW has no head-to-head test, so compare the exact games you play and current local prices.' },
-      { question: 'How should I compare power requirements?', answer: 'NVIDIA lists 300W total graphics power for the RTX 5070 Ti, while the AMD reference specification recorded here lists two 8-pin connectors rather than a directly comparable board-power figure. Do not treat these as equivalent measurements. Check the exact partner card and PSU guidance before buying.' },
-      { question: 'Is this a TWW benchmark?', answer: 'No. The page uses manufacturer specifications and attributed findings from outside reviewers. TWW has not tested either card.' },
+      { question: 'Is the RTX 5070 Ti worth $150 more than the RX 9070 XT?', answer: 'That $150 gap was the difference between launch prices ($749 and $599), not a current retail price comparison. TechSpot’s May 2026 mixed 52-game test found about a 1.4% RTX lead at 1440p and about 4% at 4K, while heavy path tracing and some creator workflows can favour NVIDIA. Pay more only when the games, features or application compatibility you need justify the actual price difference in your market.' },
+      { question: 'How do the RTX 5070 Ti and RX 9070 XT compare at 1440p versus 4K?', answer: 'In TechSpot’s May 2026 52-game aggregate, the cards were effectively tied at 1440p: about 2 FPS or 1.4% separated them, with 1% lows of 108 versus 107 FPS. At native 4K, the RTX 5070 Ti averaged 84 FPS versus 81 FPS, about a 4% lead. The test used a mixed selection of settings and games; individual results vary.' },
+      { question: 'How much faster is the RTX 5070 Ti in ray tracing and path tracing?', answer: 'There is no one percentage for every game. TechSpot reported a 56% RTX lead in Indiana Jones and the Great Circle with high ray tracing at 1440p and a 63% lead in Doom: The Dark Ages path tracing at 1440p. The Doom result was still only 31 FPS on the RTX card, so a relative lead does not automatically make native path tracing smooth.' },
+      { question: 'Which GPU is more power-efficient: RTX 5070 Ti or RX 9070 XT?', answer: 'TechSpot measured about 20% lower power use for the RTX 5070 Ti in its direct test. NVIDIA rates its reference card at 300W TGP; AMD rates its reference RX 9070 XT at 304W TBP. Those are different vendor metrics, and partner-card limits vary, so use the review’s test result for the measured comparison and the exact board specification for PSU planning.' },
+      { question: 'Does the RX 9070 XT use 8-pin PCIe power connectors or a 16-pin 12V-2x6 cable?', answer: 'AMD’s reference RX 9070 XT specification lists two 8-pin auxiliary connectors. Board partners can differ: Sapphire’s NITRO+ is a 330W example with a 12V-2x6 connector and an included three-8-pin adapter. Always check the exact SKU rather than assuming every RX 9070 XT uses the same input.' },
+      { question: 'How does AMD FSR compare with NVIDIA DLSS on these cards?', answer: 'The RTX 5070 Ti supports NVIDIA’s DLSS feature family, including DLSS 4.5 and DLSS 5 where a supported game integrates them. AMD FSR Redstone includes FSR Upscaling, Frame Generation, Ray Regeneration and Radiance Caching, with availability depending on the feature, game and hardware. Compare the actual game, image-quality mode and latency rather than only the brand name.' },
+      { question: 'Which card is better for DaVinci Resolve, Premiere Pro, Blender and local AI?', answer: 'The RTX 5070 Ti is the safer choice when a workflow specifically needs CUDA, OptiX, NVENC or a CUDA-based AI package. Blender Cycles also supports HIP on Radeon RX 9000 GPUs in supported configurations, and AMD ROCm documents RX 9070 XT support for supported Windows environments. Premiere Pro supports GPU acceleration on compatible hardware from both vendors. Verify the exact software version, plug-ins, OS and export or inference backend.' },
+      { question: 'What CPU and power supply do I need for an RTX 5070 Ti or RX 9070 XT?', answer: 'Both vendors give 750W as reference system PSU guidance, but an exact partner card can require more; Sapphire’s 330W NITRO+ RX 9070 XT, for example, specifies 850W. Choose a CPU for the resolution, frame rate and games you use rather than a universal pairing rule. Use TWW’s PC Bottleneck Calculator for a broad tier-planning estimate and the PSU Wattage Calculator for a starting wattage estimate, then check the exact GPU and PSU manufacturer requirements.' }
     ],
-    evidenceNote: 'This comparison uses manufacturer specifications and attributed outside review findings. TWW has not tested either card.',
-    guide: { label: 'GPU product profiles →', href: '/reviews/gpus' },
+    evidenceNote: 'This comparison combines manufacturer specifications, a published 52-game head-to-head review and clearly attributed application documentation. TWW has not physically tested or benchmarked either card. Launch prices are historical; partner-board specifications vary.',
+    guide: { label: 'Explore GPU product profiles and independent review links →', href: '/reviews/gpus' },
   },
   {
     slug: 'samsung-9100-pro-vs-990-pro',
