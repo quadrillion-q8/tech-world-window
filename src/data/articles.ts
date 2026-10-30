@@ -819,8 +819,9 @@ const baseArticles: Article[] = [
       {
         heading: 'Decode the NVMe SMART / Health Information log (02h)',
         paragraphs: [
-          'NVMe health values are fields in the SMART / Health Information log, identified by Log Identifier 02h. They are not SATA-style SMART attribute IDs. The values below are byte offsets in that NVMe log; this distinction matters because some online tables incorrectly label offsets as attribute IDs.',
-          'The Critical Warning field is a bit field. A value of 0 means none of its current warning bits is set. A set bit can indicate spare capacity below threshold, a temperature threshold condition, degraded subsystem reliability, read-only media or a volatile-memory-backup problem. Identify which bit is set and follow the drive manufacturer’s guidance.'
+          'NVMe health values are fields in the SMART / Health Information log, identified by Log Identifier 02h. They are not SATA-style SMART attribute IDs. The values in the table are byte offsets in that NVMe log; this distinction matters because some online tables incorrectly label offsets as attribute IDs.',
+          'The Critical Warning field is a bit field. A value of 0 means none of its current warning bits is set. A set bit can indicate spare capacity below threshold, a temperature threshold condition, degraded subsystem reliability, read-only media or a volatile-memory-backup problem. Identify which bit is set and follow the drive manufacturer’s guidance.',
+          'The correct offsets are important: Critical Warning is at 0x00, Percentage Used at 0x05, Unsafe Shutdowns at 0x90, and Media and Data Integrity Errors at 0xA0. The last field is not “attribute 0E”. Use the NVMe log definition and the SSD vendor’s interpretation rather than translating these positions into SATA SMART IDs.'
         ],
         table: {
           caption: 'Important NVMe SMART / Health Information log fields',
@@ -833,15 +834,13 @@ const baseArticles: Article[] = [
             ['Unsafe Shutdowns — 0x90', 'A cumulative count of power losses without the required shutdown notification.', 'The count can rise after forced power-offs or power interruptions. It is not, by itself, a NAND-failure diagnosis.'],
             ['Media and Data Integrity Errors — 0xA0', 'A cumulative count of detected unrecovered data-integrity errors.', 'Review the count and whether it is increasing. A new or rising count, especially with read errors or disconnects, calls for a backup-first investigation; the field is not a simple pass/fail percentage.']
           ]
-        },
-        paragraphs: [
-          'The correct offsets are important: Critical Warning is at 0x00, Percentage Used at 0x05, Unsafe Shutdowns at 0x90, and Media and Data Integrity Errors at 0xA0. The last field is not “attribute 0E”. Use the NVMe log definition and the SSD vendor’s interpretation rather than translating these positions into SATA SMART IDs.'
-        ]
+        }
       },
-      {
         heading: 'Read SATA SMART attributes and CrystalDiskInfo raw values',
         paragraphs: [
-          'SATA SSDs commonly expose ATA SMART attributes such as the examples below. Attribute IDs and raw-value formats are not a universal cross-brand dictionary: manufacturers can assign different meanings, encodings and units, so verify the exact model before making a replacement decision.'
+          'SATA SSDs commonly expose ATA SMART attributes such as the examples below. Attribute IDs and raw-value formats are not a universal cross-brand dictionary: manufacturers can assign different meanings, encodings and units, so verify the exact model before making a replacement decision.',
+          'CrystalDiskInfo shows SMART attribute IDs and raw values. Its SMART information documentation identifies raw values as hexadecimal by default. To display the raw values in decimal, open Function > Advanced Features > Raw Values > 10 [DEC]. For example, hexadecimal 00000000001A is decimal 26. Changing the display to decimal makes the number easier to read; it does not standardize vendor-specific attribute meanings.',
+          'Do not compare a SATA raw value directly with an NVMe log field. Compare the same drive over time, use the manufacturer’s definitions, and pay attention to explicit warnings and the symptoms the PC is showing.'
         ],
         table: {
           caption: 'Common SATA SMART attribute examples',
@@ -852,13 +851,8 @@ const baseArticles: Article[] = [
             ['C7', 'UltraDMA CRC Error Count', 'This is commonly a SATA link / communication-error counter, not a NAND-wear counter. A rising count can point to a data cable, connector, port or controller path; inspect the connection and watch whether the count increases again.'],
             ['E7 / CA', 'Vendor-specific SSD wear or life indicators on some models', 'These IDs are not universal. Use the model-specific vendor documentation; do not assume E7 or CA means the same thing on every SSD.']
           ]
-        },
-        paragraphs: [
-          'CrystalDiskInfo shows SMART attribute IDs and raw values. Its SMART information documentation identifies raw values as hexadecimal by default. To display the raw values in decimal, open Function > Advanced Features > Raw Values > 10 [DEC]. For example, hexadecimal 00000000001A is decimal 26. Changing the display to decimal makes the number easier to read; it does not standardize vendor-specific attribute meanings.',
-          'Do not compare a SATA raw value directly with an NVMe log field. Compare the same drive over time, use the manufacturer’s definitions, and pay attention to explicit warnings and the symptoms the PC is showing.'
-        ]
+        }
       },
-      {
         heading: 'Find storage resets and file-system errors in Event Viewer',
         paragraphs: [
           'Open Event Viewer by pressing Win + R, entering eventvwr.msc and pressing Enter. Go to Windows Logs > System, then choose Filter Current Log. In Event sources, select the sources that exist on your machine, such as disk, stornvme, storahci, iaStorA or iaStorAC, Ntfs and volmgr. Enter the event IDs below in the Event IDs field.',
@@ -879,7 +873,8 @@ const baseArticles: Article[] = [
       {
         heading: 'Choose the official SSD utility for the exact model',
         paragraphs: [
-          'The manufacturer utility is often the best place to check model-specific SMART definitions, firmware notices and diagnostic results. Use the official download page and verify that your exact SSD model is supported. Features can be limited when the drive is behind USB, RAID or VMD/RST, and not every utility supports every product generation.'
+          'The manufacturer utility is often the best place to check model-specific SMART definitions, firmware notices and diagnostic results. Use the official download page and verify that your exact SSD model is supported. Features can be limited when the drive is behind USB, RAID or VMD/RST, and not every utility supports every product generation.',
+          'For an Intel-branded SSD that is not listed in Solidigm’s supported products, search by the exact model and product code on the relevant support site. Do not select a utility solely because the brand name looks related.'
         ],
         table: {
           caption: 'Official SSD management and health utilities',
@@ -892,15 +887,11 @@ const baseArticles: Article[] = [
             ['Solidigm client NVMe SSDs', { text: 'Solidigm Synergy Toolkit', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-01737.html' }, 'The toolkit supports client SSD functions with model and feature limits; the optional driver has narrower compatibility.'],
             ['Solidigm data-center / legacy client SATA SSDs', { text: 'Solidigm Storage Tool', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' }, 'Check the product list and release notes. Do not assume the Solidigm tools support every legacy Intel-branded SSD.'],
             ['Seagate SSDs', { text: 'SeaTools', href: 'https://www.seagate.com/support/downloads/seatools/' }, 'Use the version and diagnostic supported for the exact Seagate product; features can differ for non-Seagate drives.'],
-            ['ADATA SSDs', { text: 'ADATA SSD ToolBox', href: 'https://www.adata.com/en/support/downloads/' }, 'Download the SSD ToolBox build from ADATA and check the applicable product list.'],
+            ['ADATA SSDs', { text: 'ADATA SSD Toolbox', href: 'https://www.adata.com/en/support/downloads/' }, 'Download the SSD Toolbox build from ADATA and check the applicable product list.'],
             ['CORSAIR SSDs', { text: 'CORSAIR SSD Toolbox Preview', href: 'https://help.corsair.com/hc/en-us/articles/15292042915213-SSD-How-to-Update-your-SSD-Firmware' }, 'CORSAIR currently distributes the Toolbox through its Storage downloads; confirm model compatibility before firmware or erase operations.']
           ]
-        },
-        paragraphs: [
-          'For an Intel-branded SSD that is not listed in Solidigm’s supported products, search by the exact model and product code on the relevant support site. Do not select a utility solely because the brand name looks related.'
-        ]
+        }
       },
-      {
         heading: 'Interpret health signals together and decide when to back up',
         paragraphs: [
           'A green “Good” or “Healthy” label means the reporting tool has not crossed the threshold it uses. It is not a guarantee against sudden failure, and it is not a performance benchmark. Compare the health fields with drive temperature, free space, Windows events, disconnects and the exact symptom you are investigating.'
