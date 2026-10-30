@@ -365,6 +365,8 @@ const enhancements: Record<string, Enhancement> = {
   },
   'how-to-check-ssd-health-windows': {
     updatedAt: '2026-10-30',
+    sections: [],
+    faq: [],
     seoTitle: 'How to Check SSD Health in Windows 11 & 10',
     metaDescription: 'Check SSD health in Windows 11 and 10 with Settings, PowerShell, SMART tools and vendor utilities. Decode NVMe/SATA warnings and know when to back up.',
     sources: [
