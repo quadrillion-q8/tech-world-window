@@ -1044,7 +1044,7 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
   },
   'gpu-100-percent-usage-gaming': {
     updatedAt: '2026-10-30',
-    seoTitle: 'GPU at 100% Usage While Gaming: Normal or Bad?',
+    seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
     metaDescription: 'GPU usage at 100% while gaming can be normal. Diagnose render-queue input lag, Task Manager 3D readings, OBS and Discord stutter, and GPU hotspot temperatures.',
     sources: [
       { label: 'NVIDIA FrameView: performance, frame-time and power measurement', url: 'https://www.nvidia.com/en-us/geforce/technologies/frameview/' },
