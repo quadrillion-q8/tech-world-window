@@ -300,49 +300,29 @@ const enhancements: Record<string, Enhancement> = {
     }]
   },
   'gpu-frame-time-spikes-causes-fix': {
-    sections: [{
-      heading: 'TWW diagnosis: find the event behind the spike',
-      paragraphs: [
-        'A GPU frame-time spike is an observation, not a root cause. The useful evidence is what the GPU, CPU, VRAM, system RAM, clocks and temperatures were doing immediately before and during the spike.',
-        'If GPU utilization falls sharply during a hitch while CPU or storage activity rises, the GPU may simply be waiting. If GPU utilization remains high and the spike follows a heavier scene effect, the graphics workload itself may be responsible.'
-      ],
-      relatedLinks: [
-        { label: 'Frame-time analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture and locate the spikes that need investigation.' },
-        { label: 'PC game stuttering: diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Compare GPU-limited spikes with shader, CPU, storage and thermal causes.' },
-        { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Check whether hitches occur when new effects or areas first appear.' },
-        { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Determine whether full GPU load is normal rendering or whether temperature, clocks, and frame delivery need investigation.' }
-      ]
-    }, {
-      heading: 'Run a controlled capture before changing settings',
-      paragraphs: [
-        'A useful capture answers two questions: when did the frame-time spike happen, and what changed at that moment? Start with a repeatable 60-second section of gameplay. Keep the resolution, graphics settings, frame cap, driver, and background applications constant so a before/after comparison has meaning.',
-        'A drop in GPU utilization during a hitch does not automatically mean the graphics card is failing. The GPU may be waiting for a CPU thread, asset streaming, shader work, memory transfers, or another synchronized task. Compare several signals around the same timestamp before deciding which branch to test.'
-      ],
-      steps: [
-        'Record a frame-time capture with the same game scene and settings; mark the time of a visible hitch.',
-        'Compare GPU utilization, core clock, temperature and VRAM use with CPU-thread activity, system memory and disk activity around that timestamp.',
-        'Repeat the same scene without changing settings. If the hitch appears mainly on the first encounter with a new effect or area, test shader or asset preparation before changing the driver.',
-        'Change one plausible variable only, such as one GPU-heavy setting, and compare the frame-time graph—not just average FPS.',
-        'If the event coincides with a sharp clock drop, unusual temperature, artifacts or system instability, stop repetitive stress testing and check the exact hardware’s limits and logs.'
-      ],
-      table: {
-        caption: 'Read a GPU frame-time spike in context',
-        headers: ['Pattern at the hitch', 'Possible direction', 'Next controlled check'],
-        rows: [
-          ['GPU stays heavily loaded while the frame time spikes', 'A graphics-heavy scene or GPU-side limit may be involved', 'Repeat the scene with one GPU-heavy setting reduced'],
-          ['GPU load drops while one CPU thread is saturated', 'CPU-side work or game-engine waiting may be involved', 'Close one known background load and repeat the same scene'],
-          ['The hitch is most prominent on the first encounter', 'Shader compilation or asset preparation may contribute', 'Compare first and repeat runs without clearing caches blindly'],
-          ['Disk activity or VRAM pressure rises at the same time', 'Asset streaming or memory pressure may be involved', 'Compare resource use and the timestamp across repeat captures'],
-          ['Clock falls as temperature rises and frame time worsens', 'Thermal or power limiting is worth checking', 'Compare temperature, fan behavior, power profile and manufacturer guidance']
-        ]
-      }
-    }],
-    faq: [
-      { question: 'What causes GPU frame-time spikes?', answer: 'Possible causes include a heavier rendering workload, a CPU or engine-side wait, shader compilation, asset streaming, memory pressure, background tasks, or thermal and power behavior. The frame-time graph marks the hitch; other measurements help explain it.' },
-      { question: 'Does a GPU frame-time spike mean my graphics card is faulty?', answer: 'No. A single spike is not a hardware diagnosis. Repeat the same scene and compare GPU clocks, temperature, utilization, CPU-thread load, memory and storage activity before deciding what to test next.' },
-      { question: 'How are frame-time spikes different from low average FPS?', answer: 'Average FPS describes overall throughput, while frame time shows how consistently individual frames arrive. A game can have a reasonable average and still feel uneven because a small number of frames take much longer than the surrounding frames.' }
-    ],
-    updatedAt: '2026-10-19'
+    updatedAt: '2026-10-30',
+    sections: [],
+    faq: [],
+    sources: [
+      { label: 'Intel GameTechDev PresentMon: capture application metric definitions', url: 'https://github.com/GameTechDev/PresentMon/blob/main/README-CaptureApplication.md' },
+      { label: 'Intel GameTechDev PresentMon: console metric definitions', url: 'https://github.com/GameTechDev/PresentMon/blob/main/README-ConsoleApplication.md' },
+      { label: 'Intel PresentMon: GPU execution metric limitations with Hardware-Accelerated GPU Scheduling', url: 'https://github.com/GameTechDev/PresentMon' },
+      { label: 'CapFrameX: frame-time capture and analysis tool', url: 'https://github.com/CXWorld/CapFrameX' },
+      { label: 'NVIDIA FrameView User Guide: 1% Low and 0.1% Low definitions', url: 'https://images.nvidia.com/content/geforce/technologies/frameview/frameview-1-4-user-guide-web-version.pdf' },
+      { label: 'Microsoft DirectX: GPUs in Task Manager and video-memory management', url: 'https://devblogs.microsoft.com/directx/gpus-in-the-task-manager/' },
+      { label: 'Microsoft Learn: Direct3D 12 residency and video-memory budgets', url: 'https://learn.microsoft.com/en-us/windows/win32/direct3d12/residency' },
+      { label: 'Microsoft DirectX Specifications: resource heaps and system-memory transfers', url: 'https://github.com/microsoft/DirectX-Specs/blob/master/d3d/ResourceHeaps.md' },
+      { label: 'Nixxes Support: Check GPU PCIe configuration with GPU-Z', url: 'https://support.nixxes.com/hc/en-us/articles/50136049251475-Performance-issues-Check-your-PCIe-configuration' },
+      { label: 'Microsoft Learn: PCI Express negotiated link width', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/ns-ntddk-_pci_express_link_status_register' },
+      { label: 'NVIDIA documentation: GPU PCIe link information', url: 'https://docs.nvidia.com/deploy/nvidia-smi/' },
+      { label: 'Corsair Support: higher polling rates and CPU overhead', url: 'https://help.corsair.com/hc/en-us/articles/4405984374157-Higher-polling-rates-for-keyboards-and-mice' },
+      { label: 'Microsoft DirectX Specifications: Direct3D 12 pipeline-state object database', url: 'https://microsoft.github.io/DirectX-Specs/d3d/StateObjectDatabase.html' },
+      { label: 'Blur Busters: low-lag V-Sync and frame caps below refresh rate', url: 'https://blurbusters.com/howto-low-lag-vsync-on/' },
+      { label: 'NVIDIA Support: Max Frame Rate and staying within a VRR range', url: 'https://nvidia.custhelp.com/app/answers/detail/a_id/4958/kw/capability' },
+      { label: 'NVIDIA: System Latency Optimization Guide', url: 'https://www.nvidia.com/en-gb/geforce/guides/system-latency-optimization-guide/' },
+      { label: 'AMD GPUOpen: Radeon Anti-Lag 2 SDK', url: 'https://gpuopen.com/anti-lag-2/' },
+      { label: 'AMD: Anti-Lag 2 supported games', url: 'https://www.amd.com/en/products/graphics/technologies/fidelityfx/supported-games.html' }
+    ]
   },
   'shader-compilation-stutter-pc-games': {
     sections: [{

@@ -288,7 +288,7 @@ export const articleToolLinks: Record<string, string[]> = {
   'windows-11-wifi-connected-no-internet': ['/tools/windows-troubleshooting-assistant'],
   'windows-11-freezing-randomly-causes-fix': ['/tools/windows-troubleshooting-assistant'],
   'pc-game-stuttering-fix-frame-time': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
-  'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
+  'gpu-frame-time-spikes-causes-fix': ['/tools/frame-time-analyzer'],
   'shader-compilation-stutter-pc-games': ['/tools/frame-time-analyzer', '/tools/windows-troubleshooting-assistant'],
   'pc-game-low-fps-how-to-find-the-cause': ['/tools/frame-time-analyzer', '/tools/pc-bottleneck-calculator', '/tools/windows-troubleshooting-assistant'],
   'gpu-100-percent-usage-gaming': ['/tools/pc-bottleneck-calculator'],

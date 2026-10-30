@@ -646,42 +646,185 @@ const baseArticles: Article[] = [
     id: 'gpu-frame-time-spikes',
     slug: 'gpu-frame-time-spikes-causes-fix',
     title: 'GPU Frame-Time Spikes: Causes and How to Diagnose Them',
-    dek: 'A frame-time spike is a frame that takes unusually long to render. Compare GPU load, CPU activity, VRAM use, clocks and temperatures at the same timestamp to narrow down the cause.',
-    excerpt: 'A frame-time spike is a frame that takes unusually long to render. Compare GPU load, CPU-thread activity, VRAM, clocks and temperature at the same timestamp; one utilization percentage cannot identify the cause.',
+    seoTitle: 'GPU Frame-Time Spikes: Causes & Fixes',
+    metaDescription: 'Diagnose PC gaming frame-time spikes with per-frame GPU Busy data, frame-time budgets, VRAM, PCIe, shader and VRR checks—not average FPS alone.',
+    dek: 'A frame-time spike is a frame that takes unusually long to arrive. Use per-frame GPU Busy telemetry, CPU timing, memory budgets, clocks and repeatable captures to find the cause.',
+    excerpt: 'A frame-time spike is a frame that takes longer than your target cadence—for example, a jump from 6.94 ms at 144 FPS to 35 ms. Compare per-frame Frame Time with GPU Busy, CPU timing, VRAM budget, clocks and temperature before blaming the graphics card.',
     category: 'Gaming',
     subcategory: 'Performance',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-06',
-    updatedAt: '2026-10-19',
-    readingTime: 8,
-    tags: ['GPU', 'Frame Time', 'VRAM', 'PC Gaming'],
+    updatedAt: '2026-10-30',
+    readingTime: 14,
+    tags: ['GPU', 'Frame Time', 'GPU Busy', 'PresentMon', 'CapFrameX', 'VRAM', 'PC Gaming', 'Stutter'],
     relatedArticles: ['gaming-stutter', 'shader-compilation-stutter', 'gaming-low-fps', 'gaming-crashes-desktop', 'gaming-gpu-100-percent'],
     contentRole: 'cluster',
     pillarPath: '/pc-game-stuttering-fix-frame-time',
     searchIntent: 'informational',
+    testing: 'The timing examples in this guide explain how to interpret telemetry; they are not measurements from a controlled TWW benchmark. Capture your own game, GPU, driver, display mode and settings. PresentMon metric availability and accuracy can vary by graphics API, hardware and Windows scheduling configuration.',
     content: [
-      { heading: 'Is the GPU the limit?', paragraphs: [
-        'Watch GPU usage and frame time together. When usage is near full and frame time rises, the GPU cannot finish frames fast enough. When usage is low during spikes, something else, such as the CPU, storage, or a driver, is holding the GPU back.'
-      ] },
-      { heading: 'VRAM pressure', paragraphs: [
-        'When video memory fills, the system moves data to slower system memory, which creates spikes. Lower texture quality or resolution first; those settings affect VRAM most.'
-      ] },
-      { heading: 'Drivers and settings', paragraphs: [
-        'A new driver can introduce or fix stutter. If the problem began after an update, test the previous version. Also check frame limiters, sync settings, and power management modes, which can change frame pacing.'
-      ], relatedLinks: [
-        { label: 'Analyze a frame-time capture', href: '/tools/frame-time-analyzer', description: 'Compare frame-time consistency and identify the moments that deserve closer investigation.' },
-        { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Use the main guide to distinguish GPU limits from shader, CPU, storage, and thermal causes.' }
-      ] },
-      { heading: 'Thermals and power', paragraphs: [
-        'High temperatures or power limits cause clock drops mid-session. Monitor clocks and temperature while the stutter happens, and clean dust and verify airflow if clocks fall under load.'
-      ], bullets: [
-        'Spikes that begin after warm-up → thermal or power throttling.',
-        'Spikes at fixed intervals → background software.',
-        'Spikes only in one game → game or driver profile.'
-      ] }
+      {
+        heading: 'Frame-time budgets: convert FPS into milliseconds',
+        paragraphs: [
+          'Frame time is the time interval between frames. A steady 144 FPS stream aims for about 6.94 ms per frame; a 35 ms frame takes far longer than that target and can create a visible hitch even when the average FPS for the whole session looks high.',
+          'Use the reference table as a cadence calculation, not as a pass/fail limit. A single frame that exceeds its budget is not automatically a fault, and the visibility of a hitch depends on how often it happens, the display presentation mode, VRR range and the surrounding frames.'
+        ],
+        table: {
+          caption: 'Ideal frame-time budget by display refresh rate',
+          headers: ['Refresh rate / target FPS', 'Time budget per frame', 'Example interpretation'],
+          rows: [
+            ['60 Hz / 60 FPS', '16.67 ms', 'A 33.33 ms frame spans about two 60 Hz frame intervals, missing one expected refresh opportunity.'],
+            ['120 Hz / 120 FPS', '8.33 ms', 'A 16.67 ms frame takes about twice the target interval.'],
+            ['144 Hz / 144 FPS', '6.94 ms', 'A 16 ms frame is about 2.3 times this target interval, even though it is close to one 60 Hz frame budget.'],
+            ['240 Hz / 240 FPS', '4.17 ms', 'Small absolute delays take up a larger share of the frame budget.'],
+            ['360 Hz / 360 FPS', '2.78 ms', 'A short delay can represent a large fraction of the target frame interval.']
+          ]
+        },
+        paragraphs: [
+          'Average FPS can hide uneven delivery. The 1% low and 0.1% low summarize performance in the slowest tail of frames; the exact averaging and percentile labels vary by tool. A frame-time graph or CSV is still needed to locate the individual spike and line it up with other telemetry.'
+        ]
+      },
+      {
+        heading: 'Compare Frame Time and GPU Busy—not just GPU usage percent',
+        paragraphs: [
+          'Intel PresentMon records frame-level timing data. Its FrameTime field is the time between successive CPU frame intervals, while GPUBusy is how long at least one GPU engine spent actively executing work for the target process on that frame. CapFrameX uses PresentMon and exposes GPU Active Time / GPU Busy in its analysis graphs. NVIDIA FrameView also reports frame timing and GPU performance metrics.',
+          'A GPU utilization percentage is a useful overview, but it is generally sampled or averaged over a monitoring interval. It can miss the timing of one short hitch. Per-frame FrameTime and GPU Busy are better tools for asking whether GPU work was active for most of the affected frame.'
+        ],
+        table: {
+          caption: 'Illustrative Frame Time and GPU Busy readings—not a TWW benchmark',
+          headers: ['Frame Time', 'GPU Busy', 'What the pairing suggests', 'What to inspect next'],
+          rows: [
+            ['30 ms', '29 ms', 'GPU work occupied nearly the full reported frame interval; a GPU-side workload or memory-related delay is plausible.', 'Check GPU clocks, temperature, power behavior, VRAM budget and whether reducing one GPU-heavy setting changes the spike.'],
+            ['30 ms', '6 ms', 'The GPU was active for much less time than the CPU frame interval; a CPU-side wait, game-engine stall, shader work, asset streaming or scheduling delay becomes more plausible.', 'Compare CPU Busy, CPU Wait, GPU Latency, thread load, disk activity and the same scene on a repeat run.']
+          ]
+        },
+        paragraphs: [
+          'Do not subtract GPU Busy from Frame Time and call the result exact CPU wait time. CPU and GPU work overlap, frames can be queued, and the metrics use different timing points. Treat the pairing as a diagnostic clue and correlate it with CPU Busy, CPU Wait, GPU Latency and the game event at the same timestamp.',
+          'PresentMon notes that some GPU execution metrics can be less accurate with Hardware-Accelerated GPU Scheduling enabled, depending on the system and workload. If a result looks contradictory, repeat the capture and compare with another supported tool rather than treating one metric as ground truth.'
+        ],
+        bullets: [
+          'FrameTime rises and GPU Busy rises with it → investigate GPU workload, GPU memory pressure, clocks and thermals.',
+          'FrameTime rises while GPU Busy remains relatively low → investigate CPU/game-thread work, shader compilation, asset streaming and driver waits.',
+          'GPU Busy or other telemetry is missing → check tool support, graphics API, permissions, driver and capture configuration before drawing a conclusion.'
+        ]
+      },
+      {
+        heading: 'Capture a repeatable frame-time log: a 60-second protocol',
+        paragraphs: [
+          'A useful capture is repeatable. Choose a short route, replayable benchmark, training map or built-in game benchmark. Keep the resolution, graphics preset, frame cap, driver, background applications and display mode unchanged between runs. Do not compare a quiet menu capture with a busy gameplay scene.'
+        ],
+        steps: [
+          'Warm up the game and load the same save, map or benchmark segment. Record a consistent 60-second pass rather than moving through an unrelated scene each time.',
+          'Start a PresentMon or CapFrameX capture. Record FrameTime, GPU Busy / GPU Active Time, CPU Busy, CPU Wait and GPU Latency where the tool exposes them.',
+          'At the same time, note GPU core clock, temperature, dedicated GPU memory, shared GPU memory, CPU thread load and disk activity. Avoid enabling every sensor or overlay at once; extra monitoring can alter the workload.',
+          'Mark the exact moment of each visible hitch and note what happened in the game—camera turn, explosion, new area, shader effect, menu transition or background task.',
+          'Repeat the identical route at least once without changing settings. Then change one variable only and capture again. Keep the original CSV so you can compare the same event rather than relying on memory.'
+        ],
+        bullets: [
+          'Use a CSV or frame-time graph to locate the long frame; average FPS alone is not enough.',
+          'Keep first-run and warmed-up captures separate when checking shader compilation.',
+          'If the game crashes, shows artifacts, or the GPU reports abnormal temperature or power behavior, stop repetitive stress tests and investigate the hardware safely.'
+        ]
+      },
+      {
+        heading: 'Read the frame-time graph: symptom-to-cause matrix',
+        paragraphs: [
+          'Use the pattern at the exact hitch as a starting point. None of these observations proves a root cause on its own; the repeat capture is what helps separate coincidence from a repeatable relationship.'
+        ],
+        table: {
+          caption: 'Frame-time spike patterns and the next controlled investigation',
+          headers: ['Pattern at the spike', 'Possible cause to investigate', 'Next check'],
+          rows: [
+            ['FrameTime and GPU Busy both rise sharply', 'GPU-heavy scene, shader work, GPU memory pressure or thermal / power limiting.', 'Lower one GPU-heavy setting and compare the same scene; log clock, temperature and VRAM budget.'],
+            ['FrameTime rises but GPU Busy stays low', 'CPU/game-thread wait, shader compilation, asset streaming, driver scheduling or a background task.', 'Compare CPU Busy / Wait, individual thread load, disk activity and first-run versus repeat-run captures.'],
+            ['The hitch happens mostly the first time an effect or material appears', 'Shader or pipeline-state compilation and cache warm-up.', 'Repeat the same scene without clearing shader caches; compare the first and later encounter.'],
+            ['The hitch repeats at the same map boundary on every traversal', 'Asset streaming, decompression, memory residency or a repeatable game-engine event.', 'Watch disk reads, CPU activity, dedicated/shared GPU memory and whether the same boundary is involved each time.'],
+            ['Dedicated GPU memory approaches its budget while shared memory rises', 'Local video-memory pressure and resource residency transfers.', 'Reduce texture quality or other memory-heavy settings and compare memory use and frame time.'],
+            ['GPU clock drops as temperature or power-limit indicators change', 'Thermal or power behavior.', 'Check cooling, airflow, fan operation, power connector seating and the exact manufacturer limits.'],
+            ['The active PCIe link remains unexpectedly narrow under load', 'Slot configuration, lane sharing, riser cable, seating or BIOS link settings.', 'Check GPU-Z Bus Interface during its render test and compare with the motherboard / GPU specifications.'],
+            ['Spikes occur at a regular interval or while moving the mouse rapidly', 'Overlay polling, sensor monitoring, high-polling-rate input or scheduled background work.', 'Disable one overlay or sensor group at a time; test the mouse at 1,000 Hz and repeat the same route.'],
+            ['Frame pacing changes when FPS reaches the monitor refresh ceiling', 'VRR range / V-Sync interaction or multiple frame limiters.', 'Test one limiter and a frame cap slightly below the VRR maximum; verify the monitor range and driver settings.']
+          ]
+        },
+        relatedLinks: [
+          { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a frame-time capture, compare consistency and locate the longest frames.' },
+          { label: 'PC game stuttering: complete diagnostic guide', href: '/pc-game-stuttering-fix-frame-time', description: 'Follow the wider workflow for CPU, GPU, shader, storage and background-software stutter.' },
+          { label: 'Shader compilation stutter', href: '/shader-compilation-stutter-pc-games', description: 'Distinguish first-run shader or pipeline compilation hitches from repeatable traversal stalls.' },
+          { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming', description: 'Understand full GPU utilization and when clocks, thermals or frame delivery need investigation.' }
+        ]
+      },
+      {
+        heading: 'Check dedicated VRAM, shared GPU memory and residency pressure',
+        paragraphs: [
+          'Open Task Manager with Ctrl + Shift + Esc, choose Performance, select the discrete GPU and compare Dedicated GPU memory with Shared GPU memory. Dedicated memory is the physical VRAM on a discrete card. Shared GPU memory is system RAM that Windows can make available to the GPU; it is not a second pool of equally fast video memory.',
+          'Do not use a fixed 90% or 95% VRAM threshold as a universal failure line. Windows and Direct3D manage a per-process video-memory budget that can change as other applications use the GPU. When a workload exceeds the available local-memory budget, resources may be evicted or made resident in system memory. Transfers across PCIe are much slower than local GDDR memory and can contribute to hitching, but the result depends on the game, driver, access pattern and memory pressure.'
+        ],
+        bullets: [
+          'Compare dedicated memory use with the reported budget when the tool exposes it; total capacity alone is not the whole story.',
+          'A rise in Shared GPU memory is a clue, not proof of harmful spillover. Correlate it with a frame-time spike and repeat the same scene.',
+          'If memory pressure is repeatable, lower texture quality, texture pool, ray tracing or other VRAM-heavy settings one at a time and compare the same capture.',
+          'Do not assume that lowering resolution always fixes VRAM pressure; texture assets and render targets respond differently to different settings.'
+        ]
+      },
+      {
+        heading: 'Verify the PCIe link, GPU slot and riser cable',
+        paragraphs: [
+          'A graphics card can be electrically limited to x8 or x4 even when the connector is full length. Motherboard lane sharing, a secondary slot, an M.2 configuration, BIOS settings or a riser cable can affect the negotiated link. Some GPUs are designed for x8 operation, so compare the result with the exact card and motherboard specifications rather than assuming every card should report x16.',
+          'In GPU-Z, inspect Bus Interface. A value such as PCIe x16 4.0 @ x16 4.0 describes the card / platform capability before the @ and the currently negotiated link after it. Press the ? control beside Bus Interface to run the PCIe render test, or observe the link during a real GPU workload. Modern GPUs can lower link speed while idle to save power, so an idle x1 or lower-generation reading is not enough to diagnose a fault.',
+          'If an unexpectedly low width or generation remains during the render test, consult the motherboard manual for slot wiring and lane sharing. Power down and unplug the PC before reseating a card or riser. Test the GPU directly in the primary slot if the system design allows it; check that the riser is rated for the intended PCIe generation and that BIOS link settings are appropriate. A PCIe width mismatch can reduce transfer bandwidth, but it does not automatically explain every frame-time spike.'
+        ],
+        bullets: [
+          'Some GPUs are designed for PCIe x8; verify the expected width for the exact model.',
+          'A PCIe 4.0 x8 card running at PCIe 3.0 x8 has lower link bandwidth than PCIe 4.0 x8, but gaming impact varies and is usually more visible when data must move across PCIe frequently.',
+          'Repeated WHEA PCIe errors or a link that retrains under load are reasons to investigate the slot, riser, motherboard and device—not proof that the GPU core is failing.'
+        ]
+      },
+      {
+        heading: 'Isolate overlays, sensor polling and high-polling-rate mice',
+        paragraphs: [
+          'Overlays and monitoring tools can add CPU, GPU or capture overhead. MSI Afterburner, RTSS, vendor overlays, recording software and hardware-monitoring applications are useful diagnostics, but they should be tested rather than assumed harmless. There is not enough evidence to label MSI Afterburner GPU Power polling over I2C / SMBus as a universal cause of one-second frame-time spikes.',
+          'If a regular hitch appears only while monitoring is enabled, run an A/B test: capture once with the overlay closed, then enable only the minimum required metrics, then add sensors one group at a time. You can temporarily disable the Power sensor in Afterburner Monitoring as one test, but do not treat that setting as a guaranteed fix or make several changes at once.',
+          'Four-thousand and eight-thousand-hertz mice send input reports more frequently and can add CPU overhead. The effect depends on the mouse, USB path, game input handling and CPU headroom. A fast polling rate does not automatically saturate a CPU interrupt thread.'
+        ],
+        bullets: [
+          'Close one overlay or recorder at a time and repeat the same 60-second route.',
+          'If a monitoring sensor appears related, disable only that sensor group and repeat the capture before concluding it caused the hitch.',
+          'Temporarily test a 1,000 Hz mouse polling rate if spikes align with rapid mouse movement; restore the original setting if the graph does not change.',
+          'Avoid running several frame overlays or monitoring suites simultaneously during a baseline capture.'
+        ]
+      },
+      {
+        heading: 'Separate shader compilation from traversal and asset-streaming stutter',
+        paragraphs: [
+          'Shader or pipeline-state compilation is more plausible when a hitch occurs the first time a new effect, material, weapon or visual feature appears and becomes less noticeable on a repeat run. Driver updates, game patches, cache invalidation or a new shader variant can cause compilation work to return. Do not repeatedly clear shader caches as a general fix; that can force the game to rebuild them.',
+          'Traversal or asset-streaming stutter is more plausible when the same hitch returns at the same world boundary or camera path on repeated passes. The game may be loading, decompressing or making textures and geometry resident as the player enters a new area. That can involve storage reads, CPU work, VRAM budget pressure and engine scheduling rather than shader compilation alone.',
+          'The two patterns can overlap. A single first-run hitch does not prove shader compilation, and a repeatable boundary hitch does not prove an Unreal Engine defect. Compare the same path across runs and line up frame time with disk activity, CPU Busy, GPU Busy and memory telemetry.'
+        ]
+      },
+      {
+        heading: 'Keep frame rate inside the display VRR range',
+        paragraphs: [
+          'A G-SYNC or FreeSync display can vary its refresh rate only inside its supported variable-refresh range. When frame rate reaches or exceeds the display maximum, the display cannot refresh faster than its physical ceiling; what happens next depends on V-Sync, driver settings, the game and the monitor. This can change tearing and latency behavior, but it is not proof that every frame-time spike is caused by VRR switching on and off.',
+          'For a first test, set one frame limiter a little below the maximum refresh rate. A common starting point is about 3 FPS below the ceiling—for example, 141 FPS on a 144 Hz display. If your limiter overshoots or frame pacing varies, test a slightly larger margin such as 3–5%, then compare the same scene. The best cap depends on the display range, limiter accuracy and game.',
+          'Use one limiter at a time: the in-game limiter, driver Max Frame Rate or RTSS. Avoid stacking all three without a specific reason. NVIDIA documents that G-SYNC plus V-Sync and Reflex / Ultra Low Latency can manage the ceiling automatically in supported configurations. AMD Anti-Lag 2 is integrated into supported games and targets input-to-frame latency; it is not a universal frame-time repair switch.'
+        ],
+        bullets: [
+          'Verify the display is actually running at its advertised refresh rate and that G-SYNC / FreeSync is enabled in the relevant driver and monitor settings.',
+          'Test a cap around 3 FPS below maximum, then adjust only if the limiter still crosses the VRR ceiling.',
+          'Compare one limiter configuration at a time and keep the same capture scene.',
+          'Treat Reflex and Anti-Lag 2 as latency features with support requirements, not as guaranteed fixes for shader, streaming or hardware frame-time spikes.'
+        ]
+      }
     ],
     faq: [
-      { question: 'Can a failing GPU cause frame-time spikes?', answer: 'It can, usually with other signs such as artifacts, crashes, or driver resets. Rule out settings, drivers, and thermals first.' }
+      { question: 'What is the difference between a frame-time spike and low average FPS?', answer: 'Average FPS describes overall frame throughput across a period. A frame-time spike is an individual frame that takes much longer than the surrounding frames. A game can show a high average while a small number of long frames still cause visible hitching. Check the frame-time graph and the slow-frame percentiles rather than relying on average FPS alone.' },
+      { question: 'What is a normal frame time in milliseconds for 60 FPS, 144 FPS and 240 FPS?', answer: 'The target intervals are about 16.67 ms at 60 FPS, 6.94 ms at 144 FPS and 4.17 ms at 240 FPS. These are cadence calculations, not universal pass/fail limits. A frame that exceeds the target may be noticeable depending on how long it takes, how often it happens and how the display presents frames.' },
+      { question: 'Does a GPU frame-time spike mean my graphics card is faulty or dying?', answer: 'No. A spike can come from GPU workload, a CPU or engine wait, shader compilation, asset streaming, VRAM pressure, a driver, monitoring overhead or display synchronization. Suspect hardware only when repeatable telemetry and other symptoms—such as artifacts, driver resets, abnormal temperature or instability—support that conclusion.' },
+      { question: 'Why does GPU usage drop to 0%–50% during a frame-time spike?', answer: 'The GPU may have finished its current work and be waiting for the CPU, a game thread, shader or asset preparation, memory transfers or another dependency. A utilization percentage is not enough to identify the wait. Compare per-frame GPU Busy with FrameTime, CPU Busy / Wait, GPU Latency and the same event on a repeat capture.' },
+      { question: 'How does running out of VRAM cause frame-time spikes even when average FPS is high?', answer: 'When a game exceeds its available local video-memory budget, Windows and the graphics driver may need to evict or move resources and make them resident again. Accessing system RAM across PCIe is slower than local VRAM and can cause intermittent stalls even while average FPS remains acceptable. Confirm a correlation between dedicated-memory budget, shared-memory activity and the actual hitch; a high memory percentage by itself does not prove this is happening.' },
+      { question: 'Can MSI Afterburner, overlays or a high-polling-rate mouse cause frame-time spikes?', answer: 'They can add monitoring, overlay, capture or input-processing overhead on some systems, but no single sensor or polling rate is a universal cause. Compare the same scene with overlays closed, then enable one monitoring group at a time. If spikes align with rapid mouse movement, test a 1,000 Hz polling rate and compare the capture.' },
+      { question: 'How do I tell shader compilation stutter apart from a GPU bottleneck?', answer: 'Shader or pipeline compilation is more likely when a new effect or material hitches on its first appearance and improves on repeat runs. A GPU workload limit is more likely when GPU Busy remains high during repeated spikes and lowering one GPU-heavy setting improves the same scene. Repeatable hitches at the same map boundary can point to asset streaming or traversal work instead.' },
+      { question: 'Should I cap FPS with NVIDIA Reflex, RTSS or an in-game limiter to flatten frame times?', answer: 'A frame cap can keep a game inside a VRR range and reduce unnecessary GPU load, but it does not repair every frame-time cause. Test one limiter first—often the in-game limiter, otherwise the driver cap or RTSS—and start a few FPS below the display maximum. Reflex can manage render queuing and the VRR ceiling in supported NVIDIA configurations; it is not interchangeable with a generic frame cap. Do not stack multiple limiters unless you have tested the interaction.' }
     ]
   },
 
