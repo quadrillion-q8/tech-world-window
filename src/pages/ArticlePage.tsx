@@ -203,7 +203,11 @@ export function ArticlePage() {
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
-      {article.slug === 'gpu-100-percent-usage-gaming' ? <section className="quick-answer article-quick-answer" aria-label="Quick answer">
+      {article.slug === 'how-to-check-ssd-health-windows' ? <section className="quick-answer article-quick-answer ssd-quick-answer" aria-label="Quick answer">
+        <span className="rail-kicker">QUICK ANSWER</span>
+        <p>To check an SSD in Windows 11, open <strong>Settings &gt; System &gt; Storage &gt; Advanced storage settings &gt; Disks &amp; volumes</strong>, select the drive and choose <strong>Properties</strong>. The Drive health panel appears only when the SSD and driver expose the supported data, most often on compatible NVMe drives.</p>
+        <p>For a Windows telemetry check, open PowerShell (Administrator) and run <code>Get-PhysicalDisk | Get-StorageReliabilityCounter</code>. For fuller SATA and NVMe SMART details, use the drive maker’s official utility or CrystalDiskInfo. Interpret <strong>Critical Warning</strong>, <strong>Available Spare</strong> and <strong>Media and Data Integrity Errors</strong> alongside symptoms; <strong>Percentage Used</strong> is an endurance estimate, not the percentage of life remaining.</p>
+      </section> : article.slug === 'gpu-100-percent-usage-gaming' ? <section className="quick-answer article-quick-answer" aria-label="Quick answer">
         <span className="rail-kicker">QUICK ANSWER</span>
         <p>{article.excerpt}</p>
       </section> : null}
@@ -287,7 +291,7 @@ export function ArticlePage() {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {article.slug !== 'gpu-100-percent-usage-gaming' ? <section className="quick-answer rail-quick-answer">
+        {!['gpu-100-percent-usage-gaming', 'how-to-check-ssd-health-windows'].includes(article.slug) ? <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section> : null}
