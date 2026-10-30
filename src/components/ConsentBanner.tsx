@@ -24,7 +24,7 @@ export function ConsentBanner({ onChoice }: Props) {
   };
 
   return (
-    <section className="consent-banner" role="region" aria-label="Analytics cookies">
+    <section className="consent-banner" role="region" aria-label="Analytics cookies" data-nosnippet>
       <div className="consent-text">
         <strong>Analytics cookies</strong>
         <p>

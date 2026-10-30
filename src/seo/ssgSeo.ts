@@ -1,4 +1,5 @@
 import { articles, articleWordCount, categories } from '../data/articles';
+import { buildSiteSchemaGraph } from './siteSchema';
 import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
@@ -252,25 +253,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
   const article = articles.find(item => `/${item.slug}` === path);
   const author = article ? authors[article.authorId] : undefined;
 
-  const schemas: unknown[] = [breadcrumbSchema(path, seo)];
-  if (path === '/') {
-    schemas.unshift({
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: SITE_NAME,
-      url: SITE_URL,
-      description: seo.description,
-    });
-  }
-  schemas.unshift({
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: siteEntity.name,
-    url: SITE_URL,
-    description: siteEntity.description,
-    slogan: SITE_TAGLINE,
-    logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') },
-  });
+  const schemas: unknown[] = [buildSiteSchemaGraph(path === '/'), breadcrumbSchema(path, seo)];
   if (article) {
     schemas.push({
       '@context': 'https://schema.org',

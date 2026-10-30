@@ -39,7 +39,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className="footer-bottom" data-nosnippet>
           <span>© {new Date().getFullYear()} Tech World Window. Built for curious minds.</span>
           <span>
             <button type="button" className="footer-link-button" onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}>Privacy choices</button>
