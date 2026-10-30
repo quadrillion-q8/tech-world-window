@@ -421,6 +421,18 @@ if (!existsSync(dist)) {
 
     const html = readFileSync(outputPath, 'utf8');
     const seo = getSeoData(route.path);
+
+    // Every research article must be reachable from the research hub, not only
+    // discoverable through the sitemap or a secondary contextual link.
+    if (route.path === '/research') {
+      for (const researchRoute of routeGraph.filter(candidate =>
+        candidate.kind === 'article' && candidate.path.startsWith('/research/')
+      )) {
+        if (!html.includes(`href="${researchRoute.path}"`)) {
+          errors.push(`Research hub is missing a crawlable link to ${researchRoute.path}`);
+        }
+      }
+    }
     const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
     if (!titleMatch) errors.push(`Missing <title> in ${route.path}`);
     else if (decodeHtml(titleMatch[1].trim()) !== seo.title) errors.push(`Incorrect title in ${route.path}: expected "${seo.title}"`);
