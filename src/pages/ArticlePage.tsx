@@ -203,6 +203,11 @@ export function ArticlePage() {
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
+      {article.slug === 'windows-11-26h2-iso-released' ? <section className="quick-answer article-quick-answer windows-26h2-quick-answer" aria-label="Quick answer">
+        <span className="rail-kicker">QUICK ANSWER</span>
+        <p>As of October 28, 2026, Microsoft says Windows 11 26H2 is available for all eligible Windows 11 24H2 and 25H2 devices. For the enablement-package route, install September 22, 2026 update <strong>KB5124010</strong> or a later cumulative update first; <strong>KB5121794</strong> is the 26H2 enablement package itself.</p>
+        <p>Open Settings &gt; Windows Update, turn on <strong>Get the latest updates as soon as they’re available</strong>, and select <strong>Check for updates</strong>. This preference does not bypass a compatibility safeguard. If Windows says the update is not ready for your device, check Microsoft’s 26H2 Release Health page before considering installation media.</p>
+      </section> : null}
       {article.slug === 'gpu-frame-time-spikes-causes-fix' ? <section className="quick-answer article-quick-answer gpu-frame-time-quick-answer" aria-label="Quick answer">
         <span className="rail-kicker">QUICK ANSWER</span>
         <p>A frame-time spike is a frame that takes much longer than your target cadence—for example, jumping from <strong>6.94 ms</strong> at 144 FPS to <strong>35 ms</strong>. Compare per-frame <strong>FrameTime</strong> with <strong>GPU Busy</strong>, CPU Busy / Wait, VRAM budget, GPU clock and temperature at the same timestamp.</p>
@@ -300,7 +305,7 @@ export function ArticlePage() {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        {!['gpu-100-percent-usage-gaming', 'how-to-check-ssd-health-windows'].includes(article.slug) ? <section className="quick-answer rail-quick-answer">
+        {!['gpu-100-percent-usage-gaming', 'how-to-check-ssd-health-windows', 'windows-11-26h2-iso-released'].includes(article.slug) ? <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
         </section> : null}

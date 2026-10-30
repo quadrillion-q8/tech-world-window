@@ -403,65 +403,166 @@ export const october2026Articles: Article[] = [
     id: 'windows-11-26h2-iso-released',
     slug: 'windows-11-26h2-iso-released',
     title: 'Windows 11 26H2 Is Available: What to Know About the ISO',
-    seoTitle: 'Windows 11 26H2: ISO Options',
-    dek: 'Microsoft announced the Windows 11 2026 Update on September 29, 2026. Here is how to distinguish the normal update rollout from ISO installation media.',
-    metaDescription: 'Windows 11 26H2 is available for eligible devices. Learn what Microsoft confirms about the rollout, ISO media, and safe installation choices.',
-    excerpt: 'Microsoft says Windows 11 version 26H2 is available for eligible 24H2 and 25H2 devices through a phased rollout. Check the official download page and release-health notices before installing.',
+    seoTitle: 'Windows 11 26H2 ISO: Download, Update & Safeguards',
+    dek: 'Windows 11 version 26H2 is available to all eligible devices. Understand the KB5124010 prerequisite, enablement package, official ISO options and what to do if a compatibility safeguard blocks your PC.',
+    metaDescription: 'Windows 11 26H2 is available for eligible PCs. Check KB5124010 prerequisites, the enablement package, ISO choices, safeguard holds and support lifecycle.',
+    excerpt: 'As of October 28, 2026, Microsoft says Windows 11 26H2 is available for all eligible 24H2 and 25H2 devices. Before installing, confirm the September 22 KB5124010 cumulative update or a later CU, check for safeguards, and use Microsoft’s official ISO or Windows Update route.',
     category: 'News',
     subcategory: 'Windows releases',
     authorId: 'imranNatiq',
     publishedAt: '2026-10-15',
-    readingTime: 4,
-    tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'Windows ISO', 'Microsoft', 'Windows Update'],
-    relatedArticles: ['microsoft-windows-surface-event-oct-7'],
+    updatedAt: '2026-10-30',
+    readingTime: 9,
+    tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'KB5124010', 'KB5121794', 'Windows ISO', 'Safeguard Hold', 'Microsoft', 'Windows Update'],
+    relatedArticles: ['windows-11-26h2-installation-guide', 'windows/windows-update-stuck', 'microsoft-windows-surface-event-oct-7'],
     searchIntent: 'informational',
-    testing: 'News summary based on Microsoft’s official Windows Experience Blog announcement published September 29, 2026. TWW did not independently host, mirror or test an ISO in this article.',
+    testing: 'Updated October 30, 2026 using Microsoft’s Windows Release Health, servicing and lifecycle documentation. TWW did not host, modify or independently test a Windows 11 ISO. Availability and safeguards can change; recheck Microsoft’s live notices before installing.',
     content: [
       {
-        heading: 'What Microsoft has confirmed',
+        heading: 'What Microsoft has confirmed about 26H2 availability',
         paragraphs: [
-          'Microsoft announced the Windows 11 2026 Update, also known as Windows 11 version 26H2, on September 29, 2026. Microsoft says the update is available for eligible devices running Windows 11 versions 24H2 and 25H2, with availability expanding through a controlled rollout.',
-          'For eligible devices, 26H2 is delivered as an enablement package. That means much of the underlying release content is already present through servicing updates, and the version change can require a comparatively small download and a restart. Availability is not universal on the same day: a compatibility safeguard can delay the update for a device.'
+          'Microsoft announced the Windows 11 2026 Update, version 26H2, on September 29, 2026. Its Release Health page now states that 26H2 is available for all eligible devices running Windows 11 versions 24H2 and 25H2. That status was current as of October 28, 2026; it is no longer accurate to describe the normal rollout as simply waiting to expand to general availability.',
+          '“All eligible devices” does not mean every Windows PC qualifies. Hardware requirements, the current Windows version, servicing prerequisites, organization update policies and compatibility safeguards still matter. A device can be eligible in principle and still not receive the offer while a known compatibility issue is being investigated or mitigated.',
+          'For supported 24H2 and 25H2 devices, 26H2 uses an enablement package. The releases share a common servicing baseline, so the package activates features already delivered in cumulative updates and completes the version change with a restart. Windows Update and WSUS can deliver the feature update through their normal upgrade channel.'
         ],
         bullets: [
-          'Use Windows Update first when it offers 26H2 for your eligible PC.',
-          'Do not treat the absence of the update option as proof that Windows is broken.',
-          'Check Microsoft’s release-health information for current known issues and safeguard holds.'
-        ]
-      },
-      {
-        heading: 'Does “26H2 is available” mean every ISO is the right choice?',
-        paragraphs: [
-          'No. Update availability and installation-media choices are related but not identical. Microsoft’s official Windows 11 download page is the starting point for current public installation media, while the Windows Insider ISO page serves preview builds. Confirm the exact product, language, architecture and intended installation route before downloading.',
-          'Do not use an unofficial ISO mirror or a hash copied from a different release. If Microsoft publishes a checksum for the exact image, compare the downloaded file with that value before using it.'
+          'Microsoft Release Health status checked October 28, 2026: 26H2 is available for all eligible 24H2 and 25H2 devices.',
+          'A safeguard hold or organization-managed update policy can still prevent a particular PC from being offered the update.',
+          'Use the official Microsoft Release Health page for changes to availability, known issues and mitigations.'
         ],
         relatedLinks: [
-          { label: 'Windows 11 26H2 installation guide', href: '/windows-11-26h2-installation-guide', description: 'Follow the full checklist for backups, compatibility, official media and troubleshooting.' }
+          { label: 'Windows 11 26H2 installation guide', href: '/windows-11-26h2-installation-guide', description: 'Follow the longer checklist for eligibility, backups, official media and installation troubleshooting.' }
         ]
       },
       {
-        heading: 'Choose the least disruptive path',
+        heading: 'The KB5124010 prerequisite and KB5121794 enablement package',
         paragraphs: [
-          'If Windows Update offers the feature update and the PC is stable, that is usually the simplest route. Use installation media when you have a specific reason, such as a planned clean installation or recovery workflow, and make a verified backup first. A clean install can erase data on the selected disk.',
-          'If the PC already freezes, loses its drive, overheats or crashes, investigate those symptoms before attempting a major OS installation. A new Windows version does not repair failing hardware.'
+          'Microsoft’s KB5121794 support article documents the Windows 11 version 26H2 enablement package. For a device moving from Windows 11 24H2 or 25H2 using this package, Microsoft lists the September 22, 2026 cumulative update KB5124010 (Preview) or a later cumulative update as a prerequisite. The package needs the newer servicing content to be present before it can switch on the 26H2 feature set.',
+          'Do not confuse the two KB numbers: KB5124010 is the required September cumulative-update baseline (or later); KB5121794 is the enablement-package update that activates 26H2 on the supported 24H2/25H2 baseline. If you use Windows Update or WSUS to install the feature update, Microsoft says the enablement package is delivered as part of that feature-update process.',
+          'To verify the prerequisite, open Settings > Windows Update > Update history and check the quality-update entries. If KB5124010 is not listed, install available cumulative updates for your current Windows version, restart when requested, return to Windows Update and check again. Do not install an older MSU simply because the KB number appears in an article: a later cumulative update may already supersede the prerequisite.'
+        ],
+        steps: [
+          'Press Windows + R, enter winver and confirm that the PC is running Windows 11 version 24H2 or 25H2.',
+          'Open Settings > Windows Update > Update history and inspect the installed quality updates.',
+          'Confirm that KB5124010 or a later cumulative update is installed.',
+          'If it is missing, install the latest offered cumulative update for your current version and restart.',
+          'Return to Settings > Windows Update and select Check for updates. If version 26H2 is offered and the PC is ready, select Download & install.'
+        ],
+        relatedLinks: [
+          { label: 'Windows 11 26H2 installation guide', href: '/windows-11-26h2-installation-guide', description: 'Continue to the full backup, media and setup checklist.' }
         ]
       },
       {
-        heading: 'Official Microsoft links',
+        heading: 'Use the Get the latest updates setting correctly',
         paragraphs: [
-          'Use Microsoft’s own pages for the latest availability, download options and known issues. This article is a short release note; the installation guide above contains the longer step-by-step workflow.'
+          'The setting Get the latest updates as soon as they’re available is a preference for receiving eligible non-security updates and feature improvements sooner. Microsoft’s 2026 Update instructions recommend enabling it if you want to be among the first to receive 26H2. It is not a force-install switch and does not override a compatibility safeguard, missing prerequisite, unsupported hardware or an organization’s update policy.',
+          'As of October 28, 2026, Microsoft says the feature update is available for all eligible devices. If your PC still does not show it after the checks above, investigate eligibility, update policy and any safeguard message rather than repeatedly toggling this preference.'
+        ],
+        steps: [
+          'Open Start > Settings > Windows Update.',
+          'Turn on Get the latest updates as soon as they’re available.',
+          'Select Check for updates.',
+          'If Windows 11, version 26H2 appears and you are ready to proceed, select Download & install.',
+          'Keep the PC connected to reliable power and allow Windows to complete the restart.'
+        ]
+      },
+      {
+        heading: 'ISO download versus the enablement-package upgrade',
+        paragraphs: [
+          'An enablement-package upgrade and an ISO are different installation paths. The enablement package is the normal low-disruption version change for eligible 24H2 and 25H2 devices with the required servicing baseline. Windows Update or a managed update service can deliver it and complete the change with a restart.',
+          'An ISO is installation media. You can mount official media from a running Windows session for an in-place upgrade, or use it to create bootable media for a clean installation. A clean install can erase data on the selected disk; it is not a harmless way to bypass a Windows Update offer. Choose the route that matches the work you intend to do and make a verified backup first.',
+          'Download only from Microsoft’s Windows 11 software-download page. Confirm the edition, language and architecture, and compare a SHA-256 checksum only when Microsoft publishes the checksum for that exact image. Never trust a checksum copied from a different language, build or ISO source.'
+        ],
+        bullets: [
+          'Windows Update / enablement package: preferred for a normal feature update on eligible 24H2 or 25H2 devices.',
+          'Mounted ISO: an in-place upgrade route when you have a specific reason to use installation media.',
+          'Bootable USB / clean install: for a deliberately fresh installation; identify the target disk carefully because partitions and files can be erased.'
+        ]
+      },
+      {
+        heading: 'Why Windows Update might still say the PC is not ready',
+        paragraphs: [
+          'A safeguard hold is a temporary compatibility block that prevents Windows Update from offering a feature update to a device where Microsoft has identified a known issue. Microsoft uses quality and compatibility data to reduce the risk of upgrade failure, rollback, data loss, loss of connectivity or loss of important functionality. A hold is a protective measure, not proof that the PC is damaged.',
+          'The cause can be specific to a hardware, driver or application configuration. Do not assume that a particular audio driver, anti-cheat package or VPN client is the reason unless Microsoft’s notice or the device logs identify it. Search the Windows 11 version 26H2 Release Health page for the exact issue and safeguard ID where one is available.',
+          'For ordinary Windows Update clients, Settings can show a message that the update is on its way but is not yet ready for the device. Microsoft says this message indicates one or more safeguard holds on devices that are not controlled by Windows Update client policies. Managed devices may instead be governed by Windows Update for Business, WSUS, Intune or other deployment policy.'
+        ],
+        bullets: [
+          'Read the complete Windows Update message and record any error code.',
+          'Check Microsoft’s Windows 11 version 26H2 Release Health page for current known issues and safeguard notices.',
+          'If you administer an organization, use Windows Update for Business reports to view active safeguard holds and their eight-digit IDs.',
+          'Do not use an ISO or registry policy to bypass a hold on a normal user PC. Wait for the fix and confirmed release of the safeguard.'
+        ]
+      },
+      {
+        heading: 'How to check safeguard status and collect useful diagnostics',
+        paragraphs: [
+          'Microsoft documents a read-only registry status value named GStatus at HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Appraiser\\GWX. A value of 0 means a safeguard hold is in effect; a value of 2 means a safeguard hold is not in effect. Run this check from an elevated PowerShell window. If the value is missing, do not interpret that alone as proof that the device is clear.',
+          'For a specific safeguard ID, Microsoft documents the TargetVersionUpgradeExperienceIndicators registry area and the GatedBlockId and GatedBlockReason values. The target-version subkey is version-specific; Microsoft’s example uses GE24H2. Inspect the corresponding target-version key only when present, then search the resulting eight-digit ID on the relevant Windows Release Health page. Administrators can also use Windows Update for Business reports to identify active safeguard IDs across managed devices.',
+          'Get-WindowsUpdateLog is useful when Windows Update itself reports an error or the download, installation or restart sequence does not behave as expected. It merges Windows Update ETW trace files into a readable, static WindowsUpdate.log; run it again to create a fresh copy after reproducing the issue. It is not a dedicated safeguard-ID detector and cannot remove a hold.',
+          'SetupDiag serves a different purpose: it analyzes Windows Setup logs after an attempted feature update or in-place upgrade fails or rolls back. Windows Setup can run it automatically. Check %windir%\\Logs\\SetupDiag\\SetupDiagResults.xml when a setup failure has occurred. If Windows Update simply has not offered 26H2 and no setup attempt failed, SetupDiag may have nothing to analyze.'
+        ],
+        codeBlocks: [
+          "$gwxPath = 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Appraiser\\GWX'\nGet-ItemProperty -Path $gwxPath -Name GStatus -ErrorAction SilentlyContinue",
+          'Get-WindowsUpdateLog -LogPath "$env:USERPROFILE\\Desktop\\WindowsUpdate.log"'
+        ],
+        bullets: [
+          'GStatus = 0: a safeguard hold is active.',
+          'GStatus = 2: the documented safeguard status value says no hold is active.',
+          'For a failed setup, preserve SetupDiagResults.xml and the related Panther / Rollback logs before cleanup.'
+        ],
+        relatedLinks: [
+          { label: 'Microsoft: Safeguard holds for Windows', href: 'https://learn.microsoft.com/en-us/windows/deployment/update/safeguard-holds', description: 'How safeguard holds work, the GStatus value and how administrators find hold IDs.' },
+          { label: 'Microsoft: Windows Update log files', href: 'https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs', description: 'When to create and read WindowsUpdate.log and related servicing logs.' },
+          { label: 'Microsoft: SetupDiag', href: 'https://learn.microsoft.com/en-us/windows/deployment/upgrade/setupdiag', description: 'Use this tool to investigate a failed feature update or rollback—not a missing offer by itself.' }
+        ]
+      },
+      {
+        heading: 'Does version 26H2 start a new support lifecycle?',
+        paragraphs: [
+          'Yes. Microsoft says installing version 26H2 resets the support lifecycle for supported Windows 11 editions. Home and Pro editions receive 24 months of servicing; Enterprise and Education editions receive 36 months. The exact end date depends on the edition and Microsoft’s lifecycle listing, so check the edition-specific lifecycle page when planning a managed deployment.',
+          'The longer lifecycle is a servicing commitment, not a performance upgrade guarantee. Review the application, driver, security and hardware requirements that matter to your PC or organization before scheduling a broad rollout.'
+        ]
+      },
+      {
+        heading: 'Known issues: recheck the live release-health page before installing',
+        paragraphs: [
+          'Microsoft’s 26H2 Release Health page listed several resolved issues and a mitigated USB Audio Class 1.0 issue when checked on October 28, 2026. The same page recorded an October Remote Desktop issue for some non-admin users with Administrator protection enabled; Microsoft marked it resolved by KB5127936 and later updates on October 28. These are dated status notes, not a promise that no other issue can emerge.',
+          'For a personal PC, install the latest cumulative update offered for your version and check the live known-issues table immediately before upgrading. For a business fleet, pilot the update on representative hardware and validate VPN, security, audio, remote access, line-of-business apps and device drivers before widening deployment.'
+        ]
+      },
+      {
+        heading: 'Choose the safest installation path',
+        paragraphs: [
+          'If Windows Update offers 26H2 and the PC is stable, that is generally the least disruptive option. Confirm KB5124010 or a later cumulative update, back up important data, review the current Release Health notices and allow the restart to finish.',
+          'Use official ISO media for a planned in-place upgrade, clean install or recovery task—not to force an update past a safeguard. If the machine already has blue screens, freezes, storage errors, overheating or unstable RAM, investigate those faults first. A Windows feature update cannot repair failing storage, defective memory, poor cooling or unstable power.'
+        ],
+        relatedLinks: [
+          { label: 'Full Windows 11 26H2 installation guide', href: '/windows-11-26h2-installation-guide', description: 'Detailed preparation, backup, ISO and setup-failure steps.' },
+          { label: 'Windows Update stuck: safe troubleshooting', href: '/windows/windows-update-stuck', description: 'Diagnose a failed update without repeatedly resetting Windows Update.' },
+          { label: 'Windows 11 blue-screen stop codes', href: '/windows-11-blue-screen-stop-code-how-to-read', description: 'Investigate a stop code before blaming the operating-system release.' }
         ]
       }
     ],
     sources: [
-      { label: 'Microsoft: How to get the Windows 11 2026 Update', url: 'https://blogs.windows.com/windowsexperience/2026/09/29/how-to-get-windows-11-2026-update/' },
-      { label: 'Microsoft: Download Windows 11', url: 'https://www.microsoft.com/software-download/windows11' },
-      { label: 'Microsoft Learn: Windows release health', url: 'https://learn.microsoft.com/windows/release-health/' }
+      { label: 'Microsoft: Windows 11 2026 Update availability and rollout guidance (September 29, 2026)', url: 'https://blogs.windows.com/windowsexperience/2026/09/29/how-to-get-windows-11-2026-update/' },
+      { label: 'Microsoft: Windows 11 version 26H2 Release Health — status checked October 28, 2026', url: 'https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-26h2' },
+      { label: 'Microsoft KB5121794: 26H2 enablement package and prerequisite', url: 'https://support.microsoft.com/en-us/servicing/os/windows-11/2026/09/kb5121794-feature-update-to-windows-11-version-26h2' },
+      { label: 'Microsoft KB5124010: September 22, 2026 cumulative update', url: 'https://support.microsoft.com/en-us/servicing/os/windows-11/2026/09/kb5124010-windows-11-24h2-25h2-update' },
+      { label: 'Microsoft Support: Get Windows updates as soon as they are available', url: 'https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/get-windows-updates-as-soon-as-they-re-available-for-your-device' },
+      { label: 'Microsoft Learn: Safeguard holds for Windows', url: 'https://learn.microsoft.com/en-us/windows/deployment/update/safeguard-holds' },
+      { label: 'Microsoft Learn: Windows Update log files and Get-WindowsUpdateLog', url: 'https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs' },
+      { label: 'Microsoft Learn: SetupDiag', url: 'https://learn.microsoft.com/en-us/windows/deployment/upgrade/setupdiag' },
+      { label: 'Microsoft Learn: Windows 11 Home and Pro lifecycle', url: 'https://learn.microsoft.com/en-us/lifecycle/products/windows-11-home-and-pro' },
+      { label: 'Microsoft Learn: Windows 11 Enterprise and Education lifecycle', url: 'https://learn.microsoft.com/en-us/lifecycle/products/windows-11-enterprise-and-education' },
+      { label: 'Microsoft: Download Windows 11', url: 'https://www.microsoft.com/software-download/windows11' }
     ],
     faq: [
-      { question: 'Is Windows 11 version 26H2 available now?', answer: 'Microsoft announced availability on September 29, 2026 for eligible devices running 24H2 and 25H2. The rollout is phased, so not every eligible PC will be offered the update at once.' },
-      { question: 'Should I install 26H2 from an ISO if Windows Update does not offer it?', answer: 'Not automatically. First check eligibility and Microsoft’s current release-health information. A safeguard hold may be intentional, and forcing an update can create compatibility problems.' },
-      { question: 'Where should I download Windows 11 installation media?', answer: 'Start with Microsoft’s official Windows 11 download page and follow the option documented for your device and task. Avoid unofficial mirrors.' }
+      { question: 'Is Windows 11 version 26H2 available for all users now?', answer: 'Not literally every PC. Microsoft’s Release Health page says that, as of October 28, 2026, 26H2 is available for all eligible Windows 11 24H2 and 25H2 devices. Unsupported hardware, missing prerequisites, organization policies and active safeguard holds can still prevent an individual device from receiving the offer.' },
+      { question: 'What is the difference between upgrading through Windows Update and using an ISO?', answer: 'Windows Update delivers the normal feature update and enablement package to an eligible 24H2 or 25H2 PC; the version change typically completes with one restart. An ISO is installation media for an in-place upgrade or bootable clean install. A clean install can erase the selected disk, and ISO media should not be used to bypass a safeguard hold.' },
+      { question: 'Why is Windows 11 26H2 not showing up in my Windows Update settings?', answer: 'Confirm that the PC is on Windows 11 24H2 or 25H2, install KB5124010 or a later cumulative update, restart, and check again. Turn on Get the latest updates as soon as they’re available, then select Check for updates. If the page says the update is not ready for your device, check Microsoft’s 26H2 Release Health notices and safeguard guidance; managed-device policies can also control what is offered.' },
+      { question: 'Should I force-install 26H2 with an ISO if my PC is blocked by a safeguard hold?', answer: 'No. Microsoft recommends not manually updating until the known issue is resolved and the hold is released. Bypassing it can expose the device to the compatibility problem the hold is designed to prevent, including failed upgrades, rollbacks, loss of connectivity or lost functionality. Use the ISO only after the issue is resolved or when an administrator has tested and approved the deployment.' },
+      { question: 'Does upgrading to Windows 11 26H2 start a new support lifecycle?', answer: 'Yes. Microsoft says the 26H2 feature update resets the servicing lifecycle for supported editions: Home and Pro receive 24 months of support, while Enterprise and Education receive 36 months. Confirm the exact edition and lifecycle dates on Microsoft’s lifecycle pages.' },
+      { question: 'Will installing Windows 11 26H2 fix existing hardware crashes, blue screens or slow performance?', answer: 'No. A feature update cannot repair a failing SSD, unstable RAM, overheating, poor power delivery or a defective component. Back up important data and diagnose repeatable hardware symptoms before a major operating-system upgrade; otherwise the installation may fail or the underlying problem will remain.' }
     ]
   },
   windows11EightGbRamUpdate,
