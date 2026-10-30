@@ -782,15 +782,10 @@ const baseArticles: Article[] = [
         heading: 'Check SSD health with PowerShell',
         paragraphs: [
           'Open Windows Terminal or PowerShell. An elevated Administrator window is a sensible first choice when troubleshooting access or provider errors, but elevation cannot make unsupported firmware counters appear. Microsoft’s Storage cmdlets return only the properties exposed by the drive and its storage-management provider.',
-          'First list the physical disks and their Windows-reported status:'
+          'Run the quick status query first, then use the reliability-counter query for temperature, wear and error telemetry. These commands are read-only queries.'
         ],
         codeBlocks: [
-          'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, OperationalStatus, HealthStatus'
-        ],
-        paragraphs: [
-          'Then request the reliability counters for the physical disks:'
-        ],
-        codeBlocks: [
+          'Get-PhysicalDisk | Select-Object FriendlyName, MediaType, OperationalStatus, HealthStatus',
           'Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object DeviceId, Temperature, TemperatureMax, Wear, PowerOnHours, ReadErrorsTotal, ReadErrorsUncorrected, WriteErrorsTotal, WriteErrorsUncorrected'
         ],
         bullets: [
