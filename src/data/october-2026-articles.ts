@@ -414,7 +414,7 @@ export const october2026Articles: Article[] = [
     updatedAt: '2026-10-30',
     readingTime: 9,
     tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'KB5124010', 'KB5121794', 'Windows ISO', 'Safeguard Hold', 'Microsoft', 'Windows Update'],
-    relatedArticles: [],
+    relatedArticles: ['microsoft-windows-surface-event-oct-7'],
     searchIntent: 'informational',
     testing: 'Updated October 30, 2026 using Microsoft’s Windows Release Health, servicing and lifecycle documentation. TWW did not host, modify or independently test a Windows 11 ISO. Availability and safeguards can change; recheck Microsoft’s live notices before installing.',
     content: [
