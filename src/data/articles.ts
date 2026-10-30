@@ -836,6 +836,7 @@ const baseArticles: Article[] = [
           ]
         }
       },
+      {
         heading: 'Read SATA SMART attributes and CrystalDiskInfo raw values',
         paragraphs: [
           'SATA SSDs commonly expose ATA SMART attributes such as the examples below. Attribute IDs and raw-value formats are not a universal cross-brand dictionary: manufacturers can assign different meanings, encodings and units, so verify the exact model before making a replacement decision.',
@@ -853,6 +854,7 @@ const baseArticles: Article[] = [
           ]
         }
       },
+      {
         heading: 'Find storage resets and file-system errors in Event Viewer',
         paragraphs: [
           'Open Event Viewer by pressing Win + R, entering eventvwr.msc and pressing Enter. Go to Windows Logs > System, then choose Filter Current Log. In Event sources, select the sources that exist on your machine, such as disk, stornvme, storahci, iaStorA or iaStorAC, Ntfs and volmgr. Enter the event IDs below in the Event IDs field.',
@@ -892,6 +894,7 @@ const baseArticles: Article[] = [
           ]
         }
       },
+      {
         heading: 'Interpret health signals together and decide when to back up',
         paragraphs: [
           'A green “Good” or “Healthy” label means the reporting tool has not crossed the threshold it uses. It is not a guarantee against sudden failure, and it is not a performance benchmark. Compare the health fields with drive temperature, free space, Windows events, disconnects and the exact symptom you are investigating.'
