@@ -403,7 +403,7 @@ export const october2026Articles: Article[] = [
     id: 'windows-11-26h2-iso-released',
     slug: 'windows-11-26h2-iso-released',
     title: 'Windows 11 26H2 Is Available: What to Know About the ISO',
-    seoTitle: 'Windows 11 26H2 ISO: Download, Update & Safeguards',
+    seoTitle: 'Windows 11 26H2: ISO & Update',
     dek: 'Windows 11 version 26H2 is available to all eligible devices. Understand the KB5124010 prerequisite, enablement package, official ISO options and what to do if a compatibility safeguard blocks your PC.',
     metaDescription: 'Windows 11 26H2 is available for eligible PCs. Check KB5124010 prerequisites, the enablement package, ISO choices, safeguard holds and support lifecycle.',
     excerpt: 'As of October 28, 2026, Microsoft says Windows 11 26H2 is available for all eligible 24H2 and 25H2 devices. Before installing, confirm the September 22 KB5124010 cumulative update or a later CU, check for safeguards, and use Microsoft’s official ISO or Windows Update route.',
@@ -414,7 +414,7 @@ export const october2026Articles: Article[] = [
     updatedAt: '2026-10-30',
     readingTime: 9,
     tags: ['Windows 11 26H2', 'Windows 11 2026 Update', 'KB5124010', 'KB5121794', 'Windows ISO', 'Safeguard Hold', 'Microsoft', 'Windows Update'],
-    relatedArticles: ['windows-11-26h2-installation-guide', 'windows/windows-update-stuck', 'microsoft-windows-surface-event-oct-7'],
+    relatedArticles: [],
     searchIntent: 'informational',
     testing: 'Updated October 30, 2026 using Microsoft’s Windows Release Health, servicing and lifecycle documentation. TWW did not host, modify or independently test a Windows 11 ISO. Availability and safeguards can change; recheck Microsoft’s live notices before installing.',
     content: [
@@ -511,9 +511,8 @@ export const october2026Articles: Article[] = [
           'For a failed setup, preserve SetupDiagResults.xml and the related Panther / Rollback logs before cleanup.'
         ],
         relatedLinks: [
-          { label: 'Microsoft: Safeguard holds for Windows', href: 'https://learn.microsoft.com/en-us/windows/deployment/update/safeguard-holds', description: 'How safeguard holds work, the GStatus value and how administrators find hold IDs.' },
-          { label: 'Microsoft: Windows Update log files', href: 'https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs', description: 'When to create and read WindowsUpdate.log and related servicing logs.' },
-          { label: 'Microsoft: SetupDiag', href: 'https://learn.microsoft.com/en-us/windows/deployment/upgrade/setupdiag', description: 'Use this tool to investigate a failed feature update or rollback—not a missing offer by itself.' }
+          { label: 'Windows 11 26H2 installation guide', href: '/windows-11-26h2-installation-guide', description: 'Continue to the full installation and setup-failure guide.' },
+          { label: 'Windows Update stuck: safe troubleshooting', href: '/windows/windows-update-stuck', description: 'Diagnose a real download or installation error before resetting update components.' }
         ]
       },
       {
