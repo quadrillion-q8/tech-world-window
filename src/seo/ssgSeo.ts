@@ -7,7 +7,7 @@ import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
 import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
 import { getComparisonByPath } from '../data/comparisons';
 import { fitTitle } from './title';
-import { routeGraph, SITE_URL, SITE_NAME, SITE_TAGLINE, siteEntity, type RouteNode } from '../data/graph';
+import { routeGraph, SITE_URL, SITE_NAME, type RouteNode } from '../data/graph';
 
 type SeoData = {
   title: string;
