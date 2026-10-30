@@ -883,7 +883,7 @@ const baseArticles: Article[] = [
           headers: ['Brand or product family', 'Official utility', 'Important compatibility note'],
           rows: [
             ['Samsung consumer SSDs', 'Samsung Magician', 'Features and health reporting vary by product; Samsung OEM and non-Samsung drives may have limited support.'],
-            ['Western Digital / WD_BLACK', 'Western Digital Kitfox', 'WD Dashboard support has ended. Kitfox supports listed WD models; check the model list rather than assuming every SanDisk or WD SSD is covered.'],
+            ['Western Digital / WD_BLACK', 'Western Digital Kitfox', 'Western Digital currently documents Kitfox for drive health checks. Check its supported-model list: some internal or external drives may appear in the application without being supported.'],
             ['Crucial consumer SSDs', 'Crucial Storage Executive', 'Use the supported-product list for your Crucial SSD. Enterprise Micron products can have a different support path.'],
             ['Kingston SSDs', 'Kingston SSD Manager', 'Supported models and USB-enclosure limitations are listed by Kingston; some older drives need a legacy version.'],
             ['Solidigm client NVMe SSDs', 'Solidigm Synergy Toolkit', 'The toolkit supports client SSD functions with model and feature limits; the optional driver has narrower compatibility.'],
