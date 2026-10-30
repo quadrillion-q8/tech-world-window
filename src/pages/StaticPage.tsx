@@ -139,7 +139,7 @@ export function StaticPage() {
       {location.pathname === '/research' && <div className="author-profile-links research-index">
         <h2>Research currently in the lab</h2>
         <p>These studies define the questions TWW is investigating. Pages distinguish test design from results; benchmark numbers are published only after the corresponding test has actually been run.</p>
-        <div className="profile-link-grid">{articles.filter(a => a.subcategory === 'Research').map(item =>
+        <div className="profile-link-grid">{articles.filter(a => a.slug.startsWith('research/')).map(item =>
           <ArticleCard key={item.id} article={item} />
         )}</div>
       </div>}
