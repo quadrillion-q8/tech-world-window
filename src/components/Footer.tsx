@@ -25,6 +25,7 @@ export function Footer() {
               <strong>Explore more</strong>
               <Link to="/guides">Guides</Link>
               <Link to="/reviews">Reviews</Link>
+              <Link to="/compare/rtx-5070-ti-vs-rx-9070-xt">GPU & Hardware Comparisons</Link>
               <Link to="/best">Buying Guides</Link>
               <Link to="/research">Research</Link>
               <Link to="/tools">Free Tools</Link>

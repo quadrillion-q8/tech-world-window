@@ -73,6 +73,7 @@ const topicClusters = [
     links: [
       { label: 'GPU at 100% usage while gaming', href: '/gpu-100-percent-usage-gaming' },
       { label: 'GPU frame-time spikes: causes and diagnosis', href: '/gpu-frame-time-spikes-causes-fix' },
+      { label: 'RTX 5070 Ti vs RX 9070 XT: GPU comparison', href: '/compare/rtx-5070-ti-vs-rx-9070-xt' },
       { label: 'PC game stuttering and frame-time fixes', href: '/pc-game-stuttering-fix-frame-time' },
       { label: 'Low FPS: find the real bottleneck', href: '/pc-game-low-fps-how-to-find-the-cause' },
     ],
@@ -90,6 +91,7 @@ const topicClusters = [
       { label: 'How to check SSD health in Windows', href: '/how-to-check-ssd-health-windows' },
       { label: 'How to test RAM for errors', href: '/how-to-check-ram-for-errors-windows' },
       { label: 'PC power-supply symptoms and safe tests', href: '/pc-power-supply-problems-symptoms' },
+      { label: 'Compare RTX 5070 Ti vs RX 9070 XT', href: '/compare/rtx-5070-ti-vs-rx-9070-xt' },
     ],
   },
   {
