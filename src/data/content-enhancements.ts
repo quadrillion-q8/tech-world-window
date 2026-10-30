@@ -379,7 +379,16 @@ const enhancements: Record<string, Enhancement> = {
       { label: 'NVM Express specifications', url: 'https://nvmexpress.org/specifications/' },
       { label: 'CrystalDiskInfo: Advanced Features and Raw Values', url: 'https://crystalmark.info/en/software/crystaldiskinfo/crystaldiskinfo-advanced-features/' },
       { label: 'CrystalDiskInfo: SMART information and raw-value format', url: 'https://crystalmark.info/en/software/crystaldiskinfo/crystaldiskinfo-smart-information/' },
-      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' }
+      { label: 'smartmontools documentation', url: 'https://www.smartmontools.org/' },
+      { label: 'Samsung Magician — official download', url: 'https://semiconductor.samsung.com/consumer-storage/magician/' },
+      { label: 'Western Digital Kitfox — official support', url: 'https://support-en.wd.com/app/answers/detailweb/a_id/51537' },
+      { label: 'Crucial Storage Executive — official download', url: 'https://www.crucial.com/support/storage-executive' },
+      { label: 'Kingston SSD Manager — official download', url: 'https://www.kingston.com/en/support/technical/ssdmanager' },
+      { label: 'Solidigm Synergy Toolkit — official download', url: 'https://www.solidigm.com/support-page/drivers-downloads/ka-01737.html' },
+      { label: 'Solidigm Storage Tool — official download', url: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' },
+      { label: 'Seagate SeaTools — official download', url: 'https://www.seagate.com/support/downloads/seatools/' },
+      { label: 'ADATA SSD Toolbox — official support downloads', url: 'https://www.adata.com/en/support/downloads/' },
+      { label: 'CORSAIR SSD Toolbox — official support', url: 'https://help.corsair.com/hc/en-us/articles/15292042915213-SSD-How-to-Update-your-SSD-Firmware' }
     ]
   },
   'nvme-ssd-temperature-too-high': {

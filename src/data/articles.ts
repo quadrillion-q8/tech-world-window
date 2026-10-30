@@ -882,15 +882,15 @@ const baseArticles: Article[] = [
           caption: 'Official SSD management and health utilities',
           headers: ['Brand or product family', 'Official utility', 'Important compatibility note'],
           rows: [
-            ['Samsung consumer SSDs', { text: 'Samsung Magician', href: 'https://semiconductor.samsung.com/consumer-storage/magician/' }, 'Features and health reporting vary by product; Samsung OEM and non-Samsung drives may have limited support.'],
-            ['Western Digital / WD_BLACK', { text: 'Western Digital Kitfox', href: 'https://support-en.wd.com/app/answers/detailweb/a_id/51537' }, 'WD Dashboard support has ended. Kitfox supports listed WD models; check the model list rather than assuming every SanDisk or WD SSD is covered.'],
-            ['Crucial consumer SSDs', { text: 'Crucial Storage Executive', href: 'https://www.crucial.com/support/storage-executive' }, 'Use the supported-product list for your Crucial SSD. Enterprise Micron products can have a different support path.'],
-            ['Kingston SSDs', { text: 'Kingston SSD Manager', href: 'https://www.kingston.com/en/support/technical/ssdmanager' }, 'Supported models and USB-enclosure limitations are listed by Kingston; some older drives need a legacy version.'],
-            ['Solidigm client NVMe SSDs', { text: 'Solidigm Synergy Toolkit', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-01737.html' }, 'The toolkit supports client SSD functions with model and feature limits; the optional driver has narrower compatibility.'],
-            ['Solidigm data-center / legacy client SATA SSDs', { text: 'Solidigm Storage Tool', href: 'https://www.solidigm.com/support-page/drivers-downloads/ka-00085.html' }, 'Check the product list and release notes. Do not assume the Solidigm tools support every legacy Intel-branded SSD.'],
-            ['Seagate SSDs', { text: 'SeaTools', href: 'https://www.seagate.com/support/downloads/seatools/' }, 'Use the version and diagnostic supported for the exact Seagate product; features can differ for non-Seagate drives.'],
-            ['ADATA SSDs', { text: 'ADATA SSD Toolbox', href: 'https://www.adata.com/en/support/downloads/' }, 'Download the SSD Toolbox build from ADATA and check the applicable product list.'],
-            ['CORSAIR SSDs', { text: 'CORSAIR SSD Toolbox Preview', href: 'https://help.corsair.com/hc/en-us/articles/15292042915213-SSD-How-to-Update-your-SSD-Firmware' }, 'CORSAIR currently distributes the Toolbox through its Storage downloads; confirm model compatibility before firmware or erase operations.']
+            ['Samsung consumer SSDs', 'Samsung Magician', 'Features and health reporting vary by product; Samsung OEM and non-Samsung drives may have limited support.'],
+            ['Western Digital / WD_BLACK', 'Western Digital Kitfox', 'WD Dashboard support has ended. Kitfox supports listed WD models; check the model list rather than assuming every SanDisk or WD SSD is covered.'],
+            ['Crucial consumer SSDs', 'Crucial Storage Executive', 'Use the supported-product list for your Crucial SSD. Enterprise Micron products can have a different support path.'],
+            ['Kingston SSDs', 'Kingston SSD Manager', 'Supported models and USB-enclosure limitations are listed by Kingston; some older drives need a legacy version.'],
+            ['Solidigm client NVMe SSDs', 'Solidigm Synergy Toolkit', 'The toolkit supports client SSD functions with model and feature limits; the optional driver has narrower compatibility.'],
+            ['Solidigm data-center / legacy client SATA SSDs', 'Solidigm Storage Tool', 'Check the product list and release notes. Do not assume the Solidigm tools support every legacy Intel-branded SSD.'],
+            ['Seagate SSDs', 'SeaTools', 'Use the version and diagnostic supported for the exact Seagate product; features can differ for non-Seagate drives.'],
+            ['ADATA SSDs', 'ADATA SSD Toolbox', 'Download the SSD Toolbox build from ADATA and check the applicable product list.'],
+            ['CORSAIR SSDs', 'CORSAIR SSD Toolbox Preview', 'CORSAIR currently distributes the Toolbox through its Storage downloads; confirm model compatibility before firmware or erase operations.']
           ]
         }
       },
