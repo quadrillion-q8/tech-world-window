@@ -6,6 +6,8 @@ import './styles/workbench.css';
 import './styles/editorial-article-refresh.css';
 import './styles/sitewide-ui-polish.css';
 import './styles/page-layout-refinements.css';
+import './styles/homepage-card-a11y.css';
+import './styles/sitewide-typography-card-system.css';
 
 export const createRoot = ViteReactSSG({
   routes,

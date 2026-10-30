@@ -99,7 +99,7 @@ export function ToolPage() {
         <label>GPU performance tier<select value={gpu} onChange={e => setGpu(Number(e.target.value))}>{['Entry-level GPU','Mid-range GPU','High-end GPU','Enthusiast GPU'].map((x,i)=><option value={i+1} key={x}>{x}</option>)}</select></label>
         <label>Gaming resolution<select value={resolution} onChange={e => setResolution(e.target.value)}><option>1080p</option><option>1440p</option><option>4K</option></select></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
+      <div className="tool-result" aria-live="polite" aria-atomic="true"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
     </div>}
 
     {kind === 'bottleneck' && <div className="editorial-note">
@@ -188,7 +188,7 @@ export function ToolPage() {
         <label>Average game size (GB)<input type="number" min="1" max="500" value={gameSize} onChange={e=>setGameSize(boundedNumber(e.target.value, 1, 500, 100))}/></label>
         <label>Other files/apps (GB)<input type="number" min="0" max="10000" value={otherStorage} onChange={e=>setOtherStorage(boundedNumber(e.target.value, 0, 10000, 200))}/></label>
       </div>
-      <div className="tool-result"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
+      <div className="tool-result" aria-live="polite" aria-atomic="true"><span className="eyebrow">PLANNED STORAGE</span><h2>{storage.recommended.toLocaleString()} GB planned</h2><p>Your listed content totals about {storage.total.toLocaleString()} GB. With 20% planning room, shortlist around {storage.terabytes} TB (decimal) or the next larger drive size. Drive formatting and operating-system overhead mean advertised capacity is not all available for files.</p></div>
     </div>}
 
     {kind === 'storage' && <div className="editorial-note">

@@ -32,7 +32,20 @@ export function Home() {
               <Link className="button button-primary" to="/guides">Explore practical guides <span>→</span></Link>
               <Link className="button button-secondary" to="/tools/pc-bottleneck-calculator">Try a free tool</Link>
             </div>
-            <div className="hero-proof" aria-label="Our editorial approach"><span><b>01 / Diagnose</b>Symptom-first guidance</span><span><b>02 / Verify</b>Evidence-led explanations</span><span><b>03 / Disclose</b>Transparent testing limits</span></div>
+            <div className="hero-proof" aria-label="Our editorial approach">
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">01 / Diagnose</b>
+                <span className="hero-proof-description">Symptom-first guidance</span>
+              </span>
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">02 / Verify</b>
+                <span className="hero-proof-description">Evidence-led explanations</span>
+              </span>
+              <span className="hero-proof-item">
+                <b className="hero-proof-title">03 / Disclose</b>
+                <span className="hero-proof-description">Transparent testing limits</span>
+              </span>
+            </div>
           </div>
           <div className="hero-art" aria-label="Tech World Window technology illustration" role="img">
             <div className="orb orb-one" />
@@ -49,7 +62,7 @@ export function Home() {
         </div>
         <div className="category-grid">
           {categories.map((category, index) => (
-            <Link className={`category-tile category-${index}`} to={`/${category.slug}`} key={category.slug}>
+            <Link className={`category-tile tww-card category-${index}`} to={`/${category.slug}`} key={category.slug}>
               <span className="category-tile-image-wrap" aria-hidden="true">
                 <img
                   className="category-tile-image"
@@ -63,10 +76,10 @@ export function Home() {
                   decoding="async"
                 />
               </span>
-              <div className="category-tile-content">
-                <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">↗</span></div>
-                <h3 className="category-tile-title">{category.name}</h3>
-                <p className="category-tile-description">{category.description}</p>
+              <div className="category-tile-content tww-card-content">
+                <div className="category-tile-top"><span className="tile-arrow" aria-hidden="true">→</span></div>
+                <h3 className="category-tile-title tww-card-title">{category.name}</h3>
+                <p className="category-tile-description tww-card-description">{category.description}</p>
               </div>
             </Link>
           ))}
@@ -88,7 +101,7 @@ export function Home() {
       <section className="section latest-section home-latest">
         <div className="section-heading">
           <div><p className="home-section-kicker">LATEST EXPLAINERS</p><h2>Fresh technical answers.</h2></div>
-          <a className="text-link" href="#topics">Browse by topic ↑</a>
+          <a className="text-link" href="#topics">Browse by topic →</a>
         </div>
         <div className="article-grid">
           {latestArticles.map(article => <ArticleCard key={article.id} article={article} />)}

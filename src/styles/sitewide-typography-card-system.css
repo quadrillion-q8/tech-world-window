@@ -1,0 +1,1466 @@
+/*
+ * Tech World Window — final typography, card and alignment system.
+ * Keep imported after every legacy/page-specific stylesheet in main.tsx.
+ * This layer intentionally wins the shared typography and grid cascade without
+ * replacing page logic, route data, SEO, or specialist interactive widgets.
+ */
+
+:root {
+  --tww-content-width: 80rem;
+  --tww-page-gutter: clamp(1rem, 2.2vw, 2rem);
+  --tww-type-ink: #172630;
+  --tww-type-body: #31434d;
+  --tww-type-muted: #4b606b;
+  --tww-type-line: #d7e1e5;
+  --tww-type-surface: #ffffff;
+  --tww-type-surface-soft: #f5f8f9;
+  --tww-type-accent: #064b57;
+  --tww-type-accent-wash: #e5f2f3;
+  --tww-type-badge-border: #b6d2d5;
+  --tww-type-radius: 1rem;
+  --tww-type-card-shadow: 0 1px 2px rgba(23, 38, 48, .045);
+  --tww-type-card-shadow-hover: 0 12px 28px rgba(23, 38, 48, .11);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+option,
+label,
+summary {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fluid modular type scale: mobile first, tablet at 640px, desktop at 1024px. */
+body h1,
+.home-page .hero h1,
+.category-page .category-hero h1,
+.category-page .category-hero-copy > h1,
+.category-page .category-hero.category-hero-has-image .category-hero-copy > h1,
+.commercial-hub .category-hero h1,
+.tools-hub-page .category-hero h1,
+.article-page .article-head h1,
+.article-top-grid .article-head h1,
+.article-page .article-top-grid .article-head h1,
+.static-page h1,
+.tool-page h1,
+.gallery-page h1,
+.research-page h1,
+.review-page h1,
+.bsod-page h1 {
+  color: var(--tww-type-ink);
+  font-family: inherit;
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1.15;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  max-width: 24ch;
+}
+
+body h2,
+.section-heading h2,
+.home-page .section-heading h2,
+.article-body h2,
+.article-page .article-body h2,
+.static-page h2,
+.tool-page h2,
+.category-page h2,
+.commercial-hub h2,
+.tools-hub-page h2,
+.gallery-page h2,
+.research-page h2,
+.review-page h2,
+.bsod-page h2,
+.product-library-section h2,
+.research-connection h2,
+.sources-section h2,
+.faq-section h2,
+.tool-result h2,
+.tool-banner h2,
+.home-page .tool-banner h2,
+.author-strip h2,
+.home-page .author-strip h2,
+.ft-results h2,
+.ft-comparison-copy h2 {
+  color: var(--tww-type-ink);
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 750;
+  letter-spacing: -.03em;
+  line-height: 1.2;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+body h3,
+.article-card h3,
+.article-card .tww-card-title,
+.home-page .article-card h3,
+.home-page .article-card .tww-card-title,
+.category-tile-title,
+.home-page .category-tile-title,
+.product-profile-card h3,
+.product-profile-card h3 a,
+.tools-hub-page .article-card h3,
+.tww-card-title {
+  color: var(--tww-type-ink);
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+body h4,
+body h5 {
+  color: var(--tww-type-ink);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+body p,
+body li,
+.article-body p,
+.article-body li,
+.article-page p,
+.article-content p,
+.guide-page p,
+.static-page p,
+.category-page p,
+.tool-page p,
+.tools-page p,
+.research-page p,
+.review-page p {
+  color: var(--tww-type-body);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
+  text-align: start;
+  overflow-wrap: break-word;
+}
+
+.article-body p,
+.article-body li,
+.article-dek,
+.article-page .article-dek,
+.category-hero > p,
+.category-hero-copy > p,
+.page-intro,
+.static-page > p,
+.category-page p,
+.tool-page p,
+.tools-page p,
+.research-page p,
+.review-page p {
+  max-width: 75ch;
+}
+
+.article-body p,
+.article-body li {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.article-body h2,
+.article-page .article-body h2 {
+  margin-block: 1.75rem .75rem;
+}
+
+.article-body h3,
+.article-page .article-body h3 {
+  margin-block: 1.3rem .55rem;
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.article-body ul,
+.article-body ol,
+.article-body li {
+  text-align: start;
+}
+
+.article-dek,
+.article-page .article-dek {
+  max-width: 75ch;
+  color: var(--tww-type-muted);
+  line-height: 1.7;
+}
+
+/* High-contrast editorial labels. Teal text on this soft surface exceeds AA. */
+.eyebrow,
+.home-eyebrow,
+.home-section-kicker,
+.hero-eyebrow,
+.card-category,
+.home-page .card-category,
+.category-number,
+.symptom-index,
+.tool-banner .eyebrow,
+.home-page .tool-banner .home-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .4rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: .3rem .62rem;
+  border: 1px solid var(--tww-type-badge-border);
+  border-radius: 999px;
+  background: var(--tww-type-accent-wash);
+  color: var(--tww-type-accent);
+  font-family: inherit;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .075em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.home-eyebrow {
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+
+.home-section-kicker {
+  margin: 0;
+}
+
+.article-page .article-head .eyebrow {
+  display: inline-flex;
+  margin: 0 0 .65rem;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+
+.home-page .hero h1 em,
+.category-page .category-hero h1 em,
+.article-page .article-head h1 em {
+  color: var(--tww-type-accent);
+  background: var(--tww-type-accent-wash);
+  border-radius: .18em;
+  padding: .025em .12em .085em;
+  font-style: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Preserve distinct dark instruments; their badge text remains bright on dark. */
+.tool-banner .eyebrow,
+.home-page .tool-banner .home-section-kicker {
+  border-color: rgba(255, 229, 170, .48);
+  background: rgba(255, 229, 170, .10);
+  color: #ffe5aa;
+}
+
+.gpu-usage-check .eyebrow,
+.tool-result .eyebrow,
+.ft-page .eyebrow,
+.wta-page .wta-result .eyebrow,
+.secure-boot-page .eyebrow,
+.ve-output .eyebrow,
+.ve-preview-panel .eyebrow {
+  border-color: rgba(103, 232, 249, .35);
+  background: rgba(103, 232, 249, .09);
+  color: #67e8f9;
+}
+
+/* One content axis: 80rem maximum, fluid gutters, no accidental wide rails. */
+.section:not(.section-featured) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+.header-inner,
+.footer-inner,
+.hero-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+.site-footer .footer-inner {
+  width: 100%;
+  max-width: var(--tww-content-width);
+  padding-inline: var(--tww-page-gutter);
+}
+
+.home-page .section-featured {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  padding-inline: 0;
+}
+
+.home-page .section-featured > .section-heading,
+.home-page .section-featured > .category-grid,
+.home-page .section-featured > .article-grid {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--tww-page-gutter));
+  max-width: calc(var(--tww-content-width) - 2 * var(--tww-page-gutter));
+  margin-inline: auto;
+}
+
+.article-top-grid,
+.article-page .article-top-grid {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+.article-layout,
+.article-page .article-layout {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+.article-author-section,
+.related-section {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+.category-hero {
+  box-sizing: border-box;
+  border: 1px solid var(--tww-type-line);
+  border-radius: var(--tww-type-radius);
+  background: linear-gradient(145deg, #ffffff 0%, #f3f8f9 100%);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.category-hero h1,
+.category-page .category-hero h1,
+.category-page .category-hero-copy > h1,
+.category-page .category-hero.category-hero-has-image .category-hero-copy > h1,
+.commercial-hub .category-hero h1,
+.tools-hub-page .category-hero h1 {
+  margin: .35rem 0 .7rem;
+  max-width: 24ch;
+}
+
+.category-hero > p,
+.category-hero-copy > p {
+  margin-block: .5rem 0;
+}
+
+.category-page .category-hero-photo {
+  min-width: 0;
+}
+
+.section-heading {
+  min-width: 0;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.section-heading > *,
+.section-heading > div {
+  min-width: 0;
+}
+
+.section-heading h2,
+.home-page .section-heading h2 {
+  max-width: 32ch;
+  margin-top: .35rem;
+}
+
+.section-heading > p,
+.section-heading .home-section-intro {
+  max-width: 75ch;
+  color: var(--tww-type-muted);
+  line-height: 1.7;
+  text-align: start;
+}
+
+/* Section headings are centered only where they introduce a symmetrical grid. */
+.home-page .home-topics .section-heading {
+  display: block;
+  text-align: center;
+}
+
+.home-page .home-topics .section-heading > div {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.home-page .home-topics .section-heading .home-section-intro {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.home-page .home-topics .section-heading h2 {
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+.tools-hub-page .tools-group > h2,
+.tools-hub-page .tools-group > p {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.tools-hub-page .tools-group > p {
+  max-width: 65ch;
+}
+
+/* Unified card grid: three desktop columns, two tablet, one narrow-mobile column. */
+.article-grid,
+.category-grid,
+.review-category-grid,
+.bsod-grid,
+.profile-link-grid,
+.windows-symptom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  gap: clamp(1.25rem, 2vw, 2rem);
+  min-width: 0;
+}
+
+.home-page .category-grid,
+.home-page .home-authorities .article-grid,
+.home-page .home-latest .article-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+}
+
+.article-grid > *,
+.category-grid > *,
+.review-category-grid > *,
+.bsod-grid > *,
+.profile-link-grid > *,
+.windows-symptom-grid > * {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.tww-card,
+.article-card,
+.tool-card,
+.tool-tile,
+.guide-card,
+.hub-card,
+.research-card,
+.review-card,
+.content-card,
+.info-card,
+.related-card,
+.product-profile-card,
+.category-tile {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--tww-type-line);
+  border-radius: var(--tww-type-radius);
+  background: var(--tww-type-surface);
+  color: var(--tww-type-ink);
+  box-shadow: var(--tww-type-card-shadow);
+  text-align: start;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+
+.article-card,
+.tool-card,
+.tool-tile,
+.guide-card,
+.hub-card,
+.research-card,
+.review-card,
+.content-card,
+.info-card,
+.related-card {
+  padding: 1.5rem;
+}
+
+.article-card:has(.card-thumbnail-link) {
+  padding: 0;
+  overflow: hidden;
+}
+
+.article-card .card-thumbnail-link {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--tww-type-line);
+  border-radius: var(--tww-type-radius) var(--tww-type-radius) 0 0;
+  background: var(--tww-type-surface-soft);
+  box-shadow: none;
+}
+
+.article-card .article-thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #e8eff2;
+}
+
+.article-card .article-thumbnail img,
+.article-card .article-thumbnail svg,
+.category-tile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-card-content,
+.home-page .article-card-content,
+.article-card .article-card-content,
+.category-tile-content,
+.home-page .category-tile-content,
+.tww-card-content {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  padding: 1.5rem;
+  text-align: start;
+}
+
+.category-tile {
+  overflow: hidden;
+}
+
+.category-tile-image-wrap,
+.home-page .category-tile-image-wrap {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--tww-type-line);
+  border-right: 0;
+  background: var(--tww-type-surface-soft);
+}
+
+.category-tile-top,
+.article-card .card-topline,
+.tww-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .55rem .75rem;
+  min-width: 0;
+}
+
+.category-tile-title,
+.home-page .category-tile-title,
+.article-card h3,
+.article-card .tww-card-title,
+.home-page .article-card h3,
+.home-page .article-card .tww-card-title,
+.tools-hub-page .article-card h3,
+.product-profile-card .tww-card-title,
+.tww-card-title {
+  margin: .75rem 0 .5rem;
+  color: var(--tww-type-ink);
+  font-size: 1.125rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -.02em;
+  text-align: start;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.article-card h3 a,
+.home-page .article-card h3 a,
+.product-profile-card h3 a,
+.tww-card-title a {
+  color: var(--tww-type-ink);
+  text-decoration-thickness: .06em;
+  text-underline-offset: .16em;
+  overflow-wrap: anywhere;
+}
+
+.article-card h3 a:hover,
+.home-page .article-card h3 a:hover,
+.product-profile-card h3 a:hover,
+.tww-card-title a:hover {
+  color: var(--tww-type-accent);
+}
+
+.category-tile-description,
+.home-page .category-tile-description,
+.article-card .card-dek,
+.article-card .tww-card-description,
+.home-page .article-card .card-dek,
+.home-page .article-card .tww-card-description,
+.tools-hub-page .article-card > p,
+.tww-card-description,
+.product-profile-card > p {
+  flex: 1 0 auto;
+  margin: .25rem 0 1rem;
+  color: var(--tww-type-muted);
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+.article-card .card-meta,
+.article-card .tww-card-footer,
+.product-profile-card .card-meta,
+.tww-card-footer {
+  margin-top: auto;
+  padding-top: .9rem;
+  border-top: 1px solid #e7eef0;
+  color: var(--tww-type-muted);
+  font-size: .875rem;
+  line-height: 1.5;
+}
+
+.article-card .text-link,
+.article-card .tww-card-cta,
+.article-card-content > .text-link,
+.article-card-content > .tww-card-cta,
+.product-profile-card > .text-link,
+.tww-card-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: flex-start;
+  gap: .5rem;
+  min-height: 2.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--tww-type-accent);
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.45;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: rgba(6, 75, 87, .35);
+  text-underline-offset: .18em;
+  overflow-wrap: anywhere;
+}
+
+.text-link:hover,
+.tww-card-cta:hover {
+  color: #033741;
+  text-decoration-color: currentColor;
+}
+
+.category-number,
+.symptom-index {
+  background: var(--tww-type-surface-soft);
+  border: 1px solid var(--tww-type-line);
+  color: var(--tww-type-accent);
+}
+
+/* Symptom/topic links keep their purposeful horizontal information layout. */
+.windows-symptom-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.windows-symptom-card,
+.category-topic-links > a,
+.profile-link-grid > a {
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border: 1px solid var(--tww-type-line);
+  border-radius: var(--tww-type-radius);
+  background: var(--tww-type-surface);
+  color: var(--tww-type-ink);
+  text-align: start;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+
+.windows-symptom-card strong,
+.category-topic-links > a span,
+.profile-link-grid > a strong {
+  color: var(--tww-type-ink);
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.4;
+  text-align: start;
+}
+
+.windows-symptom-card small,
+.category-topic-links > a small,
+.profile-link-grid > a small {
+  color: var(--tww-type-muted);
+  font-size: .875rem;
+  line-height: 1.6;
+  text-align: start;
+}
+
+.article-card:hover,
+.tool-card:hover,
+.tool-tile:hover,
+.guide-card:hover,
+.hub-card:hover,
+.research-card:hover,
+.review-card:hover,
+.content-card:hover,
+.info-card:hover,
+.related-card:hover,
+.product-profile-card:hover,
+.category-tile:hover,
+.windows-symptom-card:hover,
+.category-topic-links > a:hover,
+.profile-link-grid > a:hover {
+  transform: translateY(-3px);
+  border-color: #9bbfc8;
+  background: #ffffff;
+  box-shadow: var(--tww-type-card-shadow-hover);
+}
+
+.article-card-featured {
+  border-top: 3px solid var(--tww-type-accent);
+}
+
+.tool-banner,
+.home-page .tool-banner,
+.author-strip,
+.home-page .author-strip {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--tww-page-gutter));
+  max-width: calc(var(--tww-content-width) - 2 * var(--tww-page-gutter));
+  margin-inline: auto;
+  border-radius: var(--tww-type-radius);
+}
+
+.author-strip,
+.home-page .author-strip {
+  text-align: start;
+}
+
+.author-strip p,
+.home-page .author-strip p {
+  max-width: 75ch;
+  text-align: start;
+}
+
+.tww-card-cta,
+.button,
+.windows-hub-primary,
+.windows-hub-secondary,
+.windows-assistant-link,
+.tile-arrow,
+.symptom-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.card-meta,
+.reading-time,
+.article-meta,
+.page-meta,
+.metadata {
+  color: var(--tww-type-muted);
+}
+
+/* Do not allow long page prose or list items to inherit centered alignment. */
+.article-body p,
+.article-body li,
+.article-page .article-body p,
+.article-page .article-body li,
+.category-page .category-hero-copy > p,
+.category-page .article-card p,
+.tools-hub-page .tools-group > p,
+.static-page p,
+.tool-page p,
+.research-page p,
+.review-page p {
+  text-align: start;
+}
+
+/* Tablet and desktop type steps follow the same modular scale. */
+@media (min-width: 640px) {
+  body h1,
+  .home-page .hero h1,
+  .category-page .category-hero h1,
+  .category-page .category-hero-copy > h1,
+  .category-page .category-hero.category-hero-has-image .category-hero-copy > h1,
+  .commercial-hub .category-hero h1,
+  .tools-hub-page .category-hero h1,
+  .article-page .article-head h1,
+  .article-top-grid .article-head h1,
+  .article-page .article-top-grid .article-head h1,
+  .static-page h1,
+  .tool-page h1,
+  .gallery-page h1,
+  .research-page h1,
+  .review-page h1,
+  .bsod-page h1 {
+    font-size: 2.25rem;
+  }
+
+  body h2,
+  .section-heading h2,
+  .home-page .section-heading h2,
+  .article-body h2,
+  .article-page .article-body h2,
+  .static-page h2,
+  .tool-page h2,
+  .category-page h2,
+  .commercial-hub h2,
+  .tools-hub-page h2,
+  .gallery-page h2,
+  .research-page h2,
+  .review-page h2,
+  .bsod-page h2,
+  .product-library-section h2,
+  .research-connection h2,
+  .sources-section h2,
+  .faq-section h2,
+  .tool-result h2,
+  .tool-banner h2,
+  .home-page .tool-banner h2,
+  .author-strip h2,
+  .home-page .author-strip h2,
+  .ft-results h2,
+  .ft-comparison-copy h2 {
+    font-size: 1.875rem;
+  }
+
+  body h3,
+  .article-card h3,
+  .article-card .tww-card-title,
+  .home-page .article-card h3,
+  .home-page .article-card .tww-card-title,
+  .category-tile-title,
+  .home-page .category-tile-title,
+  .product-profile-card h3,
+  .product-profile-card h3 a,
+  .tools-hub-page .article-card h3,
+  .tww-card-title {
+    font-size: 1.25rem;
+  }
+
+  body p,
+  body li,
+  .article-body p,
+  .article-body li,
+  .article-page p,
+  .article-content p,
+  .guide-page p,
+  .static-page p,
+  .category-page p,
+  .tool-page p,
+  .tools-page p,
+  .research-page p,
+  .review-page p {
+    font-size: 1.125rem;
+  }
+
+  .eyebrow,
+  .home-eyebrow,
+  .home-section-kicker,
+  .hero-eyebrow,
+  .card-category,
+  .home-page .card-category,
+  .category-number,
+  .symptom-index,
+  .tool-banner .eyebrow,
+  .home-page .tool-banner .home-section-kicker {
+    font-size: .875rem;
+  }
+
+  .article-card,
+  .tool-card,
+  .tool-tile,
+  .guide-card,
+  .hub-card,
+  .research-card,
+  .review-card,
+  .content-card,
+  .info-card,
+  .related-card {
+    padding: 2rem;
+  }
+
+  .article-card:has(.card-thumbnail-link) { padding: 0; }
+
+  .article-card-content,
+  .home-page .article-card-content,
+  .article-card .article-card-content,
+  .category-tile-content,
+  .home-page .category-tile-content,
+  .tww-card-content {
+    padding: 2rem;
+  }
+
+  .article-card .card-dek,
+  .article-card .tww-card-description,
+  .home-page .article-card .card-dek,
+  .home-page .article-card .tww-card-description,
+  .tools-hub-page .article-card > p,
+  .category-tile-description,
+  .home-page .category-tile-description,
+  .tww-card-description,
+  .product-profile-card > p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  body h1,
+  .home-page .hero h1,
+  .category-page .category-hero h1,
+  .category-page .category-hero-copy > h1,
+  .category-page .category-hero.category-hero-has-image .category-hero-copy > h1,
+  .commercial-hub .category-hero h1,
+  .tools-hub-page .category-hero h1,
+  .article-page .article-head h1,
+  .article-top-grid .article-head h1,
+  .article-page .article-top-grid .article-head h1,
+  .static-page h1,
+  .tool-page h1,
+  .gallery-page h1,
+  .research-page h1,
+  .review-page h1,
+  .bsod-page h1 {
+    font-size: 3rem;
+  }
+
+  body h2,
+  .section-heading h2,
+  .home-page .section-heading h2,
+  .article-body h2,
+  .article-page .article-body h2,
+  .static-page h2,
+  .tool-page h2,
+  .category-page h2,
+  .commercial-hub h2,
+  .tools-hub-page h2,
+  .gallery-page h2,
+  .research-page h2,
+  .review-page h2,
+  .bsod-page h2,
+  .product-library-section h2,
+  .research-connection h2,
+  .sources-section h2,
+  .faq-section h2,
+  .tool-result h2,
+  .tool-banner h2,
+  .home-page .tool-banner h2,
+  .author-strip h2,
+  .home-page .author-strip h2,
+  .ft-results h2,
+  .ft-comparison-copy h2 {
+    font-size: 2.25rem;
+  }
+
+  .article-grid,
+  .category-grid,
+  .review-category-grid,
+  .bsod-grid,
+  .profile-link-grid,
+  .windows-symptom-grid,
+  .home-page .category-grid,
+  .home-page .home-authorities .article-grid,
+  .home-page .home-latest .article-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .article-grid,
+  .category-grid,
+  .review-category-grid,
+  .bsod-grid,
+  .profile-link-grid,
+  .windows-symptom-grid,
+  .home-page .category-grid,
+  .home-page .home-authorities .article-grid,
+  .home-page .home-latest .article-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .article-layout,
+  .article-page .article-layout {
+    grid-template-columns: minmax(140px, 180px) minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .article-right-rail {
+    grid-column: 1 / -1;
+    position: static;
+  }
+}
+
+@media (max-width: 767px) {
+  .article-grid,
+  .category-grid,
+  .review-category-grid,
+  .bsod-grid,
+  .profile-link-grid,
+  .windows-symptom-grid,
+  .home-page .category-grid,
+  .home-page .home-authorities .article-grid,
+  .home-page .home-latest .article-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    gap: 1.25rem;
+  }
+
+  .home-page .category-tile {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-page .category-tile-image-wrap {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    border-right: 0;
+    border-bottom: 1px solid var(--tww-type-line);
+  }
+
+  .home-page .category-tile-image {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .article-card,
+  .tool-card,
+  .tool-tile,
+  .guide-card,
+  .hub-card,
+  .research-card,
+  .review-card,
+  .content-card,
+  .info-card,
+  .related-card {
+    padding: 1.5rem;
+  }
+
+  .article-card:has(.card-thumbnail-link) { padding: 0; }
+
+  .article-card-content,
+  .home-page .article-card-content,
+  .article-card .article-card-content,
+  .category-tile-content,
+  .home-page .category-tile-content,
+  .tww-card-content {
+    padding: 1.5rem;
+  }
+
+  .article-top-grid,
+  .article-page .article-top-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .article-layout,
+  .article-page .article-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .article-aside,
+  .article-right-rail {
+    position: static;
+    width: 100%;
+    grid-column: auto;
+  }
+
+  .article-aside {
+    order: 0;
+  }
+
+  .article-body {
+    order: 1;
+    min-width: 0;
+  }
+
+  .article-right-rail {
+    order: 2;
+  }
+
+  .home-page .home-topics .section-heading {
+    text-align: start;
+  }
+
+  .home-page .home-topics .section-heading > div,
+  .home-page .home-topics .section-heading h2,
+  .home-page .home-topics .section-heading .home-section-intro {
+    margin-inline: 0;
+    text-align: start;
+  }
+
+  .home-page .section-featured > .section-heading,
+  .home-page .section-featured > .category-grid,
+  .home-page .section-featured > .article-grid {
+    width: calc(100% - 2 * var(--tww-page-gutter));
+  }
+
+  .tool-banner,
+  .home-page .tool-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Cards and layout should not animate for visitors who request reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .article-card,
+  .tool-card,
+  .tool-tile,
+  .guide-card,
+  .hub-card,
+  .research-card,
+  .review-card,
+  .content-card,
+  .info-card,
+  .related-card,
+  .product-profile-card,
+  .category-tile,
+  .windows-symptom-card,
+  .category-topic-links > a,
+  .profile-link-grid > a {
+    transition: none !important;
+  }
+
+  .article-card:hover,
+  .tool-card:hover,
+  .tool-tile:hover,
+  .guide-card:hover,
+  .hub-card:hover,
+  .research-card:hover,
+  .review-card:hover,
+  .content-card:hover,
+  .info-card:hover,
+  .related-card:hover,
+  .product-profile-card:hover,
+  .category-tile:hover,
+  .windows-symptom-card:hover,
+  .category-topic-links > a:hover,
+  .profile-link-grid > a:hover {
+    transform: none;
+  }
+}
+
+/* Targeted homepage text-separation and category-tag accessibility refinements.
+   Keep this block at the end: it intentionally overrides legacy microcopy sizes. */
+.site-header .brand {
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.site-header .brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+  min-width: 0;
+}
+
+.site-header .brand-copy .brand-name {
+  display: block;
+  font-size: .75rem;
+  line-height: 1.25;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+.site-header .brand-copy .brand-tagline {
+  display: block;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.site-header .mega-link-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.site-header .mega-link-copy > strong {
+  display: block;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.site-header .mega-link-copy > small {
+  display: block;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Explicit wrappers prevent title/description text from relying on text-node spacing. */
+.home-page .hero-proof .hero-proof-title {
+  display: block;
+  margin: 0 0 .22rem;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+
+.home-page .hero-proof .hero-proof-description {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: .75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* All article category badges use the same tested, high-contrast palette.
+   Foreground #064b57 on #e5f2f3 has an 8.52:1 contrast ratio. */
+.article-card .card-category.tag-windows,
+.article-card .card-category.tag-gaming,
+.article-card .card-category.tag-default {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  max-width: 100%;
+  margin: 0;
+  padding: .3rem .55rem;
+  border: 1px solid #b6d2d5;
+  border-radius: 999px;
+  background: #e5f2f3;
+  color: #064b57;
+  font-size: .75rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+/* The child span is a real content wrapper, so no adjacent text nodes are needed. */
+.site-header .brand-copy .brand-tagline,
+.site-header .mega-link-copy > small,
+.home-page .hero-proof .hero-proof-title,
+.home-page .hero-proof .hero-proof-description {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Homepage finishing pass: shared 12-column grid, metadata contrast and rhythm. */
+
+/* Give all homepage sections the same shell and gutters as the hero and topic grid. */
+.home-page > .section:not(.section-featured) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--tww-content-width);
+  margin-inline: auto;
+  padding-inline: var(--tww-page-gutter);
+}
+
+/* Twelve tracks create one alignment system; each desktop card spans four tracks. */
+.home-page .category-grid,
+.home-page .home-authorities .article-grid,
+.home-page .home-latest .article-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  gap: clamp(.9rem, 1.6vw, 1.25rem);
+  min-width: 0;
+}
+
+.home-page .category-grid > *,
+.home-page .home-authorities .article-grid > *,
+.home-page .home-latest .article-grid > * {
+  grid-column: span 4;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* The topic tiles and article cards share one restrained surface treatment. */
+.home-page .category-tile,
+.home-page .article-card {
+  box-sizing: border-box;
+  height: 100%;
+  min-width: 0;
+  border: 1px solid #d7e1e5;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #172630;
+  box-shadow: 0 1px 2px rgba(23, 38, 48, .045);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.home-page .category-tile:hover,
+.home-page .article-card:hover {
+  border-color: #b6d2d5;
+  box-shadow: 0 10px 24px rgba(23, 38, 48, .09);
+  transform: translateY(-2px);
+}
+
+.home-page .category-tile:focus-visible {
+  outline: 3px solid #064b57;
+  outline-offset: 3px;
+}
+
+/* Metadata should be readable without relying on weight alone.
+   #31434d against white is 10.29:1; against the read-time chip #edf2f4 it is 9.12:1. */
+.article-card .reading-time,
+.article-card .card-meta,
+.article-card .card-meta time,
+.product-profile-card .card-meta {
+  color: #31434d;
+  font-weight: 600;
+}
+
+.article-card .reading-time {
+  font-size: .8125rem;
+  line-height: 1.45;
+}
+
+.article-card .card-meta {
+  font-size: .875rem;
+  line-height: 1.5;
+}
+
+/* Keep category tags consistent and AA+ against the soft teal tag surface. */
+.article-card .card-category.tag-windows,
+.article-card .card-category.tag-gaming,
+.article-card .card-category.tag-default {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  max-width: 100%;
+  margin: 0;
+  padding: .3rem .55rem;
+  border: 1px solid #b6d2d5;
+  border-radius: 999px;
+  background: #e5f2f3;
+  color: #064b57;
+  font-size: .75rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+/* A card title link remains a comfortable keyboard and touch target. */
+.home-page .article-card .tww-card-title a {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+}
+
+/* Align tool and author strips to the very same horizontal edges as the grids. */
+.home-page .tool-banner,
+.home-page .author-strip {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--tww-page-gutter));
+  max-width: calc(var(--tww-content-width) - 2 * var(--tww-page-gutter));
+  margin-inline: auto;
+}
+
+/* Add breathing room after the sticky navigation, without making mobile heroes tall. */
+.home-page .hero-inner {
+  padding-block-start: clamp(3.25rem, 5.8vw, 5rem);
+}
+
+/* All homepage directional link glyphs use the same right-arrow treatment. */
+.home-page .category-tile:hover .tile-arrow {
+  transform: translateX(2px);
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-page .category-grid > *,
+  .home-page .home-authorities .article-grid > *,
+  .home-page .home-latest .article-grid > * {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-page .hero-inner {
+    padding-block-start: 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-page .category-grid,
+  .home-page .home-authorities .article-grid,
+  .home-page .home-latest .article-grid {
+    grid-auto-rows: auto;
+  }
+
+  .home-page .category-grid > *,
+  .home-page .home-authorities .article-grid > *,
+  .home-page .home-latest .article-grid > * {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 680px) {
+  .home-page .hero-inner {
+    padding-block-start: 2.5rem;
+  }
+}
+
