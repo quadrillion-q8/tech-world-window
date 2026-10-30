@@ -667,7 +667,8 @@ const baseArticles: Article[] = [
         heading: 'Frame-time budgets: convert FPS into milliseconds',
         paragraphs: [
           'Frame time is the time interval between frames. A steady 144 FPS stream aims for about 6.94 ms per frame; a 35 ms frame takes far longer than that target and can create a visible hitch even when the average FPS for the whole session looks high.',
-          'Use the reference table as a cadence calculation, not as a pass/fail limit. A single frame that exceeds its budget is not automatically a fault, and the visibility of a hitch depends on how often it happens, the display presentation mode, VRR range and the surrounding frames.'
+          'Use the reference table as a cadence calculation, not as a pass/fail limit. A single frame that exceeds its budget is not automatically a fault, and the visibility of a hitch depends on how often it happens, the display presentation mode, VRR range and the surrounding frames.',
+          'Average FPS can hide uneven delivery. The 1% low and 0.1% low summarize performance in the slowest tail of frames; the exact averaging and percentile labels vary by tool. A frame-time graph or CSV is still needed to locate the individual spike and line it up with other telemetry.'
         ],
         table: {
           caption: 'Ideal frame-time budget by display refresh rate',
@@ -679,16 +680,15 @@ const baseArticles: Article[] = [
             ['240 Hz / 240 FPS', '4.17 ms', 'Small absolute delays take up a larger share of the frame budget.'],
             ['360 Hz / 360 FPS', '2.78 ms', 'A short delay can represent a large fraction of the target frame interval.']
           ]
-        },
-        paragraphs: [
-          'Average FPS can hide uneven delivery. The 1% low and 0.1% low summarize performance in the slowest tail of frames; the exact averaging and percentile labels vary by tool. A frame-time graph or CSV is still needed to locate the individual spike and line it up with other telemetry.'
-        ]
+        }
       },
       {
         heading: 'Compare Frame Time and GPU Busy—not just GPU usage percent',
         paragraphs: [
           'Intel PresentMon records frame-level timing data. Its FrameTime field is the time between successive CPU frame intervals, while GPUBusy is how long at least one GPU engine spent actively executing work for the target process on that frame. CapFrameX uses PresentMon and exposes GPU Active Time / GPU Busy in its analysis graphs. NVIDIA FrameView also reports frame timing and GPU performance metrics.',
-          'A GPU utilization percentage is a useful overview, but it is generally sampled or averaged over a monitoring interval. It can miss the timing of one short hitch. Per-frame FrameTime and GPU Busy are better tools for asking whether GPU work was active for most of the affected frame.'
+          'A GPU utilization percentage is a useful overview, but it is generally sampled or averaged over a monitoring interval. It can miss the timing of one short hitch. Per-frame FrameTime and GPU Busy are better tools for asking whether GPU work was active for most of the affected frame.',
+          'Do not subtract GPU Busy from Frame Time and call the result exact CPU wait time. CPU and GPU work overlap, frames can be queued, and the metrics use different timing points. Treat the pairing as a diagnostic clue and correlate it with CPU Busy, CPU Wait, GPU Latency and the game event at the same timestamp.',
+          'PresentMon notes that some GPU execution metrics can be less accurate with Hardware-Accelerated GPU Scheduling enabled, depending on the system and workload. If a result looks contradictory, repeat the capture and compare with another supported tool rather than treating one metric as ground truth.'
         ],
         table: {
           caption: 'Illustrative Frame Time and GPU Busy readings—not a TWW benchmark',
@@ -698,10 +698,6 @@ const baseArticles: Article[] = [
             ['30 ms', '6 ms', 'The GPU was active for much less time than the CPU frame interval; a CPU-side wait, game-engine stall, shader work, asset streaming or scheduling delay becomes more plausible.', 'Compare CPU Busy, CPU Wait, GPU Latency, thread load, disk activity and the same scene on a repeat run.']
           ]
         },
-        paragraphs: [
-          'Do not subtract GPU Busy from Frame Time and call the result exact CPU wait time. CPU and GPU work overlap, frames can be queued, and the metrics use different timing points. Treat the pairing as a diagnostic clue and correlate it with CPU Busy, CPU Wait, GPU Latency and the game event at the same timestamp.',
-          'PresentMon notes that some GPU execution metrics can be less accurate with Hardware-Accelerated GPU Scheduling enabled, depending on the system and workload. If a result looks contradictory, repeat the capture and compare with another supported tool rather than treating one metric as ground truth.'
-        ],
         bullets: [
           'FrameTime rises and GPU Busy rises with it → investigate GPU workload, GPU memory pressure, clocks and thermals.',
           'FrameTime rises while GPU Busy remains relatively low → investigate CPU/game-thread work, shader compilation, asset streaming and driver waits.',
