@@ -213,7 +213,7 @@ export function ToolPage() {
       <strong>Use the result responsibly</strong>
       <p>These tools are educational planning aids. For a purchase, verify the exact hardware specifications, compatibility, transient power requirements, workload and independent testing.</p>
       {kind === 'bottleneck' && <p><Link className="text-link" to="/best-gaming-laptops" onClick={()=>conversion('bottleneck_to_laptop_guide')}>Compare gaming-laptop buying criteria →</Link></p>}
-      {kind === 'bottleneck' && <p><Link className="text-link" to="/compare/rtx-5070-ti-vs-rx-9070-xt" onClick={()=>conversion('bottleneck_to_gpu_comparison')}>Compare the RTX 5070 Ti vs RX 9070 XT →</Link></p>
+      {kind === 'bottleneck' && <p><Link className="text-link" to="/compare/rtx-5070-ti-vs-rx-9070-xt" onClick={()=>conversion('bottleneck_to_gpu_comparison')}>Compare the RTX 5070 Ti vs RX 9070 XT →</Link></p>}
       {kind === 'psu' && <p><Link className="text-link" to="/hardware" onClick={()=>conversion('psu_to_hardware')}>Explore hardware guides →</Link></p>}
       {kind === 'ram' && <p><Link className="text-link" to="/best-ram" onClick={()=>conversion('ram_to_buying_guide')}>Read the RAM buying guide →</Link></p>}
       {kind === 'storage' && <p><Link className="text-link" to="/best-ssds" onClick={()=>conversion('storage_to_ssd_guide')}>Read the SSD buying guide →</Link></p>}
