@@ -2196,7 +2196,7 @@ export const phase4Articles: Article[] = [
     "searchIntent": "informational",
     "content": [
       {
-        "heading": "Why 100% GPU usage is often normal",
+        "heading": "Is 100% GPU Usage Bad or Normal While Gaming?",
         "paragraphs": [
           "When a game asks the graphics card to render as many frames as the selected settings allow, GPU utilization can remain near 100%. That usually means the GPU is busy doing graphics work—not that it is damaged or being used incorrectly.",
           "Lower utilization is not automatically better. It can be normal when a game is frame-capped, paused or lightly loaded, or when it is waiting on CPU work, asset loading or synchronization. Judge the percentage alongside the performance you actually experience."

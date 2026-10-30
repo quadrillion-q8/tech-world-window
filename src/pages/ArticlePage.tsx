@@ -203,6 +203,10 @@ export function ArticlePage() {
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
+      {article.slug === 'gpu-100-percent-usage-gaming' ? <section className="quick-answer article-quick-answer" aria-label="Quick answer">
+        <span className="rail-kicker">QUICK ANSWER</span>
+        <p>{article.excerpt}</p>
+      </section> : null}
       <div className="article-byline">
         <Link className="author-avatar small" to={author?.url || '/authors/imran-natiq'} aria-label={`About ${author?.name || 'the author'}`}>IN</Link>
         <div>
@@ -283,10 +287,10 @@ export function ArticlePage() {
           <p>{article.subcategory || `News, guides and practical advice about ${article.category.toLowerCase()}.`}</p>
           <Link to={article.pillarPath || breadcrumbPath}>Explore this topic <span aria-hidden="true">→</span></Link>
         </section>
-        <section className="quick-answer rail-quick-answer">
+        {article.slug !== 'gpu-100-percent-usage-gaming' ? <section className="quick-answer rail-quick-answer">
           <span className="rail-kicker"><span aria-hidden="true">●</span> QUICK ANSWER</span>
           <p>{article.excerpt}</p>
-        </section>
+        </section> : null}
         <ToolCallout slug={article.slug} />
         {related.length > 0 ? <section className="rail-related">
           <h2>Related articles</h2>

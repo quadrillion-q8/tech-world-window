@@ -1043,14 +1043,20 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
     ]
   },
   'gpu-100-percent-usage-gaming': {
-    updatedAt: '2026-10-22',
-    seoTitle: 'Is 100% GPU Usage Normal While Gaming?',
-    metaDescription: '100% GPU usage while gaming is usually normal. Check FPS, temperatures, clocks, stutter and idle GPU activity before changing settings or buying parts.',
+    updatedAt: '2026-10-30',
+    seoTitle: 'GPU at 100% Usage While Gaming: Normal or Bad?',
+    metaDescription: 'GPU usage at 100% while gaming can be normal. Diagnose render-queue input lag, Task Manager 3D readings, OBS and Discord stutter, and GPU hotspot temperatures.',
     sources: [
       { label: 'NVIDIA FrameView: performance, frame-time and power measurement', url: 'https://www.nvidia.com/en-us/geforce/technologies/frameview/' },
       { label: 'NVIDIA: nvidia-smi GPU utilization definition and sampling period', url: 'https://docs.nvidia.com/deploy/nvidia-smi/index.html#utilization' },
       { label: 'AMD: monitor and log performance metrics with Adrenalin Edition', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' },
-      { label: 'Microsoft Learn: Task Manager overview and performance troubleshooting', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/support-tools/support-tools-task-manager' }
+      { label: 'Microsoft Learn: Task Manager overview and performance troubleshooting', url: 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/support-tools/support-tools-task-manager' },
+      { label: 'Microsoft DirectX: how Task Manager reports GPU engines', url: 'https://devblogs.microsoft.com/directx/gpus-in-the-task-manager/' },
+      { label: 'NVIDIA Developer: Reflex render-queue and system-latency behavior', url: 'https://developer.nvidia.com/performance-rendering-tools/reflex' },
+      { label: 'AMD: Radeon Anti-Lag 2 supported games and hardware requirements', url: 'https://www.amd.com/en/products/graphics/technologies/fidelityfx/supported-games.html' },
+      { label: 'OBS Project: GPU-overload troubleshooting and frame-rate limiting', url: 'https://obsproject.com/kb/encoding-performance-troubleshooting/' },
+      { label: 'NVIDIA: nvidia-smi temperature sensors and device-specific thresholds', url: 'https://docs.nvidia.com/deploy/nvidia-smi/' },
+      { label: 'AMD: GPU current and junction temperature metrics in Adrenalin', url: 'https://www.amd.com/en/resources/support-articles/faqs/DH3-038.html' }
     ],
     sections: [{
       heading: 'Check GPU usage in Windows before changing anything',
@@ -1103,12 +1109,89 @@ const additionalAuthorityEnrichments: Record<string, Enhancement> = {
         { label: 'GPU frame-time spikes', href: '/gpu-frame-time-spikes-causes-fix', description: 'Investigate individual hitches rather than relying on average FPS alone.' },
         { label: 'Frame-Time Analyzer', href: '/tools/frame-time-analyzer', description: 'Inspect a supported frame-time capture; its signals suggest leads rather than proving a root cause.' }
       ]
-    }],
+    },
+    {
+          "heading": "Why 99–100% GPU Usage Can Increase Input Lag",
+          "paragraphs": [
+                "High GPU utilization and input latency are different measurements. In a GPU-bound scene, the game and CPU can prepare work faster than the graphics processor completes it. Frames waiting in the render queue can delay when newer mouse or controller input appears on screen. The effect depends on the game, driver, sync mode and frame pacing; 100% usage does not carry a fixed 15–30 ms penalty.",
+                "NVIDIA Reflex is integrated into supported games and coordinates CPU and GPU work so frames are submitted just in time. NVIDIA describes its low-latency mode as removing the GPU render queue and reducing CPU back-pressure in GPU-bound scenarios. AMD Radeon Anti-Lag 2 also needs game-developer integration and is limited to supported titles and hardware; it is not a universal driver toggle.",
+                "Test one change at a time in the same repeatable scene. Enable Reflex only when the game offers it; use Anti-Lag 2 only in a supported game. A frame-rate cap can reduce saturation and make room for other work, but choose a cap from repeatable frame pacing and your display's refresh or VRR behavior—not a universal 3–5% rule or a mandatory 92–97% utilization target."
+          ],
+          "steps": [
+                "Record a baseline in the same scene with the current frame cap and synchronization settings.",
+                "If available, enable the game's NVIDIA Reflex setting and compare frame pacing and measured system latency using the game's supported latency tools.",
+                "For a supported Radeon title, use the game's integrated Anti-Lag 2 control and follow its compatibility guidance.",
+                "If latency or background-app performance is still poor, cap the game to a rate the system can sustain consistently and compare again."
+          ]
+    },
+    {
+          "heading": "What 3D, Copy and Video Engines Mean in Windows Task Manager",
+          "paragraphs": [
+                "Windows reports activity for separate GPU engines, which can include 3D, Copy, Video Decode, Video Encode and Compute. These are schedulable parts of the graphics processor, not separate graphics cards. Microsoft's DirectX engineering explanation says the Performance tab's headline GPU percentage represents the busiest engine rather than an arithmetic average across every engine.",
+                "The Processes view also reports a process's busiest GPU engine, while the GPU Engine column identifies which adapter and engine produced that number. As a result, two different processes can each show a high percentage while using different engines. A reading such as GPU 0 — 3D — 100% means the 3D engine is fully busy for that interval; it does not mean every GPU engine is simultaneously at 100%.",
+                "Desktop Window Manager (dwm.exe) composites the Windows desktop and can legitimately use GPU resources. Browsers, video playback, overlays and capture tools can also use graphics or video engines. When a 100% reading appears at the desktop, identify the process and engine first. Cross-check sustained activity with a vendor monitoring utility and compare it with temperature, clocks and the actual symptom.",
+                "Hardware-Accelerated GPU Scheduling (HAGS) changes part of the GPU scheduling path; it is not, by itself, proof that a utilization reading is false. Do not disable HAGS just to make the number smaller. If a repeatable stutter began after a driver or Windows change, record the current setting, test one setting at a time, restart when requested and revert changes that do not improve the symptom."
+          ],
+          "steps": [
+                "In Task Manager, open Processes, sort by GPU and add or inspect the GPU Engine column.",
+                "Open Performance, select the GPU and use the graph selector to inspect 3D, Copy, Video Decode or Video Encode individually.",
+                "If the reading persists at idle, note the process, adapter and engine, then compare it with the GPU vendor's utility. Do not infer a hardware fault from one percentage."
+          ]
+    },
+    {
+          "heading": "Why OBS, Discord and Browser Video Can Lag at 100% GPU Load",
+          "paragraphs": [
+                "An uncapped game can consume nearly all available graphics time. OBS still needs GPU resources to composite and render scenes, even when the video encoder has dedicated hardware. If the game leaves too little scheduling capacity, OBS can report rendering lag or an encoding-overloaded condition, while a browser video or Discord screen share may drop frames.",
+                "OBS's own troubleshooting guide recommends leaving GPU capacity available: cap the game's frame rate, reduce demanding graphics settings, close other GPU-heavy apps and, on Windows, try running OBS as Administrator. Its guide explains that administrator mode can let OBS ask Windows to reserve GPU capacity. The best cap depends on the game and display; matching or staying slightly below a stable monitor-refresh target is a starting test, not a universal requirement.",
+                "If only Discord or one browser is affected after the game is capped, test that application's hardware-acceleration setting as a separate A/B check and restart the app before comparing. Do not disable hardware acceleration across every application at once, because that changes several variables and can move the workload to the CPU."
+          ],
+          "steps": [
+                "Check OBS Statistics to distinguish rendering lag from encoding lag before changing settings.",
+                "Run OBS as Administrator, then repeat the same game and stream scene.",
+                "Cap the game or lower one GPU-heavy setting to create headroom; compare OBS render-lag and dropped-frame counters.",
+                "If one secondary app remains affected, change only that app's hardware-acceleration setting, restart it and repeat the same test."
+          ]
+    },
+    {
+          "heading": "GPU Edge, Hotspot or Junction, and VRAM Temperatures Are Different Readings",
+          "paragraphs": [
+                "A GPU's edge or core temperature and its hotspot or junction temperature come from different sensor locations. The hotspot reading represents a warmer point on the die, so it can be higher than the edge value. The gap varies with GPU design, cooler contact, workload and sensor implementation; a fixed 10–20°C difference is not a rule for every card.",
+                "Some graphics cards also expose a dedicated memory or VRAM temperature. Not every model or monitoring tool supports that sensor, and a missing reading is not the same as a zero-degree reading. AMD Software: Adrenalin can display GPU Current Temperature and GPU Junction Temperature on supported systems. NVIDIA's nvidia-smi documentation lists GPU current, slowdown and maximum operating temperatures, plus memory temperature where the product exposes it.",
+                "Do not treat 100°C, 105°C or 110°C as a universal pass/fail threshold. Thermal limits are specific to the GPU and sometimes to its memory. On a supported NVIDIA system, `nvidia-smi -q -d TEMPERATURE` reports the available temperature fields and model-specific slowdown or operating thresholds. Compare the exact values for your card and investigate when temperatures approach a documented limit together with falling clocks, worsening frame times or instability."
+          ],
+          "steps": [
+                "Record GPU edge/core temperature, hotspot/junction temperature, memory temperature when supported, clock speed and fan behavior during the same repeatable game scene.",
+                "For a supported NVIDIA card, run `nvidia-smi -q -d TEMPERATURE` in a terminal and read the available GPU Slowdown Temp, GPU Max Operating Temp and memory fields.",
+                "For an AMD card, use Adrenalin's metrics overlay or logging and check the exact product documentation for its thermal limits.",
+                "If temperature approaches the documented slowdown threshold while clocks fall, check airflow, fan operation, dust, cooler condition and the manufacturer's service guidance."
+          ]
+    }
+    ],
     faq: [
       { question: 'How do I check GPU usage in Windows 11 or Windows 10?', answer: 'Open Task Manager with Ctrl+Shift+Esc. Sort the Processes list by GPU and inspect GPU Engine when available, or open Performance and select the GPU to view engine graphs. For temperature, clocks and frame times, use a compatible vendor overlay or monitoring tool because Task Manager does not expose every sensor on every system.' },
       { question: 'Why does GPU usage stay near 100% after I lower graphics settings?', answer: 'The GPU may simply be rendering more frames at the lighter settings. If FPS rises while utilization remains near 100%, that is consistent with the GPU still being busy. Compare FPS, frame times, temperatures and clocks instead of assuming the percentage must fall.' },
       { question: 'Does 100% GPU usage mean I need a new graphics card?', answer: 'No. High utilization during a demanding game is often expected. Consider an upgrade only after repeatable tests show that the GPU’s performance is below your target and a change in workload improves or explains the result. A utilization percentage alone is not enough evidence.' },
-      { question: 'Why is GPU usage different from GPU memory or VRAM usage?', answer: 'GPU utilization estimates how busy a GPU engine is over a sampling period, while VRAM usage describes dedicated graphics memory in use. A GPU can be busy without using all its VRAM, or approach its memory limit and hitch without a single utilization reading explaining why.' }
+      { question: 'Why is GPU usage different from GPU memory or VRAM usage?', answer: 'GPU utilization estimates how busy a GPU engine is over a sampling period, while VRAM usage describes dedicated graphics memory in use. A GPU can be busy without using all its VRAM, or approach its memory limit and hitch without a single utilization reading explaining why.' },
+      {
+            "question": "Does 100% GPU usage cause input lag?",
+            "answer": "Not by itself. In a GPU-bound game, a deep render queue can make new input wait behind frames already submitted, increasing system latency. The effect depends on the game, driver and frame pacing; there is no fixed 15–30 ms penalty for every 100% reading."
+      },
+      {
+            "question": "What does GPU 3D at 100% mean in Task Manager?",
+            "answer": "It means the 3D engine is fully busy for the reported interval, not that every engine on the graphics card is fully occupied. Open the GPU Performance graphs to inspect 3D, Copy and Video engines, and use the Processes GPU Engine column to identify the process."
+      },
+      {
+            "question": "Should I disable HAGS when Task Manager shows 100% GPU usage at idle?",
+            "answer": "No, not solely because of the percentage. First identify the process and engine, including Desktop Window Manager, then cross-check the reading with a vendor utility and sensor data. Test HAGS on or off only as a controlled comparison when a repeatable performance symptom warrants it."
+      },
+      {
+            "question": "Why does Discord or OBS lag when my game uses 100% GPU?",
+            "answer": "An uncapped game can leave too little GPU time for OBS scene compositing, browser video or Discord sharing. Cap the game or reduce one GPU-heavy setting first. OBS also recommends trying Administrator mode on Windows; change one variable at a time and compare."
+      },
+      {
+            "question": "Is a 100°C GPU hotspot or junction temperature safe?",
+            "answer": "There is no universal cutoff for every card. Edge, hotspot and memory sensors measure different locations, and some GPUs do not expose every sensor. Compare each reading with the exact model's documented slowdown or maximum operating limit, especially if clocks fall or the system becomes unstable."
+      }
     ]
   },
   'pc-games-crashing-to-desktop-troubleshooting': {
