@@ -31,18 +31,20 @@ async function fetchWithRetry(url, options = {}, retries = 2) {
   throw lastError || new Error('Request failed after retries');
 }
 
-async function checkApexRedirect() {
+async function checkApexRedirect(path = '/') {
   try {
-    const response = await fetchWithRetry(APEX_URL, { redirect: 'manual' });
+    const apexUrl = new URL(path, APEX_URL);
+    const expectedDestination = new URL(path, SITE_URL).href;
+    const response = await fetchWithRetry(apexUrl.href, { redirect: 'manual' });
     const location = response.headers.get('location');
-    const destination = location ? new URL(location, APEX_URL).href : '';
-    if (response.status !== 308 || destination !== `${SITE_URL}/`) {
-      failures.push(`Apex redirect: expected 308 to ${SITE_URL}/, received ${response.status} to ${destination || '(no Location header)'}`);
+    const destination = location ? new URL(location, apexUrl).href : '';
+    if (response.status !== 308 || destination !== expectedDestination) {
+      failures.push(`Apex redirect for ${path}: expected one 308 to ${expectedDestination}, received ${response.status} to ${destination || '(no Location header)'}`);
     } else {
-      console.log(`PASS apex redirect: 308 → ${destination}`);
+      console.log(`PASS apex redirect for ${path}: 308 → ${destination}`);
     }
   } catch (error) {
-    failures.push(`Apex redirect request failed: ${error.message}`);
+    failures.push(`Apex redirect request failed for ${path}: ${error.message}`);
   }
 }
 
@@ -141,12 +143,19 @@ async function checkPage(url) {
 
 async function main() {
   console.log(`Checking production site: ${SITE_URL}`);
-  await checkApexRedirect();
   const urls = await checkRobotsAndSitemap();
   if (!urls.length) {
     console.error('\nLive smoke check failed before route checks could run.');
     process.exitCode = 1;
     return;
+  }
+
+  // Check the canonical host redirect at both the root and a real sitemap route.
+  // A root-only check would miss path-specific redirect or routing regressions.
+  await checkApexRedirect('/');
+  const representativePage = urls.find(url => new URL(url).pathname !== '/');
+  if (representativePage) {
+    await checkApexRedirect(new URL(representativePage).pathname);
   }
 
   let nextIndex = 0;
