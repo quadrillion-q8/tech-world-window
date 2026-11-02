@@ -12,6 +12,16 @@
       "permanent": true
     },
     {
+      "source": "/windows-11-update-stuck-troubleshooting",
+      "destination": "https://www.techworldwindow.com/windows/windows-update-stuck",
+      "permanent": true
+    },
+    {
+      "source": "/tools/windows-crash-investigator",
+      "destination": "https://www.techworldwindow.com/tools",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -20,16 +30,6 @@
         }
       ],
       "destination": "https://www.techworldwindow.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/windows-11-update-stuck-troubleshooting",
-      "destination": "/windows/windows-update-stuck",
-      "permanent": true
-    },
-    {
-      "source": "/tools/windows-crash-investigator",
-      "destination": "/tools",
       "permanent": true
     }
   ],

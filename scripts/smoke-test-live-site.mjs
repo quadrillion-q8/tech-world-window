@@ -48,6 +48,55 @@ async function checkApexRedirect(path = '/') {
   }
 }
 
+
+async function checkRedirectChain(startUrl, expectedFinalUrl, maxRedirects, label) {
+  try {
+    let currentUrl = startUrl;
+    let redirects = 0;
+
+    while (true) {
+      const response = await fetchWithRetry(currentUrl, { redirect: 'manual' });
+      const isRedirect = [301, 302, 303, 307, 308].includes(response.status);
+
+      if (isRedirect) {
+        const location = response.headers.get('location');
+        if (!location) {
+          failures.push(`${label}: HTTP ${response.status} returned no Location header at ${currentUrl}`);
+          return;
+        }
+        if (response.status !== 308) {
+          failures.push(`${label}: expected permanent HTTP 308 at ${currentUrl}, received HTTP ${response.status}`);
+          return;
+        }
+        if (redirects >= maxRedirects) {
+          failures.push(`${label}: exceeded ${maxRedirects} redirect(s); next hop would be ${new URL(location, currentUrl).href}`);
+          return;
+        }
+        currentUrl = new URL(location, currentUrl).href;
+        redirects += 1;
+        continue;
+      }
+
+      if (response.status !== 200) {
+        failures.push(`${label}: expected final HTTP 200 at ${currentUrl}, received HTTP ${response.status}`);
+        return;
+      }
+      if (currentUrl !== expectedFinalUrl) {
+        failures.push(`${label}: expected final URL ${expectedFinalUrl}, reached ${currentUrl}`);
+        return;
+      }
+      if (redirects === 0) {
+        failures.push(`${label}: expected a redirect but received HTTP 200 directly`);
+        return;
+      }
+      console.log(`PASS ${label}: ${redirects} redirect(s) → ${currentUrl}`);
+      return;
+    }
+  } catch (error) {
+    failures.push(`${label}: request failed: ${error.message}`);
+  }
+}
+
 async function getText(url) {
   const response = await fetchWithRetry(url);
   if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
@@ -157,6 +206,60 @@ async function main() {
   if (representativePage) {
     await checkApexRedirect(new URL(representativePage).pathname);
   }
+
+  // Legacy URLs must jump directly to their final canonical destinations.
+  // Keep these exact rules ahead of the apex catch-all redirect in vercel.json.
+  const legacyRedirects = [
+    {
+      path: '/windows-11-update-stuck-troubleshooting',
+      destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
+      label: 'legacy Windows Update URL (apex)',
+      host: 'https://techworldwindow.com',
+    },
+    {
+      path: '/tools/windows-crash-investigator',
+      destination: 'https://www.techworldwindow.com/tools',
+      label: 'legacy Windows Crash Investigator URL (apex)',
+      host: 'https://techworldwindow.com',
+    },
+    {
+      path: '/windows-11-update-stuck-troubleshooting',
+      destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
+      label: 'legacy Windows Update URL (www)',
+      host: 'https://www.techworldwindow.com',
+    },
+    {
+      path: '/tools/windows-crash-investigator',
+      destination: 'https://www.techworldwindow.com/tools',
+      label: 'legacy Windows Crash Investigator URL (www)',
+      host: 'https://www.techworldwindow.com',
+    },
+  ];
+  await Promise.all(legacyRedirects.map(item =>
+    checkRedirectChain(`${item.host}${item.path}`, item.destination, 1, item.label)
+  ));
+
+  // Trailing-slash normalization should not add a third hop on HTTPS apex URLs.
+  await checkRedirectChain(
+    'https://techworldwindow.com/guides/',
+    'https://www.techworldwindow.com/guides',
+    2,
+    'HTTPS apex trailing-slash normalization'
+  );
+  await checkRedirectChain(
+    'https://www.techworldwindow.com/guides/',
+    'https://www.techworldwindow.com/guides',
+    1,
+    'www trailing-slash normalization'
+  );
+  // HTTP adds an HTTPS upgrade before host/path normalization, so allow that
+  // protocol upgrade plus the two canonicalization steps.
+  await checkRedirectChain(
+    'http://techworldwindow.com/guides/',
+    'https://www.techworldwindow.com/guides',
+    3,
+    'HTTP apex trailing-slash normalization'
+  );
 
   let nextIndex = 0;
   const workers = Array.from({ length: Math.min(CONCURRENCY, urls.length) }, async () => {
