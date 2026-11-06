@@ -1,16 +1,35 @@
 import process from 'node:process';
 
-const SITE_URL = (process.env.SITE_URL || 'https://www.techworldwindow.com').replace(/\/$/, '');
+const DEFAULT_SITE_URL = 'https://www.techworldwindow.com';
+const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, '');
+const CANONICAL_SITE_URL = DEFAULT_SITE_URL;
+const SITE_ORIGIN = new URL(SITE_URL).origin;
+const IS_PRODUCTION_SITE = SITE_ORIGIN === new URL(CANONICAL_SITE_URL).origin;
+const VERCEL_SHARE_TOKEN = process.env.VERCEL_SHARE_TOKEN || '';
 const APEX_URL = 'https://techworldwindow.com/';
 const CONCURRENCY = 6;
 const REQUEST_TIMEOUT_MS = 20_000;
 const failures = [];
 
+function withoutShareToken(url) {
+  const parsed = new URL(url);
+  parsed.searchParams.delete('_vercel_share');
+  return parsed.href;
+}
+
 async function fetchWithRetry(url, options = {}, retries = 2) {
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
-      const response = await fetch(url, {
+      let requestUrl = url;
+      if (!IS_PRODUCTION_SITE && VERCEL_SHARE_TOKEN) {
+        const parsedRequestUrl = new URL(url);
+        if (parsedRequestUrl.origin === SITE_ORIGIN) {
+          parsedRequestUrl.searchParams.set('_vercel_share', VERCEL_SHARE_TOKEN);
+          requestUrl = parsedRequestUrl.href;
+        }
+      }
+      const response = await fetch(requestUrl, {
         ...options,
         headers: {
           'user-agent': 'TechWorldWindow-LiveSmokeCheck/1.0 (+https://www.techworldwindow.com)',
@@ -34,10 +53,10 @@ async function fetchWithRetry(url, options = {}, retries = 2) {
 async function checkApexRedirect(path = '/') {
   try {
     const apexUrl = new URL(path, APEX_URL);
-    const expectedDestination = new URL(path, SITE_URL).href;
+    const expectedDestination = new URL(path, CANONICAL_SITE_URL).href;
     const response = await fetchWithRetry(apexUrl.href, { redirect: 'manual' });
     const location = response.headers.get('location');
-    const destination = location ? new URL(location, apexUrl).href : '';
+    const destination = location ? withoutShareToken(new URL(location, apexUrl).href) : '';
     if (response.status !== 308 || destination !== expectedDestination) {
       failures.push(`Apex redirect for ${path}: expected one 308 to ${expectedDestination}, received ${response.status} to ${destination || '(no Location header)'}`);
     } else {
@@ -72,7 +91,7 @@ async function checkRedirectChain(startUrl, expectedFinalUrl, maxRedirects, labe
           failures.push(`${label}: exceeded ${maxRedirects} redirect(s); next hop would be ${new URL(location, currentUrl).href}`);
           return;
         }
-        currentUrl = new URL(location, currentUrl).href;
+        currentUrl = withoutShareToken(new URL(location, currentUrl).href);
         redirects += 1;
         continue;
       }
@@ -114,8 +133,9 @@ async function checkRobotsAndSitemap() {
     if (/^Disallow:\s*\/\s*$/m.test(robotsText)) {
       failures.push('robots.txt disallows the entire site.');
     }
-    if (!robotsText.includes(`Sitemap: ${SITE_URL}/sitemap.xml`)) {
-      failures.push(`robots.txt does not reference ${SITE_URL}/sitemap.xml`);
+    const expectedSitemapUrl = CANONICAL_SITE_URL + '/sitemap.xml';
+    if (!robotsText.includes('Sitemap: ' + expectedSitemapUrl)) {
+      failures.push('robots.txt does not reference ' + expectedSitemapUrl);
     }
     console.log('PASS robots.txt fetched and sitemap reference checked');
   } catch (error) {
@@ -140,7 +160,7 @@ async function checkRobotsAndSitemap() {
   for (const value of urls) {
     try {
       const url = new URL(value);
-      if (url.protocol !== 'https:' || url.hostname !== new URL(SITE_URL).hostname) {
+      if (url.protocol !== 'https:' || url.hostname !== new URL(CANONICAL_SITE_URL).hostname) {
         failures.push(`Unexpected sitemap hostname/protocol: ${value}`);
       }
       if (url.search || url.hash) failures.push(`Sitemap URL contains a query or fragment: ${value}`);
@@ -159,7 +179,9 @@ function canonicalFromHtml(html) {
 
 async function checkPage(url) {
   try {
-    const { response, text: html } = await getText(url);
+    const canonicalUrl = new URL(url);
+    const requestUrl = new URL(canonicalUrl.pathname + canonicalUrl.search, SITE_URL).href;
+    const { response, text: html } = await getText(requestUrl);
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.toLowerCase().includes('text/html')) {
       failures.push(`Expected HTML but received "${contentType}" for ${url}`);
@@ -172,7 +194,7 @@ async function checkPage(url) {
     if (!canonical) {
       failures.push(`Missing canonical link on ${url}`);
     } else {
-      const expected = new URL(url);
+      const expected = new URL(canonicalUrl.pathname + canonicalUrl.search, CANONICAL_SITE_URL);
       expected.hash = '';
       const actualCanonical = new URL(canonical, expected);
       actualCanonical.hash = '';
@@ -191,7 +213,7 @@ async function checkPage(url) {
 }
 
 async function main() {
-  console.log(`Checking production site: ${SITE_URL}`);
+  console.log('Checking ' + (IS_PRODUCTION_SITE ? 'production site: ' : 'preview site: ') + SITE_URL);
   const urls = await checkRobotsAndSitemap();
   if (!urls.length) {
     console.error('\nLive smoke check failed before route checks could run.');
@@ -199,19 +221,21 @@ async function main() {
     return;
   }
 
-  // Check the canonical host redirect at both the root and a real sitemap route.
-  // A root-only check would miss path-specific redirect or routing regressions.
-  await checkApexRedirect('/');
-  const representativePage = urls.find(url => new URL(url).pathname !== '/');
-  if (representativePage) {
-    await checkApexRedirect(new URL(representativePage).pathname);
+  if (IS_PRODUCTION_SITE) {
+    // The apex-to-www redirect is configured at the Vercel project-domain level.
+    await checkApexRedirect('/');
+    const representativePage = urls.find(url => new URL(url).pathname !== '/');
+    if (representativePage) {
+      await checkApexRedirect(new URL(representativePage).pathname);
+    }
+  } else {
+    console.log('SKIP apex redirect checks: preview hosts do not own the production apex domain');
   }
 
-  // The Vercel project domain setting canonicalizes the apex host to www.
-  // An apex legacy URL can therefore require two permanent redirects:
-  // apex -> www, followed by the legacy path -> its final canonical destination.
-  // A www legacy URL should still reach its destination in one redirect.
-  const legacyRedirects = [
+  // On production, validate the two-hop apex -> www -> legacy destination chain
+  // and the one-hop www legacy redirects. On a preview host, the legacy paths
+  // should redirect directly to their production canonical destinations.
+  const legacyRedirects = IS_PRODUCTION_SITE ? [
     {
       path: '/windows-11-update-stuck-troubleshooting',
       destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
@@ -240,32 +264,55 @@ async function main() {
       host: 'https://www.techworldwindow.com',
       maxRedirects: 1,
     },
+  ] : [
+    {
+      path: '/windows-11-update-stuck-troubleshooting',
+      destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
+      label: 'legacy Windows Update URL (Preview host)',
+      host: SITE_URL,
+      maxRedirects: 1,
+    },
+    {
+      path: '/tools/windows-crash-investigator',
+      destination: 'https://www.techworldwindow.com/tools',
+      label: 'legacy Windows Crash Investigator URL (Preview host)',
+      host: SITE_URL,
+      maxRedirects: 1,
+    },
   ];
   await Promise.all(legacyRedirects.map(item =>
-    checkRedirectChain(`${item.host}${item.path}`, item.destination, item.maxRedirects, item.label)
+    checkRedirectChain(new URL(item.path, item.host).href, item.destination, item.maxRedirects, item.label)
   ));
 
-  // Trailing-slash normalization should not add a third hop on HTTPS apex URLs.
-  await checkRedirectChain(
-    'https://techworldwindow.com/guides/',
-    'https://www.techworldwindow.com/guides',
-    2,
-    'HTTPS apex trailing-slash normalization'
-  );
-  await checkRedirectChain(
-    'https://www.techworldwindow.com/guides/',
-    'https://www.techworldwindow.com/guides',
-    1,
-    'www trailing-slash normalization'
-  );
-  // HTTP adds an HTTPS upgrade before host/path normalization, so allow that
-  // protocol upgrade plus the two canonicalization steps.
-  await checkRedirectChain(
-    'http://techworldwindow.com/guides/',
-    'https://www.techworldwindow.com/guides',
-    3,
-    'HTTP apex trailing-slash normalization'
-  );
+  if (IS_PRODUCTION_SITE) {
+    // Trailing-slash normalization should not add a third hop on HTTPS apex URLs.
+    await checkRedirectChain(
+      'https://techworldwindow.com/guides/',
+      'https://www.techworldwindow.com/guides',
+      2,
+      'HTTPS apex trailing-slash normalization'
+    );
+    await checkRedirectChain(
+      'https://www.techworldwindow.com/guides/',
+      'https://www.techworldwindow.com/guides',
+      1,
+      'www trailing-slash normalization'
+    );
+    // HTTP adds an HTTPS upgrade before host/path normalization.
+    await checkRedirectChain(
+      'http://techworldwindow.com/guides/',
+      'https://www.techworldwindow.com/guides',
+      3,
+      'HTTP apex trailing-slash normalization'
+    );
+  } else {
+    await checkRedirectChain(
+      new URL('/guides/', SITE_URL).href,
+      new URL('/guides', SITE_URL).href,
+      1,
+      'Preview trailing-slash normalization'
+    );
+  }
 
   let nextIndex = 0;
   const workers = Array.from({ length: Math.min(CONCURRENCY, urls.length) }, async () => {
