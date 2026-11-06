@@ -13,6 +13,9 @@ type Placement = { after: string; id: string; alt: string; caption: string };
 const bench = 'Photo from the TWW repair bench';
 
 export const articleImagePlacements: Record<string, Placement[]> = {
+  'windows/windows-update-stuck': [
+    { after: 'When it might be hardware, not software', id: 'sk-hynix-8gb-ddr4-laptop-ram-memory', alt: 'SK hynix 8GB DDR4 laptop RAM module from the TWW repair bench', caption: 'Photo from the TWW repair bench: an SK hynix 8GB DDR4 laptop memory module. A memory upgrade is relevant here only when hardware instability is suspected; this image is not evidence that RAM caused a Windows Update failure.' },
+  ],
   'laptop-wont-turn-on': [
     { after: 'Try these low-risk checks first', id: 'panasonic-cr2032-cmos-battery-replacement-laptop-motherboard', alt: 'Panasonic CR2032 CMOS battery being replaced on a laptop motherboard', caption: `${bench}: a CR2032 CMOS cell on a laptop motherboard. Not every laptop has a user-replaceable one, so check the service manual first.` },
     { after: 'When the symptoms suggest a deeper fault', id: 'dell-vostro-laptop-open-chassis-motherboard-removed', alt: 'Dell Vostro laptop with the chassis open and the motherboard removed', caption: `${bench}: a laptop with the motherboard removed for board-level inspection.` },

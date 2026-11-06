@@ -1123,3 +1123,19 @@ main{position:relative;z-index:1;background:transparent}
 @media(prefers-reduced-motion:reduce){
   .ft-chart-legend .ft-legend-swatch{transition:none}
 }
+
+
+/* Windows Update article: accessible pre-desktop vs desktop triage fork. */
+.windows-update-triage{margin:1.5rem 0 2rem;padding:1.25rem;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:0 10px 28px rgba(19,34,56,.05)}
+.windows-update-triage h3{margin:.45rem 0 .6rem;font-size:clamp(1.2rem,2.2vw,1.55rem)}
+.windows-update-triage>p{margin:.5rem 0 1rem}
+.windows-update-triage-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin:1rem 0}
+.windows-update-triage-options button{display:flex;flex-direction:column;align-items:flex-start;gap:.45rem;width:100%;padding:1rem;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--ink);text-align:left;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+.windows-update-triage-options button strong{line-height:1.35}
+.windows-update-triage-options button span{color:var(--muted);font-size:.92rem;line-height:1.5}
+.windows-update-triage-options button[aria-pressed="true"]{border-color:var(--navy);background:#eaf2f7;box-shadow:inset 0 0 0 1px var(--navy)}
+.windows-update-triage-options button:focus-visible,.windows-update-triage-result a:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.windows-update-triage-result{padding:1rem;border-left:4px solid var(--navy);border-radius:8px;background:var(--soft)}
+.windows-update-triage-result p{margin:.45rem 0}
+.windows-update-triage-result a{display:inline-block;margin-top:.25rem;color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:640px){.windows-update-triage{padding:1rem}.windows-update-triage-options{grid-template-columns:1fr}}

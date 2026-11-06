@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
@@ -142,6 +142,44 @@ function GpuUsageQuickCheck() {
   </section>;
 }
 
+function WindowsUpdateTriage() {
+  const [path, setPath] = useState<'desktop' | 'boot'>('desktop');
+  const result = path === 'desktop'
+    ? {
+        title: 'You can reach the Windows desktop',
+        body: 'Use the desktop checks in Fixes 1–8. Start with Task Manager and the 60-second activity test; do not reset components until the symptom or error points to that step.',
+        href: '#fix-1-make-sure-it-is-really-stuck-and-wait-the-right-amount',
+        link: 'Go to Fix 1: desktop checks',
+      }
+    : {
+        title: 'You are stuck before the Windows desktop',
+        body: 'Do not try Settings, Task Manager, Command Prompt, or desktop-only fixes. Read the pre-desktop protocol first, and do not interrupt a visible update or rollback that is still progressing.',
+        href: '#pre-desktop-safe-interrupt-protocol-for-a-stuck-boot-screen',
+        link: 'Go to the pre-desktop safe protocol',
+      };
+
+  return <section className="windows-update-triage" aria-labelledby="windows-update-triage-title">
+    <span className="eyebrow">CHOOSE YOUR CURRENT SCREEN</span>
+    <h3 id="windows-update-triage-title">Where is the PC stuck right now?</h3>
+    <p>Choose the screen you can actually see. The safest next step is different before and after Windows reaches the desktop.</p>
+    <div className="windows-update-triage-options" role="group" aria-label="Choose the Windows Update stage">
+      <button type="button" aria-pressed={path === 'desktop'} onClick={() => setPath('desktop')}>
+        <strong>I can see the Windows desktop</strong>
+        <span>Settings is stuck on Downloading or Installing, or Windows is still responsive.</span>
+      </button>
+      <button type="button" aria-pressed={path === 'boot'} onClick={() => setPath('boot')}>
+        <strong>I am on a blue or black boot screen</strong>
+        <span>“Working on updates”, “Restarting”, a spinner, or no sign-in screen.</span>
+      </button>
+    </div>
+    <div className="windows-update-triage-result" aria-live="polite" aria-atomic="true">
+      <strong>{result.title}</strong>
+      <p>{result.body}</p>
+      <a href={result.href}>{result.link} ↓</a>
+    </div>
+  </section>;
+}
+
 export function ArticlePage() {
   const location = useLocation();
   const slug = location.pathname.replace(/^\//, '').replace(/\/$/, '');
@@ -156,6 +194,7 @@ export function ArticlePage() {
   const heroImage = article.heroImage || (assignedGalleryImageId ? galleryImageUrl(assignedGalleryImageId) : undefined);
   const heroGalleryImage = heroImageId ? galleryImages.find(image => image.id === heroImageId) : undefined;
   const heroImageAlt = heroGalleryImage?.title || article.title;
+  const visibleTags = article.tags.filter(tag => !article.appliesTo?.includes(tag));
 
   const author = authors[article.authorId];
   const related = getRelatedArticles(article, articles, 4);
@@ -230,7 +269,7 @@ export function ArticlePage() {
         <span className="reading-time">{article.readingTime} min read</span>
       </div>
       {article.appliesTo?.length ? <div className="applies-to"><strong>Applies to</strong>{article.appliesTo.map(item => <span key={item}>{item}</span>)}</div> : null}
-      {article.tags.length > 0 && <div className="article-tags" aria-label="Article topics">{article.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
+      {visibleTags.length > 0 && <div className="article-tags" aria-label="Article topics">{visibleTags.map(tag => <span key={tag}>{tag}</span>)}</div>}
     </div>
     {heroImage ? <figure className="article-hero-media">
       <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
@@ -253,7 +292,7 @@ export function ArticlePage() {
           <p>Use published game results and exact board specifications to compare the <Link className="text-link" to="/compare/rtx-5070-ti-vs-rx-9070-xt">RTX 5070 Ti and RX 9070 XT →</Link></p>
         </section> : null}
         {article.slug === 'research/upgrade-ram-ssd-now-or-wait' ? <RamSsdUpgradePlanner /> : null}
-        {article.content.map((section, index) => <section key={section.heading || index} id={section.heading ? headingId(section.heading) : undefined}>
+        {article.content.map((section, index) => <Fragment key={section.heading || index}><section id={section.heading ? headingId(section.heading) : undefined}>
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
           {section.image && <figure style={{ margin: '1.5rem 0' }}>
@@ -270,7 +309,9 @@ export function ArticlePage() {
               <span>{link.description}</span>
             </li>)}</ul>
           </nav> : null}
-        </section>)}
+        </section>
+        {article.slug === 'windows/windows-update-stuck' && section.heading === 'Slow or stuck? The 60-second test' ? <WindowsUpdateTriage /> : null}
+      </Fragment>)}
 
         {article.testing && <div className="editorial-note"><strong>Evidence note</strong><p>{renderInline(article.testing)}</p></div>}
 
