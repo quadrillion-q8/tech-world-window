@@ -20,7 +20,8 @@
     "audit:links": "tsx scripts/audit-link-topology.ts",
     "audit:frame-time": "tsx scripts/audit-frame-time.ts",
     "audit:lifecycle": "tsx scripts/audit-windows-lifecycle.ts",
-    "report:bundle": "node scripts/report-bundle-sizes.mjs"
+    "report:bundle": "node scripts/report-bundle-sizes.mjs",
+    "smoke:live": "node scripts/smoke-test-live-site.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",
