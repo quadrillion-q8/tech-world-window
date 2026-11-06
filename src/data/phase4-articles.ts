@@ -721,8 +721,9 @@ export const phase4Articles: Article[] = [
     "subcategory": "Updates",
     "authorId": "imranNatiq",
     "publishedAt": "2026-10-07",
-    "updatedAt": "2026-10-08",
-    "readingTime": 14,
+    "updatedAt": "2026-11-06",
+    "heroImage": "/images/gallery/dell-laptop-windows-update-repair-stack.webp",
+    "readingTime": 16,
     "tags": [
       "Windows 11",
       "Windows 10",
@@ -861,16 +862,21 @@ export const phase4Articles: Article[] = [
       {
         "heading": "Find your stage: where is the update stuck?",
         "paragraphs": [
-          "Different stages fail for different reasons. Match what you see before applying a fix."
+          "Different stages fail for different reasons, but a percentage is not a universal map to one Windows component. The same number can appear in different update types and Windows builds. Use the screen, activity signals, and update or error details together; the time ranges above are guidance, not a deadline."
         ],
-        "bullets": [
-          "Pending download or Downloading 0% → usually a connection, proxy, VPN, or update-service problem. Check the connection, disconnect a VPN or proxy, and confirm free storage.",
-          "Installing 0% or Installing 30% → the update may be extracting or staging large packages. Wait, but verify activity with the 60-second test.",
-          "Installing 99% or 100% → Windows may be finalizing, configuring components, and preparing to restart. A long pause can be normal.",
-          "Working on updates, 0% complete → this is the restart/configuration phase. Percentages can jump in large steps with long pauses.",
-          "Restarting or a black screen with a spinner → if there is no drive activity for hours, a display or driver hang may be involved rather than an update hang. Escalate only after the waiting rule is met.",
-          "We couldn't complete the updates. Undoing changes. → Windows is rolling back. Do not power off during the rollback unless it has clearly hung beyond the normal waiting window."
-        ]
+        "table": {
+          "caption": "Windows Update percentage and servicing-stage decoder",
+          "headers": ["Screen / percentage", "What may be happening", "Safe next check"],
+          "rows": [
+            ["Downloading 0%–100%", "The Windows Update client, Background Intelligent Transfer Service (BITS), or Delivery Optimization may be obtaining update content. Network conditions, a proxy, VPN, metered connection, or service availability can affect this stage.", "On the desktop, check network activity and the exact error. Follow Fix 4 for blockers; use Fix 6 only when downloads repeatedly fail or the cache is implicated."],
+            ["Installing 0%–25%", "The servicing stack may be staging or applying package content. TiWorker.exe or the Windows Modules Installer service can appear on some systems, but process names and percentages are not a one-to-one diagnostic.", "Use Task Manager on the desktop to compare Disk and CPU activity across 60 seconds. If activity continues, wait; do not force a restart because the number is unchanged."],
+            ["Installing 60%–75%", "Component-Based Servicing (CBS) may be processing components and manifests in the component store. Progress can pause while work is being completed.", "If you can reach the desktop, compare the CBS.log timestamp and file size twice, 60 seconds apart. A changing log is evidence of log writes, not proof that every update stage is healthy."],
+            ["Installing 99%–100%", "Windows may be finalizing the package, recording pending work, or waiting for a restart. The number alone cannot identify which operation is active.", "Wait while the system remains responsive or active. If Windows says Restart required and the desktop is usable, restart normally (Fix 2)."],
+            ["Blue/black Working on updates, any percentage", "Windows is performing post-restart configuration or offline servicing. Some work is not visible in Task Manager because the normal desktop is unavailable.", "Keep AC power connected. Animated dots or changing progress can indicate work even when the percentage stays still; use the pre-desktop protocol below only if the PC becomes unresponsive for an extended period."],
+            ["Black screen / blank display after a restart", "A display-output or graphics-driver problem is possible, but a black screen alone does not prove Windows Update has finished or frozen.", "If there is no active update message and Windows appears responsive, try Win + Ctrl + Shift + B once. Do not use this as a substitute for waiting through a visible update."],
+            ["Undoing changes / reverting updates", "Windows is attempting to roll back an unsuccessful update.", "Leave the PC powered and connected. Do not interrupt a visible rollback; if Windows repeatedly returns to recovery, use Fix 9 and record the exact error."]
+          ]
+        }
       },
       {
         "heading": "Before you do anything: protect your data",
@@ -952,6 +958,13 @@ export const phase4Articles: Article[] = [
           "Restart the PC and check for updates again. Windows will rebuild the renamed cache folders automatically.",
           "If everything works, the .old folders can be removed later after you are satisfied the system is stable.",
           "Do not delete unrelated folders inside C:\\Windows."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Windows Repair Log Analyzer",
+            "href": "/tools/windows-repair-log-analyzer",
+            "description": "Inspect CBS, DISM, Windows Update and Event Viewer text exports locally before choosing the next repair."
+          }
         ]
       },
       {
@@ -959,14 +972,24 @@ export const phase4Articles: Article[] = [
         "paragraphs": [
           "When error codes or symptoms point to corruption, repair the component store first and then verify system files. Microsoft documents DISM repair and SFC as part of Windows servicing troubleshooting.",
           "RestoreHealth can pause at a percentage for a while. Do not cancel it simply because the percentage has stopped moving.",
-          "If DISM cannot find the required source files, use a clean source that matches the installed Windows version and follow Microsoft's documented /Source guidance. Restart after both tools finish and retry Windows Update."
+          "If DISM cannot find the required source files, use a clean source that matches the installed Windows version and follow Microsoft's documented /Source guidance. Restart after both tools finish and retry Windows Update.",
+          "To see whether the Component-Based Servicing log was written during a one-minute interval, use the read-only PowerShell check below. It reports file metadata only; it does not prove that an update is healthy or hung."
         ],
         "codeBlocks": [
-          "DISM /Online /Cleanup-Image /CheckHealth\nDISM /Online /Cleanup-Image /ScanHealth\nDISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow"
+          "DISM /Online /Cleanup-Image /CheckHealth\nDISM /Online /Cleanup-Image /ScanHealth\nDISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow",
+          "$cbsLog = Join-Path $env:windir 'Logs\\CBS\\CBS.log'\nGet-Item $cbsLog | Select-Object Name, LastWriteTime, Length\nStart-Sleep -Seconds 60; Get-Item $cbsLog | Select-Object Name, LastWriteTime, Length"
         ],
         "bullets": [
           "Common corruption-related codes include 0x80073712, 0x800f081f, and 0x80070002, but error-code meanings should be confirmed against current Microsoft documentation.",
-          "Run DISM before SFC when following this repair path."
+          "Run DISM before SFC when following this repair path.",
+          "If LastWriteTime or Length changes, CBS.log was written during the interval; no change alone does not prove that Windows Update is stuck. If Windows denies access, run PowerShell as administrator."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Windows Repair Log Analyzer",
+            "href": "/tools/windows-repair-log-analyzer",
+            "description": "Inspect CBS, DISM, Windows Update and Event Viewer log exports locally and find recurring error patterns."
+          }
         ]
       },
       {
@@ -979,6 +1002,27 @@ export const phase4Articles: Article[] = [
           "Search that KB number at the Microsoft Update Catalog.",
           "Choose the package matching the Windows version and architecture, such as x64 or ARM64.",
           "Run the downloaded .msu package and restart when prompted."
+        ]
+      },
+      {
+        "heading": "Pre-desktop: safe interrupt protocol for a stuck boot screen",
+        "paragraphs": [
+          "Use this path when the PC is on a blue or black Working on updates or restart screen and Settings or Task Manager are unavailable. Do not apply desktop-only fixes 1–8 from this screen. There is no universal percentage-to-time rule: a static percentage with animated dots can still be normal.",
+          "A missing drive-activity LED is common on modern laptops. Fan noise, chassis warmth, or a steady fan speed is not reliable proof that servicing is deadlocked. Treat those as weak clues; look for screen changes, rollback messages, and whether the system responds."
+        ],
+        "steps": [
+          "Keep the laptop connected to its charger and leave the lid open. Do not disconnect power or interrupt a BIOS/firmware update.",
+          "If the display is completely black (not showing an active update message) and the computer otherwise seems to be running, press Windows + Ctrl + Shift + B once. Microsoft documents this shortcut to reset the graphics driver; it may cause a beep or brief flicker, but it is not a Windows Update repair command.",
+          "If the update screen still shows animated dots, a changing percentage, or Undoing changes, leave it running. Disconnect non-essential USB storage, docks, or external displays only when they can be safely removed; do not unplug power.",
+          "If the PC remains wholly unresponsive after an extended wait and there are no signs of progress, a single forced power-off may be a last resort. Hold the power button until the PC turns off, wait briefly, then power it on and allow any automatic rollback or repair to finish without interruption. This still carries a risk of system-file corruption; a clean rollback is not guaranteed.",
+          "If Windows still cannot boot after the update rollback or restart attempt, use WinRE. Microsoft's documented entry method interrupts normal startup twice: power on, wait for the Windows or manufacturer logo, hold power to turn off, repeat once, then power on a third time and choose Advanced options if Automatic Repair appears."
+        ],
+        "relatedLinks": [
+          {
+            "label": "Windows 11 Won’t Start: Safe Troubleshooting Guide",
+            "href": "/windows-11-wont-start-troubleshooting",
+            "description": "Use this when Windows remains unable to reach the sign-in screen after the update recovery path."
+          }
         ]
       },
       {
@@ -1187,18 +1231,12 @@ export const phase4Articles: Article[] = [
             ]
           ]
         }
-      },
-      {
-        "heading": "Frequently asked questions",
-        "paragraphs": [
-          "These answers cover the most common decisions people face when an update appears frozen."
-        ]
       }
     ],
     "faq": [
       {
-        "question": "Should I turn off the PC when a Windows update is stuck?",
-        "answer": "Only as a last resort. If there is any disk, CPU, or network activity, wait. If there has been absolutely no activity for 2 to 3 hours, a forced shutdown may be reasonable as a recovery step, but back up first when possible and be prepared for Windows to roll back or enter recovery."
+        "question": "Should I turn off or force-restart a PC when Windows Update is stuck?",
+        "answer": "Do not force-restart just because the percentage has stopped moving. If the screen, dots, disk, CPU, or network show activity, keep waiting. If the PC is wholly unresponsive for an extended period, a single controlled power-off may be a last resort; the often-used 2–3-hour guide is a cautious heuristic, not a universal cutoff. Back up first when possible and be prepared for rollback or recovery."
       },
       {
         "question": "How long is too long for a Windows update to take?",
@@ -1235,6 +1273,10 @@ export const phase4Articles: Article[] = [
       {
         "question": "Why does Windows Update get stuck more on some PCs?",
         "answer": "Common contributors include old hard drives, low free storage, corrupted update state, VPN or security-software interference, failing hardware, and incompatible drivers. The pattern of failure is more useful than the percentage shown on screen."
+      },
+      {
+        "question": "Can Win + Ctrl + Shift + B fix a black screen during Windows Update?",
+        "answer": "It resets the graphics driver in Windows and may help when the display path is blank or frozen, but it does not repair the update itself. Try it once only when the display is black rather than showing an active Working on updates message; when a visible update or rollback is progressing, keep waiting."
       }
     ],
     "sources": [
@@ -1261,6 +1303,18 @@ export const phase4Articles: Article[] = [
       {
         "label": "Microsoft Support: Windows 10 support and Extended Security Updates",
         "url": "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025"
+      },
+      {
+        "label": "Microsoft Support: Windows Recovery Environment",
+        "url": "https://support.microsoft.com/en-au/windows/experience/backup-recovery/windows-recovery-environment"
+      },
+      {
+        "label": "Microsoft Support: Troubleshoot screen flickering and reset the graphics driver",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-screen-flickering-in-windows"
+      },
+      {
+        "label": "Microsoft Learn: Windows Update log files",
+        "url": "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs"
       }
     ]
   },
