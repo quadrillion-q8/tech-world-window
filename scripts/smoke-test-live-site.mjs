@@ -207,36 +207,42 @@ async function main() {
     await checkApexRedirect(new URL(representativePage).pathname);
   }
 
-  // Legacy URLs must jump directly to their final canonical destinations.
-  // Keep these exact rules ahead of the apex catch-all redirect in vercel.json.
+  // The Vercel project domain setting canonicalizes the apex host to www.
+  // An apex legacy URL can therefore require two permanent redirects:
+  // apex -> www, followed by the legacy path -> its final canonical destination.
+  // A www legacy URL should still reach its destination in one redirect.
   const legacyRedirects = [
     {
       path: '/windows-11-update-stuck-troubleshooting',
       destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
       label: 'legacy Windows Update URL (apex)',
       host: 'https://techworldwindow.com',
+      maxRedirects: 2,
     },
     {
       path: '/tools/windows-crash-investigator',
       destination: 'https://www.techworldwindow.com/tools',
       label: 'legacy Windows Crash Investigator URL (apex)',
       host: 'https://techworldwindow.com',
+      maxRedirects: 2,
     },
     {
       path: '/windows-11-update-stuck-troubleshooting',
       destination: 'https://www.techworldwindow.com/windows/windows-update-stuck',
       label: 'legacy Windows Update URL (www)',
       host: 'https://www.techworldwindow.com',
+      maxRedirects: 1,
     },
     {
       path: '/tools/windows-crash-investigator',
       destination: 'https://www.techworldwindow.com/tools',
       label: 'legacy Windows Crash Investigator URL (www)',
       host: 'https://www.techworldwindow.com',
+      maxRedirects: 1,
     },
   ];
   await Promise.all(legacyRedirects.map(item =>
-    checkRedirectChain(`${item.host}${item.path}`, item.destination, 1, item.label)
+    checkRedirectChain(`${item.host}${item.path}`, item.destination, item.maxRedirects, item.label)
   ));
 
   // Trailing-slash normalization should not add a third hop on HTTPS apex URLs.
