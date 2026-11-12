@@ -394,7 +394,7 @@ if (!existsSync(dist)) {
 
     if (route.path === '/testing') {
       const testingText = html
-        .replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ')
+        .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ')
         .replace(/<[^>]+>/g, ' ')
         .replace(/&[a-z0-9#]+;/gi, ' ');
       const testingWordCount = testingText.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g)?.length ?? 0;
