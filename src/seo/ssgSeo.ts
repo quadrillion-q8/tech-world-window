@@ -55,7 +55,7 @@ const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   },
   '/testing': {
     title: 'TWW Testing Methodology',
-    description: 'How Tech World Window approaches hands-on testing, measurements, troubleshooting evidence, repeatability and technical limitations.',
+    description: 'How TWW documents hardware tests, PC benchmarks and troubleshooting evidence—and separates its own measurements from third-party results and technical analysis.',
   },
   '/research': {
     title: 'TWW Technology Research',
