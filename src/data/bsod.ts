@@ -173,7 +173,58 @@ export const bsodEntries: BsodEntry[] = [
       step.memory(),
       step.sfc(),
     ],
-    escalate: 'If no driver name is shown and the crashes happen at random, treat it like a memory or hardware problem and test RAM before changing more software.',
+    escalate: 'If the blue screen does not identify a driver, or the named driver changes between crashes, preserve the dumps and check for a shared cause such as memory instability or a low-level software conflict. Do not assume the code proves that a particular device or RAM module has failed.',
+    deepDive: {
+      heading: 'Read the 0xD1 parameters and identify the driver',
+      paragraphs: [
+        'Microsoft defines bug check 0xD1 as a kernel-mode driver accessing pageable or otherwise invalid memory while the processor is running at an interrupt request level (IRQL) that is too high. The code describes an invalid driver-memory operation; it does not by itself identify a failed RAM module, network card, or motherboard.',
+        'The four parameters in a crash dump are useful when someone can interpret them with Windows debugging tools. Parameter 1 is the memory address that was referenced. Parameter 2 is the IRQL at the time. Parameter 3 indicates the type of access (for example, read or write), and parameter 4 is the address of the instruction that made the reference. These values are evidence for dump analysis, not a shopping list of replacement parts.',
+        'A driver name may appear on the blue screen, in the dump analysis, or in the KiBugCheckDriver value. Treat the module as the first lead, not a final verdict: another driver, a device, incompatible low-level software, or memory corruption can trigger the failing operation. If the named file is a Windows component, do not delete it; identify its publisher and the device or software that installed it.',
+        'Network, Wi-Fi, Bluetooth, storage, security, VPN, and virtualization drivers can operate at kernel level. A recent driver update or new low-level utility is therefore relevant, but the correct next step depends on what changed and whether the same module appears in more than one dump.'
+      ],
+      subsections: [
+        {
+          heading: 'A safe way to isolate a likely driver',
+          paragraphs: [
+            'Start with the change history and crash evidence. Avoid updating every driver at once: that removes the ability to tell which change affected the result. If the system is unstable, back up important files before making changes.'
+          ],
+          steps: [
+            { title: 'Record the exact module and crash time', detail: 'Photograph the blue screen if it shows a What failed file name. Keep the matching minidump from C:\\Windows\\Minidump and note the time, the device in use, and the most recent driver or software change.' },
+            { title: 'Identify the module publisher', detail: 'Use Device Manager, the driver file properties, or the computer maker’s support page to connect the .sys file with its device or software. A file name is a clue; do not assume that every similarly named file belongs to the same product.' },
+            { title: 'Roll back one relevant recent change', detail: 'If the crashes began after a driver update, use Device Manager’s Roll Back Driver option when available, or install the previous supported package from the PC or device manufacturer. Change only that driver and compare the next result.' },
+            { title: 'Temporarily remove nonessential kernel-level utilities', detail: 'If timing points to a VPN, third-party firewall, endpoint security filter, RGB utility, or virtualization component, use the vendor-supported uninstall or disable procedure. Do not disable core Windows security protections or remove drivers blindly.' },
+            { title: 'Retest and compare more than one crash', detail: 'Check whether the same stop code and module recur. If the named driver changes, or unrelated stop codes appear, widen the investigation to memory stability, firmware, and hardware rather than replacing the first device named.' }
+          ]
+        },
+        {
+          heading: 'When Driver Verifier is not the first step',
+          paragraphs: [
+            'Windows Driver Verifier can deliberately stress selected drivers and trigger a bug check when it finds a violation. It is an advanced developer and technician tool, not a routine first-line repair. Enabling it indiscriminately can make an already unstable PC harder to start. Use it only when a specific third-party driver is under investigation, a recovery path is available, and the operator understands how to turn verification off from recovery mode.'
+          ]
+        }
+      ],
+      table: {
+        caption: 'How to interpret common 0xD1 evidence',
+        headers: ['Evidence', 'What it tells you', 'What to do next'],
+        rows: [
+          ['The same third-party .sys file appears in repeated dumps', 'That driver or its interaction with another component deserves investigation', 'Identify its publisher and test one supported rollback or update'],
+          ['A network or Wi-Fi driver is named', 'The network driver stack is a plausible lead, not proof of a faulty adapter', 'Test the vendor driver version and review recent VPN or filter-driver changes'],
+          ['The named module changes between crashes', 'A shared instability may be corrupting different driver operations', 'Preserve the dumps and investigate memory settings, hardware changes, and firmware'],
+          ['The crash began after installing a driver or kernel utility', 'A recent low-level software change may be involved', 'Undo that one change, then reproduce the same workload'],
+          ['Memory tests report errors', 'The memory subsystem is unstable; the module or slot is not yet isolated', 'Save the result and test supported settings and modules using the device manual']
+        ]
+      },
+      faq: [
+        { question: 'Does DRIVER_IRQL_NOT_LESS_OR_EQUAL mean the RAM is bad?', answer: 'No. Bug check 0xD1 usually points to a kernel-mode driver making an invalid or disallowed memory access. Memory instability can contribute, but the code alone does not prove a bad RAM module.' },
+        { question: 'What does the driver file on the blue screen mean?', answer: 'It identifies a driver module involved in the crash path. It is a strong lead to investigate, but not automatic proof that the device or driver alone is the root cause.' },
+        { question: 'Should I enable Driver Verifier to fix 0xD1?', answer: 'Not as a routine first step. Driver Verifier is an advanced diagnostic tool that can deliberately trigger crashes. Use it only for a targeted driver investigation with a reliable recovery plan.' }
+      ],
+      sources: [
+        { label: 'Microsoft Learn: Bug Check 0xD1 — DRIVER_IRQL_NOT_LESS_OR_EQUAL', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xd1--driver-irql-not-less-or-equal' },
+        { label: 'Microsoft Learn: Driver Verifier', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/driver-verifier' },
+        { label: 'Microsoft Learn: Analyze a kernel-mode dump file with WinDbg', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/analyzing-a-kernel-mode-dump-file-with-windbg' }
+      ]
+    },
     related: [GUIDE.decode, GUIDE.device, GUIDE.pillar],
   },
   {
@@ -311,7 +362,57 @@ export const bsodEntries: BsodEntry[] = [
       step.sfc(),
       step.safeMode(),
     ],
-    escalate: 'A different driver file named on each crash suggests a shared cause such as memory or power rather than several separate driver bugs.',
+    escalate: 'If the named module changes on each crash, or the PC produces several unrelated stop codes, preserve the dumps and investigate shared causes such as memory instability, incompatible low-level software, or recent hardware changes. A named .sys file is a lead, not proof that the device itself is defective.',
+    deepDive: {
+      heading: 'Understand the exception behind 0x7E',
+      paragraphs: [
+        'Bug check 0x7E means a system thread raised an exception that the error handler did not catch. The stop-code name identifies the failure class, not the component that caused it. Microsoft’s reference says the exception must be identified before the crash can be interpreted; the same stop code can arise from different driver or system conditions.',
+        'The four bug-check parameters provide a more precise starting point. Parameter 1 is the exception code that was not handled. Parameter 2 is the address where the exception occurred. Parameters 3 and 4 point to the exception record and processor context record. These addresses are most useful in a crash dump opened with a debugger; most home users do not need to interpret them manually.',
+        'Some exception values have recognizable meanings. For example, 0xC0000005 is an access violation, 0x80000002 is a datatype-misalignment exception, and 0x80000003 is a breakpoint or assertion. A value narrows the type of exception, but it does not identify the failed part. Compare the code with the named module, the stack, and the events recorded at the same time.',
+        'If the blue screen shows a What failed file such as a graphics, storage, network, or security driver, identify the publisher and recent changes before taking action. A driver can be the code that crashed without being the only cause: a memory problem, conflicting filter driver, firmware issue, or incompatible device can produce the conditions that expose the fault.'
+      ],
+      subsections: [
+        {
+          heading: 'Follow the exception and module together',
+          paragraphs: [
+            'A useful investigation keeps three items together: the exception code, the address or module involved, and the timeline of recent changes. A display driver named after a GPU update deserves a different first check from a storage driver named after a firmware or disk change.'
+          ],
+          steps: [
+            { title: 'Write down the full stop code and file name', detail: 'Record SYSTEM_THREAD_EXCEPTION_NOT_HANDLED, 0x0000007E, any What failed .sys file, and the exact time. If the screen disappears too quickly, use the next matching minidump and BugCheck event.' },
+            { title: 'Check what changed immediately beforehand', detail: 'List driver updates, Windows updates, new devices, BIOS changes, VPN or security software, and memory tuning. Start with the change that matches the named module instead of applying unrelated fixes.' },
+            { title: 'Use Safe Mode for a driver that prevents normal startup', detail: 'If Windows cannot stay running, enter Windows Recovery and use Startup Settings to reach Safe Mode. Roll back or remove only the implicated third-party driver or utility, following the PC maker’s recovery instructions.' },
+            { title: 'Use the device maker’s supported driver package', detail: 'For a device-specific module, compare the installed version with the package for the exact PC or component model. A laptop may require its OEM-customized graphics, storage, or chipset package rather than a generic release.' },
+            { title: 'Compare recurring dumps before replacing hardware', detail: 'If the same module and exception recur, investigate that driver path first. If the module and exception vary, widen the investigation to memory stability, system firmware, and hardware diagnostics.' }
+          ]
+        },
+        {
+          heading: 'What a dump can add',
+          paragraphs: [
+            'For repeated crashes, a small memory dump can preserve the exception record and context that the stop-code screen cannot show. WinDbg’s !analyze -v summary can identify the bug-check parameters, probable module, and stack information. Treat a “probably caused by” line as an investigative lead and compare it with more than one dump where possible.',
+            'Do not upload raw crash dumps to public forums. Dumps can contain process names, loaded modules, memory fragments, and other system context. Share them only with a trusted support provider when needed.'
+          ]
+        }
+      ],
+      table: {
+        caption: 'Common 0x7E exception values',
+        headers: ['Exception code', 'Microsoft label', 'Practical interpretation'],
+        rows: [
+          ['0xC0000005', 'STATUS_ACCESS_VIOLATION', 'Code attempted an invalid memory access; inspect the module and dump context'],
+          ['0x80000002', 'STATUS_DATATYPE_MISALIGNMENT', 'An unaligned data reference was encountered; use the exception context for diagnosis'],
+          ['0x80000003', 'STATUS_BREAKPOINT', 'A breakpoint or assertion was encountered; repeated occurrence needs context from the named component']
+        ]
+      },
+      faq: [
+        { question: 'Does SYSTEM_THREAD_EXCEPTION_NOT_HANDLED always mean a graphics driver problem?', answer: 'No. A graphics driver can be named, but storage, network, security, chipset, and other kernel drivers can also be involved. Use the file name and recent changes to decide what to investigate.' },
+        { question: 'What does exception code 0xC0000005 mean on a 0x7E blue screen?', answer: 'It is an access-violation exception. It says that code attempted an invalid memory access; it does not by itself identify whether the underlying cause is a driver, memory corruption, or another system problem.' },
+        { question: 'Can I fix 0x7E by reinstalling Windows?', answer: 'Reinstalling Windows is not the first step. Identify the named module, undo a relevant recent change, and preserve crash evidence. A reinstall will not repair faulty hardware and can remove useful diagnostic clues.' }
+      ],
+      sources: [
+        { label: 'Microsoft Learn: Bug Check 0x7E — SYSTEM_THREAD_EXCEPTION_NOT_HANDLED', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7e--system-thread-exception-not-handled' },
+        { label: 'Microsoft Learn: Analyze a kernel-mode dump file with WinDbg', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/analyzing-a-kernel-mode-dump-file-with-windbg' },
+        { label: 'Microsoft Support: Resolving blue-screen errors in Windows', url: 'https://support.microsoft.com/en-us/windows/resolving-blue-screen-errors-in-windows-60b01860-58f2-be66-7516-5c45a66ae3c6' }
+      ]
+    },
     related: [GUIDE.decode, GUIDE.device, GUIDE.pillar],
   },
   {
@@ -650,7 +751,59 @@ export const bsodEntries: BsodEntry[] = [
       'Failing motherboard or CPU hardware',
     ],
     steps: [step.memory(), step.stock(), step.temps(), step.undo(), step.sfc()],
-    escalate: 'Crashes that continue at stock settings with passing memory tests justify testing other hardware, starting with the power supply and the motherboard.',
+    escalate: 'If the trap recurs at stock settings after supported memory and manufacturer diagnostics, preserve the dump and have the memory, motherboard, CPU, and power path tested systematically. Do not replace parts based on the stop-code name alone.',
+    deepDive: {
+      heading: 'Interpret the trap number in 0x7F',
+      paragraphs: [
+        'Bug check 0x7F means the processor generated a trap that the Windows kernel could not handle. The first bug-check parameter identifies the trap number, so two systems showing UNEXPECTED_KERNEL_MODE_TRAP can have different underlying failure paths. A double fault is one important possibility, but the stop-code name alone does not prove that the CPU is defective.',
+        'Microsoft documents trap 0x8 as a double fault: an exception occurred while the processor was trying to handle an earlier exception. A kernel stack overflow can cause this, including a case where file-system filter drivers create a recursive call path. A hardware problem is another possible cause. Other trap numbers describe different processor exceptions; for example, trap 0x6 is an invalid-opcode exception and can be associated with corrupted execution state or hardware memory corruption.',
+        'The same 0x7F stop code can therefore involve faulty or mismatched hardware, memory instability, overclocking, firmware or driver interactions. Microsoft specifically notes faulty or mismatched memory, recently added hardware, failed components, motherboard problems, power-supply problems, and CPU overclocking among troubleshooting areas. Use the trap number and dump evidence to choose which branch to investigate.',
+        'If a crash dump is available, the parameter 1 trap number and the debugger stack can help distinguish a double fault from another processor exception. For recurring crashes, start with WinDbg’s !analyze -v output and look for patterns across dumps rather than relying on one “probably caused by” module.'
+      ],
+      subsections: [
+        {
+          heading: 'A safe diagnostic order for 0x7F',
+          paragraphs: [
+            'This code can point toward hardware instability, but testing should remain controlled. Stop using the PC if there is smoke, sparks, an electrical burning smell, liquid damage, or visible scorching. Do not open the power supply. Protect important files before extended testing.'
+          ],
+          steps: [
+            { title: 'Record the trap number and any recent hardware change', detail: 'Keep the stop-code details and minidump. Note whether the crash started after adding RAM, a CPU, a GPU, a storage controller, a new driver, or a firmware update.' },
+            { title: 'Return overclocks and memory profiles to supported defaults', detail: 'Temporarily turn off CPU and GPU overclocks, undervolts, XMP, and EXPO. Change one profile at a time and retest at stock settings before assuming a component has failed.' },
+            { title: 'Check memory using the system maker’s supported procedure', detail: 'Run Windows Memory Diagnostic as an initial check and a longer bootable memory test if crashes continue. If errors appear, isolate module, slot, and settings only when comfortable and according to the motherboard or PC service manual.' },
+            { title: 'Review cooling and manufacturer diagnostics', detail: 'Check that fans operate and vents are clear. Use the PC maker’s CPU, memory, and storage diagnostics where available. Do not use repeated high-load stress tests if the PC is shutting down or showing electrical warning signs.' },
+            { title: 'Compare the dump and driver stack if the trap is 0x8', detail: 'A double-fault dump may expose a kernel stack or filter-driver interaction. This is advanced analysis: preserve the dump and seek qualified Windows debugging help rather than uninstalling arbitrary file-system or security drivers.' },
+            { title: 'Test the power and motherboard path only with suitable equipment', detail: 'If supported tests point to hardware, have a qualified technician test with compatible known-good components or a proper loaded PSU test. Never open a PSU enclosure or mix modular PSU cables.' }
+          ]
+        },
+        {
+          heading: 'Why trap 0x8 needs a different interpretation',
+          paragraphs: [
+            'A double fault means the processor could not complete handling of an earlier exception. It can be caused by a kernel stack problem, including a recursive driver stack, or by a hardware problem. That is why the right evidence is the dump’s stack and trap context—not a generic instruction to replace RAM or the CPU.',
+            'When a recent storage, backup, antivirus, or encryption filter driver change coincides with a 0x8 crash, that software path deserves review. Remove or roll back only a specific implicated product using its supported procedure. Do not disable core Windows storage or security components at random.'
+          ]
+        }
+      ],
+      table: {
+        caption: 'What the 0x7F trap number can indicate',
+        headers: ['Parameter 1', 'Trap type', 'How to use the clue'],
+        rows: [
+          ['0x00000008', 'Double fault', 'Review dump and stack evidence for a kernel stack problem or hardware fault'],
+          ['0x00000006', 'Invalid opcode', 'Consider corrupted execution state, memory corruption, or software/hardware instability'],
+          ['0x0000000D', 'General protection fault', 'Use the dump and processor context; the value does not identify a failed component'],
+          ['Other values', 'Other processor traps', 'Check Microsoft’s trap reference and the exact debugger output for the system being diagnosed']
+        ]
+      },
+      faq: [
+        { question: 'Does UNEXPECTED_KERNEL_MODE_TRAP mean the CPU is dead?', answer: 'No. Bug check 0x7F can follow memory instability, mismatched or faulty hardware, driver interactions, overclocking, or other processor exceptions. Use the trap number and diagnostic evidence before replacing a CPU.' },
+        { question: 'What does trap 0x8 mean in a 0x7F crash?', answer: 'Trap 0x8 is a double fault: an exception occurred while Windows was already handling another exception. A kernel stack overflow or a hardware problem can cause it; dump and stack analysis are needed to distinguish them.' },
+        { question: 'Can XMP or an overclock cause 0x7F?', answer: 'Unstable memory profiles or CPU overclocks can contribute to this stop code. Return settings to supported defaults as a controlled test and compare before changing hardware.' }
+      ],
+      sources: [
+        { label: 'Microsoft Learn: Bug Check 0x7F — UNEXPECTED_KERNEL_MODE_TRAP', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7f--unexpected-kernel-mode-trap' },
+        { label: 'Microsoft Learn: Analyze a kernel-mode dump file with WinDbg', url: 'https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/analyzing-a-kernel-mode-dump-file-with-windbg' },
+        { label: 'Microsoft Support: Resolving blue-screen errors in Windows', url: 'https://support.microsoft.com/en-us/windows/resolving-blue-screen-errors-in-windows-60b01860-58f2-be66-7516-5c45a66ae3c6' }
+      ]
+    },
     related: [GUIDE.ram, GUIDE.psu, GUIDE.decode],
   },
   {

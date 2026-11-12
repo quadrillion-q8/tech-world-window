@@ -273,6 +273,13 @@ for (const entry of bsodEntries) {
   bsodSlugs.add(entry.slug); bsodNames.add(entry.name); bsodHexes.add(entry.hex);
   if (!/^0x[0-9A-F]{8}$/.test(entry.hex)) errors.push(`BSOD "${entry.name}" hex must look like 0x000000EF: ${entry.hex}`);
   if (entry.slug !== entry.name.toLowerCase().replace(/_/g, '-')) errors.push(`BSOD slug must match the lower-case hyphenated name: ${entry.slug}`);
+  if (['driver-irql-not-less-or-equal', 'system-thread-exception-not-handled', 'unexpected-kernel-mode-trap'].includes(entry.slug)) {
+    if (!entry.deepDive) errors.push(`GSC-priority BSOD page is missing its code-specific deep dive: ${entry.slug}`);
+    if ((entry.deepDive?.sources?.length ?? 0) < 2) errors.push(`GSC-priority BSOD page needs at least 2 attributed primary/technical sources: ${entry.slug}`);
+    if ((entry.deepDive?.paragraphs.join(' ').match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g)?.length ?? 0) < 150) {
+      errors.push(`GSC-priority BSOD page needs at least 150 words of code-specific evidence analysis: ${entry.slug}`);
+    }
+  }
   if (entry.steps.length < 4) errors.push(`BSOD "${entry.name}" needs at least 4 fix steps.`);
   if (entry.causes.length < 3) errors.push(`BSOD "${entry.name}" needs at least 3 causes.`);
   if (!entry.related.length) errors.push(`BSOD "${entry.name}" needs at least one related guide.`);
@@ -442,6 +449,14 @@ if (!existsSync(dist)) {
         if (entry && !html.includes(entry.name)) errors.push(`Prerendered HTML is missing the stop code name in ${route.path}`);
         if (entry && !html.includes('article-steps')) errors.push(`Prerendered HTML is missing the numbered fix steps in ${route.path}`);
         if (!html.includes('"name":"BSOD Error Code Lookup"')) errors.push(`Breadcrumb for ${route.path} is missing the BSOD lookup level.`);
+        if (['driver-irql-not-less-or-equal', 'system-thread-exception-not-handled', 'unexpected-kernel-mode-trap'].includes(entry?.slug || '')) {
+          if (!entry?.deepDive || !html.includes(`<h2>${entry.deepDive.heading}</h2>`)) {
+            errors.push(`GSC-priority BSOD page is missing its rendered code-specific evidence section: ${route.path}`);
+          }
+          for (const source of entry?.deepDive?.sources || []) {
+            if (!html.includes(source.url)) errors.push(`GSC-priority BSOD page is missing its rendered Microsoft/technical source: ${route.path} → ${source.url}`);
+          }
+        }
       }
       if (route.path === '/tools/frame-time-analyzer' && !html.includes('never uploaded')) errors.push('Frame-time analyzer is missing its privacy statement in prerendered HTML.');
       if (route.path === '/tools/frame-time-analyzer' && !html.toLowerCase().includes('compare up to four captures')) errors.push('Frame-time analyzer is missing the multi-capture comparison explanation in prerendered HTML.');

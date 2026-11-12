@@ -298,6 +298,24 @@ export const articleToolLinks: Record<string, string[]> = {
 const stripCode = (text: string) => text.replace(/`/g, '');
 
 export function bsodSeo(entry: BsodEntry) {
+  if (entry.slug === 'driver-irql-not-less-or-equal') {
+    return {
+      title: 'DRIVER_IRQL_NOT_LESS_OR_EQUAL (0xD1): Safe Fixes',
+      description: 'DRIVER_IRQL_NOT_LESS_OR_EQUAL (0xD1): identify a named driver, interpret crash evidence, and check drivers and memory safely.',
+    };
+  }
+  if (entry.slug === 'system-thread-exception-not-handled') {
+    return {
+      title: 'SYSTEM_THREAD_EXCEPTION_NOT_HANDLED (0x7E): Fixes',
+      description: 'SYSTEM_THREAD_EXCEPTION_NOT_HANDLED (0x7E): understand the exception code, find a named driver, and investigate the crash safely.',
+    };
+  }
+  if (entry.slug === 'unexpected-kernel-mode-trap') {
+    return {
+      title: 'UNEXPECTED_KERNEL_MODE_TRAP (0x7F): Safe Fixes',
+      description: 'UNEXPECTED_KERNEL_MODE_TRAP (0x7F): interpret trap numbers, double faults, memory instability and safe hardware checks.',
+    };
+  }
   if (entry.slug === 'kernel-security-check-failure') {
     return {
       title: 'KERNEL_SECURITY_CHECK_FAILURE (0x139): Safe Fixes',
