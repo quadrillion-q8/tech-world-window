@@ -392,6 +392,27 @@ if (!existsSync(dist)) {
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
     if (route.path === '/' && !html.includes('"@type":"Organization"')) errors.push('Homepage is missing Organization JSON-LD.');
 
+    if (route.path === '/testing') {
+      const testingText = html
+        .replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&[a-z0-9#]+;/gi, ' ');
+      const testingWordCount = testingText.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g)?.length ?? 0;
+      if (testingWordCount < 500) {
+        errors.push(`Testing Methodology page is only ${testingWordCount} words in prerendered HTML; expected at least 500 useful words.`);
+      }
+      for (const heading of [
+        'Evidence categories',
+        'The hardware test record',
+        'Troubleshooting: reproduce, isolate, retest',
+        'Performance and benchmark interpretation',
+        'Product profiles and source attribution',
+        'Limitations, corrections and updates',
+      ]) {
+        if (!html.includes(`<h2>${heading}</h2>`)) errors.push(`Testing Methodology page is missing the section heading "${heading}".`);
+      }
+    }
+
     if (route.kind === 'product-review') {
       const product = products.find(item => productPath(item) === route.path);
       if (!product) {
