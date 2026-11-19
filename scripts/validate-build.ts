@@ -5,7 +5,8 @@ import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph'
 import { getSeoData } from '../src/seo/ssgSeo';
 import { BSOD_BASE_PATH, bsodEntries, bsodPath } from '../src/data/bsod';
 import { articleToolLinks, getToolPageData, toolByPath, tools } from '../src/data/tools';
-import { products, productMetaDescription, productPageTitle, productPath } from '../src/data/products';
+import { products, productMetaDescription, productPageTitle, productPath, productCategorySlug } from '../src/data/products';
+import { getComparisonByPath } from '../src/data/comparisons';
 
 const errors: string[] = [];
 const root = resolve('.');
@@ -435,6 +436,26 @@ if (!existsSync(dist)) {
           const escapedUrl = source.url.replace(/&/g, '&amp;');
           if (!html.includes(source.url) && !html.includes(escapedUrl)) {
             errors.push(`Prerendered product page is missing a cited source URL: ${route.path} → ${source.url}`);
+          }
+        }
+      }
+    }
+
+    if (route.kind === 'comparison') {
+      const comparison = getComparisonByPath(route.path);
+      if (!comparison) {
+        errors.push(`Comparison route has no comparison data: ${route.path}`);
+      } else {
+        const headings = [...html.matchAll(/<h2(?:\s[^>]*)?>([\s\S]*?)<\/h2>/gi)].map(match => decodeHtml(match[1].replace(/<[^>]+>/g, '')).trim());
+        if (!headings.includes(`${comparison.title}: specification comparison`)) errors.push(`Incorrect product-specific comparison heading: ${route.path}`);
+        if (!headings.includes('Sources and review methodology')) errors.push(`Missing comparison source section: ${route.path}`);
+        const categoryPath = `/reviews/${productCategorySlug(comparison.productA.category)}`;
+        const categoryLabel = `${comparison.productA.category} Profiles`;
+        if (!html.includes(`href="${categoryPath}"`)) errors.push(`Missing comparison category link: ${route.path}`);
+        if (!html.includes(`"name":"${categoryLabel}"`) || !html.includes(`"item":"${new URL(categoryPath, SITE_URL).href}"`)) errors.push(`Missing category in comparison breadcrumb schema: ${route.path}`);
+        for (const product of [comparison.productA, comparison.productB]) {
+          for (const source of product.sources) {
+            if (!html.includes(source.url) && !html.includes(source.url.replace(/&/g, '&amp;'))) errors.push(`Missing product source in comparison: ${route.path} → ${source.url}`);
           }
         }
       }
