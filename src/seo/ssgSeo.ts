@@ -207,6 +207,7 @@ function breadcrumbSchema(path: string, seo: SeoData) {
   const article = articles.find(item => `/${item.slug}` === path);
   const category = getCategory(path);
   const product = getProductByPath(path);
+  const comparison = getComparisonByPath(path);
 
   if (article) {
     items.push({ name: article.category, path: `/${article.category.toLowerCase()}` });
@@ -215,6 +216,10 @@ function breadcrumbSchema(path: string, seo: SeoData) {
     items.push({ name: 'Reviews & Product Research', path: '/reviews' });
     items.push({ name: product.category + ' Profiles', path: `/reviews/${productCategorySlug(product.category)}` });
     items.push({ name: product.brand + ' ' + product.model, path });
+  } else if (comparison) {
+    items.push({ name: 'Reviews', path: '/reviews' });
+    items.push({ name: `${comparison.productA.category} Profiles`, path: `/reviews/${productCategorySlug(comparison.productA.category)}` });
+    items.push({ name: comparison.title, path });
   } else if (category) {
     items.push({ name: category.name, path });
   } else if (path.startsWith('/tools/')) {
