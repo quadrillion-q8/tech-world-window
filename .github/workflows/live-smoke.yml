@@ -2,6 +2,11 @@ name: Live production smoke checks
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/smoke-test-live-site.mjs'
+      - '.github/workflows/live-smoke.yml'
   schedule:
     - cron: '17 4 * * *'
 
