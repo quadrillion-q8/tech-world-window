@@ -327,6 +327,63 @@ async function main() {
     'HTTP apex trailing-slash normalization'
   );
 
+  // Compare crawler-like requests with the normal production probe. This is
+  // a user-agent simulation, not a request from Google's verified network.
+  const crawlerUA = 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+  const crawlerHeaders = { 'user-agent': crawlerUA };
+  const crawlerPaths = [...new Set(['/', '/news', '/reviews', ...GSC_REDIRECT_PATHS, ...GSC_CANONICAL_EXAMPLES])];
+  for (let start = 0; start < crawlerPaths.length; start += CONCURRENCY) {
+    await Promise.all(crawlerPaths.slice(start, start + CONCURRENCY).map(async path => {
+      try {
+        const expected = new URL(path, SITE_URL).href;
+        const apex = new URL(path, APEX_URL).href;
+        const redirect = await fetchWithRetry(apex, { headers: crawlerHeaders, redirect: 'manual' });
+        const location = redirect.headers.get('location');
+        if (redirect.status !== 308 || !location || new URL(location, apex).href !== expected) {
+          failures.push(`Crawler-like apex check failed: ${apex} returned ${redirect.status} to ${location || '(none)'}`);
+        }
+        await redirect.arrayBuffer().catch(() => {});
+        const page = await fetchWithRetry(expected, { headers: crawlerHeaders, redirect: 'manual' });
+        const html = await page.text();
+        const canonical = canonicalFromHtml(html);
+        const robots = html.match(/<meta\b[^>]*name=["']robots["'][^>]*>/i)?.[0] || '';
+        if (page.status !== 200 || !canonical || new URL(canonical, expected).href !== expected || /\b(noindex|none)\b/i.test(robots + ' ' + (page.headers.get('x-robots-tag') || ''))) {
+          failures.push(`Crawler-like canonical check failed: ${expected}, HTTP ${page.status}, canonical ${canonical}`);
+        } else {
+          console.log(`PASS crawler-like canonical ${expected}`);
+        }
+      } catch (error) {
+        failures.push(`Crawler-like request failed for ${path}: ${error.message}`);
+      }
+    }));
+  }
+  console.log(`Checked ${crawlerPaths.length} paths with a Googlebot-style mobile user agent (not verified Googlebot)`);
+
+  // Tracking parameters must retain the clean declared canonical.
+  const clean = new URL('/why-windows-asks-for-a-bitlocker-recovery-key-after-bios-update', SITE_URL).href;
+  try {
+    const page = await fetchWithRetry(clean + '?utm_source=chatgpt.com', { redirect: 'manual' });
+    const html = await page.text();
+    if (page.status !== 200 || canonicalFromHtml(html) !== clean) {
+      failures.push(`Tracking-parameter canonical mismatch: HTTP ${page.status}, canonical ${canonicalFromHtml(html)}`);
+    } else {
+      console.log('PASS tracking-parameter URL declares its clean canonical');
+    }
+  } catch (error) {
+    failures.push(`Tracking-parameter check failed: ${error.message}`);
+  }
+
+  // Investigate historical/out-of-inventory URLs without assuming that any
+  // particular destination or response is correct until ownership is known.
+  for (const target of ['https://tech-world-window.vercel.app/', new URL('/windows-second-monitor-not-detected', SITE_URL).href]) {
+    try {
+      const response = await fetchWithRetry(target, { redirect: 'manual' }, 0);
+      console.log(`OBSERVATION historical URL ${target}: HTTP ${response.status}, Location ${response.headers.get('location') || '(none)'}, canonical ${canonicalFromHtml(await response.text()) || '(none)'}`);
+    } catch (error) {
+      console.log(`OBSERVATION historical URL ${target}: ${error.message}`);
+    }
+  }
+
   let nextIndex = 0;
   const workers = Array.from({ length: Math.min(CONCURRENCY, urls.length) }, async () => {
     while (nextIndex < urls.length) {
