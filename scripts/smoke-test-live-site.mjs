@@ -347,7 +347,7 @@ async function main() {
         const html = await page.text();
         const canonical = canonicalFromHtml(html);
         const robots = html.match(/<meta\b[^>]*name=["']robots["'][^>]*>/i)?.[0] || '';
-        if (page.status !== 200 || canonical !== expected || /\b(noindex|none)\b/i.test(robots + ' ' + (page.headers.get('x-robots-tag') || ''))) {
+        if (page.status !== 200 || !canonical || new URL(canonical, expected).href !== expected || /\b(noindex|none)\b/i.test(robots + ' ' + (page.headers.get('x-robots-tag') || ''))) {
           failures.push(`Crawler-like canonical check failed: ${expected}, HTTP ${page.status}, canonical ${canonical}`);
         } else {
           console.log(`PASS crawler-like canonical ${expected}`);
