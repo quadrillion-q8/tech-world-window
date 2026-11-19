@@ -1,10 +1,43 @@
 import process from 'node:process';
+import { lookup } from 'node:dns/promises';
 
 const SITE_URL = (process.env.SITE_URL || 'https://www.techworldwindow.com').replace(/\/$/, '');
 const APEX_URL = 'https://techworldwindow.com/';
 const CONCURRENCY = 6;
 const REQUEST_TIMEOUT_MS = 20_000;
 const failures = [];
+
+// Google Search Console redirect-error export, 2026-11-19: keep these
+// historical URLs as explicit regressions even if a sitemap changes later.
+const GSC_REDIRECT_PATHS = [
+  "/gpu-100-percent-usage-gaming",
+  "/shader-compilation-stutter-pc-games",
+  "/tools/bsod-error-code-lookup/inaccessible-boot-device",
+  "/tools/bsod-error-code-lookup/thread-stuck-in-device-driver",
+  "/tools/bsod-error-code-lookup/unexpected-kernel-mode-trap",
+  "/tools/bsod-error-code-lookup/unmountable-boot-volume",
+  "/tools/bsod-error-code-lookup/whea-uncorrectable-error",
+  "/tools/bsod-error-code-lookup/memory-management",
+  "/tools/bsod-error-code-lookup/bad-pool-header",
+  "/tools/bsod-error-code-lookup/kernel-data-inpage-error",
+  "/tools/bsod-error-code-lookup/ntfs-file-system",
+  "/tools/bsod-error-code-lookup/driver-power-state-failure",
+  "/tools/bsod-error-code-lookup/store-data-structure-corruption",
+  "/tools/bsod-error-code-lookup/unexpected-store-exception",
+  "/authors/imran-natiq",
+  "/reviews/ssds/crucial-t500-2tb",
+  "/reviews/ssds/samsung-990-pro-4tb",
+  "/compare/samsung-990-pro-vs-crucial-t500",
+  "/reviews/ssds",
+  "/reviews/laptops",
+  "/best-gaming-laptops",
+  "/best-gaming-monitors",
+  "/reviews/cpus",
+  "/gaming-laptop-upgradeable-ram-ssd",
+  "/laptop-nvme-ssd-upgrade-compatibility"
+];
+const GSC_CANONICAL_EXAMPLES = ['/testing', '/pc-power-supply-problems-symptoms'];
+
 
 async function fetchWithRetry(url, options = {}, retries = 2) {
   let lastError;
@@ -159,7 +192,14 @@ function canonicalFromHtml(html) {
 
 async function checkPage(url) {
   try {
-    const { response, text: html } = await getText(url);
+    const response = await fetchWithRetry(url, { redirect: 'manual' });
+    if (response.status !== 200) {
+      failures.push(`Canonical URL must return direct HTTP 200: ${url} returned ${response.status} (${response.headers.get('location') || 'no Location'})`);
+      return;
+    }
+    const html = await response.text();
+    const xRobots = response.headers.get('x-robots-tag') || '';
+    if (/\b(noindex|none)\b/i.test(xRobots)) failures.push(`Indexable sitemap URL blocked by X-Robots-Tag on ${url}: ${xRobots}`);
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.toLowerCase().includes('text/html')) {
       failures.push(`Expected HTML but received "${contentType}" for ${url}`);
@@ -168,6 +208,8 @@ async function checkPage(url) {
     if (!/<title\b[^>]*>\s*[^<]+\s*<\/title>/i.test(html)) {
       failures.push(`Missing or empty <title> on ${url}`);
     }
+    const canonicalTags = [...html.matchAll(/<link\b[^>]*rel=["']canonical["'][^>]*>/gi)];
+    if (canonicalTags.length !== 1) failures.push(`Expected exactly one canonical on ${url}; found ${canonicalTags.length}`);
     const canonical = canonicalFromHtml(html);
     if (!canonical) {
       failures.push(`Missing canonical link on ${url}`);
@@ -184,7 +226,7 @@ async function checkPage(url) {
       }
     }
     const robotsTag = html.match(/<meta\b[^>]*name=["']robots["'][^>]*>/i)?.[0] || '';
-    if (/\bnoindex\b/i.test(robotsTag)) failures.push(`Indexable sitemap URL has noindex on ${url}`);
+    if (/\b(noindex|none)\b/i.test(robotsTag)) failures.push(`Indexable sitemap URL has noindex on ${url}`);
   } catch (error) {
     failures.push(`Page request failed for ${url}: ${error.message}`);
   }
@@ -199,13 +241,31 @@ async function main() {
     return;
   }
 
-  // Check the canonical host redirect at both the root and a real sitemap route.
-  // A root-only check would miss path-specific redirect or routing regressions.
-  await checkApexRedirect('/');
-  const representativePage = urls.find(url => new URL(url).pathname !== '/');
-  if (representativePage) {
-    await checkApexRedirect(new URL(representativePage).pathname);
+  for (const host of ['techworldwindow.com', new URL(SITE_URL).hostname]) {
+    try {
+      const addresses = await lookup(host, { all: true });
+      if (!addresses.length) throw new Error('No resolved addresses');
+      console.log(`PASS DNS ${host}: ${addresses.map(a => a.address).join(', ')}`);
+    } catch (error) {
+      failures.push(`DNS lookup failed for ${host}: ${error.message}`);
+    }
   }
+
+  const sitemapPaths = new Set(urls.map(url => new URL(url).pathname));
+  for (const path of [...GSC_REDIRECT_PATHS, ...GSC_CANONICAL_EXAMPLES]) {
+    if (!sitemapPaths.has(path)) failures.push(`Historical GSC recovery URL absent from sitemap: ${path}`);
+  }
+  console.log(`Checking ${GSC_REDIRECT_PATHS.length} historical GSC redirect errors and ${GSC_CANONICAL_EXAMPLES.length} canonical examples`);
+  // Cover every canonical sitemap path, plus historical URLs not in the sitemap.
+  const apexPaths = [...new Set([...GSC_REDIRECT_PATHS, ...urls.map(url => new URL(url).pathname)])];
+  let apexIndex = 0;
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, apexPaths.length) }, async () => {
+    while (apexIndex < apexPaths.length) {
+      const path = apexPaths[apexIndex++];
+      await checkApexRedirect(path);
+    }
+  }));
+  console.log(`Checked ${apexPaths.length} unique apex routes (including ${GSC_REDIRECT_PATHS.length} historical GSC paths)`);
 
   // The Vercel project domain setting canonicalizes the apex host to www.
   // An apex legacy URL can therefore require two permanent redirects:
@@ -286,7 +346,7 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  console.log(`\nPASS: apex redirect, robots.txt, sitemap.xml, and all ${urls.length} canonical HTML routes.`);
+  console.log(`\nPASS: ${apexPaths.length} apex redirects, robots.txt, sitemap.xml, and all ${urls.length} direct canonical HTML routes.`);
 }
 
 main().catch(error => {
