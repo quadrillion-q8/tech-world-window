@@ -349,7 +349,8 @@ export const october2026Articles: Article[] = [
         ],
         relatedLinks: [
           { label: 'Windows 11 high memory usage: find the real cause', href: '/windows-11-high-memory-usage-how-to-find-the-cause', description: 'Identify the process and workload behind high memory use before disabling services.' },
-          { label: 'Does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Read the measurement-led research angle on when extra memory helps.' }
+          { label: 'Does more RAM make Windows faster?', href: '/research/does-more-ram-make-windows-faster', description: 'Read the measurement-led research angle on when extra memory helps.' },
+          { label: 'Windows 11 October 2026 memory update', href: '/windows-11-8gb-ram-update-october-2026', description: 'Separate the October update reporting from the general advice about memory pressure and RAM capacity.' }
         ]
       },
       {
