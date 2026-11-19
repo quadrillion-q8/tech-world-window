@@ -169,7 +169,10 @@ for (const article of articles) {
       errors.push(`Article "${article.id}" links to missing related article ID: ${relatedId}`);
       continue;
     }
-    if (article.contentRole === 'cluster' && target.category !== article.category) {
+    // A declared article pillar can span editorial categories (e.g. Guides → Windows).
+    // Keep all other cross-category related-card edges subject to the existing rule.
+    const isDeclaredPillar = target.contentRole === 'pillar' && article.pillarPath === `/${target.slug}`;
+    if (article.contentRole === 'cluster' && target.category !== article.category && !isDeclaredPillar) {
       errors.push(`Cluster article "${article.id}" links across categories to "${target.id}" (${target.category}).`);
     }
   }
