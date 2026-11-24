@@ -26,9 +26,9 @@ export function BsodCodePage() {
 
   return <section className="section tool-page bsod-page bsod-code-page">
     <SEOEngine title={seo.title} description={seo.description} path={bsodPath(entry.slug)} />
-    <div className="breadcrumbs">
-      <Link to="/tools">Tools</Link><span>/</span><Link to={BSOD_BASE_PATH}>BSOD Error Code Lookup</Link>
-    </div>
+    <nav className="breadcrumbs" aria-label="Breadcrumb">
+      <Link to="/tools">Tools</Link><span aria-hidden="true">/</span><Link to={BSOD_BASE_PATH}>BSOD Error Code Lookup</Link>
+    </nav>
     <span className="eyebrow">{bsodCategoryLabels[entry.category]}</span>
     <h1>{entry.name} <span className="bsod-h1-hex">({entry.hex})</span></h1>
     <p className="page-intro">Stop code {entry.hex}, also written {shortHex(entry.hex)}. Here is what it means, what usually causes it, and the safest order to work through fixes on Windows 11 and Windows 10.</p>

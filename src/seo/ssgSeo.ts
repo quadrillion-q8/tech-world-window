@@ -1,5 +1,5 @@
 import { articles, articleWordCount, categories } from '../data/articles';
-import { buildSiteSchemaGraph } from './siteSchema';
+import { buildSiteSchemaGraph, organizationId, websiteId, personId } from './siteSchema';
 import { hubSeo } from '../data/hubs';
 import { authors } from '../data/authors';
 import { BSOD_BASE_PATH } from '../data/bsod';
@@ -7,8 +7,8 @@ import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
 import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
 import { getComparisonByPath } from '../data/comparisons';
 import { fitTitle } from './title';
-import { robotsForPath, isIndexablePath } from './indexingPolicy';
-import { routeGraph, SITE_URL, SITE_NAME, type RouteNode } from '../data/graph';
+import { robotsForPath, isIndexablePath, cleanPath } from './indexingPolicy';
+import { routeGraph, SITE_URL, type RouteNode } from '../data/graph';
 
 type SeoData = {
   title: string;
@@ -23,7 +23,7 @@ type SeoData = {
   imageHeight?: number;
 };
 
-const DEFAULT_OG_IMAGE = '/og-default.png';
+export const DEFAULT_OG_IMAGE = '/og-default.png';
 
 const staticSeo: Record<string, Pick<SeoData, 'title' | 'description'>> = {
   '/gallery': {
@@ -83,7 +83,7 @@ export function getSeoData(path: string): SeoData {
 }
 
 function buildSeoData(path: string): SeoData {
-  const normalizedPath = path === '' ? '/' : path.replace(/\/$/, '') || '/';
+  const normalizedPath = cleanPath(path || '/');
   const article = articles.find(item => `/${item.slug}` === normalizedPath);
   if (article) {
     const pageTitle = article.seoTitle ?? article.title;
@@ -106,7 +106,7 @@ function buildSeoData(path: string): SeoData {
       description: productMetaDescription(product),
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
-      ...(productImage(product) ? { image: productImage(product)!.src, imageWidth: 960, imageHeight: 600 } : {}),
+      ...(productImage(product) ? { image: productImage(product)!.src, imageWidth: productImage(product)!.width, imageHeight: productImage(product)!.height } : {}),
     };
   }
 
@@ -117,7 +117,7 @@ function buildSeoData(path: string): SeoData {
       description: comparison.metaDescription,
       canonical: absoluteUrl(normalizedPath),
       type: 'website',
-      ...(productImage(comparison.productA) ? { image: productImage(comparison.productA)!.src, imageWidth: 960, imageHeight: 600 } : {}),
+      ...(productImage(comparison.productA) ? { image: productImage(comparison.productA)!.src, imageWidth: productImage(comparison.productA)!.width, imageHeight: productImage(comparison.productA)!.height } : {}),
     };
   }
 
@@ -196,14 +196,15 @@ function escapeHtml(value: string) {
     .replace(/'/g, '&#39;');
 }
 
-function safeJson(value: unknown) {
+export function safeJson(value: unknown) {
   return JSON.stringify(value)
     .replace(/</g, '\\u003c')
     .replace(/>/g, '\\u003e')
     .replace(/&/g, '\\u0026');
 }
 
-function breadcrumbSchema(path: string, seo: SeoData) {
+export function getBreadcrumbItems(path: string, seo = getSeoData(path)) {
+  path = cleanPath(path || '/');
   const items = [{ name: 'Home', path: '/' }];
   const article = articles.find(item => `/${item.slug}` === path);
   const category = getCategory(path);
@@ -221,6 +222,9 @@ function breadcrumbSchema(path: string, seo: SeoData) {
     items.push({ name: 'Reviews', path: '/reviews' });
     items.push({ name: `${comparison.productA.category} Profiles`, path: `/reviews/${productCategorySlug(comparison.productA.category)}` });
     items.push({ name: comparison.title, path });
+  } else if (path.startsWith('/reviews/')) {
+    items.push({ name: 'Reviews', path: '/reviews' });
+    items.push({ name: routeGraph.find(item => item.path === path)?.title || seo.title, path });
   } else if (category) {
     items.push({ name: category.name, path });
   } else if (path.startsWith('/tools/')) {
@@ -233,10 +237,15 @@ function breadcrumbSchema(path: string, seo: SeoData) {
     items.push({ name: route?.title || seo.title.replace(/ \| Tech World Window$/, ''), path });
   }
 
+  return items;
+}
+
+function breadcrumbSchema(path: string, seo: SeoData) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
+    '@id': seo.canonical + '#breadcrumb',
+    itemListElement: getBreadcrumbItems(path, seo).map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
@@ -253,20 +262,25 @@ const reviewHubCategories: Record<string, ProductCategory | null> = {
   '/reviews/cpus': 'CPU',
 };
 
-export function injectSsgSeo(renderedHtml: string, route: string) {
-  const path = route === '' ? '/' : route.replace(/\/$/, '') || '/';
+export function getRouteSchemas(route: string): Record<string, unknown>[] {
+  const path = cleanPath(route || '/');
+  if (!isIndexablePath(path)) return [];
   const seo = getSeoData(path);
   const article = articles.find(item => `/${item.slug}` === path);
   const author = article ? authors[article.authorId] : undefined;
 
-  const schemas: unknown[] = [buildSiteSchemaGraph(path === '/'), breadcrumbSchema(path, seo)];
+  const schemas: Record<string, unknown>[] = [buildSiteSchemaGraph(path === '/'), breadcrumbSchema(path, seo)];
+  const pageId = seo.canonical + '#webpage';
+  const routeNode = routeGraph.find(item => item.path === path);
+  const pageFields = { '@id': pageId, url: seo.canonical, name: seo.title, description: seo.description, inLanguage: 'en', isPartOf: { '@id': websiteId }, breadcrumb: { '@id': seo.canonical + '#breadcrumb' } };
   if (article) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'Article',
+      '@id': seo.canonical + '#article',
       headline: article.title,
       description: article.dek,
-      mainEntityOfPage: seo.canonical,
+      mainEntityOfPage: { '@id': pageId },
       datePublished: article.publishedAt,
       dateModified: article.updatedAt || article.publishedAt,
       articleSection: article.category,
@@ -275,11 +289,11 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       keywords: article.tags.join(', '),
       wordCount: articleWordCount(article),
       author: {
-        '@type': 'Person',
+        '@type': author ? 'Person' : 'Organization',
         name: seo.authorName || 'Tech World Window Editorial Team',
-        ...(author ? { url: absoluteUrl(author.url), jobTitle: author.role } : {}),
+        ...(author ? { '@id': absoluteUrl(author.url) + '#person', url: absoluteUrl(author.url), jobTitle: author.role } : { '@id': organizationId }),
       },
-      publisher: { '@type': 'Organization', name: 'Tech World Window', url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
+      publisher: { '@id': organizationId },
       image: [absoluteUrl(article.heroImage || DEFAULT_OG_IMAGE)],
     });
     if (article.howTo?.steps.length) {
@@ -310,13 +324,9 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      url: seo.canonical,
-      name: seo.title,
-      description: seo.description,
-      inLanguage: 'en',
+      ...pageFields,
       ...(imageObject ? { primaryImageOfPage: imageObject } : {}),
       about: { '@type': 'Thing', name: `${product.brand} ${product.model}`, description: product.summary, ...(image ? { image: absoluteUrl(image.src) } : {}) },
-      isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
     });
   }
 
@@ -326,13 +336,9 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      url: seo.canonical,
-      name: seo.title,
-      description: seo.description,
-      inLanguage: 'en',
+      ...pageFields,
       ...(image ? { primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl(image.src), width: image.width, height: image.height, caption: image.alt } } : {}),
       about: [comparisonPage.productA, comparisonPage.productB].map(item => ({ '@type': 'Thing', name: `${item.brand} ${item.model}`, description: item.summary })),
-      isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
     });
     if (comparisonPage.faq?.length) {
       schemas.push({
@@ -349,10 +355,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      url: seo.canonical,
-      name: seo.title,
-      description: seo.description,
-      inLanguage: 'en',
+      ...pageFields,
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: items.length,
@@ -372,6 +375,8 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
+      '@id': seo.canonical + '#application',
+      mainEntityOfPage: { '@id': pageId },
       name: toolPage.webApp.name,
       description: toolPage.webApp.description,
       url: seo.canonical,
@@ -380,7 +385,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
       browserRequirements: 'Requires JavaScript',
       isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
+      publisher: { '@id': organizationId },
     });
   }
   if (toolPage?.faq.length) {
@@ -395,6 +400,22 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     });
   }
 
+  if (!product && !comparisonPage && hubCategory === undefined) {
+    const pageType = path === '/authors/imran-natiq' ? 'ProfilePage' : path === '/gallery' ? 'ImageGallery' : routeNode?.kind === 'category' || routeNode?.kind === 'tools' ? 'CollectionPage' : 'WebPage';
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': pageType,
+      ...pageFields,
+      ...(pageType === 'ProfilePage' ? { mainEntity: { '@id': personId } } : article ? { mainEntity: { '@id': seo.canonical + '#article' } } : toolPage?.webApp ? { mainEntity: { '@id': seo.canonical + '#application' } } : {}),
+    });
+  }
+  return schemas;
+}
+
+export function injectSsgSeo(renderedHtml: string, route: string) {
+  const path = cleanPath(route || '/');
+  const seo = getSeoData(path);
+  const schemas = getRouteSchemas(path);
   const managedPatterns = [
     /<title[\s\S]*?<\/title>/gi,
     /<meta\s+[^>]*name=["']description["'][^>]*>\s*/gi,
@@ -421,8 +442,7 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
     `<meta property="og:description" content="${escapeHtml(seo.description)}" />`,
     `<meta property="og:url" content="${escapeHtml(seo.canonical)}" />`,
     `<meta property="og:image" content="${escapeHtml(absoluteUrl(seo.image || DEFAULT_OG_IMAGE))}" />`,
-    `<meta property="og:image:width" content="${seo.imageWidth ?? 1200}" />`,
-    `<meta property="og:image:height" content="${seo.imageHeight ?? 630}" />`,
+    ...(seo.imageWidth && seo.imageHeight ? [`<meta property="og:image:width" content="${seo.imageWidth}" />`, `<meta property="og:image:height" content="${seo.imageHeight}" />`] : []),
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(seo.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(seo.description)}" />`,

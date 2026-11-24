@@ -1,7 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Head } from 'vite-react-ssg';
-import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
-import { SITE_NAME, SITE_URL } from '../data/graph';
+import { SEOEngine } from '../seo/SEOEngine';
 import { articles } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
 import { staticPageFigures, galleryPhotoUrl } from '../data/article-images';
@@ -181,25 +179,7 @@ export function StaticPage() {
   return (
     <section className="section static-page">
       <SEOEngine title={page.title} description={page.description} path={location.pathname} />
-      <BreadcrumbStructuredData items={[
-        { name: 'Home', path: '/' },
-        { name: page.title, path: location.pathname },
-      ]} />
-      <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><span>{page.title}</span></div>
-      {location.pathname === '/authors/imran-natiq' && <Head><script type="application/ld+json">{JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'ProfilePage',
-        name: 'Imran Natiq — Tech World Window',
-        url: `${SITE_URL}/authors/imran-natiq`,
-        mainEntity: {
-          '@type': 'Person',
-          name: 'Imran Natiq',
-          jobTitle: 'Hardware Repair Engineer & Technology Writer',
-          description: 'Hardware repair engineer and technology writer focused on PC and laptop troubleshooting, Windows diagnostics, gaming performance and practical hardware education.',
-          url: `${SITE_URL}/authors/imran-natiq`,
-          worksFor: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
-        },
-      })}</script></Head>}
+      <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">{page.title}</span></nav>
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{page.title}</h1>
       {page.body.map((p, i) => <p key={i}>{p}</p>)}

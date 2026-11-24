@@ -1,7 +1,8 @@
 import { Head } from 'vite-react-ssg';
 import { fitTitle } from './title';
 import { canonicalForPath, isIndexablePath, robotsForPath, INDEX_ROBOTS } from './indexingPolicy';
-import { SITE_NAME, SITE_URL, siteEntity } from '../data/graph';
+import { SITE_NAME, SITE_URL } from '../data/graph';
+import { getSeoData, DEFAULT_OG_IMAGE } from './ssgSeo';
 
 type SEOProps = {
   title: string;
@@ -14,113 +15,35 @@ type SEOProps = {
   robots?: string;
 };
 
-const DEFAULT_OG_IMAGE = '/og-default.png';
-function absoluteUrl(path: string) { return new URL(path, SITE_URL).toString(); }
-
-export function SEOEngine({
-  title, description, path, type = 'website', publishedAt, updatedAt, image,
-  robots = INDEX_ROBOTS,
-}: SEOProps) {
-  const canonical = canonicalForPath(path);
-  const fullTitle = fitTitle(title);
-  const imageUrl = absoluteUrl(image || DEFAULT_OG_IMAGE);
+export function SEOEngine(props: SEOProps) {
+  const { path, robots = INDEX_ROBOTS } = props;
+  const indexable = isIndexablePath(path);
+  const seo = indexable ? getSeoData(path) : {
+    title: fitTitle(props.title), description: props.description, canonical: canonicalForPath(path),
+    type: props.type || 'website', image: props.image, publishedAt: props.publishedAt, updatedAt: props.updatedAt,
+    imageWidth: undefined, imageHeight: undefined,
+  };
+  const imageUrl = new URL(seo.image || DEFAULT_OG_IMAGE, SITE_URL).href;
   return (
     <Head>
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
+      <title>{seo.title}</title>
+      <meta name="description" content={seo.description} />
       <meta name="robots" content={robotsForPath(path, robots)} />
-      {isIndexablePath(path) && <link rel="canonical" href={canonical} />}
-      <meta property="og:type" content={type} />
+      {indexable && <link rel="canonical" href={seo.canonical} />}
+      <meta property="og:type" content={seo.type} />
       <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonical} />
+      <meta property="og:title" content={seo.title} />
+      <meta property="og:description" content={seo.description} />
+      <meta property="og:url" content={seo.canonical} />
       <meta property="og:image" content={imageUrl} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      {seo.imageWidth && seo.imageHeight ? <meta property="og:image:width" content={String(seo.imageWidth)} /> : null}
+      {seo.imageWidth && seo.imageHeight ? <meta property="og:image:height" content={String(seo.imageHeight)} /> : null}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
-      {publishedAt && <meta property="article:published_time" content={publishedAt} />}
-      {updatedAt && <meta property="article:modified_time" content={updatedAt} />}
+      <meta name="twitter:title" content={seo.title} />
+      <meta name="twitter:description" content={seo.description} />
+      <meta name="twitter:image" content={imageUrl} />
+      {seo.publishedAt && <meta property="article:published_time" content={seo.publishedAt} />}
+      {seo.updatedAt && <meta property="article:modified_time" content={seo.updatedAt} />}
     </Head>
   );
-}
-
-export function ArticleStructuredData({
-  title, description, path, publishedAt, updatedAt, authorName, category, image,
-  keywords, wordCount, authorUrl, authorJobTitle,
-}: {
-  title: string; description: string; path: string; publishedAt: string; updatedAt?: string;
-  authorName: string; category?: string; image?: string;
-  keywords?: string[]; wordCount?: number; authorUrl?: string; authorJobTitle?: string;
-}) {
-  const data = {
-    '@context': 'https://schema.org', '@type': 'Article', headline: title, description,
-    mainEntityOfPage: absoluteUrl(path), datePublished: publishedAt, dateModified: updatedAt || publishedAt,
-    articleSection: category, inLanguage: 'en', isAccessibleForFree: true,
-    ...(keywords?.length ? { keywords: keywords.join(', ') } : {}),
-    ...(wordCount ? { wordCount } : {}),
-    author: {
-      '@type': 'Person', name: authorName,
-      ...(authorUrl ? { url: absoluteUrl(authorUrl) } : {}),
-      ...(authorJobTitle ? { jobTitle: authorJobTitle } : {}),
-      worksFor: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL },
-    },
-    publisher: { '@type': 'Organization', name: siteEntity.name, url: SITE_URL, logo: { '@type': 'ImageObject', url: absoluteUrl('/tech-world-window-mark.png') } },
-    ...(image ? { image: [absoluteUrl(image)] } : {}),
-  };
-  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
-}
-
-
-/**
- * Spec-profile pages have no price, rating or hands-on review, so they are NOT
- * eligible for Google "Product snippets" (which require offers, review or
- * aggregateRating). Marking them up as Product caused a critical GSC error.
- * Emit WebPage + about:Thing instead. Switch back to @type Product only once a
- * real, visible offer (price + availability) or genuine review is on the page.
- */
-export function ProductStructuredData({ product, path }: { product: { name: string; brand: string; description: string; sku?: string }; path: string }) {
-  const data = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    url: absoluteUrl(path),
-    name: `${product.name} specifications and buying notes`,
-    description: product.description,
-    about: { '@type': 'Thing', name: product.name, description: product.description },
-  };
-  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
-}
-
-export function BreadcrumbStructuredData({ items }: { items: { name: string; path: string }[] }) {
-  const data = {
-    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem', position: index + 1, name: item.name, item: absoluteUrl(item.path),
-    })),
-  };
-  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
-}
-
-
-
-export function HowToStructuredData({ name, steps }: { name: string; steps: string[] }) {
-  const data = {
-    '@context': 'https://schema.org', '@type': 'HowTo', name,
-    step: steps.map((text, index) => ({ '@type': 'HowToStep', position: index + 1, name: text })),
-  };
-  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
-}
-
-export function FAQStructuredData({ items }: { items: { question: string; answer: string }[] }) {
-  const data = {
-    '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: items.map(item => ({
-      '@type': 'Question', name: item.question,
-      acceptedAnswer: { '@type': 'Answer', text: item.answer },
-    })),
-  };
-  return <Head><script type="application/ld+json">{JSON.stringify(data)}</script></Head>;
 }

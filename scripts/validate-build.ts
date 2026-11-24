@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, normalize, relative, resolve } from 'node:path';
 import { articles, headingId } from '../src/data/articles';
 import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph';
-import { getSeoData } from '../src/seo/ssgSeo';
+import { getSeoData, getRouteSchemas, getBreadcrumbItems, DEFAULT_OG_IMAGE } from '../src/seo/ssgSeo';
 import { buildRobotsTxt, canonicalForPath, robotsForPath, NOINDEX_ROBOTS } from '../src/seo/indexingPolicy';
 import { BSOD_BASE_PATH, bsodEntries, bsodPath } from '../src/data/bsod';
 import { articleToolLinks, getToolPageData, toolByPath, tools } from '../src/data/tools';
@@ -411,6 +411,18 @@ if (!existsSync(dist)) {
     if ([...html.matchAll(/<link\b[^>]*rel=["']canonical["'][^>]*>/gi)].length !== 1) errors.push(`Expected one canonical in ${route.path}`);
     for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
       try { JSON.parse(match[1]); } catch { errors.push(`Invalid JSON-LD in ${route.path}`); }
+    }
+    const expectedSchemas = getRouteSchemas(route.path);
+    const actualSchemas = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].flatMap(match => { try { return [JSON.parse(match[1])]; } catch { return []; } });
+    if (JSON.stringify(actualSchemas) !== JSON.stringify(expectedSchemas)) errors.push(`Route schema inventory differs from shared schema model in ${route.path}`);
+    const crumbs = getBreadcrumbItems(route.path);
+    if (crumbs[0]?.path !== '/' || crumbs.at(-1)?.path !== route.path || crumbs.some(item => !indexablePaths.has(item.path))) errors.push(`Invalid breadcrumb targets in ${route.path}`);
+    const body = html.replace(/<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>/gi, '');
+    if ([...body.matchAll(/<h1\b[^>]*>/gi)].length !== 1) errors.push(`Expected exactly one H1 in ${route.path}`);
+    if (/<div\b[^>]*class=["']breadcrumbs["']/i.test(body)) errors.push(`Breadcrumb is not a navigation landmark in ${route.path}`);
+    for (const [property, expected] of [['og:title', seo.title], ['og:description', seo.description], ['og:url', seo.canonical], ['og:image', new URL(seo.image || DEFAULT_OG_IMAGE, SITE_URL).href]]) {
+      const tags = [...html.matchAll(/<meta\b[^>]*property=["']([^"']+)["'][^>]*content=["']([^"']*)["'][^>]*>/gi)].filter(match => match[1] === property);
+      if (tags.length !== 1 || decodeHtml(tags[0][2]) !== expected) errors.push(`Invalid ${property} in ${route.path}`);
     }
     if (!html.includes('Tech World Window')) errors.push(`Missing rendered brand/content in ${route.path}`);
     if (!html.includes('application/ld+json')) errors.push(`Missing JSON-LD structured data in ${route.path}`);

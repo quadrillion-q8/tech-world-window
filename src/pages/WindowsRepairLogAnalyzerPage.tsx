@@ -273,7 +273,7 @@ export function WindowsRepairLogAnalyzerPage() {
 
   return <section className="section tool-page repair-log-page">
     <SEOEngine title={tool.seoTitle} description={tool.metaDescription} path={TOOL_PATH} />
-    <div className="breadcrumbs"><Link to="/tools">Tools</Link><span>/</span><span>Windows Repair Log Analyzer</span></div>
+    <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/tools">Tools</Link><span aria-hidden="true">/</span><span aria-current="page">Windows Repair Log Analyzer</span></nav>
     <span className="eyebrow">FREE LOCAL ANALYZER</span>
     <h1>Windows Repair Log Analyzer</h1>
     <p className="page-intro">Scan text exports from CBS.log, DISM.log, Windows Update and Event Viewer for recognizable error codes, repair failures, missing-source clues, permission errors and useful excerpts. Findings are evidence to review, not a guaranteed diagnosis.</p>

@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Head } from 'vite-react-ssg';
-import { SEOEngine, BreadcrumbStructuredData } from '../seo/SEOEngine';
-import { SITE_NAME, SITE_URL } from '../data/graph';
+import { SEOEngine } from '../seo/SEOEngine';
 import {
   GALLERY_FULL_SIZE,
   GALLERY_THUMB_SIZE,
@@ -17,8 +15,6 @@ export const GALLERY_PATH = '/gallery';
 export const GALLERY_TITLE = 'Repair Bench Photo Gallery';
 export const GALLERY_DESCRIPTION = 'Photos from real laptop and PC repair work: fan and heatsink cleaning, thermal paste, SSD and RAM upgrades, batteries, BIOS screens, MacBooks and desktops.';
 
-const absolute = (path: string) => new URL(path, SITE_URL).toString();
-const safeJson = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 
 export function GalleryPage() {
   const [active, setActive] = useState<number | null>(null);
@@ -53,33 +49,11 @@ export function GalleryPage() {
   const current = active === null ? null : galleryImages[active];
   const indexById = new Map(galleryImages.map((image, index) => [image.id, index]));
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'ImageGallery',
-    name: `${GALLERY_TITLE} | ${SITE_NAME}`,
-    description: GALLERY_DESCRIPTION,
-    url: absolute(GALLERY_PATH),
-    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
-    image: galleryImages.map(image => ({
-      '@type': 'ImageObject',
-      name: image.title,
-      contentUrl: absolute(galleryImageUrl(image.id)),
-      thumbnailUrl: absolute(galleryThumbUrl(image.id)),
-      width: GALLERY_FULL_SIZE,
-      height: GALLERY_FULL_SIZE,
-      encodingFormat: 'image/webp',
-    })),
-  };
 
   return (
     <section className="section gallery-page">
       <SEOEngine title={GALLERY_TITLE} description={GALLERY_DESCRIPTION} path={GALLERY_PATH} />
-      <BreadcrumbStructuredData items={[
-        { name: 'Home', path: '/' },
-        { name: GALLERY_TITLE, path: GALLERY_PATH },
-      ]} />
-      <Head><script type="application/ld+json">{safeJson(schema)}</script></Head>
-      <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><span>{GALLERY_TITLE}</span></div>
+      <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">{GALLERY_TITLE}</span></nav>
       <span className="eyebrow">TECH WORLD WINDOW</span>
       <h1>{GALLERY_TITLE}</h1>
       <p className="page-intro">
