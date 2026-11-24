@@ -170,7 +170,7 @@ const content: Record<string, Page> = {
     title: 'TWW Technology Research',
     description: 'Original technical studies, benchmark data, troubleshooting observations and evidence-led research from Tech World Window.',
     body: [
-      'TWW Research is the home for technical investigations, research frameworks and original measurements when documented results are available. A study plan is not a completed benchmark.'
+      'TWW Research is the home for technical investigations, research frameworks and original measurements when documented results are available. A study plan is not a completed benchmark.',
       'Research projects may cover Windows performance, PC gaming frame times, storage behavior, thermals, hardware compatibility, upgrade decisions, and other practical questions where controlled evidence is more useful than a generic list of tips.',
       'Each study should state its hardware, software versions, test method, variables, limitations, and conclusions. Where raw measurements are available, we aim to publish enough context for another technically minded reader to understand how the result was produced.',
       'The purpose is not to manufacture a headline. It is to create useful primary information that readers, builders, repair technicians, creators and other publications can verify, discuss and cite.',
