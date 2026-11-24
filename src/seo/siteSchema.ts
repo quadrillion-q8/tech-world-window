@@ -45,6 +45,8 @@ export function buildSiteSchemaGraph(includeHomepageItems: boolean) {
     },
     publishingPrinciples: absoluteUrl('/editorial-policy'),
     correctionsPolicy: absoluteUrl('/editorial-policy'),
+    ethicsPolicy: absoluteUrl('/editorial-policy'),
+    contactPoint: { '@type': 'ContactPoint', contactType: 'Editorial enquiries and corrections', url: absoluteUrl('/contact') },
     founder: { '@id': personId },
     knowsAbout: [
       'Windows troubleshooting',

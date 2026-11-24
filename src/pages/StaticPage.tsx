@@ -1,3 +1,4 @@
+import { authors } from '../data/authors';
 import { galleryResponsive } from '../lib/galleryResponsive';
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
@@ -23,6 +24,8 @@ type Page = {
   sections?: PageSection[];
 };
 
+const author = authors.imranNatiq;
+
 const content: Record<string, Page> = {
   '/about': {
     title: 'About Tech World Window',
@@ -34,6 +37,7 @@ const content: Record<string, Page> = {
       'How we work: every troubleshooting guide starts from a symptom, explains the relevant failure layers, shows how to distinguish them, and then suggests the least destructive next step. We separate manufacturer documentation, measured results, and informed guidance. If we have not tested something ourselves, we do not imply that we have.',
       'Found a mistake? Tell us and we will correct it and note the change. See our Editorial Policy for details, and the Contact page for how to reach us.',
     ],
+    sections: [{ heading: 'Editorial responsibility', paragraphs: ['Tech World Window is an independent international technology publication. Its repair experience informs diagnostic guidance, but does not establish that every product, operating-system build or hardware configuration has been independently tested. The author profile, evidence methodology and correction process explain how to evaluate the work.'] }],
   },
   '/contact': {
     title: 'Contact',
@@ -54,6 +58,16 @@ const content: Record<string, Page> = {
       'Affiliate relationships and sponsored content must be clearly disclosed. Commercial relationships do not guarantee a positive recommendation.',
       `Corrections are made transparently when a material error is identified. To report one, email ${CONTACT_EMAIL}.`,
     ],
+    sections: [
+      { heading: 'Source selection and verification', items: [
+        { label: 'Primary documentation', description: 'Prefer the original manufacturer, operating-system vendor, standards publisher or release documentation for technical specifications, supported features and software changes.' },
+        { label: 'Independent evidence', description: 'Attribute outside measurements to the original publisher and identify the relevant product, configuration and test conditions. Do not present their work as our own.' },
+        { label: 'Claim-level accuracy', description: 'Use references that directly support the claim. A general link to a vendor homepage does not by itself verify a specific performance or safety statement.' },
+        { label: 'Uncertainty', description: 'Distinguish confirmed facts from interpretation, test plans and unresolved questions. If evidence is insufficient, qualify the claim rather than inventing a result.' }
+      ] },
+      { heading: 'Dates and corrections', paragraphs: ['A publication date identifies when the article first appeared. A modified date should reflect a substantive editorial change, not an automated rebuild or a cosmetic edit. For time-sensitive guidance, state the version, date and limits of the information.'], steps: ['Send the affected URL, the disputed statement and supporting documentation through the contact page. Do not include private diagnostic logs or personal information.', 'Review the evidence against the original claim and relevant versions or configurations.', 'Correct a verified material error and explain the change where it affects the reader’s understanding. Preserve historical context when it is important.'] },
+      { heading: 'Editorial independence and AI-assisted work', paragraphs: ['Commercial relationships must not determine a test outcome or guarantee a recommendation. Editorial responsibility remains with the publisher. If automated or AI-assisted drafting is used, factual statements, source references, commands and safety guidance require human editorial verification before publication. Automated text is not first-hand experience.'] }
+    ],
   },
   '/affiliate-disclosure': {
     title: 'Affiliate Disclosure',
@@ -64,6 +78,7 @@ const content: Record<string, Page> = {
       'When we have personally tested a product, we will say so and explain the test context. Product specifications, prices and availability can change, so readers should confirm current details with the retailer or manufacturer before purchasing.',
       'Commercial partnerships, sponsored content and affiliate links will be disclosed clearly on the relevant page. Our editorial policy explains the broader standards we use for testing, corrections and independence.',
     ],
+    sections: [{ heading: 'How to interpret commercial pages', paragraphs: ['A specification profile or comparison is not a hands-on review unless the page identifies the original test and its conditions. Check retailer pricing, regional warranty, exact configuration and availability independently. A link to a product profile does not mean an affiliate relationship exists. If an affiliate link is configured, it must be clearly identified near the link.'] }],
   },
   '/privacy-policy': {
     title: 'Privacy Policy',
@@ -155,7 +170,7 @@ const content: Record<string, Page> = {
     title: 'TWW Technology Research',
     description: 'Original technical studies, benchmark data, troubleshooting observations and evidence-led research from Tech World Window.',
     body: [
-      'TWW Research is the home for original measurements and technical studies that go beyond a conventional news article or buying guide.',
+      'TWW Research is the home for technical investigations, research frameworks and original measurements when documented results are available. A study plan is not a completed benchmark.'
       'Research projects may cover Windows performance, PC gaming frame times, storage behavior, thermals, hardware compatibility, upgrade decisions, and other practical questions where controlled evidence is more useful than a generic list of tips.',
       'Each study should state its hardware, software versions, test method, variables, limitations, and conclusions. Where raw measurements are available, we aim to publish enough context for another technically minded reader to understand how the result was produced.',
       'The purpose is not to manufacture a headline. It is to create useful primary information that readers, builders, repair technicians, creators and other publications can verify, discuss and cite.',
@@ -164,13 +179,9 @@ const content: Record<string, Page> = {
   },
   '/authors/imran-natiq': {
     title: 'Imran Natiq',
-    description: 'Imran Natiq is a hardware repair engineer and the author of Tech World Window.',
-    body: [
-      'Imran Natiq is a hardware repair engineer and technology writer focused on PC and laptop troubleshooting, Windows diagnostics, gaming performance, storage health, and practical hardware education.',
-      'He writes Tech World Window to turn practical diagnostic routines into step-by-step explanations that readers can follow. The editorial method emphasizes symptom classification, measurement, controlled changes, verification, and clear limits.',
-      'TWW does not publish invented credentials or unsupported claims of testing. Where an article depends on hands-on testing, the test context and evidence are stated on the page.',
-      `Corrections or questions: ${CONTACT_EMAIL}.`,
-    ],
+    description: author.bio,
+    body: [author.bio, author.experience, author.approach, 'TWW does not publish invented credentials or unsupported claims of testing. Where an article depends on hands-on testing, the test context and evidence are stated on the page.'],
+    sections: [{ heading: 'Areas of expertise', paragraphs: ['The author’s technology coverage focuses on these practical subject areas:'], items: author.expertise.map(label => ({ label, description: 'Practical troubleshooting and evidence-led technical education.' })) }, { heading: 'Editorial accountability', paragraphs: ['The author is responsible for the published technical explanations. Readers can consult the testing methodology, check cited documentation, and report factual or methodological errors through the contact page.'] }],
   },
 };
 
@@ -192,6 +203,7 @@ export function StaticPage() {
           {section.steps && <ol>{section.steps.map(step => <li key={step}>{step}</li>)}</ol>}
         </section>
       ))}
+      {['/about', '/editorial-policy', '/affiliate-disclosure', '/privacy-policy'].includes(location.pathname) && <section className="static-page-subsection" aria-label="Editorial resources"><h2>Editorial resources</h2><ul>{[['/about', 'About TWW'], ['/authors/imran-natiq', 'Author background'], ['/testing', 'Testing methodology'], ['/editorial-policy', 'Editorial standards'], ['/affiliate-disclosure', 'Affiliate disclosure'], ['/privacy-policy', 'Privacy policy'], ['/contact', 'Contact and corrections']].filter(([path]) => path !== location.pathname).map(([path,label]) => <li key={path}><Link to={path}>{label}</Link></li>)}</ul></section>}
       {location.pathname === '/testing' && <section className="static-page-subsection">
         <h2>Related guides and research</h2>
         <p>These resources show how the evidence principles above apply to practical PC troubleshooting and performance analysis.</p>
@@ -221,7 +233,11 @@ export function StaticPage() {
           <Link to="/research"><strong>TWW Research</strong><span>Original technical studies and evidence-led investigations.</span></Link>
           <Link to="/editorial-policy"><strong>Editorial Policy</strong><span>Accuracy, corrections, sourcing and commercial independence.</span></Link>
           <Link to="/guides"><strong>Practical Guides</strong><span>Windows, gaming and hardware troubleshooting.</span></Link>
+          <Link to="/gallery"><strong>Repair Bench Gallery</strong><span>First-hand hardware photographs, not benchmark measurements.</span></Link>
+          <Link to="/contact"><strong>Contact and corrections</strong><span>Report an error or suggest a technical topic.</span></Link>
         </div>
+        <h2>Selected published work</h2>
+        <ul>{articles.filter(item => item.authorId === 'imranNatiq' && (item.contentRole === 'pillar' || item.slug.startsWith('research/'))).slice(0,12).map(item => <li key={item.id}><Link to={`/${item.slug}`}>{item.title}</Link></li>)}</ul>
       </div>}
       <Link className="text-link" to="/">Return to the homepage →</Link>
     </section>

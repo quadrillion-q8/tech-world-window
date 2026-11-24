@@ -14,7 +14,7 @@
     "generate:rss": "tsx scripts/generate-rss.ts",
     "validate:content": "tsx scripts/audit-content-integrity.ts",
     "audit:gallery": "tsx scripts/audit-gallery-coverage.ts",
-    "validate": "tsx scripts/validate-build.ts && npm run validate:content && npm run audit:gallery && npm run audit:links && npm run audit:frame-time && npm run audit:lifecycle && npm run audit:rendered-links",
+    "validate": "tsx scripts/validate-build.ts && npm run validate:content && npm run audit:gallery && npm run audit:links && npm run audit:frame-time && npm run audit:lifecycle && npm run audit:rendered-links && npm run audit:editorial",
     "build": "npm run generate:sitemap && npm run generate:rss && npm run generate:route-seo && npm run typecheck && vite-react-ssg build && npm run validate",
     "preview": "vite preview",
     "audit:links": "tsx scripts/audit-link-topology.ts",
@@ -24,7 +24,8 @@
     "generate:route-seo": "tsx scripts/generate-route-seo.ts",
     "predev": "npm run generate:route-seo",
     "predev:csr": "npm run generate:route-seo",
-    "audit:rendered-links": "tsx scripts/audit-rendered-links.ts"
+    "audit:rendered-links": "tsx scripts/audit-rendered-links.ts",
+    "audit:editorial": "tsx scripts/audit-editorial-trust.ts"
   },
   "dependencies": {
     "react": "^19.1.1",

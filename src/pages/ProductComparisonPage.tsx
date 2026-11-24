@@ -1,3 +1,4 @@
+import { EditorialTrust } from '../components/EditorialTrust';
 import { Link, useLocation } from 'react-router-dom';
 import { comparisons, getComparisonByPath } from '../data/comparisons';
 import { FaqSection } from '../components/FaqSection';
@@ -52,6 +53,7 @@ export function ProductComparisonPage() {
         <p><Link to="/testing">TWW testing and evidence methodology</Link></p>
       </section>
       <div className="editorial-note"><strong>Evidence note</strong><p>{comparison.evidenceNote}</p></div>
+      <EditorialTrust kind="comparison" />
       <p><Link className="text-link" to={productPath(a)}>{a.brand} {a.model} specifications and sources →</Link></p>
       <p><Link className="text-link" to={productPath(b)}>{b.brand} {b.model} specifications and sources →</Link></p>
       {comparison.guide && <p><Link className="text-link" to={comparison.guide.href}>{comparison.guide.label}</Link></p>}
