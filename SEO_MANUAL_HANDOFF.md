@@ -18,3 +18,10 @@ The connected Vercel team currently returns only KCROC; TWW project and www.tech
 8. Robots: approved policy explicitly allows search/retrieval and training agents; /admin/ and /api/ are reserved, not security boundaries. Do not block noindex pages via robots. If training preference changes, edit the generator policy separately. Review actual crawl access after release.
 
 International publisher, not a local service business: do not add local NAP or fabricated credentials. Remaining authority/SEO handoff work belongs to later phases.
+
+## Phase 2E — Editorial authority and off-site work
+- Verify the author’s actual public professional profile, credentials and photo with the owner before adding sameAs, qualifications, years of experience or a portrait. Do not invent affiliations, awards, certifications or testimonials.
+- Original research: publish a real test record only after running the documented protocol. Include configuration, versions, conditions, tools, repetitions, measurements and limitations. Preserve raw evidence with private identifiers removed.
+- Sources: verify linked documentation and exact SKU/version; the automated audit checks source registry/rendering parity, not the truth or live availability of an external claim. Record material corrections; do not refresh dates without substantive changes.
+- Commercial readiness: verify affiliate relationships and disclosure placement before adding monetized links; review privacy and applicable disclosure rules separately. Do not claim approval, revenue or hands-on tests without evidence.
+- International discovery: submit the existing sitemap through verified search properties, monitor queries and indexing, and earn relevant editorial citations through useful original work. Do not purchase links or fabricate third-party endorsements. No off-site account or outreach action has been performed by this change.

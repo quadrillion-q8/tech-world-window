@@ -288,6 +288,7 @@ export function getRouteSchemas(route: string): Record<string, unknown>[] {
       isAccessibleForFree: true,
       keywords: article.tags.join(', '),
       wordCount: articleWordCount(article),
+      ...(path !== '/gamebar-presence-writer-fix' && article.sources?.length ? { citation: article.sources.map(source => ({ '@type': 'CreativeWork', name: source.label, url: source.url })) } : {}),
       author: {
         '@type': author ? 'Person' : 'Organization',
         name: seo.authorName || 'Tech World Window Editorial Team',
@@ -401,12 +402,12 @@ export function getRouteSchemas(route: string): Record<string, unknown>[] {
   }
 
   if (!product && !comparisonPage && hubCategory === undefined) {
-    const pageType = path === '/authors/imran-natiq' ? 'ProfilePage' : path === '/gallery' ? 'ImageGallery' : routeNode?.kind === 'category' || routeNode?.kind === 'tools' ? 'CollectionPage' : 'WebPage';
+    const pageType = path === '/authors/imran-natiq' ? 'ProfilePage' : path === '/about' ? 'AboutPage' : path === '/contact' ? 'ContactPage' : path === '/gallery' ? 'ImageGallery' : routeNode?.kind === 'category' || routeNode?.kind === 'tools' ? 'CollectionPage' : 'WebPage';
     schemas.push({
       '@context': 'https://schema.org',
       '@type': pageType,
       ...pageFields,
-      ...(pageType === 'ProfilePage' ? { mainEntity: { '@id': personId } } : article ? { mainEntity: { '@id': seo.canonical + '#article' } } : toolPage?.webApp ? { mainEntity: { '@id': seo.canonical + '#application' } } : {}),
+      ...(pageType === 'AboutPage' || pageType === 'ContactPage' ? { mainEntity: { '@id': organizationId } } : pageType === 'ProfilePage' ? { mainEntity: { '@id': personId } } : article ? { mainEntity: { '@id': seo.canonical + '#article' } } : toolPage?.webApp ? { mainEntity: { '@id': seo.canonical + '#application' } } : {}),
     });
   }
   return schemas;

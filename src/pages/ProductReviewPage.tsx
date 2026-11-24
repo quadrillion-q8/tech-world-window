@@ -1,3 +1,4 @@
+import { EditorialTrust } from '../components/EditorialTrust';
 import { ContextualLinks } from '../components/ContextualLinks';
 import { Link, useLocation } from 'react-router-dom';
 import { getProductByPath, productImage, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
@@ -129,6 +130,7 @@ export function ProductReviewPage() {
         </section>
         {compareLinks.length > 0 && <section id="compare"><h2>Compare this product</h2><ul>{compareLinks.map(item => <li key={item.path}><Link to={item.path}>{item.title}</Link></li>)}</ul></section>}
         <ContextualLinks path={location.pathname} productCategory={product.category} />
+        <EditorialTrust kind="product" />
         <p><Link className="text-link" to={categoryPath}>Explore more {product.category.toLowerCase()} product profiles →</Link></p>
         <p><Link className="text-link" to="/testing">How TWW handles testing and evidence →</Link></p>
       </div>

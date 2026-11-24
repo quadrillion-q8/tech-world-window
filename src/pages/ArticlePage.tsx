@@ -1,3 +1,5 @@
+import { AuthorBio } from '../components/AuthorBio';
+import { EditorialTrust } from '../components/EditorialTrust';
 import { ContextualLinks } from '../components/ContextualLinks';
 import { galleryResponsive } from '../lib/galleryResponsive';
 import { Fragment, useState } from 'react';
@@ -294,7 +296,7 @@ export function ArticlePage() {
         {article.slug === 'windows/windows-update-stuck' && section.heading === 'Slow or stuck? The 60-second test' ? <WindowsUpdateTriage /> : null}
       </Fragment>)}
 
-        {article.testing && <div className="editorial-note"><strong>Evidence note</strong><p>{renderInline(article.testing)}</p></div>}
+        {article.testing && <div className="editorial-note" data-evidence-note="true"><strong>Evidence note</strong><p>{renderInline(article.testing)}</p></div>}
 
         {article.searchIntent === 'commercial' && <div className="commercial-intro"><strong>Commercial-content note</strong><p>Some links on this page may be affiliate links. They can earn Tech World Window a commission at no extra cost to you. Commercial relationships do not determine our testing conclusions.</p><a className="text-link" href="/affiliate-disclosure">Read the full affiliate disclosure →</a></div>}
 
@@ -315,11 +317,7 @@ export function ArticlePage() {
         </section> : null}
 
         <ContextualLinks path={`/${article.slug}`} />
-        <div className="article-disclaimer">
-          <strong>How TWW approaches this guide</strong>
-          <p>We distinguish documented facts, measured results, and informed guidance. If a claim depends on a specific device, software version, game, or test method, that context should be stated rather than implied.</p>
-          <p className="editorial-links"><Link to="/authors/imran-natiq">Meet the author</Link><span>·</span><Link to="/testing">See our testing methodology</Link><span>·</span><Link to="/editorial-policy">Read our editorial policy</Link></p>
-        </div>
+        <EditorialTrust kind={article.slug.startsWith('research/') ? 'research' : 'article'} />
       </div>
       <aside className="article-right-rail" aria-label="Article resources">
         <section className="rail-card topic-rail-card">
@@ -345,19 +343,7 @@ export function ArticlePage() {
       </aside>
     </div>
 
-    {author && <section className="section article-author-section">
-      <div className="article-author-card">
-        <div className="author-avatar">IN</div>
-        <div className="article-author-copy">
-          <span className="eyebrow">ABOUT THE AUTHOR</span>
-          <h2>{author.name}</h2>
-          <p><strong>{author.role}</strong></p>
-          <p>{author.bio}</p>
-          <div className="author-expertise">{author.expertise.map(item => <span key={item}>{item}</span>)}</div>
-          <Link className="text-link" to={author.url}>View author profile and background →</Link>
-        </div>
-      </div>
-    </section>}
+    {author && <AuthorBio author={author} />}
 
     {related.length > 0 && <section className="section related-section"><div className="section-heading"><div><span className="eyebrow">KEEP READING</span><h2>Related stories</h2></div></div><div className="article-grid">{related.map(item => <ArticleCard key={item.id} article={item} />)}</div></section>}
   </article>;
