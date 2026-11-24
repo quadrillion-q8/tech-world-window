@@ -1,42 +1,9 @@
-import type { ReactNode } from 'react';
 import type { RouteRecord } from 'vite-react-ssg';
 import { routeGraph, type RouteNode } from './data/graph';
 import { RootLayout } from './layouts/RootLayout';
-import { Home } from './pages/Home';
-import { CategoryPage } from './pages/Category';
-import { ArticlePage } from './pages/ArticlePage';
-import { ToolPage } from './pages/ToolPage';
-import { ToolsHubPage } from './pages/ToolsHubPage';
 import { BSOD_BASE_PATH } from './data/bsod';
-import { CommercialHubPage } from './pages/CommercialHubPage';
-import { StaticPage } from './pages/StaticPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-
-function elementForRoute(route: RouteNode): ReactNode {
-  switch (route.kind) {
-    case 'home':
-      return <Home />;
-    case 'article':
-      return <ArticlePage />;
-    case 'tool':
-      if (route.path === BSOD_BASE_PATH) return null;
-      return <ToolPage />;
-    case 'bsod-code':
-      return null;
-    case 'tools':
-      return <ToolsHubPage />;
-    case 'category':
-      return route.path.startsWith('/reviews') || route.path.startsWith('/best') ? <CommercialHubPage /> : <CategoryPage />;
-    case 'product-review':
-      return null;
-    case 'comparison':
-      return null;
-    case 'author':
-    case 'static':
-      if (route.path === '/gallery') return null;
-      return <StaticPage />;
-  }
-}
+import { loadRouteSeo } from './seo/routeSeo';
 
 function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/gamebar-presence-writer-fix') {
@@ -78,19 +45,31 @@ function lazyPageForRoute(route: RouteNode): RouteRecord['lazy'] | undefined {
   if (route.path === '/gallery') {
     return async () => ({ Component: (await import('./pages/GalleryPage')).GalleryPage });
   }
-  return undefined;
+  switch (route.kind) {
+    case 'home': return async () => ({ Component: (await import('./pages/Home')).Home });
+    case 'article': return async () => ({ Component: (await import('./pages/ArticlePage')).ArticlePage });
+    case 'tool': return async () => ({ Component: (await import('./pages/ToolPage')).ToolPage });
+    case 'tools': return async () => ({ Component: (await import('./pages/ToolsHubPage')).ToolsHubPage });
+    case 'category': return route.path.startsWith('/reviews') || route.path.startsWith('/best')
+      ? async () => ({ Component: (await import('./pages/CommercialHubPage')).CommercialHubPage })
+      : async () => ({ Component: (await import('./pages/Category')).CategoryPage });
+    case 'author':
+    case 'static': return async () => ({ Component: (await import('./pages/StaticPage')).StaticPage });
+    default: return undefined;
+  }
 }
 
 const childRoutes: RouteRecord[] = [
   ...routeGraph.map(route => {
-    const lazy = lazyPageForRoute(route);
-    if (route.path === '/') {
-      return { index: true, ...(lazy ? { lazy } : { element: elementForRoute(route) }) } as RouteRecord;
-    }
-    return {
-      path: route.path.replace(/^\//, ''),
-      ...(lazy ? { lazy } : { element: elementForRoute(route) }),
-    } as RouteRecord;
+    const loadPage = lazyPageForRoute(route);
+    if (!loadPage) throw new Error('No page module for ' + route.path);
+    const lazy: NonNullable<RouteRecord['lazy']> = async () => {
+      if (!route.indexable) return loadPage();
+      const [page, routeSeo] = await Promise.all([loadPage(), loadRouteSeo(route.path)]);
+      return { ...page, handle: { routeSeo } };
+    };
+    if (route.path === '/') return { index: true, lazy } as RouteRecord;
+    return { path: route.path.replace(/^\//, ''), lazy } as RouteRecord;
   }),
   { path: '*', element: <NotFoundPage /> },
 ];

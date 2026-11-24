@@ -1,3 +1,4 @@
+import { galleryResponsive } from '../lib/galleryResponsive';
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { articles } from '../data/articles';
@@ -203,7 +204,7 @@ export function StaticPage() {
         </ul>
       </section>}
       {staticPageFigures[location.pathname]?.map(fig => <figure key={fig.id} style={{ margin: '1.5rem 0' }}>
-        <img src={galleryPhotoUrl(fig.id)} alt={fig.alt} loading="lazy" decoding="async" width={1400} height={1400} style={{ display: 'block', width: '100%', maxWidth: '560px', height: 'auto', borderRadius: '12px' }} />
+        <img src={galleryPhotoUrl(fig.id)} alt={fig.alt} loading="lazy" decoding="async" width={1400} height={1400} {...galleryResponsive(galleryPhotoUrl(fig.id), '(max-width: 600px) 92vw, 560px')} style={{ display: 'block', width: '100%', maxWidth: '560px', height: 'auto', borderRadius: '12px' }} />
         <figcaption style={{ marginTop: '0.5rem', fontSize: '0.9rem', opacity: 0.82 }}>{fig.caption} <Link to="/gallery">See the full repair photo gallery →</Link></figcaption>
       </figure>)}
       {location.pathname === '/research' && <div className="author-profile-links research-index">

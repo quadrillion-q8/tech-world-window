@@ -2,7 +2,8 @@ import { Head } from 'vite-react-ssg';
 import { fitTitle } from './title';
 import { canonicalForPath, isIndexablePath, robotsForPath, INDEX_ROBOTS } from './indexingPolicy';
 import { SITE_NAME, SITE_URL } from '../data/graph';
-import { getSeoData, DEFAULT_OG_IMAGE } from './ssgSeo';
+import { useRouteSeo } from './routeSeo';
+const DEFAULT_OG_IMAGE = '/og-default.png';
 
 type SEOProps = {
   title: string;
@@ -18,7 +19,8 @@ type SEOProps = {
 export function SEOEngine(props: SEOProps) {
   const { path, robots = INDEX_ROBOTS } = props;
   const indexable = isIndexablePath(path);
-  const seo = indexable ? getSeoData(path) : {
+  const routeSeo = useRouteSeo();
+  const seo = indexable && routeSeo ? routeSeo.seo : {
     title: fitTitle(props.title), description: props.description, canonical: canonicalForPath(path),
     type: props.type || 'website', image: props.image, publishedAt: props.publishedAt, updatedAt: props.updatedAt,
     imageWidth: undefined, imageHeight: undefined,

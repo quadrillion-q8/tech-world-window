@@ -1,3 +1,4 @@
+import { galleryResponsive } from '../lib/galleryResponsive';
 import { Fragment, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { articles, headingId, type ArticleTable, type TableCell } from '../data/articles';
@@ -251,7 +252,7 @@ export function ArticlePage() {
       {visibleTags.length > 0 && <div className="article-tags" aria-label="Article topics">{visibleTags.map(tag => <span key={tag}>{tag}</span>)}</div>}
     </div>
     {heroImage ? <figure className="article-hero-media">
-      <img src={heroImage} alt={heroImageAlt} width={1400} height={788} loading="eager" fetchPriority="high" decoding="async" />
+      <img src={heroImage} alt={heroImageAlt} width={1400} height={788} {...galleryResponsive(heroImage, '(max-width: 760px) 92vw, 620px')} loading="eager" fetchPriority="high" decoding="async" />
       <figcaption>{heroGalleryImage ? `Photo from the TWW repair bench: ${heroGalleryImage.title}. Illustrative hardware context, not a performance test.` : `Featured visual · ${article.category}`}</figcaption>
     </figure> : null}
     </div>
@@ -275,7 +276,7 @@ export function ArticlePage() {
           {section.heading && <h2>{section.heading}</h2>}
           {section.paragraphs.map((paragraph, i) => <p key={i}>{renderInline(paragraph)}</p>)}
           {section.image && <figure style={{ margin: '1.5rem 0' }}>
-            <img src={section.image.src} alt={section.image.alt} loading="lazy" decoding="async" width={1400} height={1400} style={{ display: 'block', width: '100%', maxWidth: '760px', height: 'auto', borderRadius: '12px', margin: '0 auto' }} />
+            <img src={section.image.src} alt={section.image.alt} loading="lazy" decoding="async" width={1400} height={1400} {...galleryResponsive(section.image.src, '(max-width: 800px) 92vw, 760px')} style={{ display: 'block', width: '100%', maxWidth: '760px', height: 'auto', borderRadius: '12px', margin: '0 auto' }} />
             <figcaption style={{ marginTop: '0.5rem', textAlign: 'center', fontSize: '0.9rem', opacity: 0.82 }}>{section.image.caption}</figcaption>
           </figure>}
           {section.table && <ArticleTableView table={section.table} />}
@@ -334,7 +335,7 @@ export function ArticlePage() {
           <h2>Related articles</h2>
           <div className="rail-related-list">{related.slice(0, 3).map(item => (
             <Link className="rail-related-item" to={`/${item.slug}`} key={item.id}>
-              <span className="rail-related-thumb">{item.heroImage ? <img src={item.heroImage} alt="" loading="lazy" decoding="async" /> : <span aria-hidden="true">TWW</span>}</span>
+              <span className="rail-related-thumb">{item.heroImage ? <img src={item.heroImage} alt="" width={1400} height={788} {...galleryResponsive(item.heroImage, '96px')} loading="lazy" decoding="async" /> : <span aria-hidden="true">TWW</span>}</span>
               <span className="rail-related-copy"><strong>{item.title}</strong><small>{item.dek}</small></span>
             </Link>
           ))}</div>

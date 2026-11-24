@@ -1,3 +1,4 @@
+import { galleryResponsive } from '../lib/galleryResponsive';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { articles } from '../data/articles';
@@ -322,6 +323,7 @@ export function Home() {
                 alt={image.title}
                 width="1400"
                 height="1400"
+                {...galleryResponsive('/images/gallery/' + image.id + '.webp', '(max-width: 700px) 45vw, 260px')}
                 loading="lazy"
                 decoding="async"
               />
