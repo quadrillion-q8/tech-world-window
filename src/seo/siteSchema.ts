@@ -5,10 +5,10 @@ function absoluteUrl(path: string) {
   return new URL(path, SITE_URL).toString();
 }
 
-const organizationId = SITE_URL + '/#organization';
-const websiteId = SITE_URL + '/#website';
+export const organizationId = SITE_URL + '/#organization';
+export const websiteId = SITE_URL + '/#website';
 const author = authors.imranNatiq;
-const personId = absoluteUrl(author.url) + '#person';
+export const personId = absoluteUrl(author.url) + '#person';
 
 const featuredHomepageItems = [
   { name: 'Windows troubleshooting and updates', path: '/windows' },

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { getProductByPath, productImage, productCategorySlug, productMetaDescription, productPageTitle, type Product, type ProductCategory } from '../data/products';
-import { SEOEngine, BreadcrumbStructuredData, ProductStructuredData } from '../seo/SEOEngine';
+import { SEOEngine } from '../seo/SEOEngine';
 import { comparisonsForProduct } from '../data/comparisons';
 import { AffiliateLink } from '../components/AffiliateLink';
 
@@ -37,16 +37,9 @@ export function ProductReviewPage() {
 
   return <article className="article-page product-review-page">
     <SEOEngine title={pageTitle} description={description} path={location.pathname} type="website" />
-    <ProductStructuredData product={{ name: `${product.brand} ${product.model}`, brand: product.brand, description: product.summary }} path={location.pathname} />
-    <BreadcrumbStructuredData items={[
-      { name: 'Home', path: '/' },
-      { name: 'Reviews & Product Research', path: '/reviews' },
-      { name: categoryName, path: categoryPath },
-      { name: `${product.brand} ${product.model}`, path: location.pathname },
-    ]} />
 
     <div className="article-head">
-      <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/reviews">Reviews & Product Research</Link><span>/</span><Link to={categoryPath}>{categoryName}</Link></div>
+      <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span aria-hidden="true">/</span><Link to="/reviews">Reviews & Product Research</Link><span aria-hidden="true">/</span><Link to={categoryPath}>{categoryName}</Link></nav>
       <span className="eyebrow">{product.category} · {product.status === 'hands-on-tested' ? 'TWW HANDS-ON REVIEW' : hasIndependentReview ? 'SPECIFICATION PROFILE · INDEPENDENT LAB REVIEW LINKED' : 'SPECIFICATION PROFILE'}</span>
       <h1>{product.brand} {product.model}</h1>
       <p className="article-dek">{product.summary}</p>

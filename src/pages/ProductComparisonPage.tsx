@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { comparisons, getComparisonByPath } from '../data/comparisons';
 import { FaqSection } from '../components/FaqSection';
 import { productImage, productPath, productCategorySlug } from '../data/products';
-import { SEOEngine, BreadcrumbStructuredData, FAQStructuredData } from '../seo/SEOEngine';
+import { SEOEngine } from '../seo/SEOEngine';
 
 export function ProductComparisonPage() {
   const location = useLocation();
@@ -25,10 +25,8 @@ export function ProductComparisonPage() {
   const related = comparisons.filter(item => item.path !== comparison.path && (item.productA.category === a.category || item.a === comparison.a || item.b === comparison.a || item.a === comparison.b || item.b === comparison.b)).slice(0, 4);
   return <article className="article-page">
     <SEOEngine title={comparison.title} description={comparison.metaDescription} path={comparison.path} type="article" />
-    <BreadcrumbStructuredData items={[{ name: 'Home', path: '/' }, { name: 'Reviews', path: '/reviews' }, { name: categoryLabel, path: categoryPath }, { name: comparison.title, path: comparison.path }]} />
-    {comparison.faq?.length ? <FAQStructuredData items={comparison.faq} /> : null}
     <div className="article-head">
-      <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/reviews">Reviews</Link><span>/</span><Link to={categoryPath}>{categoryLabel}</Link></div>
+      <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span aria-hidden="true">/</span><Link to="/reviews">Reviews</Link><span aria-hidden="true">/</span><Link to={categoryPath}>{categoryLabel}</Link></nav>
       <span className="eyebrow">{comparison.eyebrow}</span>
       <h1>{comparison.title}</h1>
       <p className="article-dek">{comparison.dek}</p>

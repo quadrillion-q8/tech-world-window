@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { articles, articleWordCount, headingId, type ArticleTable, type TableCell } from '../data/articles';
+import { articles, headingId, type ArticleTable, type TableCell } from '../data/articles';
 import { authors } from '../data/authors';
-import { SEOEngine, ArticleStructuredData, BreadcrumbStructuredData, FAQStructuredData, HowToStructuredData } from '../seo/SEOEngine';
+import { SEOEngine } from '../seo/SEOEngine';
 import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
 import { galleryImageUrl, galleryImages } from '../data/gallery';
 import { ArticleCard } from '../components/ArticleCard';
@@ -212,33 +212,12 @@ export function ArticlePage() {
       updatedAt={article.updatedAt}
       image={heroImage || '/og-default.png'}
     />
-    <BreadcrumbStructuredData items={[
-      { name: 'Home', path: '/' },
-      { name: article.category, path: breadcrumbPath },
-      { name: article.title, path: `/${article.slug}` },
-    ]} />
-    <ArticleStructuredData
-      title={article.title}
-      description={article.dek}
-      path={`/${article.slug}`}
-      publishedAt={article.publishedAt}
-      updatedAt={article.updatedAt}
-      authorName={author?.name || 'Tech World Window Editorial Team'}
-      category={article.category}
-      image={heroImage || '/og-default.png'}
-      keywords={article.tags}
-      wordCount={articleWordCount(article)}
-      authorUrl={author?.url}
-      authorJobTitle={author?.role}
-    />
-    {article.howTo?.steps.length ? <HowToStructuredData name={article.howTo.name} steps={article.howTo.steps} /> : null}
-    {article.faq?.length ? <FAQStructuredData items={article.faq} /> : null}
 
     <div className={heroImage ? "article-top-grid has-hero" : "article-top-grid no-hero"}>
     <div className="article-head">
-      <div className="breadcrumbs">
-        <Link to="/">Home</Link><span>/</span><Link to={breadcrumbPath}>{article.category}</Link>
-      </div>
+      <nav className="breadcrumbs" aria-label="Breadcrumb">
+        <Link to="/">Home</Link><span aria-hidden="true">/</span><Link to={breadcrumbPath}>{article.category}</Link>
+      </nav>
       <span className="eyebrow">{article.category}{article.subcategory ? ` / ${article.subcategory}` : ''}</span>
       <h1>{article.title}</h1>
       <p className="article-dek">{article.dek}</p>
