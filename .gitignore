@@ -8,3 +8,5 @@ dist/
 .DS_Store
 Thumbs.db
 npm-debug.log*
+
+src/generated/route-seo/

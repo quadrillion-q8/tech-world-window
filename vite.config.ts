@@ -19,6 +19,7 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
+    manifest: true,
     rollupOptions: {
       output: {
         // Framework code changes rarely, so keep it in its own long-cached file.

@@ -1,3 +1,4 @@
+import { galleryResponsive } from '../lib/galleryResponsive';
 import React from 'react';
 import { articleThumbnailImageBySlug } from '../data/article-thumbnail-map';
 import { galleryImages } from '../data/gallery';
@@ -35,6 +36,7 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
         decoding="async"
         width="640"
         height="640"
+        {...galleryResponsive(image, '(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 360px')}
       />
     </div>
   );

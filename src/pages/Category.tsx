@@ -1,3 +1,4 @@
+import { galleryResponsive } from '../lib/galleryResponsive';
 import { Link, useLocation } from 'react-router-dom';
 import { articles, categories } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
@@ -66,7 +67,7 @@ export function CategoryPage() {
         {isWindowsHub && <div className="windows-hub-actions"><Link className="windows-hub-primary" to="/windows-troubleshooting-complete-guide">Start the complete troubleshooting guide <span aria-hidden="true">→</span></Link><Link className="windows-hub-secondary" to="/tools/windows-troubleshooting-assistant">Use the free troubleshooting assistant</Link></div>}
       </div>
       {categoryVisual && categoryVisualConfig ? <figure className="category-hero-photo">
-        <img src={galleryImageUrl(categoryVisual.id)} alt={categoryVisual.title} width={1400} height={1400} loading="lazy" decoding="async" />
+        <img src={galleryImageUrl(categoryVisual.id)} alt={categoryVisual.title} width={1400} height={1400} {...galleryResponsive(galleryImageUrl(categoryVisual.id), '(max-width: 760px) 92vw, 520px')} loading="eager" fetchPriority="high" decoding="async" />
         <figcaption>{categoryVisualConfig.caption}</figcaption>
       </figure> : null}
     </div>
