@@ -4,6 +4,7 @@ import { articles } from '../src/data/articles';
 import { routeGraph, SITE_URL } from '../src/data/graph';
 import { getProductByPath, productImage } from '../src/data/products';
 import { getComparisonByPath } from '../src/data/comparisons';
+import { buildRobotsTxt } from '../src/seo/indexingPolicy';
 
 const publicDir = resolve('public');
 mkdirSync(publicDir, { recursive: true });
@@ -44,7 +45,7 @@ writeFileSync(sitemapPath, xml, 'utf8');
 const robotsPath = resolve(publicDir, 'robots.txt');
 writeFileSync(
   robotsPath,
-  `User-agent: *\nAllow: /\n\nSitemap: ${new URL('/sitemap.xml', SITE_URL).toString()}\n\n# RSS feed for publishers and readers\n`,
+  buildRobotsTxt(),
   'utf8',
 );
 
