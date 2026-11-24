@@ -1,6 +1,14 @@
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: https://www.techworldwindow.com/sitemap.xml
-
-# RSS feed for publishers and readers

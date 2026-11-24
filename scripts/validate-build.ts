@@ -3,6 +3,7 @@ import { join, normalize, relative, resolve } from 'node:path';
 import { articles, headingId } from '../src/data/articles';
 import { navigation, menuGroups, routeGraph, SITE_URL } from '../src/data/graph';
 import { getSeoData } from '../src/seo/ssgSeo';
+import { buildRobotsTxt, canonicalForPath, robotsForPath, NOINDEX_ROBOTS } from '../src/seo/indexingPolicy';
 import { BSOD_BASE_PATH, bsodEntries, bsodPath } from '../src/data/bsod';
 import { articleToolLinks, getToolPageData, toolByPath, tools } from '../src/data/tools';
 import { products, productMetaDescription, productPageTitle, productPath, productCategorySlug } from '../src/data/products';
@@ -330,6 +331,7 @@ if (!existsSync(robotsPath)) {
   errors.push('public/robots.txt was not generated.');
 } else {
   const robots = readFileSync(robotsPath, 'utf8');
+  if (robots !== buildRobotsTxt()) errors.push('Generated robots.txt differs from indexing policy.');
   const sitemapUrl = new URL('/sitemap.xml', SITE_URL).toString();
   if (!robots.includes(`Sitemap: ${sitemapUrl}`)) errors.push('robots.txt is missing the canonical sitemap URL.');
   if (!/^User-agent:\s*\*\s*$/m.test(robots)) errors.push('robots.txt is missing a User-agent: * directive.');
@@ -362,7 +364,14 @@ if (!existsSync(dist)) {
   walk(dist);
 
   const actualHtml = new Set(htmlFiles.map(file => normalizeFilePath(relative(dist, file))));
-  const expectedHtml = new Set(indexableRoutes.map(route => expectedHtmlPath(route.path)));
+  const expectedHtml = new Set([...indexableRoutes.map(route => expectedHtmlPath(route.path)), '404.html']);
+  const errorPage = join(dist, '404.html');
+  if (existsSync(errorPage)) {
+    const html = readFileSync(errorPage, 'utf8');
+    if (!/name="robots" content="noindex,follow"/i.test(html) || /rel="canonical"/i.test(html) || !html.includes('That page does not exist.')) errors.push('Static 404 must be noindex, non-canonical and useful.');
+  }
+  if (robotsForPath('/404') !== NOINDEX_ROBOTS || robotsForPath('/__tww_missing_route__') !== NOINDEX_ROBOTS) errors.push('Unknown routes must not be indexable.');
+  if (canonicalForPath('/guides/?utm_source=test#section') !== `${SITE_URL}/guides`) errors.push('Canonical normalization failed.');
 
   if (htmlFiles.length !== expectedHtml.size) {
     errors.push(`Found ${htmlFiles.length} HTML files in dist; expected exactly ${expectedHtml.size}.`);
@@ -397,7 +406,12 @@ if (!existsSync(dist)) {
     if (!descriptionMatch) errors.push(`Missing meta description in ${route.path}`);
     else if (decodeHtml(descriptionMatch[1]) !== seo.description) errors.push(`Incorrect meta description in ${route.path}`);
 
-    if (!html.includes('name="robots"') || !html.includes('index,follow')) errors.push(`Missing index/follow robots directive in ${route.path}`);
+    const robotTags = [...html.matchAll(/<meta\b[^>]*name=["'](?:robots|googlebot|bingbot)["'][^>]*>/gi)].map(match => match[0]);
+    if (robotTags.filter(tag => /name=["']robots["']/i.test(tag)).length !== 1 || robotTags.some(tag => /\b(noindex|none|nofollow)\b/i.test(tag)) || !robotTags.some(tag => /content=["']index,follow(?:,|["'])/i.test(tag))) errors.push(`Invalid robots directives in ${route.path}`);
+    if ([...html.matchAll(/<link\b[^>]*rel=["']canonical["'][^>]*>/gi)].length !== 1) errors.push(`Expected one canonical in ${route.path}`);
+    for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+      try { JSON.parse(match[1]); } catch { errors.push(`Invalid JSON-LD in ${route.path}`); }
+    }
     if (!html.includes('Tech World Window')) errors.push(`Missing rendered brand/content in ${route.path}`);
     if (!html.includes('application/ld+json')) errors.push(`Missing JSON-LD structured data in ${route.path}`);
     if (!html.includes('"@type":"BreadcrumbList"')) errors.push(`Missing BreadcrumbList JSON-LD in ${route.path}`);
@@ -547,7 +561,7 @@ if (!existsSync(dist)) {
     }
   }
 
-  console.log(`Validated ${htmlFiles.length} generated HTML files for ${indexableRoutes.length} indexable routes.`);
+  console.log(`Validated ${htmlFiles.length} generated HTML files for ${indexableRoutes.length} indexable routes plus the non-indexable static 404.`);
   console.log(`dist size: ${statSync(dist).isDirectory() ? 'directory present' : 'unexpected'}`);
 }
 

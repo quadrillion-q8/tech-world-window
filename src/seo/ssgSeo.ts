@@ -7,6 +7,7 @@ import { getToolPageData, HUB_SEO_DESCRIPTION } from '../data/tools';
 import { getProductByPath, productCategorySlug, productImage, productMetaDescription, productPageTitle, productPath, products, type ProductCategory } from '../data/products';
 import { getComparisonByPath } from '../data/comparisons';
 import { fitTitle } from './title';
+import { robotsForPath, isIndexablePath } from './indexingPolicy';
 import { routeGraph, SITE_URL, SITE_NAME, type RouteNode } from '../data/graph';
 
 type SeoData = {
@@ -412,8 +413,8 @@ export function injectSsgSeo(renderedHtml: string, route: string) {
   const headTags = [
     `<title>${escapeHtml(seo.title)}</title>`,
     `<meta name="description" content="${escapeHtml(seo.description)}" />`,
-    '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />',
-    `<link rel="canonical" href="${escapeHtml(seo.canonical)}" />`,
+    `<meta name="robots" content="${robotsForPath(path)}" />`,
+    ...(isIndexablePath(path) ? [`<link rel="canonical" href="${escapeHtml(seo.canonical)}" />`] : []),
     `<meta property="og:type" content="${seo.type}" />`,
     '<meta property="og:site_name" content="Tech World Window" />',
     `<meta property="og:title" content="${escapeHtml(seo.title)}" />`,

@@ -1,5 +1,6 @@
 import { Head } from 'vite-react-ssg';
 import { fitTitle } from './title';
+import { canonicalForPath, isIndexablePath, robotsForPath, INDEX_ROBOTS } from './indexingPolicy';
 import { SITE_NAME, SITE_URL, siteEntity } from '../data/graph';
 
 type SEOProps = {
@@ -18,17 +19,17 @@ function absoluteUrl(path: string) { return new URL(path, SITE_URL).toString(); 
 
 export function SEOEngine({
   title, description, path, type = 'website', publishedAt, updatedAt, image,
-  robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+  robots = INDEX_ROBOTS,
 }: SEOProps) {
-  const canonical = absoluteUrl(path);
+  const canonical = canonicalForPath(path);
   const fullTitle = fitTitle(title);
   const imageUrl = absoluteUrl(image || DEFAULT_OG_IMAGE);
   return (
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <meta name="robots" content={robots} />
-      <link rel="canonical" href={canonical} />
+      <meta name="robots" content={robotsForPath(path, robots)} />
+      {isIndexablePath(path) && <link rel="canonical" href={canonical} />}
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:title" content={fullTitle} />

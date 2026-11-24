@@ -140,7 +140,9 @@ async function checkRobotsAndSitemap() {
   let robotsText;
   let sitemapText;
   try {
-    ({ text: robotsText } = await getText(`${SITE_URL}/robots.txt`));
+    const result = await getText(`${SITE_URL}/robots.txt`);
+    robotsText = result.text;
+    if (!/^text\/plain\b/i.test(result.response.headers.get('content-type') || '')) failures.push('robots.txt must be served as text/plain.');
     if (!/^User-agent:\s*\*\s*$/m.test(robotsText)) {
       failures.push('robots.txt does not contain a wildcard User-agent rule.');
     }
@@ -157,7 +159,9 @@ async function checkRobotsAndSitemap() {
   }
 
   try {
-    ({ text: sitemapText } = await getText(`${SITE_URL}/sitemap.xml`));
+    const result = await getText(`${SITE_URL}/sitemap.xml`);
+    sitemapText = result.text;
+    if (!/^(?:application|text)\/xml\b/i.test(result.response.headers.get('content-type') || '')) failures.push('sitemap.xml must be served with an XML content type.');
   } catch (error) {
     failures.push(`sitemap.xml check failed: ${error.message}`);
     return [];
@@ -225,8 +229,9 @@ async function checkPage(url) {
         failures.push(`Canonical mismatch on ${url}: found ${canonical}`);
       }
     }
-    const robotsTag = html.match(/<meta\b[^>]*name=["']robots["'][^>]*>/i)?.[0] || '';
-    if (/\b(noindex|none)\b/i.test(robotsTag)) failures.push(`Indexable sitemap URL has noindex on ${url}`);
+    const robotTags = [...html.matchAll(/<meta\b[^>]*name=["'](?:robots|googlebot|bingbot)["'][^>]*>/gi)].map(match => match[0]);
+    if (robotTags.some(tag => /\b(noindex|none)\b/i.test(tag))) failures.push(`Indexable sitemap URL has noindex on ${url}`);
+    if (!/^https:\/\//i.test(canonical || '')) failures.push(`Canonical is not absolute on ${url}`);
   } catch (error) {
     failures.push(`Page request failed for ${url}: ${error.message}`);
   }
@@ -382,6 +387,18 @@ async function main() {
     } catch (error) {
       console.log(`OBSERVATION historical URL ${target}: ${error.message}`);
     }
+  }
+
+  // A missing URL must never return the homepage with HTTP 200.
+  try {
+    const missing = await fetchWithRetry(new URL('/__tww_missing_route_phase2a__', SITE_URL).href, { redirect: 'manual' });
+    const html = await missing.text();
+    if (missing.status !== 404) failures.push(`Missing route returned HTTP ${missing.status}, expected 404`);
+    // Enable this release gate only when testing the new deployment, not an older live build.
+    if (process.env.REQUIRE_CUSTOM_404 === '1' && (!html.includes('That page does not exist.') || !/name=["']robots["'][^>]*content=["']noindex,follow["']/i.test(html) || canonicalFromHtml(html))) failures.push('Custom 404 content/indexing policy missing.');
+    console.log(`Missing-route probe: HTTP ${missing.status}`);
+  } catch (error) {
+    failures.push(`Missing-route check failed: ${error.message}`);
   }
 
   let nextIndex = 0;
