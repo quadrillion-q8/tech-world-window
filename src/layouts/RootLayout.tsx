@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { ToolContextualLinks } from '../components/ContextualLinks';
 import { SiteStructuredData } from '../components/SiteStructuredData';
 import { ConsentBanner } from '../components/ConsentBanner';
 import { TechBackground } from '../components/TechBackground';
@@ -50,7 +51,7 @@ export function RootLayout() {
       <TechBackground />
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
-      <main id="main-content"><Outlet /></main>
+      <main id="main-content"><Outlet /><ToolContextualLinks /></main>
       <Footer />
       <ConsentBanner onChoice={onConsentChoice} />
       <ScrollRestoration />

@@ -1,6 +1,7 @@
 import { articles } from '../src/data/articles';
 import { routeGraph } from '../src/data/graph';
 import { articleToolLinks, tools } from '../src/data/tools';
+import { topicLinks } from '../src/data/topicLinks';
 
 /**
  * Reports the editorial internal-link topology without inventing or injecting links.
@@ -47,6 +48,17 @@ for (const article of articles) {
         warnings.push(`Explicit pillar edge missing: /${article.slug} points to ${article.pillarPath}; ArticlePage supplies a rendered pillar fallback, but consider adding a reviewed reciprocal relatedArticles edge if appropriate.`);
       }
     }
+  }
+}
+
+for (const [path, links] of Object.entries(topicLinks)) {
+  const source = bySlug.get(path.slice(1));
+  if (!source) continue;
+  for (const [targetPath] of links) {
+    const target = bySlug.get(targetPath.slice(1));
+    if (!target || source.id === target.id) continue;
+    outgoing.get(source.id)?.add(target.id);
+    incoming.get(target.id)?.add(source.id);
   }
 }
 
