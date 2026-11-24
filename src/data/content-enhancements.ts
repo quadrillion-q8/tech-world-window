@@ -2015,7 +2015,8 @@ export function enhanceArticles(baseArticles: Article[]): Article[] {
 
     return {
       ...article,
-      updatedAt: enhancement ? (enhancement.updatedAt ?? '2026-10-08') : article.updatedAt,
+      // Undated enhancements must not overwrite an article's recorded editorial date.
+      updatedAt: enhancement?.updatedAt ?? article.updatedAt,
       seoTitle: seoOverride?.seoTitle ?? enhancement?.seoTitle ?? article.seoTitle,
       metaDescription: seoOverride?.metaDescription ?? enhancement?.metaDescription ?? article.metaDescription,
       sources: mergedSources.length ? mergedSources : article.sources,
