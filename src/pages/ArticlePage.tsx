@@ -1,3 +1,4 @@
+import { ContextualLinks } from '../components/ContextualLinks';
 import { galleryResponsive } from '../lib/galleryResponsive';
 import { Fragment, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -313,6 +314,7 @@ export function ArticlePage() {
           {article.faq.map(item => <details key={item.question}><summary>{item.question}</summary><p>{renderInline(item.answer)}</p></details>)}
         </section> : null}
 
+        <ContextualLinks path={`/${article.slug}`} />
         <div className="article-disclaimer">
           <strong>How TWW approaches this guide</strong>
           <p>We distinguish documented facts, measured results, and informed guidance. If a claim depends on a specific device, software version, game, or test method, that context should be stated rather than implied.</p>

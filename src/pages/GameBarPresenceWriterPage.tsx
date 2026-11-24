@@ -1,3 +1,4 @@
+import { ToolCallout } from '../components/ToolCallout';
 import { Link } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 
@@ -90,6 +91,7 @@ export function GameBarPresenceWriterPage() {
           {s.id === 'taskkill' && <pre className="article-code"><code>taskkill /f /im gamebarpresencewriter.exe</code></pre>}
         </section>)}
 
+        <ToolCallout slug="gamebar-presence-writer-fix" />
         <section id="faq"><h2>Frequently asked questions</h2>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>
         <nav className="article-next-steps" aria-label="Related troubleshooting guides"><h2>Related guides</h2><ul>
           <li><Link to="/pc-game-stuttering-fix-frame-time"><strong>PC Game Stuttering: Frame-Time Spikes</strong></Link><span>Understand why average FPS can hide uneven frame delivery.</span></li>

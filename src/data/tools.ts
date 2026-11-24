@@ -272,6 +272,18 @@ export const toolByPath = new Map(tools.map(tool => [tool.path, tool]));
 
 /** Articles that should point readers at a tool (slug without leading slash -> tool paths). */
 export const articleToolLinks: Record<string, string[]> = {
+  'gamebar-presence-writer-fix': ["/tools/frame-time-analyzer"],
+  'pc-games-crashing-to-desktop-troubleshooting': ["/tools/windows-troubleshooting-assistant"],
+  'how-much-ram-do-you-need-gaming': ["/tools/ram-calculator"],
+  'ssd-nearly-full-windows-performance': ["/tools/storage-calculator"],
+  'research/ssd-nearly-full-what-really-changes': ["/tools/storage-calculator"],
+  'research/windows-100-percent-disk-usage-low-mbps': ["/tools/windows-troubleshooting-assistant"],
+  'research/what-actually-causes-pc-game-stuttering': ["/tools/frame-time-analyzer"],
+  'why-8gb-ram-is-no-longer-enough-for-windows-11': ["/tools/ram-calculator"],
+  'best-ssds': ["/tools/storage-calculator"],
+  'best-ram': ["/tools/ram-calculator"],
+  'laptop-plugged-in-not-charging': ["/tools/windows-battery-health-analyzer"],
+  'windows-11-slow-startup-fix': ["/tools/windows-troubleshooting-assistant"],
   'research/does-more-ram-make-windows-faster': ['/tools/ram-calculator'],
   'research/upgrade-ram-ssd-now-or-wait': ['/tools/ram-calculator', '/tools/storage-calculator'],
   'laptop-battery-warning-signs': ['/tools/windows-battery-health-analyzer'],
