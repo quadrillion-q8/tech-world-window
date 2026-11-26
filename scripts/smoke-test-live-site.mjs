@@ -212,6 +212,15 @@ async function checkPage(url) {
     if (!/<title\b[^>]*>\s*[^<]+\s*<\/title>/i.test(html)) {
       failures.push(`Missing or empty <title> on ${url}`);
     }
+    // A 200 response with valid metadata is not sufficient if the deployed HTML
+    // is an empty client shell or a generic fallback instead of the intended page.
+    const main = html.match(/<main\b[^>]*\bid=["']main-content["'][^>]*>([\s\S]*?)<\/main>/i)?.[1];
+    const headings = [...(main || '').matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+    const visibleText = value => value.replace(/<(?:script|style)\b[^>]*>[\s\S]*?<\/(?:script|style)>/gi, '').replace(/<[^>]*>/g, ' ').replace(/&(?:nbsp|#160);/gi, ' ').replace(/\s+/g, ' ').trim();
+    if (!main || !visibleText(main)) failures.push('Missing prerendered main content on ' + url);
+    if (headings.length !== 1 || !visibleText(headings[0]?.[1] || '')) failures.push('Expected one nonempty prerendered H1 in main content on ' + url);
+    const heading = visibleText(headings[0]?.[1] || '');
+    if (/^(?:article not found|page not found|404|that page does not exist\.?)$/i.test(heading)) failures.push('Unexpected fallback heading on indexable URL ' + url);
     const canonicalTags = [...html.matchAll(/<link\b[^>]*rel=["']canonical["'][^>]*>/gi)];
     if (canonicalTags.length !== 1) failures.push(`Expected exactly one canonical on ${url}; found ${canonicalTags.length}`);
     const canonical = canonicalFromHtml(html);
