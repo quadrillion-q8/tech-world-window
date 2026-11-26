@@ -2419,6 +2419,7 @@ export const phase4Articles: Article[] = [
   {
     "id": "psu-failure-symptoms",
     "slug": "pc-power-supply-problems-symptoms",
+    "heroImage": "/images/gallery/hp-desktop-pc-opened-motherboard-psu-ssd-and-hard-drive.webp",
     "title": "PC Power Supply Problems: Symptoms, Safe Tests, and Diagnosis",
     "seoTitle": "Bad PSU Symptoms: Safe Checks & Fixes",
     "dek": "A failing PSU can cause sudden shutdowns, restarts, or startup failures—but GPU faults, overheating, cabling, and memory instability can look similar. Use a symptom-led process to narrow the cause without opening the power supply.",
