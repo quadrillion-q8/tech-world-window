@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { SEOEngine } from '../seo/SEOEngine';
 import { trackMonetization } from '../lib/analytics';
+import { estimateBottleneck, compareRenderScaleFps, resolutionDemand, type GamingResolution } from '../lib/bottleneck';
 
 type ToolKind = 'bottleneck' | 'psu' | 'ram' | 'storage';
 
@@ -38,7 +39,9 @@ export function ToolPage() {
 
   const [cpu, setCpu] = useState(2);
   const [gpu, setGpu] = useState(2);
-  const [resolution, setResolution] = useState('1440p');
+  const [resolution, setResolution] = useState<GamingResolution>('1440p');
+  const [baselineFps, setBaselineFps] = useState('');
+  const [reducedFps, setReducedFps] = useState('');
   const [gpuWatts, setGpuWatts] = useState(220);
   const [cpuWatts, setCpuWatts] = useState(120);
   const [systemWatts, setSystemWatts] = useState(80);
@@ -52,15 +55,8 @@ export function ToolPage() {
   const [gameSize, setGameSize] = useState(100);
   const [otherStorage, setOtherStorage] = useState(200);
 
-  const bottleneck = useMemo(() => {
-    const gpuWeight = resolution === '1080p' ? 1 : resolution === '1440p' ? 1.3 : 1.7;
-    const cpuScore = cpu;
-    const gpuScore = gpu * gpuWeight;
-    const delta = Math.abs(cpuScore - gpuScore);
-    if (delta < 0.8) return { label: 'Relatively balanced on paper', detail: 'The selected tiers look reasonably matched for this simplified model.' };
-    if (cpuScore < gpuScore) return { label: 'Possible CPU limitation', detail: 'At lower resolutions, a weaker CPU can limit high-FPS performance. Check game-specific benchmarks before upgrading.' };
-    return { label: 'Possible GPU limitation', detail: 'Higher resolutions usually increase graphics workload. A GPU limit is often normal when the target FPS is met.' };
-  }, [cpu, gpu, resolution]);
+  const bottleneck = useMemo(() => estimateBottleneck(cpu, gpu, resolution), [cpu, gpu, resolution]);
+  const fpsChange = compareRenderScaleFps(Number(baselineFps), Number(reducedFps));
 
   const psu = useMemo(() => {
     const load = gpuWatts + cpuWatts + systemWatts;
@@ -97,7 +93,7 @@ export function ToolPage() {
       <div className="tool-controls">
         <label>CPU performance tier<select value={cpu} onChange={e => setCpu(Number(e.target.value))}>{['Entry-level CPU','Mid-range CPU','High-end CPU','Enthusiast CPU'].map((x,i)=><option value={i+1} key={x}>{x}</option>)}</select></label>
         <label>GPU performance tier<select value={gpu} onChange={e => setGpu(Number(e.target.value))}>{['Entry-level GPU','Mid-range GPU','High-end GPU','Enthusiast GPU'].map((x,i)=><option value={i+1} key={x}>{x}</option>)}</select></label>
-        <label>Gaming resolution<select value={resolution} onChange={e => setResolution(e.target.value)}><option>1080p</option><option>1440p</option><option>4K</option></select></label>
+        <label>Gaming resolution<select value={resolution} onChange={e => setResolution(e.target.value as GamingResolution)}><option>1080p</option><option>1440p</option><option>4K</option></select></label>
       </div>
       <div className="tool-result" aria-live="polite" aria-atomic="true"><span className="eyebrow">ESTIMATED MATCH</span><h2>{bottleneck.label}</h2><p>{bottleneck.detail}</p><small>This is a qualitative tier comparison, not a measured bottleneck percentage or FPS prediction. Game engine, settings, ray tracing, upscaling, background tasks and target refresh rate can change the limiting component.</small></div>
     </div>}
@@ -107,6 +103,9 @@ export function ToolPage() {
       <p>A bottleneck is the part of a system that limits performance in a particular workload. It is not a permanent percentage attached to a CPU or graphics card: the limiting component can change between games, scenes, graphics settings and target frame rates.</p>
       <h3>What resolution changes</h3>
       <p>At 1080p, a graphics card has fewer pixels to render, so the CPU can become the limit more often when aiming for very high frame rates. At 1440p and 4K, the graphics workload usually rises and the GPU is more likely to set the pace. This is a tendency, not a rule for every game or PC.</p>
+      <h3>How the tier estimate is calculated</h3>
+      <p>CPU and GPU tiers are ordinal values from 1 to 4. The heuristic divides the graphics tier by an illustrative demand factor: 1 at 1080p, 1.3 at 1440p and 1.7 at 4K. A difference below 0.8 tier units is treated as relatively balanced. These are uncalibrated planning assumptions, not measured hardware data or pixel-count ratios.</p>
+      <p>For the current selection: CPU tier {cpu}; GPU tier {gpu}; resolution demand factor {resolutionDemand[resolution]}; adjusted GPU tier {bottleneck.gpuEffectiveTier.toFixed(2)}. Higher resolution cannot make the same GPU appear more capable in this model. Actual results depend on the game and settings.</p>
       <h3>Check the real system before buying parts</h3>
       <ol>
         <li>Repeat a representative section of the same game with the same settings.</li>
@@ -116,6 +115,16 @@ export function ToolPage() {
       </ol>
       <p>This tool uses broad performance tiers, so its result is a starting hypothesis—not a measured bottleneck percentage, compatibility check, or FPS forecast.</p>
       <p>For symptom-led checks, see <Link className="text-link" to="/pc-game-low-fps-how-to-find-the-cause">how to diagnose low FPS</Link>, <Link className="text-link" to="/gpu-100-percent-usage-gaming">what 100% GPU usage means</Link>, and the <Link className="text-link" to="/tools/frame-time-analyzer">Frame-Time Analyzer</Link> for supported capture files.</p>
+      <h3>Verify with your own two-run FPS comparison</h3>
+      <p>Keep the same game, scene, settings, frame cap and power mode. Change only render scale or resolution. Enter average FPS from two comparable runs below; repeat the original run to check consistency. Do not run stress tests on unstable hardware.</p>
+      <div className="tool-controls">
+        <label>Original average FPS<input type="number" min="1" step="any" value={baselineFps} onChange={e => setBaselineFps(e.target.value)} placeholder="e.g. 80" /></label>
+        <label>Reduced render scale average FPS<input type="number" min="1" step="any" value={reducedFps} onChange={e => setReducedFps(e.target.value)} placeholder="e.g. 110" /></label>
+      </div>
+      <div className="tool-result" aria-live="polite" aria-atomic="true">
+        {fpsChange === null ? <p>Enter two positive FPS readings to calculate the observed change.</p> : <p><strong>{fpsChange >= 0 ? '+' : ''}{fpsChange.toFixed(1)}% FPS change.</strong> A repeatable improvement can support a rendering-workload limitation. Little change may warrant checks of frame caps, CPU threads, memory and other limits. No single percentage proves a cause or recommends an upgrade.</p>}
+      </div>
+      <p>Example only: 80 to 110 FPS is a 37.5% gain, not a 37.5% bottleneck. See the <Link className="text-link" to="/gpu-100-percent-usage-gaming">worked GPU utilization example</Link> for the full A/B/A procedure. For uneven frame delivery, compare actual captures in the <Link className="text-link" to="/tools/frame-time-analyzer">Frame-Time Analyzer</Link>.</p>
       <h3>PC bottleneck calculator: common questions</h3>
       <details><summary>Does this calculator give an exact bottleneck percentage?</summary><p>No. It compares broad CPU and GPU performance tiers with a simple resolution adjustment. It does not use a live benchmark database or measure your PC.</p></details>
       <details><summary>Does 100% GPU usage mean my PC has a problem?</summary><p>Not usually. High GPU utilization can mean the game is making full use of the graphics card. Check whether performance meets your target and look for abnormal temperatures, falling clocks, instability or frame-time problems.</p></details>

@@ -20,6 +20,7 @@ const exercises: Record<string, ArticleSection> = {
     },
     relatedLinks: [
       { label: 'Inspect frame delivery', href: '/tools/frame-time-analyzer', description: 'Compare captures if the reported FPS does not match how smooth the game feels.' },
+      { label: 'Calculate your observed FPS change', href: '/tools/pc-bottleneck-calculator', description: 'Enter the two measured FPS values; use the result as evidence, not as a bottleneck percentage.' },
       { label: 'Investigate low FPS separately', href: '/pc-game-low-fps-how-to-find-the-cause', description: 'Use the broader bottleneck diagnosis when changing render scale does not explain the result.' }
     ]
   },
