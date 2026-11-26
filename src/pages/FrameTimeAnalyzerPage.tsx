@@ -17,8 +17,14 @@ const CHART = { width: 900, height: 300, left: 52, right: 16, top: 14, bottom: 3
 const MAX_COMPARISONS = 3;
 
 type Loaded = { data: ParsedCapture; isSample: boolean; label: string };
+function isPublishedExercise(name: string, capture: ParsedCapture): boolean {
+  const match = name.match(/^tww-synthetic-frame-time-([ab])(?: \(\d+\))?\.csv$/i);
+  if (!match || capture.frames.length !== 100) return false;
+  const runB = match[1].toLowerCase() === 'b';
+  return capture.frames.every((value, index) => value === (runB && index === 49 ? 100 : 10));
+}
 function captureLabel(capture: Loaded): string {
-  if (capture.isSample) return 'Synthetic sample data';
+  if (capture.isSample) return capture.label || 'Synthetic sample data';
   return capture.label || capture.data.application || 'Capture';
 }
 const COMPARISON_METRICS: { label: string; unit: string; decimals: number; higherIsBetter: boolean; value: (analysis: FrameAnalysis) => number }[] = [
@@ -290,7 +296,7 @@ export function FrameTimeAnalyzerPage() {
       // Pass the File to the worker; its contents are read off the main thread.
       const response = await runWorker({ type: 'parse-file', file });
       if (response.type !== 'parsed') throw new Error('Unexpected worker response.');
-      applyParsedResult(response.result, false, file.name);
+      applyParsedResult(response.result, response.result.ok && isPublishedExercise(file.name, response.result.data), file.name);
     } catch {
       setError('The file could not be read or processed in the background. Check that it is a CSV or text file, then try again.');
       setLoaded(null);
@@ -324,7 +330,7 @@ export function FrameTimeAnalyzerPage() {
         } else if (!response.result.ok) {
           problems.push(file.name + ': ' + response.result.error);
         } else {
-          additions.push({ data: response.result.data, isSample: false, label: file.name });
+          additions.push({ data: response.result.data, isSample: isPublishedExercise(file.name, response.result.data), label: file.name });
         }
       } catch {
         problems.push(file.name + ': the file could not be read as CSV or text.');
