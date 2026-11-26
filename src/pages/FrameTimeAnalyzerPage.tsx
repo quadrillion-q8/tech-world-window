@@ -655,6 +655,14 @@ export function FrameTimeAnalyzerPage() {
       </section>
 
       <section>
+        <h2>Practice comparing two synthetic captures</h2>
+        <p>These small demonstration CSVs contain exactly 100 frames each, not real game measurements. Run A contains only 10 ms frames; run B replaces one frame with a 100 ms hitch. Load A as the baseline, then add B as a comparison. Both use the same FrameTime column.</p>
+        <p><a className="text-link" href="/downloads/tww-synthetic-frame-time-a.csv" download>Download synthetic run A</a> · <a className="text-link" href="/downloads/tww-synthetic-frame-time-b.csv" download>Download synthetic run B</a>.</p>
+        <p>Expected arithmetic: average FPS is 100 versus about 91.7, and the slowest 1% is 100 versus 10 FPS. The worst frame is 10 versus 100 ms. Short synthetic captures demonstrate the calculation only; they are not adequate for conclusions about real hardware or stutter causes.</p>
+        <p><a className="text-link" href="/gpu-frame-time-spikes-causes-fix">Read the worked frame-time example and diagnostic interpretation</a>.</p>
+      </section>
+
+      <section>
         <h2>Capture tools and metric definitions</h2>
         <p>This page analyzes exported frame-time samples; it does not record gameplay or prove why a hitch happened. Use the capture software's own documentation to understand which timing metric its CSV contains.</p>
         <ul>

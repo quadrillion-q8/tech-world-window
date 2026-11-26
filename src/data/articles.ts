@@ -1,3 +1,4 @@
+import { addDiagnosticExercises } from './diagnostic-exercises';
 import { windows26H2InstallationGuide } from './windows-26h2-installation-guide';
 import { windowsTroubleshootingPillar } from './windows-troubleshooting-pillar';
 import { phase4Articles } from './phase4-articles';
@@ -1815,7 +1816,7 @@ function withResearchBacklinks(list: Article[]): Article[] {
   });
 }
 
-export const articles: Article[] = placeGalleryImages(enhanceArticles(withResearchBacklinks(baseArticles)));
+export const articles: Article[] = placeGalleryImages(addDiagnosticExercises(enhanceArticles(withResearchBacklinks(baseArticles))));
 
 export const categories = [
   { slug: 'news', name: 'News', description: 'Technology updates with context, not just headlines.', imageBase: '/images/categories/news' },
